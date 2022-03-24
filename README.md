@@ -1,0 +1,35 @@
+# Marco Cunha Smart Home
+
+<!-- ![Home](https://user-images.githubusercontent.com/3459374/152371766-1d2a1e17-34d3-4fe6-9e6d-aded02f14de1.png) -->
+
+[![GitHub Workflow Status][github-img]][github-url]
+[![Last Commit][last-commit-img]][github-url]
+[![Commit Activity][commit-activity-img]][github-url]
+[![License][license-img]][license-url]
+[![GitHub Stars][stars-img]][github-url]
+[![Twitter Followers][twitter-img]][twitter-url]
+
+This is my personal Home Assistant configuration, to try to make my life easier and my home more confortable. I hope this will also help you get some inspiration to build your own smart home.
+
+[**Read the documentation**](https://mcunha.engineer/smart-home)
+
+## Inspiration
+A big thumbs up to [Denys Dovhan][denysdovhan] that inspired me to work on my own home automation, without spending tons of money. :pray:
+
+## License
+
+[MIT][license-url] © [Marco Cunha][marcocunha]
+
+<!-- References -->
+
+[github-url]: https://github.com/marcocunha/smart-home
+[github-img]: https://img.shields.io/github/workflow/status/marcocunha/smart-home/CI/master?style=flat-square
+[last-commit-img]: https://img.shields.io/github/last-commit/marcocunha/smart-home?style=flat-square
+[commit-activity-img]: https://img.shields.io/github/commit-activity/m/marcocunha/smart-home?style=flat-square
+[license-url]: https://github.com/marcocunha/smart-home/blob/master/LICENSE
+[license-img]: https://img.shields.io/github/license/marcocunha/smart-home?style=flat-square
+[twitter-url]: https://twitter.com/MarcoCunha27
+[twitter-img]: https://img.shields.io/twitter/follow/MarcoCunha27?label=Follow
+[stars-img]: https://img.shields.io/github/stars/marcocunha/smart-home?style=social
+[denysdovhan]: https://denysdovhan.com
+[marcocunha]: https://mcunha.engineer
