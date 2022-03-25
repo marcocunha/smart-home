@@ -1,0 +1,90 @@
+version: '3.0'
+
+services:
+  # Portainer CE
+  # Managing containers via nice web UI
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    restart: always
+    ports:
+      - "9000:9000/tcp"
+    environment:
+      - TZ=Europe/Lisbon
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $ALBERTO_HOME_DIR/portainer:/data
+  
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - $ALBERTO_HOME_DIR/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+  
+  # Duplicati
+  # Free backup software to store encrypted backups online
+  duplicati:
+    image: lscr.io/linuxserver/duplicati
+    container_name: duplicati
+    env_file:
+      - .env
+    volumes:
+      - $ALBERTO_HOME_DIR/duplicati/config/:/config
+      - $ALBERTO_HOME_DIR:/source
+    ports:
+      - 8200:8200
+    restart: unless-stopped
+  
+  # MariaDB
+  # A database Nginx Proxy Manager and Umami
+  db:
+    container_name: db
+    image: mariadb
+    restart: unless-stopped
+    volumes:
+      - $ALBERTO_HOME_DIR/mariadb/dbdata:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+      - $ALBERTO_HOME_DIR/db:/docker-entrypoint-initdb.d # FIX entrypoint
+    env_file:
+      - .env
+  
+  # Adminer
+  # A dead-simple database manager
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: unless-stopped
+    environment:
+      ADMINER_PLUGINS: frames
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+  
+  # Nginx Proxy Manager
+  # Nice and simple Nginx UI for managing reverce proxy
+  nginx:
+    container_name: nginx
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - 80:80 # HTTP port
+      - 443:443 # HTTPS port
+      - 8081:81 # Admin Paner port
+    environment:
+      DB_MYSQL_HOST: ${MYSQL_HOST}
+      DB_MYSQL_PORT: ${MYSQL_PORT}
+      DB_MYSQL_USER: ${MYSQL_USER}
+      DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DB_MYSQL_NAME: 'nginxproxymanager'
+    volumes:
+      - $ALBERTO_HOME_DIR/nginx-proxy-manager/data:/data
+      - $ALBERTO_HOME_DIR/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db

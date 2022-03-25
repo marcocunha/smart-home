@@ -1,0 +1,7 @@
+.env
+containerd/
+duplicati/
+homeassistant/
+mariadb/
+nginx-proxy-manager/
+portainer/

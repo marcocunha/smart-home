@@ -1,0 +1,139 @@
+#!/usr/bin/env bash
+
+COMMAND="$1"
+shift 1
+COMMAND_ARGS=("${@}")
+
+#
+# UTILS
+#
+
+function alberto:utils:validate() {
+  if [ "$(type -t alberto:command:"$COMMAND")" = function ]; then
+    return 0
+  elif [ -z "$COMMAND" ]; then
+    alberto:command:help
+    return 1
+  else
+    echo "Unknown command: $COMMAND";
+    return 1
+  fi
+}
+
+function alberto:exists() {
+  command -v "$1" > /dev/null 2>&1
+}
+
+function alberto::load_vars() {
+  # shellcheck disable=SC2046
+  export $(grep -v '^#' "$1" | xargs);
+}
+
+#
+# COMMANDS
+#
+
+function alberto:command:help() {
+  echo "
+  🏡 Alberto Smart Home
+
+  alberto help                       print this help message
+  alberto init                       install dependencies
+  alberto start                      start all services
+  alberto stop                       stop all services
+  alberto down                       stop and remove all containers
+  alberto restart                    restart all services
+  alberto update                     stop, update and restart all services
+  alberto prune                      delete obsolete containers
+  alberto password                   generate a password
+  alberto docs                       start dev server for docs
+"
+}
+
+function alberto:command:init() {
+  # Update packages
+  sudo apt-get update
+  sudo apt-get upgrade
+
+  echo "Installing python dependencies..."
+  pip3 install -r "$ALBERTO_HOME_DIR/requirements.txt"
+  
+  echo "Addint pre-commit hooks..."
+  pre-commit install
+
+  echo "Done!"
+  echo "Please, reboot!"
+}
+
+function alberto:command:start() {
+  echo "Starting containers..."
+  docker-compose up -d
+}
+
+function alberto:command:stop() {
+  echo "Stopping containers..."
+  docker-compose stop
+}
+
+function alberto:command:down() {
+  echo "Stopping and removing containers..."
+  docker-compose down --remove-orphans
+}
+
+function alberto:command:restart() {
+  echo "Restarting containers..."
+  docker-compose restart
+}
+
+function alberto:command:update() {
+  echo "Pulling latest images..."
+  docker-compose pull
+  echo "Building images..."
+  docker-compose build
+  echo "Starting containers..."
+  docker-compose up -d
+  echo "Prune to free up space..."
+  docker system prune --volumes -f
+}
+
+function alberto:command:prune() {
+  echo "Deletting all images not associated with a container..."
+  docker system prune --volumes
+}
+
+function alberto:command:password() {
+  local password length
+  length=${1:-16}
+  password="$(openssl rand -base64 $length | rev | cut -b 2- | rev)";
+
+  echo "$password"
+}
+
+function alberto:command:docs() {
+  mkdocs serve --livereload --dev-addr localhost:7000
+}
+
+#
+# MAIN
+#
+
+function main() {
+  if [ -z "$ALBERTO_HOME_DIR" ]; then
+    echo "\$ALBERTO_HOME_DIR is unset";
+    return 1;
+  fi;
+
+  cd "$ALBERTO_HOME_DIR" || exit 1
+
+  if ! alberto:utils:validate; then
+    return 1
+  fi
+
+  alberto::load_vars "$ALBERTO_HOME_DIR/.env"
+
+  alberto:command:"$COMMAND" "${COMMAND_ARGS[*]}"
+
+  return $?
+}
+
+main

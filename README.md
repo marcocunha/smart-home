@@ -1,4 +1,4 @@
-# Marco Cunha Smart Home
+# Alberto - The smart butler
 
 <!-- ![Home](https://user-images.githubusercontent.com/3459374/152371766-1d2a1e17-34d3-4fe6-9e6d-aded02f14de1.png) -->
 
@@ -10,6 +10,10 @@
 [![Twitter Followers][twitter-img]][twitter-url]
 
 This is my personal Home Assistant configuration, to try to make my life easier and my home more confortable. I hope this will also help you get some inspiration to build your own smart home.
+
+**Alberto** is the name of my smart home system. 
+
+Why Alberto? Just because I think it is a funny name and sounds appropriate for a smart-home assistant/butler name 😁
 
 [**Read the documentation**](https://mcunha.engineer/smart-home)
 
