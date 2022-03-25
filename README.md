@@ -32,7 +32,7 @@ A big thumbs up to [Denys Dovhan][denysdovhan] that inspired me to work on my ow
 [github-img]: https://img.shields.io/github/workflow/status/marcocunha/smart-home/CI/master?style=flat-square
 [last-commit-img]: https://img.shields.io/github/last-commit/marcocunha/smart-home?style=flat-square
 [commit-activity-img]: https://img.shields.io/github/commit-activity/m/marcocunha/smart-home?style=flat-square
-[license-url]: https://github.com/marcocunha/smart-home/blob/master/LICENSE.md
+[license-url]: https://github.com/marcocunha/smart-home/blob/master/LICENSE
 [license-img]: https://img.shields.io/github/license/marcocunha/smart-home?style=flat-square
 [twitter-url]: https://twitter.com/MarcoCunha27
 [twitter-img]: https://img.shields.io/twitter/follow/MarcoCunha27?label=Follow
