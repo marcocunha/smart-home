@@ -2,7 +2,7 @@
 
 <!-- ![Home](https://user-images.githubusercontent.com/3459374/152371766-1d2a1e17-34d3-4fe6-9e6d-aded02f14de1.png) -->
 
-[![GitHub Workflow Status][github-img]][github-url]
+[![GitHub Workflow Status](https://github.com/marcocunha/smart-home/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/marcocunha/smart-home/actions/workflows/pages/pages-build-deployment)
 [![Last Commit][last-commit-img]][github-url]
 [![Commit Activity][commit-activity-img]][github-url]
 [![License][license-img]][license-url]
