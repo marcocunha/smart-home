@@ -1,29 +1,4 @@
----
-hide:
-  - navigation
----
-
 # Alberto - The smart butler :business_suit_levitating:
-
-=== "Home"
-
-    ![Home](https://user-images.githubusercontent.com/3459374/152371766-1d2a1e17-34d3-4fe6-9e6d-aded02f14de1.png)
-
-=== "Living Room"
-
-    ![Living Room](https://user-images.githubusercontent.com/3459374/152372151-be201bd1-cef9-4ce5-a59d-fd1b534934dc.png){: loading=lazy }
-
-=== "Bedroom"
-
-    ![Bedroom](https://user-images.githubusercontent.com/3459374/152372530-703121d2-2a96-4acc-a664-65109447ab93.png){: loading=lazy }
-
-=== "Balcony"
-
-    ![Baclony](https://user-images.githubusercontent.com/3459374/152372756-a14bbc12-cd40-4549-b93b-6205d8356ce9.png){: loading=lazy }
-
-=== "System"
-
-    ![Living Room](https://user-images.githubusercontent.com/3459374/152374825-4e564a75-7c8d-4001-b71a-00dcd5291e73.png){: loading=lazy }
 
 [![GitHub Workflow Status](https://github.com/marcocunha/smart-home/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/marcocunha/smart-home/actions/workflows/pages/pages-build-deployment)
 [![Last Commit][last-commit-img]][github-url]
@@ -69,7 +44,7 @@ I write this documentation for two main reasons:
 
 ## Future Plans
 
-I have a [public Notion board](https://www.notion.so/denysdovhan/f09ea06da5db4cfa84d3ca50417b93b2?v=5fccab53c2fd4ac188ee0b92c2ca1cb9) with ideas and tasks for my smart home. You can follow and comment my plans there.
+I have a [public Notion board](https://tan-chatter-25d.notion.site/1c5b8bb072ec46da926f884a9e73008d?v=8880922c4d3b4fcbbba7d076c50eb8d2) with ideas and tasks for my smart home. You can follow and comment my plans there.
 
 ## License
 
