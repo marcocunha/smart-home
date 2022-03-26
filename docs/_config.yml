@@ -1,3 +1,4 @@
 theme: jekyll-theme-hacker
 title: Alberto Smart Home
-description: Alberto the smart butler	
+description: Alberto the smart butler
+baseurl: /smart-home	
