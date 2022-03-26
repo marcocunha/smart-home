@@ -1,5 +1,3 @@
-# Alberto - The smart butler :business_suit_levitating:
-
 [![GitHub Workflow Status](https://github.com/marcocunha/smart-home/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/marcocunha/smart-home/actions/workflows/pages/pages-build-deployment)
 [![Last Commit][last-commit-img]][github-url]
 [![Commit Activity][commit-activity-img]][github-url]
