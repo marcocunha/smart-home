@@ -13,13 +13,13 @@ services:
       - TZ=Europe/Lisbon
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - $ALBERTO_HOME_DIR/portainer:/data
+      - ${ALBERTO_HOME_DIR}/portainer:/data
   
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
     volumes:
-      - $ALBERTO_HOME_DIR/homeassistant/config:/config
+      - ${ALBERTO_HOME_DIR}/homeassistant/config:/config
       - /etc/localtime:/etc/localtime:ro
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
@@ -35,8 +35,8 @@ services:
     env_file:
       - .env
     volumes:
-      - $ALBERTO_HOME_DIR/duplicati/config/:/config
-      - $ALBERTO_HOME_DIR:/source
+      - ${ALBERTO_HOME_DIR}/duplicati/config/:/config
+      - ${ALBERTO_HOME_DIR}:/source
     ports:
       - 8200:8200
     restart: unless-stopped
@@ -48,9 +48,9 @@ services:
     image: mariadb
     restart: unless-stopped
     volumes:
-      - $ALBERTO_HOME_DIR/mariadb/dbdata:/var/lib/mysql
+      - ${ALBERTO_HOME_DIR}/mariadb/dbdata:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
-      - $ALBERTO_HOME_DIR/db:/docker-entrypoint-initdb.d # FIX entrypoint
+      - ${ALBERTO_HOME_DIR}/db:/docker-entrypoint-initdb.d # FIX entrypoint
     env_file:
       - .env
   
@@ -84,7 +84,7 @@ services:
       DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       DB_MYSQL_NAME: 'nginxproxymanager'
     volumes:
-      - $ALBERTO_HOME_DIR/nginx-proxy-manager/data:/data
-      - $ALBERTO_HOME_DIR/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/data:/data
+      - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
     depends_on:
       - db

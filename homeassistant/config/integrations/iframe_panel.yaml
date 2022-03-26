@@ -1,0 +1,21 @@
+# Add Container User Interfaces to Navigation Menu
+panel_iframe:
+  portainer:
+    title: "Portainer"
+    url: !secret service_portainer
+    icon: mdi:docker
+    require_admin: true
+  duplicati:
+    title: "Duplicati"
+    url: !secret service_duplicati
+    icon: mdi:backup-restore
+    require_admin: true
+  database:
+    title: "Database"
+    url: !secret service_database
+    icon: mdi:database
+    require_admin: true
+  nginx:
+    title: Nginx
+    icon: mdi:arrow-decision
+    url: !secret service_nginx
