@@ -17,7 +17,7 @@ I hope this will also help you get some inspiration to build your own smart home
 
 Why Alberto? Just because I think it is a funny name and sounds appropriate for a smart-home assistant/butler name 😁
 
-[**Read the documentation**](https://mcunha.engineer/alberto-smart-home)
+[**Read the documentation**](https://smarthome.mcunha.me/)
 
 ## Inspiration
 A big thumbs up to [Denys Dovhan][denysdovhan] that inspired me to work on my own home automation, without spending tons of money. :pray:
@@ -38,4 +38,4 @@ A big thumbs up to [Denys Dovhan][denysdovhan] that inspired me to work on my ow
 [twitter-img]: https://img.shields.io/twitter/follow/MarcoCunha27?label=Follow
 [stars-img]: https://img.shields.io/github/stars/marcocunha/smart-home?style=social
 [denysdovhan]: https://denysdovhan.com
-[marcocunha]: https://mcunha.engineer
+[marcocunha]: https://mcunha.me

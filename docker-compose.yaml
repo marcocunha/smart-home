@@ -86,5 +86,6 @@ services:
     volumes:
       - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/data:/data
       - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/log:/var/log
     depends_on:
       - db
