@@ -94,13 +94,7 @@ Below you will find a list of my devices connected to the local network. Most of
 
 ## Zigbee Network
 
-My Zigbee devices are connected to Home Assistant via [SMARTLIGHT CC2652P Zigbee USB Adapter SLZB-02](https://smartlight.me/smart-home-devices/zigbee-devices/zigbee-coordinator-v4-cc2652p) as a coordinator. Devices are controlled by Home Assistant via: [zigbee2mqtt](https://www.zigbee2mqtt.io/) + [Mosquitto](https://mosquitto.org/) + [MQTT Integration](https://www.home-assistant.io/integrations/mqtt/).
-
-<!-- prettier-ignore -->
-!!! note
-    Previosly my Zigbee network was working with [CC2531 Sniffer Board](https://www.aliexpress.com/item/4000059514865.html) as a coordinator.
-    It was fine with small amount of devices, but as my network grew I started to [get weird behavior](https://github.com/home-assistant/core/issues/52301).
-    Additioanlly, I've discovered that [CC2531 is no longer recommended by zigbee2mqtt developers](https://www.zigbee2mqtt.io/guide/adapters/#not-recommended).
+My Zigbee devices are connected to Home Assistant via [SONOFF ZBDongle-P Universal Zigbee 3.0 USB Stick Gateway Dongle Plus](https://www.aliexpress.com/item/1005003745323923.html) as a coordinator. Devices are controlled by Home Assistant via: [ZHA](https://www.home-assistant.io/integrations/zha/).
 
 <!-- prettier-ignore -->
 !!! tip
