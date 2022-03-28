@@ -15,8 +15,6 @@ Why Alberto? Just because I think it is a funny name and sounds appropriate for 
 
 The best way to discover new ideas and inspire is by [reading the code][github-url], copying-pasting parts of my configuration and adjusting it to your needs.
 
-Read this documentation to see the bigger picture:
-
 [Hardware](./hardware){: .md-button }
 [Software](./software/system){: .md-button }
 [Home Assistant](./home-assistant/introduction){: .md-button }
@@ -24,7 +22,7 @@ Read this documentation to see the bigger picture:
 
 ## What's inside?
 
-My home setup for those who are too lazy to read everything:
+tl;dr My home setup in a nutshell:
 
 - [Raspberry Pi 4B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) as a home server.
 - [Home Assistant](https://home-assistant.io) for home automations.
