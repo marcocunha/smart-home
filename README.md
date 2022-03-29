@@ -35,7 +35,7 @@ A big thumbs up to [Denys Dovhan][denysdovhan] that inspired me to work on my ow
 [license-url]: https://github.com/marcocunha/smart-home/blob/master/LICENSE
 [license-img]: https://img.shields.io/github/license/marcocunha/smart-home?style=flat-square
 [twitter-url]: https://twitter.com/MarcoCunha27
-[twitter-img]: https://img.shields.io/twitter/follow/MarcoCunha27?label=Follow
+[twitter-img]: https://img.shields.io/twitter/follow/MarcoCunha27?style=social
 [stars-img]: https://img.shields.io/github/stars/marcocunha/smart-home?style=social
 [denysdovhan]: https://denysdovhan.com
 [marcocunha]: https://mcunha.me
