@@ -7,7 +7,6 @@
 [![Commit Activity][commit-activity-img]][github-url]
 [![License][license-img]][license-url]
 [![GitHub Stars][stars-img]][github-url]
-[![Twitter Followers][twitter-img]][twitter-url]
 
 This is my personal Home Assistant configuration, to try to make my life easier and my home more confortable. 
 
