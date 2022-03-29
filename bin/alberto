@@ -110,7 +110,8 @@ function alberto:command:password() {
 }
 
 function alberto:command:docs() {
-  mkdocs serve --livereload --dev-addr localhost:7000
+  cd "$ALBERTO_HOME_DIR/docs";
+  bundle exec jekyll serve 
 }
 
 #

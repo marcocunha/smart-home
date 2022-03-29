@@ -11,14 +11,9 @@ I hope this will also help you get some inspiration to build your own smart home
 
 **Alberto** is the name of my smart home system. 
 
-Why Alberto? Just because I think it is a funny name and sounds appropriate for a smart-home assistant/butler name 😁
+Why **Alberto**? Just because I think it is a funny name and sounds appropriate for a smart-home assistant/butler name 😁
 
 The best way to discover new ideas and inspire is by [reading the code][github-url], copying-pasting parts of my configuration and adjusting it to your needs.
-
-[Hardware](./hardware){: .md-button }
-[Software](./software/system){: .md-button }
-[Home Assistant](./home-assistant/introduction){: .md-button }
-[Resources](./resources){: .md-button }
 
 ## What's inside?
 
@@ -26,9 +21,8 @@ tl;dr My home setup in a nutshell:
 
 - [Raspberry Pi 4B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) as a home server.
 - [Home Assistant](https://home-assistant.io) for home automations.
-- [Mosquitto](https://mosquitto.org/) and [zigbee2mqtt](https://www.zigbee2mqtt.io/) for Zigbee devices.
+- [ZHA](https://www.home-assistant.io/integrations/zha/) for Zigbee devices.
 - Reverse proxy using [Nginx Proxy Manager](https://nginxproxymanager.com/) with [CloudFlare](https://www.cloudflare.com/).
-- [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome) for network-level ad-blocking.
 
 
 ## Motivation
@@ -58,4 +52,4 @@ I have a [public Notion board](https://tan-chatter-25d.notion.site/1c5b8bb072ec4
 [twitter-img]: https://img.shields.io/twitter/follow/MarcoCunha27?style=social
 [stars-img]: https://img.shields.io/github/stars/marcocunha/smart-home?style=social
 [denysdovhan]: https://denysdovhan.com
-[marcocunha]: https://mcunha.me
+[marcocunha]: https://smarthome.mcunha.me
