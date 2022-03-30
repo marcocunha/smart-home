@@ -30,8 +30,8 @@ services:
   # Duplicati
   # Free backup software to store encrypted backups online
   duplicati:
-    image: lscr.io/linuxserver/duplicati
     container_name: duplicati
+    image: lscr.io/linuxserver/duplicati
     env_file:
       - .env
     volumes:
@@ -89,3 +89,19 @@ services:
       - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/log:/var/log
     depends_on:
       - db
+
+  # Mosquitto
+  # Message broker that implements the MQTT protocol 
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "1884:1884"
+    volumes:
+      - "${ALBERTO_HOME_DIR}/mosquitto/config:/mosquitto/config"
+      - "${ALBERTO_HOME_DIR}/mosquitto/data:/mosquitto/data"
+      - "${ALBERTO_HOME_DIR}/mosquitto/log:/mosquitto/log"
+    env_file:
+      - .env

@@ -36,5 +36,5 @@ A big thumbs up to [Denys Dovhan][denysdovhan] that inspired me to work on my ow
 [twitter-url]: https://twitter.com/MarcoCunha27
 [twitter-img]: https://img.shields.io/twitter/follow/MarcoCunha27?style=social
 [stars-img]: https://img.shields.io/github/stars/marcocunha/smart-home?style=social
-[denysdovhan]: https://denysdovhan.com
+[denysdovhan]: https://denysdovhan.com/smart-home/
 [marcocunha]: https://mcunha.me
