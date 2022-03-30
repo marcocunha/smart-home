@@ -21,5 +21,4 @@ homeassistant/config/secrets.yaml
 *home-assistant_*.db*
 *home-assistant*.log*
 homeassistant/config/zigbee.db
-mosquitto/data/pwfile
-.gitignore
+mosquitto/data/
