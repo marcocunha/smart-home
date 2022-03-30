@@ -1,6 +1,6 @@
 # Hardware
 
-This page described the hardware i'm using. Whenever is possible, I try to use low energy consumption devices. 
+This page described the hardware I'm using. Whenever is possible, I try to use low energy consumption devices. 
 
 ## Home Server
 
