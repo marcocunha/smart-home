@@ -41,3 +41,20 @@ You can read more about it in [Home Assistant section](./home-assistant/introduc
 This is just a bash script I wrote for personal needs. You can [find it here](https://github.com/marcocunha/smart-home/blob/main/bin/alberto).
 
 This performs typical tasks I do in my smart home, like bootstrapping, controlling the server, updating, etc.
+
+## Tools
+
+If you use a similar docker-compose and follow the [Getting Started section](./software/getting-started) you will end up with the applications below.
+
+| Application                                       | URL                 | 
+| -------------------------------------------- | :----------------- | 
+| Cockpit                         | [https://raspberrypi.local:9090/](https://raspberrypi.local:9090/) | 
+| Home Assistant                           | [http://raspberrypi.local:8123/](http://raspberrypi.local:8123/) | 
+| NGinx Proxy Manager                           | [http://raspberrypi.local:8081/](http://raspberrypi.local:8081/) | 
+| Portainer                           | [http://raspberrypi.local:9000/](http://raspberrypi.local:9000/) | 
+| Duplicati                           | [http://raspberrypi.local:8200/](http://raspberrypi.local:8200/) | 
+
+```
+Here I'm using raspberrypi.local because it is the default hostname for a typical installation. 
+It might be different in your case.
+```

@@ -53,7 +53,8 @@ function alberto:command:help() {
 function alberto:command:init() {
   # Update packages
   sudo apt-get update
-  sudo apt-get upgrade
+  sudo apt-get full-upgrade -y
+  sudo apt autoremove -y
 
   echo "Installing python dependencies..."
   pip3 install -r "$ALBERTO_HOME_DIR/requirements.txt"
