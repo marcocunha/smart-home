@@ -6,6 +6,8 @@ This page described the hardware I'm using. Whenever is possible, I try to use l
 
 The _brain_ of my smart home is a home server based on [Raspberry Pi 4 Model B][pi] with 4GB of RAM onboard. It's a small, affordable, but nonetheless a very capable device. It is protected by an [acrylic case](https://amzn.to/3tNEinS) I bought on Amazon. The case itself helps to disperse the heat. Additionally, it came with 4 heatsinks and a tiny fan.
 
+<img src="https://raw.githubusercontent.com/marcocunha/smart-home/main/.github/images/myraspberry.jpeg" alt="My Raspberry Pi" width="70%">
+
 As storage, I use a [Samsung EVO Plus MicroSD 64GB Class 10 U3](https://amzn.to/3JHjOmt). This card is fast and reliable in handling small I/O operations.
 
 * * *
