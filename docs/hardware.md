@@ -40,7 +40,7 @@ Below you can find the list of the devices connected to the local network. Most 
 
 | Device                                       | IP                 | HA Integration                |
 | -------------------------------------------- | :----------------- | ----------------------------- |
-| [Raspberry Pi][pi]                           | `192.168.178.60`\* | –                             |
+| [Raspberry Pi][pi]                           | `192.168.178.25`\* | –                             |
 
 \* — means the device is connected via Ethernet instead of WiFi to ensure a more reliable connection.
 
