@@ -36,21 +36,26 @@ I chose [ASUS RT-AC1750U](https://www.asus.com/Networking-IoT-Servers/WiFi-Route
 I'm happy with my decision so far. This router gives the constant 600-900 Mbit/s speed, which is enough to download a 10GB file in less than 2 minutes. -->
 
 
-### Devices
+### IP Addresses
 
 Below you can find the list of the devices connected to the local network. Most of them have static IP addresses.
 
-| Device                                       | IP                 | HA Integration                |
-| -------------------------------------------- | :----------------- | ----------------------------- |
-| [Raspberry Pi][pi]                           | `192.168.178.25`\* | –                             |
+| Device                         | IP                  | HA Integration                     | Protocol           |
+| ------------------------------ | :------------------ | ---------------------------------- | ------------------ |
+| [Raspberry Pi][pi]             | `192.168.178.136`\* | –                                  | –                  |
+| [SP22 Smartplug 1][teckinsp22] | `192.168.178.164`   | [teckin_sp22][int_teckin_sp22]\*\* | WiFi 2.4GHz & MQTT |
 
 \* — means the device is connected via Ethernet instead of WiFi to ensure a more reliable connection.
 
+\*\* — means the device is integrated via custom integration.
+
 <!-- Devices -->
 [pi]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[teckinsp22]: https://www.aliexpress.com/item/1005003510741774.html?
 
 
 <!-- Integrations -->
+[int_teckin_sp22]: https://github.com/marcocunha/smart-home/blob/main/homeassistant/config/integrations/teckin_sp22.yaml
 
 ## Zigbee Network
 
@@ -64,9 +69,10 @@ My Zigbee devices are connected to Home Assistant via [SONOFF ZBDongle-P Univers
 
 ### Devices
 
-| Device                                                         | Quantity | Notes                                            |
-| :------------------------------------------------------------- | :------: | :----------------------------------------------- |
-| [ZigBee Curtain Module][zigbee-curtain-module]                                          |    9     | To control electric blinds                          |
+| Device                                                        | Quantity | Notes                                                                               |
+| :------------------------------------------------------------ | :------: | :---------------------------------------------------------------------------------- |
+| [ZigBee Curtain Module][zigbee-curtain-module]                |    9     | To control electric blinds                                                          |
+| [Teckin SP22 Smart Plug w/ Energy Monitor - Wifi][teckinsp22] |    2     | Smart plug flashed with [Tasmota](https://templates.blakadder.com/teckin_SP22.html) |
 
 
 <!-- Devices -->

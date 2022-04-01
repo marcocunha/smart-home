@@ -46,13 +46,13 @@ This performs typical tasks I do in my smart home, like bootstrapping, controlli
 
 If you use a similar docker-compose and follow the [Getting Started section](./software/getting-started) you will end up with the applications below.
 
-| Application                                       | URL                 | 
-| -------------------------------------------- | :----------------- | 
-| Cockpit                         | [https://raspberrypi.local:9090/](https://raspberrypi.local:9090/) | 
-| Home Assistant                           | [http://raspberrypi.local:8123/](http://raspberrypi.local:8123/) | 
-| NGinx Proxy Manager                           | [http://raspberrypi.local:8081/](http://raspberrypi.local:8081/) | 
-| Portainer                           | [http://raspberrypi.local:9000/](http://raspberrypi.local:9000/) | 
-| Duplicati                           | [http://raspberrypi.local:8200/](http://raspberrypi.local:8200/) | 
+| Application         | URL                                                                |
+| ------------------- | :----------------------------------------------------------------- |
+| Cockpit             | [https://raspberrypi.local:9090/](https://raspberrypi.local:9090/) |
+| Home Assistant      | [http://raspberrypi.local:8123/](http://raspberrypi.local:8123/)   |
+| NGinx Proxy Manager | [http://raspberrypi.local:8081/](http://raspberrypi.local:8081/)   |
+| Portainer           | [http://raspberrypi.local:9000/](http://raspberrypi.local:9000/)   |
+| Duplicati           | [http://raspberrypi.local:8200/](http://raspberrypi.local:8200/)   |
 
 ```
 Here I'm using raspberrypi.local because it is the default hostname for a typical installation. 
