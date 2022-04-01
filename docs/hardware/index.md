@@ -69,10 +69,10 @@ My Zigbee devices are connected to Home Assistant via [SONOFF ZBDongle-P Univers
 
 ### Devices
 
-| Device                                                        | Quantity | Notes                                                                               |
-| :------------------------------------------------------------ | :------: | :---------------------------------------------------------------------------------- |
-| [ZigBee Curtain Module][zigbee-curtain-module]                |    9     | To control electric blinds                                                          |
-| [Teckin SP22 Smart Plug w/ Energy Monitor - Wifi][teckinsp22] |    2     | Smart plug flashed with [Tasmota](https://templates.blakadder.com/teckin_SP22.html) |
+| Device                                                        | Quantity | Notes                                                |
+| :------------------------------------------------------------ | :------: | :--------------------------------------------------- |
+| [ZigBee Curtain Module][zigbee-curtain-module]                |    9     | To control electric blinds                           |
+| [Teckin SP22 Smart Plug w/ Energy Monitor - Wifi][teckinsp22] |    1     | Smart plug flashed with [Tasmota](./tasmota_sp22.md) |
 
 
 <!-- Devices -->

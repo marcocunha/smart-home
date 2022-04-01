@@ -54,7 +54,8 @@ If you use a similar docker-compose and follow the [Getting Started section](./s
 | Portainer           | [http://raspberrypi.local:9000/](http://raspberrypi.local:9000/)   |
 | Duplicati           | [http://raspberrypi.local:8200/](http://raspberrypi.local:8200/)   |
 
-```
-Here I'm using raspberrypi.local because it is the default hostname for a typical installation. 
+* * *
+>Here I'm using raspberrypi.local because it is the default hostname for a typical installation. 
 It might be different in your case.
-```
+
+* * *
