@@ -1,0 +1,49 @@
+switch:
+  - platform: mqtt
+    name: "Smart Plug 1 Power"
+    unique_id: 'smartplug1.power'
+    state_topic: "stat/smartplug1/RESULT"  
+    value_template: "{{ value_json.POWER }}"
+    command_topic: "cmnd/smartplug1/POWER"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "tele/smartplug1/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: false
+sensor:
+  - platform: mqtt
+    name: "SmartPlug 1 Wi-Fi Quality"
+    unique_id: 'smartplug1.wifi.quality'
+    state_topic: "tele/smartplug1/STATE"
+    unit_of_measurement: "%"
+    value_template: "{{value_json['Wifi'].RSSI }}"
+    availability_topic: "tele/smartplug1/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    device_class: signal_strength
+  - platform: mqtt
+    name: "SmartPlug 1 Daily Energy"
+    unique_id: 'smartplug1.daily.energy'
+    state_topic: "tele/smartplug1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Today"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "SmartPlug 1 Power"
+    unique_id: 'smartplug1.power'
+    state_topic: "tele/smartplug1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Power"] }}'
+    unit_of_measurement: "W"
+  - platform: mqtt
+    name: "SmartPlug 1 Voltage"
+    unique_id: 'smartplug1.voltage'
+    state_topic: "tele/smartplug1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Voltage"] }}'
+    unit_of_measurement: "V"
+  - platform: mqtt
+    name: "SmartPlug 1 Current"
+    unique_id: 'smartplug1.current'
+    state_topic: "tele/smartplug1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Current"] }}'
+    unit_of_measurement: "A"
