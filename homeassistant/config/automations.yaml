@@ -1,11 +1,10 @@
-automation:
-  - id: Sync Tasmota states
-    alias: Sync Tasmota states
-    initial_state: true
-    trigger:
-      platform: homeassistant
-      event: start
-    action:
+- id: sync_smartplug_states
+  alias: Sync Smartplug states
+  initial_state: true
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
     # sync state for smartplug1 device
     - service: mqtt.publish
       data:
