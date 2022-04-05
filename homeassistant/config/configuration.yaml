@@ -19,6 +19,24 @@ scene: !include scenes.yaml
 frontend:
     themes: !include_dir_merge_named themes
 
+lovelace:
+  mode: storage #Dashboards in storage mode can be created in the configuration panel.
+  # Add more dashboards
+  dashboards:
+    lovelace-generated: # Needs to contain a hyphen (-)
+      mode: yaml
+      filename: dashboards/overview.yaml
+      title: Overview
+      icon: mdi:tools
+      show_in_sidebar: true
+      require_admin: true
+    lovelace-tablet-dashboard:
+      mode: yaml
+      filename: dashboards/tablet.yaml
+      title: Tablet
+      show_in_sidebar: true
+      icon: mdi:tablet
+
 # Load Home Assistant integrations as packages
 homeassistant:
   # Load customizations

@@ -1,0 +1,24 @@
+title: Alberto
+views:
+  - path: default_view
+    title: Home
+    cards:
+      - type: entities
+        entities:
+          - switch.smartplug1
+        title: Escritório
+      - type: entities
+        entities:
+          - person.marco
+      - type: entities
+        entities:
+          - entity: switch.smartplug1
+          - entity: sensor.smartplug_1_current
+          - entity: sensor.smartplug_1_power
+          - entity: sensor.smartplug_1_voltage
+          - entity: sensor.smartplug_1_daily_energy
+          - entity: sensor.smart_plug_1_wi_fi_quality
+        title: Smart Plug 1
+      - type: weather-forecast
+        entity: weather.home
+        show_forecast: false
