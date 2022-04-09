@@ -3,7 +3,6 @@
 [![Commit Activity][commit-activity-img]][github-url]
 [![License][license-img]][license-url]
 [![GitHub Stars][stars-img]][github-url]
-[![Twitter Followers][twitter-img]][twitter-url]
 
 This is my personal Home Assistant configuration, to try to make my life easier and my home more confortable. 
 
@@ -13,7 +12,7 @@ I hope this will also help you get some inspiration to build your own smart home
 
 Why **Alberto**? Just because I think it is a funny name and sounds appropriate for a smart-home assistant/butler name 😁
 
-The best way to discover new ideas and inspire is by [reading the code][github-url], copying-pasting parts of my configuration and adjusting it to your needs.
+The best way to discover new ideas and understand how they work, is by [looking into the code][github-url], copying-pasting parts of my configuration and adjusting it to your needs.
 
 ## What's inside?
 
@@ -27,15 +26,20 @@ tl;dr My home setup in a nutshell:
 
 ## Motivation
 
-I write this documentation for two main reasons:
+I try to keep this documentation up-to-date for two main reasons:
 
-1. **To keep track of growing my smart home.** To maintain an understanding of how things are working.
-2. **To help other enthusiasts inspire.** People often ask about my smart home setup. Now I can give them a link to this documentation, instead of explaining everything once again.
+1. **To keep track of my smart home setup.** To maintain an understanding of how things are working.
+2. **To help other enthusiasts to build their smart home.** If you hire someone to do this for you, be ready to spend tons of money without understanding what is going on. There is nothing wrong with that approach if you don't have the patience or the time that it requires. But if you do, believe this will be fun!
 
 ## Future Plans
 
 I have a [public Notion board](https://tan-chatter-25d.notion.site/1c5b8bb072ec46da926f884a9e73008d?v=8880922c4d3b4fcbbba7d076c50eb8d2) with ideas and tasks for my smart home. You can follow and comment my plans there.
 
+## Buy me a coffee
+Of course, this is a non-profit project. I am sharing this because, first I’m doing it for myself and second because sharing is caring, really 😏 !
+
+But I’ve already spent countless hours to reach this point. So if you think I saved you already a couple of them, feel free to buy me a coffee:
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="mcunha" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
 ## License
 
 [MIT][license-url] © [Marco Cunha][marcocunha]
