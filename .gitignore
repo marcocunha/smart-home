@@ -23,7 +23,5 @@ homeassistant/config/secrets.yaml
 homeassistant/config/zigbee.db
 mosquitto/data/
 mosquitto/log/
-homeassistant/config/custom_components/hacs/
 wireguard/
-homeassistant/config/www/community/
-homeassistant/config/custom_components/
+**/__pycache__/
