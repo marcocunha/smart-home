@@ -9,7 +9,7 @@ kiosk_mode:
     hide_header: true
     hide_sidebar: true
     ignore_entity_settings: true
-    custom_width: 1320
+    custom_width: 1200
 views:
   - theme: Backend-selected
     title: Home
