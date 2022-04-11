@@ -108,6 +108,7 @@ services:
 
   # WireGuard Easy
   # WireGuard is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography
+  # Be sure to forward UDP port 51820 from your router.
   wg-easy:
     container_name: wg-easy
     image: weejewel/wg-easy
@@ -125,3 +126,18 @@ services:
       - "${ALBERTO_HOME_DIR}/wireguard:/etc/wireguard"
     env_file:
       - .env
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.wireguard-rtr.entrypoints=https"
+      - "traefik.http.routers.wireguard-rtr.rule=HostHeader(`WG_HOST`)"
+      - "traefik.http.routers.wireguard-rtr.tls=true"
+      ## Middlewares
+      - "traefik.http.routers.wireguard-rtr.middlewares=chain-authelia@file"
+      ## HTTP Services
+      - "traefik.http.routers.wireguard-rtr.service=wireguard-svc"
+      - "traefik.http.services.wireguard-svc.loadbalancer.server.port=51821"
+      ## UDP
+      - "traefik.udp.routers.wireguard-udp.entrypoints=wireguard"
+      - "traefik.udp.routers.wireguard-udp.service=wireguard-udp-svc"
+      - "traefik.udp.services.wireguard-udp-svc.loadbalancer.server.port=51820"
