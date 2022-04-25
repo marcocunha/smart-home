@@ -44,8 +44,8 @@ Below you can find the list of the devices connected to the local network. Most 
 | ------------------------------ | :----------------- | ---------------------------------- | ------------------ |
 | [Raspberry Pi][pi]             | `192.168.1.121`\*  | –                                  | –                  |
 | [SP22 Smartplug 1][teckinsp22] | `192.168.178.164`  | [teckin_sp22][int_teckin_sp22]\*\* | WiFi 2.4GHz & MQTT |
-| [Ajax Security System][ajax]   | `192.168.1.10` \*  | –                                  | -                  |
-| XVR (CCTV recorder)            | `192.168.1.108` \* | –                                  | -                  |
+| [Ajax Security System][ajax]   | `192.168.1.10`\*  | –                                  | -                  |
+| XVR (CCTV recorder)            | `192.168.1.108`\* | –                                  | -                  |
 | [Bosh Hob][bosch-hob]          | `192.168.1.117`    | –                                  | WiFi 2.4GHz        |
 
 
