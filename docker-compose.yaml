@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3.8'
 
 services:
   # Portainer CE
@@ -21,8 +21,8 @@ services:
     volumes:
       - ${ALBERTO_HOME_DIR}/homeassistant/config:/config
       - /etc/localtime:/etc/localtime:ro
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
+    #devices:
+      # - /dev/ttyUSB0:/dev/ttyUSB0
     restart: unless-stopped
     privileged: true
     network_mode: host
@@ -63,7 +63,7 @@ services:
     environment:
       ADMINER_PLUGINS: frames
     ports:
-      - 8080:8080
+      - 8082:8080
     depends_on:
       - db
   
@@ -105,6 +105,24 @@ services:
       - "${ALBERTO_HOME_DIR}/mosquitto/log:/mosquitto/log"
     env_file:
       - .env
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    volumes:
+      - "${ALBERTO_HOME_DIR}/zigbee2mqtt/data:/app/data"
+      - /run/udev:/run/udev:ro
+    ports:
+      # Frontend port
+      - 8080:8080
+    devices:
+      # Make sure this matched your adapter location
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    env_file:
+      - .env
+    depends_on:
+      - mosquitto
 
   # WireGuard Easy
   # WireGuard is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography
