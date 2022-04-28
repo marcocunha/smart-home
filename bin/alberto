@@ -47,6 +47,7 @@ function alberto:command:help() {
   alberto prune                      delete obsolete containers
   alberto password                   generate a password
   alberto docs                       start dev server for docs
+  alberto ports                      show all ports in use
 "
 }
 
@@ -113,6 +114,10 @@ function alberto:command:password() {
 function alberto:command:docs() {
   cd "$ALBERTO_HOME_DIR/docs";
   bundle exec jekyll serve 
+}
+
+function alberto:command:ports() {
+  sudo lsof -i -P -n | grep LISTEN
 }
 
 #
