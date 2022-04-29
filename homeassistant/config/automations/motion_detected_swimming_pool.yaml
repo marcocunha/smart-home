@@ -1,0 +1,20 @@
+id: motion_detected_swimming_pool
+alias: Motion detected Swimming pool
+mode: single
+max_exceeded: silent
+trigger:
+  platform: state
+  entity_id:
+    - binary_sensor.xvr_piscina_motion_alarm
+  # Optional
+  from: "off"
+  # Optional
+  to: "on"
+  # "on" for 10 seconds
+  for: "00:00:10"
+action:
+  - service: notify.notify
+    data:
+      message: "Movimento detectado na zona da piscina"
+      title: "Movimento detectado"
+  - delay: 300  # seconds (=5 minutes)

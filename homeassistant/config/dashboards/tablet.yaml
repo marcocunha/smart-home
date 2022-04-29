@@ -30,12 +30,13 @@ views:
                     entity: person.marco
                     icon: mdi:face-man
                   - type: entity
-                    entity: person.person2
+                    entity: person.darlene_parreira
                     icon: mdi:face-woman
               - type: map
                 entities:
                   - entity: device_tracker.samsung_tab_s_10_5
                   - entity: device_tracker.sm_s901b
+                  - entity: device_tracker.mi_a1
                 dark_mode: false
           - type: vertical-stack
             cards:
@@ -64,60 +65,88 @@ views:
                 type: weather-forecast
                 entity: weather.home
                 secondary_info_attribute: humidity
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-title-card
-                subtitle: Smart Plug 1
-              - square: false
-                columns: 2
-                type: grid
-                cards:
-                  - type: custom:mushroom-entity-card
-                    entity: switch.smartplug1
-                    layout: vertical
-                    icon_color: lime
-                    tap_action:
-                      action: toggle
-                    icon: phu:smart-plug-sonoff
-                    name: Status
-                    primary_info: state
-                    secondary_info: last-changed
-                  - hours_to_show: 1
-                    graph: line
-                    type: sensor
-                    entity: sensor.smartplug_1_daily_energy
-                    detail: 1
-                    unit: kWh
-                    icon: mdi:chart-line-variant
-              - type: horizontal-stack
-                cards:
-                  - type: custom:mushroom-chips-card
-                    chips:
-                      - type: entity
-                        entity: sensor.smartplug_1_power
-                        icon: mdi:lightning-bolt
-                        tap_action:
-                          action: none
-                        hold_action:
-                          action: more-info
-                        double_tap_action:
-                          action: none
-                      - type: entity
-                        entity: sensor.smartplug_1_voltage
-                        icon: mdi:lightning-bolt
-                        tap_action:
-                          action: none
-                        hold_action:
-                          action: more-info
-                        double_tap_action:
-                          action: none
-                      - type: entity
-                        entity: sensor.smart_plug_1_wi_fi_quality
-                        tap_action:
-                          action: none
-                        hold_action:
-                          action: more-info
-                        double_tap_action:
-                          action: none
+          # - type: vertical-stack
+          #   cards:
+          #     - type: custom:mushroom-title-card
+          #       subtitle: Smart Plug 1
+          #     - square: false
+          #       columns: 2
+          #       type: grid
+          #       cards:
+          #         - type: custom:mushroom-entity-card
+          #           entity: switch.smartplug1
+          #           layout: vertical
+          #           icon_color: lime
+          #           tap_action:
+          #             action: toggle
+          #           icon: phu:smart-plug-sonoff
+          #           name: Status
+          #           primary_info: state
+          #           secondary_info: last-changed
+          #         - hours_to_show: 1
+          #           graph: line
+          #           type: sensor
+          #           entity: sensor.smartplug_1_daily_energy
+          #           detail: 1
+          #           unit: kWh
+          #           icon: mdi:chart-line-variant
+          #     - type: horizontal-stack
+          #       cards:
+          #         - type: custom:mushroom-chips-card
+          #           chips:
+          #             - type: entity
+          #               entity: sensor.smartplug_1_power
+          #               icon: mdi:lightning-bolt
+          #               tap_action:
+          #                 action: none
+          #               hold_action:
+          #                 action: more-info
+          #               double_tap_action:
+          #                 action: none
+          #             - type: entity
+          #               entity: sensor.smartplug_1_voltage
+          #               icon: mdi:lightning-bolt
+          #               tap_action:
+          #                 action: none
+          #               hold_action:
+          #                 action: more-info
+          #               double_tap_action:
+          #                 action: none
+          #             - type: entity
+          #               entity: sensor.smart_plug_1_wi_fi_quality
+          #               tap_action:
+          #                 action: none
+          #               hold_action:
+          #                 action: more-info
+          #               double_tap_action:
+          #                 action: none
         view_layout:
           position: main
+      - square: true
+        columns: 4
+        type: grid
+        cards:
+          - show_state: true
+            show_name: true
+            camera_view: auto
+            type: picture-entity
+            entity: camera.xvr_garagem_main
+            name: Garagem
+          - show_state: true
+            show_name: true
+            camera_view: auto
+            type: picture-entity
+            entity: camera.xvr_frente_main
+            name: Frente
+          - show_state: true
+            show_name: true
+            camera_view: auto
+            type: picture-entity
+            entity: camera.xvr_piscina_main
+            name: Piscina
+          - show_state: true
+            show_name: true
+            camera_view: auto
+            type: picture-entity
+            entity: camera.xvr_traseiras_main
+            name: Traseiras

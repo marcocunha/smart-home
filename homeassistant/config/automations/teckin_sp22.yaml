@@ -1,0 +1,12 @@
+id: sync_smartplug_states
+alias: Sync Smartplug states
+initial_state: false #temporary disabled
+trigger:
+  platform: homeassistant
+  event: start
+action:
+  # sync state for smartplug1 device
+  - service: mqtt.publish
+    data:
+      topic: cmnd/smartplug1/POWER
+      payload: ''

@@ -12,7 +12,7 @@ default_config:
 tts:
   - platform: google_translate
 
-automation: !include automations.yaml
+automation: !include_dir_list automations
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
