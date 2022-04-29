@@ -17,4 +17,5 @@ action:
     data:
       message: "Movimento detectado na zona da piscina"
       title: "Movimento detectado"
-  - delay: 300  # seconds (=5 minutes)
+  - delay: 
+      minutes: 5
