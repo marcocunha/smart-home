@@ -4,7 +4,7 @@
 [![License][license-img]][license-url]
 [![GitHub Stars][stars-img]][github-url]
 
-This is my personal Home Assistant configuration, to try to make my life easier and my home more confortable. 
+This is my Home Assistant configuration, to try to make my life easier and my home more confortable. 
 
 I hope this will also help you get some inspiration to build your own smart home.
 
@@ -12,7 +12,7 @@ I hope this will also help you get some inspiration to build your own smart home
 
 Why **Alberto**? Just because I think it is a funny name and sounds appropriate for a smart-home assistant/butler name 😁
 
-The best way to discover new ideas and understand how they work, is by [looking into the code][github-url], copying-pasting parts of my configuration and adjusting it to your needs.
+The best way to understand how everything works, is by [checking the source code][github-url].
 
 ## What's inside?
 
