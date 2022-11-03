@@ -164,6 +164,7 @@ SERVICE_TO_METHOD_BASE = {
                 vol.Optional('method', default='POST'): cv.string,
                 vol.Optional('crypt', default=True): cv.boolean,
                 vol.Optional('sid', default=None): vol.Any(cv.string, None),
+                vol.Optional('throw', default=False): cv.boolean,
             },
         ),
     },
@@ -1806,7 +1807,7 @@ class MiotEntity(MiioEntity):
                 ]
             elif isinstance(mcw, MiotCloud):
                 results = mcw.set_props([pms])
-                dly = self.custom_config_integer('cloud_delay_update', 5)
+                dly = self.custom_config_integer('cloud_delay_update', 6)
             else:
                 results = self.miot_device.send('set_properties', [pms])
             ret = MiotResults(results).first
@@ -2110,12 +2111,13 @@ class MiotEntity(MiioEntity):
             'data': dat,
             'result': result,
         })
-        persistent_notification.async_create(
-            self.hass,
-            f'{result}',
-            f'Xiaomi Api: {api}',
-            f'{DOMAIN}-debug',
-        )
+        if kwargs.get('throw'):
+            persistent_notification.async_create(
+                self.hass,
+                f'{result}',
+                f'Xiaomi Api: {api}',
+                f'{DOMAIN}-debug',
+            )
         _LOGGER.debug('Xiaomi Api %s: %s', api, result)
         return result
 
@@ -2209,7 +2211,7 @@ class BaseSubEntity(BaseEntity):
         self.generate_entity_id()
         self._supported_features = int(self._option.get('supported_features', 0))
         self._attr_entity_category = self._option.get('entity_category')
-        self._attr_unit_of_measurement = self._option.get('unit')
+        self._attr_native_unit_of_measurement = self._option.get('unit')
         self._extra_attrs = {
             'entity_class': self.__class__.__name__,
             'parent_entity_id': parent.entity_id,
@@ -2326,7 +2328,7 @@ class BaseSubEntity(BaseEntity):
         self._option['icon'] = self.custom_config('icon', self.icon)
         self._option['device_class'] = self.custom_config('device_class', self.device_class)
         if uom := self.custom_config('unit_of_measurement'):
-            self._attr_unit_of_measurement = uom
+            self._attr_native_unit_of_measurement = uom
         if hasattr(self, 'entity_category'):
             self._attr_entity_category = self.custom_config('entity_category', self.entity_category)
 
@@ -2412,8 +2414,8 @@ class MiotPropertySubEntity(BaseSubEntity):
             self._option['icon'] = miot_property.entity_icon
         if 'device_class' not in self._option:
             self._option['device_class'] = miot_property.device_class
-        if self._attr_unit_of_measurement is None:
-            self._attr_unit_of_measurement = miot_property.unit_of_measurement
+        if self._attr_native_unit_of_measurement is None:
+            self._attr_native_unit_of_measurement = miot_property.unit_of_measurement
         if self._attr_entity_category is None:
             self._attr_entity_category = miot_property.entity_category
         self._extra_attrs.update({

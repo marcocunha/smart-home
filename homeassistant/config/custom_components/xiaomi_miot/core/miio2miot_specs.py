@@ -143,22 +143,17 @@ MIIO_TO_MIOT_SPECS = {
         'miio_commands': [
             {
                 'method': 'get_value',
-                'params': [
-                    'aqi', 'pm25', 'co2', 'tvoc', 'humidity', 'temperature',
-                    'tvoc_unit', 'temperature_unit', 'battery', 'battery_state',
-                ],
+                'params': ['aqi', 'pm25', 'co2', 'tvoc', 'humidity', 'temperature', 'tvoc_unit', 'temperature_unit'],
                 'template': '{{ results | default({},true) }}',
             },
         ],
-        'entity_attrs': ['temperature_unit', 'battery_state'],
+        'entity_attrs': ['aqi', 'tvoc_unit', 'temperature_unit'],
         'miio_specs': {
             'prop.2.1': {'prop': 'humidity'},
             'prop.2.2': {'prop': 'pm25'},
             'prop.2.3': {'prop': 'temperature'},
             'prop.2.4': {'prop': 'co2'},
             'prop.2.5': {'prop': 'tvoc'},
-            'prop.3.1': {'prop': 'battery'},
-            'prop.3.2': {'prop': 'battery_state', 'template': '{{ 1 if value == "charging" else 2 }}'},
         },
     },
 
@@ -194,7 +189,13 @@ MIIO_TO_MIOT_SPECS = {
                 'setter': True,
                 'set_template': '{{ {"method": "set_on" if value else "set_off"} }}',
             },
-            'prop.3.1': {'prop': 'wifi_led', 'setter': True, 'format': 'onoff'},
+            'prop.3.1': {
+                'prop': 'usb_on',
+                'setter': True,
+                'set_template': '{{ {"method": "set_usb_on" if value else "set_usb_off"} }}',
+            },
+            'prop.2.101': {'prop': 'temperature'},
+            'prop.300.301': {'prop': 'wifi_led', 'setter': True, 'format': 'onoff'},
         },
     },
     'chuangmi.plug.v3': {
@@ -229,7 +230,7 @@ MIIO_TO_MIOT_SPECS = {
             'prop.2.1': {'prop': 'status', 'template': '{{ 9 if value == "finish" else value }}'},
             'prop.2.2': {'prop': 'temp'},
             'prop.2.3': {'prop': 'akw'},
-            'prop.2.101': {'prop': 'menu'},
+            'prop.2.101': {'prop': 'menu', 'template': '{{ value|string }}'},
             'prop.2.102': {'prop': 't_left'},
             'action.2.1': {'setter': 'cancel_cooking'},
         },
@@ -269,6 +270,7 @@ MIIO_TO_MIOT_SPECS = {
             'action.2.101': {'setter': 'set_func', 'set_template': '{{ ["end030307"] }}'},
         },
     },
+    'chunmi.ihcooker.v1': 'chunmi.ihcooker.chefnic',
     'chunmi.microwave.n23l01': {
         'without_props': True,
         'miio_commands': [
@@ -574,6 +576,65 @@ MIIO_TO_MIOT_SPECS = {
         },
     },
 
+    'midea.aircondition.v1': {
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+            'prop.2.2': {'prop': 'mode', 'setter': True, 'dict': {
+                'auto': 0,
+                'cold': 1,
+                'dehumidifier': 2,
+                'hot': 3,
+                'wind': 4,
+            }},
+            'prop.2.3': {'prop': 'temp', 'setter': True},
+            'prop.2.101': {'prop': 'temp_indoor'},
+            'prop.3.1': {
+                'prop': 'wind_speed',
+                'setter': True,
+                'dict': {
+                    0: 0,
+                    20: 1,
+                    60: 2,
+                    100: 3,
+                },
+                'template': '{{ '
+                            '1 if value <= 40 else '
+                            '2 if value <= 60 else '
+                            '3 if value >= 80 else '
+                            '0 }}',
+            },
+            'prop.3.2': {'prop': 'wind_up_down', 'setter': True, 'format': 'onoff'},
+        },
+    },
+    'midea.aircondition.xa1': {
+        'miio_specs': {
+            'prop.2.2': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+            'prop.2.1': {'prop': 'mode', 'setter': True, 'dict': {
+                'auto': 1,
+                'hot': 2,
+                'cold': 3,
+                'dehumidifier': 4,
+                'wind': 5,
+            }},
+            'prop.2.3': {'prop': 'temp', 'setter': True},
+            'prop.2.101': {'prop': 'temp_indoor'},
+            'prop.3.1': {'prop': 'wind_up_down', 'setter': True, 'format': 'onoff'},
+            'prop.3.2': {
+                'prop': 'wind_speed',
+                'setter': True,
+                'dict': {
+                    20: 1,
+                    40: 2,
+                    60: 3,
+                    80: 4,
+                    100: 5,
+                },
+            },
+            'prop.4.1': {'prop': 'screen_display', 'setter': True, 'format': 'onoff'},
+        },
+    },
+    'midea.aircondition.xa2': 'midea.aircondition.xa1',
+
     'mijia.camera.v3': {
         'miio_specs': {
             'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
@@ -748,6 +809,58 @@ MIIO_TO_MIOT_SPECS = {
         },
     },
 
+    'ows.towel_w.mj1x0': {
+        'without_props': True,
+        'miio_commands': [
+            {
+                'method': 'get_props',
+                'values': [
+                    'power', 'mode', 'tempdry', 'tempheat', 'drytime',
+                    'temprog', 'tempsurf', 'tempind', 'percent', 'errflag',
+                ],
+            },
+        ],
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'set_template': '{{ [value|int(0)] }}'},
+            'prop.2.2': {'prop': 'mode', 'setter': True},
+            'prop.2.3': {
+                'prop': 'tempheat',
+                'setter': True,
+                'template': '{{ [props.tempdry,value,value,props.temprog][props.mode]|default(value)/2 }}',
+                'set_template': '{{ {"method": '
+                                '"set_tempdry" if props.mode == 0 else '
+                                '"set_tempheat" if props.mode == 1 else '
+                                '"set_temprog",'
+                                '"params": [value * 2],'
+                                '} }}',
+            },
+            'prop.2.4': {'prop': 'tempsurf', 'template': '{{ value|int(0)/2 }}'},
+            'prop.2.101': {'prop': 'drytime', 'setter': True},
+        },
+    },
+
+    'philips.light.sread1': {
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+            'prop.2.2': {'prop': 'bright', 'setter': True},
+        },
+    },
+    'philips.light.sread2': {
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+            'prop.2.2': {'prop': 'bright', 'setter': True},
+            'prop.2.3': {'prop': 'scene_num', 'setter': True, 'dict': {
+                'None': 0,
+                'Child Reading': 1,
+                'Adult Reading': 2,
+                'Computer': 3,
+            }},
+            'prop.3.2': {'prop': 'ambstatus', 'setter': True, 'format': 'onoff'},
+            'prop.3.3': {'prop': 'ambvalue', 'setter': True},
+            'prop.3.4': {'prop': 'notifystatus', 'setter': True, 'format': 'onoff'},
+            'prop.3.5': {'prop': 'eyecare', 'setter': True, 'format': 'onoff'},
+        },
+    },
     'philips.light.bulb': {
         'miio_specs': {
             'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
@@ -1059,6 +1172,19 @@ MIIO_TO_MIOT_SPECS = {
             'prop.4.1': {'prop': 'FCSetTemp'},
             'prop.4.2': {'prop': 'FCSetTemp', 'setter': 'setFCSetTemp'},
             'prop.3.3': {'prop': 'RCSet', 'setter': 'setRCSet', 'format': 'onoff'},
+        },
+    },
+    'viomi.hood.v1': {
+        'chunk_properties': 1,
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': 'setPower', 'set_template': '{{ [value|int] }}'},
+            'prop.2.2': {'prop': 'offDetime', 'setter': 'setOffTime'},
+            'prop.3.1': {'prop': 'wind', 'setter': 'setWind', 'dict': {
+                0: 1,
+                1: 2,
+                2: 3,
+            }},
+            'prop.4.1': {'prop': 'light', 'setter': 'setLight', 'set_template': '{{ [value|int] }}'},
         },
     },
     'viomi.vacuum.v7': {
@@ -1514,7 +1640,15 @@ MIIO_TO_MIOT_SPECS = {
     'yeelink.light.ceiling7': 'yeelink.light.ceiling6',
     'yeelink.light.ceiling8': 'yeelink.light.ceiling6',
     'yeelink.light.ceiling9': 'yeelink.light.ceiling6',
-    'yeelink.light.ceiling10': 'yeelink.light.ceiling6',
+    'yeelink.light.ceiling10': {
+        'extend_model': 'yeelink.light.ceiling6',
+        'miio_specs': {
+            'prop.200.201': {'prop': 'bg_power', 'setter': 'bg_set_power', 'format': 'onoff'},
+            'prop.200.202': {'prop': 'bg_bright', 'setter': 'bg_set_bright'},
+            'prop.200.203': {'prop': 'bg_ct', 'setter': 'bg_set_ct_abx', 'set_template': '{{ [value,"smooth",500] }}'},
+            'prop.200.204': {'prop': 'bg_rgb', 'setter': 'bg_set_rgb'},
+        },
+    },
     'yeelink.light.ceiling11': 'yeelink.light.ceiling6',
     'yeelink.light.ceiling12': 'yeelink.light.ceiling6',
     'yeelink.light.ceiling13': 'yeelink.light.ceiling6',
@@ -1528,10 +1662,10 @@ MIIO_TO_MIOT_SPECS = {
     },
     'yeelink.light.ceiling17': 'yeelink.light.ceiling16',
     'yeelink.light.ceiling18': 'yeelink.light.ceiling6',
-    'yeelink.light.ceiling19': 'yeelink.light.ceiling6',
+    'yeelink.light.ceiling19': 'yeelink.light.ceiling10',
     'yeelink.light.ceiling20': 'yeelink.light.ceiling6',
     'yeelink.light.ceiling21': {
-        'extend_model': 'yeelink.light.ceiling6',
+        'extend_model': 'yeelink.light.ceiling22',
         'miio_specs': {
             'prop.2.4': {
                 'prop': 'nl_br',
@@ -1539,11 +1673,15 @@ MIIO_TO_MIOT_SPECS = {
                 'template': '{{ 1 if value|int else 0 }}',
                 'set_template': '{{ ["nightlight","on" if value == 1 else "off"] }}',
             },
+        },
+    },
+    'yeelink.light.ceiling22': {
+        'extend_model': 'yeelink.light.ceiling6',
+        'miio_specs': {
             'prop.2.5': {'prop': 'smart_switch'},
         },
     },
-    'yeelink.light.ceiling22': 'yeelink.light.ceiling21',
-    'yeelink.light.ceiling23': 'yeelink.light.ceiling21',
+    'yeelink.light.ceiling23': 'yeelink.light.ceiling22',
     'yeelink.light.ceiling24': 'yeelink.light.ceiling16',
     'yeelink.light.lamp2': 'yeelink.light.ceiling16',
     'yeelink.light.lamp3': {
@@ -1711,6 +1849,11 @@ MIIO_TO_MIOT_SPECS = {
             'prop.2.4': {'prop': 'ptc', 'setter': True, 'format': 'onoff'},
             'prop.2.5': {'prop': 'silent', 'setter': True, 'format': 'onoff'},
             'prop.3.1': {'prop': 'speed_level', 'setter': 'set_spd_level', 'dict': {
+                0: 1,
+                1: 2,
+                2: 3,
+                3: 4,
+                4: 5,
                 5: 0,  # auto
             }},
             'prop.3.2': {'prop': 'vertical_swing', 'setter': 'set_vertical', 'format': 'onoff'},

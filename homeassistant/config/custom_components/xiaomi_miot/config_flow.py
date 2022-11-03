@@ -1,6 +1,7 @@
 """Config flow to configure Xiaomi Miot."""
 import logging
 import re
+import copy
 import requests
 import voluptuous as vol
 
@@ -345,7 +346,7 @@ class XiaomiMiotFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             step_id='cloud_filter',
             data_schema=schema,
             errors=errors,
-            description_placeholders=self.hass.data[DOMAIN].pop('placeholders', None),
+            description_placeholders=self.hass.data[DOMAIN].pop('placeholders', {'tip': ''}),
         )
 
     async def async_step_customizing(self, user_input=None):
@@ -353,7 +354,7 @@ class XiaomiMiotFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         via = self.context.get('customizing_via') or 'customizing_entity'
         self.context['customizing_via'] = via
         entry = await self.async_set_unique_id(f'{DOMAIN}-customizes')
-        entry_data = dict(entry.data) if entry else {}
+        entry_data = copy.deepcopy(dict(entry.data) if entry else {})
         customizes = {}
         errors = {}
         schema = {}
@@ -406,6 +407,7 @@ class XiaomiMiotFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             }
             if entry:
                 self.hass.config_entries.async_update_entry(entry, data=entry_data)
+                await self.hass.config_entries.async_reload(entry.entry_id)
                 tip = f'```yaml\n{yaml.dump(entry_data)}\n```'
                 return self.async_abort(
                     reason='config_saved',
@@ -640,7 +642,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             step_id='cloud_filter',
             data_schema=schema,
             errors=errors,
-            description_placeholders=self.hass.data[DOMAIN].pop('placeholders', None),
+            description_placeholders=self.hass.data[DOMAIN].pop('placeholders', {'tip': ''}),
         )
 
 
@@ -667,6 +669,7 @@ def get_customize_options(hass, options={}, bool2selects=[], entity_id='', model
         if entity_class in ['MihomeMessageSensor']:
             options.update({
                 'filter_home': cv.string,
+                'exclude_type': cv.string,
             })
         if entity_class in ['XiaoaiConversationSensor']:
             options.update({
@@ -744,6 +747,9 @@ def get_customize_options(hass, options={}, bool2selects=[], entity_id='', model
 
     if domain == 'number':
         bool2selects.extend(['restore_state'])
+
+    if domain == 'device_tracker':
+        bool2selects.extend(['disable_location_name'])
 
     if 'yeelink.' in model:
         options.update({

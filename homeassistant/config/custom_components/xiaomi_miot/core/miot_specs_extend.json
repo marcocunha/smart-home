@@ -32,6 +32,35 @@
     }
   ],
 
+  "chuangmi.plug.v1": [
+    {
+      "iid": 2,
+      "properties": [
+        {
+          "iid": 101,
+          "type": "urn:miot-spec-v2:property:temperature",
+          "format": "float",
+          "access": ["read"],
+          "unit": "celsius",
+          "value-range": [-40, 125, 0.1]
+        }
+      ]
+    },
+    {
+      "iid": 300,
+      "type": "urn:miot-spec-v2:service:indicator-light",
+      "properties": [
+        {
+          "iid": 301,
+          "type": "urn:miot-spec-v2:property:on",
+          "description": "Switch Status",
+          "format": "bool",
+          "access": ["read", "write"]
+        }
+      ]
+    }
+  ],
+
   "chunmi.cooker.eh1": [
     {
       "iid": 2,
@@ -88,6 +117,7 @@
       ]
     }
   ],
+  "chunmi.ihcooker.v1": "chunmi.ihcooker.chefnic",
 
   "deerma.humidifier.jsq": [
     {
@@ -292,6 +322,24 @@
     }
   ],
 
+  "midea.aircondition.v1": [
+    {
+      "iid": 2,
+      "properties": [
+        {
+          "iid": 101,
+          "type": "urn:miot-spec-v2:property:temperature",
+          "format": "float",
+          "access": ["read"],
+          "unit": "celsius",
+          "value-range": [-30, 100, 0.1]
+        }
+      ]
+    }
+  ],
+  "midea.aircondition.xa1": "midea.aircondition.v1",
+  "midea.aircondition.xa2": "midea.aircondition.v1",
+
   "mmgg.feeder.petfeeder": [
     {
       "iid": 2,
@@ -386,6 +434,31 @@
           "type": "urn:miot-spec-v2:property:physical-controls-locked",
           "format": "bool",
           "access": ["read", "write"]
+        }
+      ]
+    }
+  ],
+
+  "ows.towel_w.mj1x0": [
+    {
+      "iid": 2,
+      "properties": [
+        {
+          "iid": 2,
+          "value-list": [
+            {"value": 0, "description": "Dry"},
+            {"value": 1, "description": "Warn"},
+            {"value": 2, "description": "Antifreeze"},
+            {"value": 3, "description": "Programming"}
+          ]
+        },
+        {
+          "iid": 101,
+          "type": "urn:viomi-spec:property:dry-time",
+          "format": "uint8",
+          "access": ["read", "write"],
+          "unit": "hours",
+          "value-range": [1, 24, 1]
         }
       ]
     }
@@ -951,7 +1024,61 @@
   "yeelink.light.ceiling7": "yeelink.light.ceiling1",
   "yeelink.light.ceiling8": "yeelink.light.ceiling1",
   "yeelink.light.ceiling9": "yeelink.light.ceiling1",
-  "yeelink.light.ceiling10": "yeelink.light.ceiling1",
+  "yeelink.light.ceiling10": [
+    {
+      "iid": 2,
+      "properties": [
+        {
+          "iid": 102,
+          "type": "urn:miot-spec-v2:property:off-delay-time",
+          "format": "uint32",
+          "access": ["read", "write"],
+          "unit": "minutes",
+          "value-range": [0, 60, 1]
+        }
+      ]
+    },
+    {
+      "iid": 200,
+      "type": "urn:miot-spec-v2:service:light",
+      "description": "Ambient Light",
+      "properties": [
+        {
+          "iid": 201,
+          "type": "urn:miot-spec-v2:property:on",
+          "description": "Switch Status",
+          "format": "bool",
+          "access": ["read", "write"]
+        },
+        {
+          "iid": 202,
+          "type": "urn:miot-spec-v2:property:brightness",
+          "format": "uint8",
+          "access": ["read", "write"],
+          "unit": "percentage",
+          "value-range": [1, 100, 1]
+        },
+        {
+          "iid": 203,
+          "type": "urn:miot-spec-v2:property:color-temperature",
+          "description": "Color Temperature",
+          "format": "uint32",
+          "access": ["read", "write"],
+          "unit": "kelvin",
+          "value-range": [1700, 6500, 1]
+        },
+        {
+          "iid": 204,
+          "type": "urn:miot-spec-v2:property:color",
+          "description": "Color",
+          "format": "uint32",
+          "access": ["read", "write"],
+          "unit": "rgb",
+          "value-range": [1, 16777215, 1]
+        }
+      ]
+    }
+  ],
   "yeelink.light.ceiling11": "yeelink.light.ceiling1",
   "yeelink.light.ceiling12": "yeelink.light.ceiling1",
   "yeelink.light.ceiling13": "yeelink.light.ceiling1",
@@ -974,7 +1101,7 @@
       ]
     }
   ],
-  "yeelink.light.ceiling19": "yeelink.light.ceiling1",
+  "yeelink.light.ceiling19": "yeelink.light.ceiling10",
   "yeelink.light.ceiling20": "yeelink.light.ceiling1",
   "yeelink.light.ceiling21": "yeelink.light.ceiling1",
   "yeelink.light.ceiling22": "yeelink.light.ceiling1",
