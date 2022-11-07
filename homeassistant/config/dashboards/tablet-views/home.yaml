@@ -1,0 +1,99 @@
+title: Home
+icon: mdi:home
+path: home
+type: sidebar
+cards:
+  - square: false
+    columns: 3
+    type: grid
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: menu
+              - type: entity
+                entity: person.marco
+                icon: mdi:face-man
+              - type: entity
+                entity: person.darlene_parreira
+                icon: mdi:face-woman
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: Weather
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: entity
+                    entity: sun.sun
+                  - type: template
+                    content: >-
+                      Sunrise  {% if states.sun.sun %} {{
+                      (as_timestamp(states.sun.sun.attributes.next_rising)) |
+                      timestamp_custom(('%H:%M') )}} {% endif %}
+                    icon: mdi:weather-sunset-up
+                  - type: template
+                    content: >-
+                      Sunset  {% if states.sun.sun %} {{
+                      (as_timestamp(states.sun.sun.attributes.next_setting)) |
+                      timestamp_custom(('%H:%M') )}} {% endif %}
+                    icon: mdi:weather-sunset-down
+                  - type: entity
+                    entity: sensor.moon
+              - show_current: true
+                show_forecast: true
+                type: weather-forecast
+                entity: weather.home
+                secondary_info_attribute: humidity
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            subtitle: Media
+          - type: custom:mushroom-media-player-card
+            entity: media_player.lg_webos_tv_uj630v
+            media_controls:
+              - on_off
+            volume_controls:
+              - volume_mute
+              - volume_set
+              - volume_buttons
+            collapsible_controls: true
+            name: LG UJ630V
+            layout: horizontal
+            fill_container: false
+            secondary_info: state
+            icon_type: icon
+          - type: custom:mushroom-light-card
+            entity: light.0x000b57fffe8e3230
+            use_light_color: false
+            show_brightness_control: true
+    view_layout:
+      position: main
+  - square: true
+    columns: 4
+    type: grid
+    cards:
+      - show_state: true
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.garagem_sub
+        name: Garagem
+      - show_state: true
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.frente_sub
+        name: Frente
+      - show_state: true
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.piscina_sub
+        name: Piscina
+      - show_state: true
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.traseira_sub
+        name: Traseiras

@@ -1,0 +1,5 @@
+theme: Backend-selected
+title: Alarm
+path: alarm
+icon: mdi:security
+cards:
