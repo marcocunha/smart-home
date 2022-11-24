@@ -356,11 +356,12 @@ MIIO_TO_MIOT_SPECS = {
                 'template': '{{ (value/25)|round }}',
                 'set_template': '{{ [(value*25)|round] }}',
             },
+            'prop.2.5': {'prop': 'roll_angle', 'setter': 's_angle', 'set_template': '{{ [value|int] }}'},
+            'prop.2.6': {'prop': 'speed', 'setter': 's_speed', 'set_template': '{{ [value|int] }}'},
             'prop.3.1': {'prop': 'child_lock', 'setter': 's_lock'},
             'prop.4.1': {'prop': 'light', 'setter': 's_light'},
             'prop.5.1': {'prop': 'beep_sound', 'setter': 's_sound'},
-            'prop.2.101': {'prop': 'roll_angle', 'setter': 's_angle', 'set_template': '{{ [value|int] }}'},
-            'prop.2.102': {'prop': 'speed', 'setter': 's_speed', 'set_template': '{{ [value|int] }}'},
+            'prop.6.1': {'prop': 'time_off', 'setter': 's_t_off', 'set_template': '{{ [value|int] }}'},
             'prop.200.201': {'prop': 'time_off', 'setter': 's_t_off', 'set_template': '{{ [value|int] }}'},
         },
     },
@@ -839,28 +840,7 @@ MIIO_TO_MIOT_SPECS = {
         },
     },
 
-    'philips.light.sread1': {
-        'miio_specs': {
-            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
-            'prop.2.2': {'prop': 'bright', 'setter': True},
-        },
-    },
-    'philips.light.sread2': {
-        'miio_specs': {
-            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
-            'prop.2.2': {'prop': 'bright', 'setter': True},
-            'prop.2.3': {'prop': 'scene_num', 'setter': True, 'dict': {
-                'None': 0,
-                'Child Reading': 1,
-                'Adult Reading': 2,
-                'Computer': 3,
-            }},
-            'prop.3.2': {'prop': 'ambstatus', 'setter': True, 'format': 'onoff'},
-            'prop.3.3': {'prop': 'ambvalue', 'setter': True},
-            'prop.3.4': {'prop': 'notifystatus', 'setter': True, 'format': 'onoff'},
-            'prop.3.5': {'prop': 'eyecare', 'setter': True, 'format': 'onoff'},
-        },
-    },
+    'philips.light.bceiling1': 'philips.light.downlight',
     'philips.light.bulb': {
         'miio_specs': {
             'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
@@ -917,6 +897,28 @@ MIIO_TO_MIOT_SPECS = {
                                 '{"method": "apply_fixed_scene","params": [5]} }}',
             },
             'prop.2.6': {'prop': 'sta', 'template': '{{ 2 if value == 0 else 1 }}'},
+        },
+    },
+    'philips.light.sread1': {
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+            'prop.2.2': {'prop': 'bright', 'setter': True},
+        },
+    },
+    'philips.light.sread2': {
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+            'prop.2.2': {'prop': 'bright', 'setter': True},
+            'prop.2.3': {'prop': 'scene_num', 'setter': True, 'dict': {
+                'None': 0,
+                'Child Reading': 1,
+                'Adult Reading': 2,
+                'Computer': 3,
+            }},
+            'prop.3.2': {'prop': 'ambstatus', 'setter': True, 'format': 'onoff'},
+            'prop.3.3': {'prop': 'ambvalue', 'setter': True},
+            'prop.3.4': {'prop': 'notifystatus', 'setter': True, 'format': 'onoff'},
+            'prop.3.5': {'prop': 'eyecare', 'setter': True, 'format': 'onoff'},
         },
     },
 
@@ -1297,7 +1299,7 @@ MIIO_TO_MIOT_SPECS = {
             'prop.2.103': {'prop': 'velocity'},
         },
     },
-    'viomi.waterheater.u8': {
+    'viomi.waterheater.u7': {
         # ["washStatus","velocity","waterTemp","targetTemp","errStatus","preHeatTime1","preHeatTime2","isPreHeatNow"]
         # [2          ,    4      ,     44    ,       44   ,      0    ,  "0-6-10"   ,   "0-16-22"   ,   0]
         'miio_specs': {
@@ -1332,7 +1334,8 @@ MIIO_TO_MIOT_SPECS = {
             },
         },
     },
-    'viomi.waterheater.u12': 'viomi.waterheater.u8',
+    'viomi.waterheater.u8': 'viomi.waterheater.u7',
+    'viomi.waterheater.u12': 'viomi.waterheater.u7',
 
     'xjx.toilet.pro': {
         'miio_specs': {
@@ -1370,13 +1373,24 @@ MIIO_TO_MIOT_SPECS = {
         'miio_specs': {
             'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
             'prop.2.2': {'prop': 'bright', 'setter': True, 'set_template': '{{ [value,"smooth",500] }}'},
-            'prop.3.1': {'prop': 'bh_mode', 'dict': {
-                'bh_off':   1,  # stop_bath_heater
-                'warmwind': 2,
-                'venting':  3,
-                'drying':   4,
-                'coolwind': 5,
-            }, 'default': 1},
+            'prop.3.1': {
+                'prop': 'bh_mode',
+                'setter': True,
+                'dict': {
+                    'bh_off':   1,  # stop_bath_heater
+                    'warmwind': 2,
+                    'venting':  3,
+                    'drying':   4,
+                    'coolwind': 5,
+                },
+                'default': 1,
+                'set_template': '{{ '
+                                '["warmwind", 2] if value == 2 else '
+                                '["venting", 0] if value == 3 else '
+                                '["drying", 0] if value == 4 else '
+                                '["coolwind", 0] if value == 5 else '
+                                '["bh_off", 0] }}',
+            },
             'action.3.1': {'setter': 'bh_mode', 'set_template': '{{ ["bh_off", 0] }}'},
             'prop.4.1': {
                 'prop': 'fan_speed_idx',
@@ -1384,6 +1398,18 @@ MIIO_TO_MIOT_SPECS = {
                 'template': 'yeelink_bhf_light_v2_fan_levels',
                 'set_template': '{{ [value - 1] }}',
             },
+        },
+    },
+    'yeelink.bhf_light.v3': {
+        'extend_model': 'yeelink.bhf_light.v2',
+        'miio_specs': {
+            'prop.2.3': {'prop': 'bh_mode', 'dict': {
+                'bh_off':   5,
+                'warmwind': 1,
+                'venting':  2,
+                'drying':   3,
+                'coolwind': 4,
+            }, 'default': 5},
         },
     },
     'yeelink.bhf_light.v5': {
@@ -1619,7 +1645,15 @@ MIIO_TO_MIOT_SPECS = {
         },
     },
     'yeelink.light.ceiling3': 'yeelink.light.ceiling1',
-    'yeelink.light.ceiling4': 'yeelink.light.ceiling1',
+    'yeelink.light.ceiling4': {
+        'extend_model': 'yeelink.light.ceiling1',
+        'miio_specs': {
+            'prop.200.201': {'prop': 'bg_power', 'setter': 'bg_set_power', 'format': 'onoff'},
+            'prop.200.202': {'prop': 'bg_bright', 'setter': 'bg_set_bright'},
+            'prop.200.203': {'prop': 'bg_ct', 'setter': 'bg_set_ct_abx', 'set_template': '{{ [value,"smooth",500] }}'},
+            'prop.200.204': {'prop': 'bg_rgb', 'setter': 'bg_set_rgb'},
+        },
+    },
     'yeelink.light.ceiling5': {
         'extend_model': 'yeelink.light.ceiling1',
         'miio_specs': {
@@ -1683,6 +1717,14 @@ MIIO_TO_MIOT_SPECS = {
     },
     'yeelink.light.ceiling23': 'yeelink.light.ceiling22',
     'yeelink.light.ceiling24': 'yeelink.light.ceiling16',
+    'yeelink.light.lamp1': {
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+            'prop.2.2': {'prop': 'bright', 'setter': True},
+            'prop.2.3': {'prop': 'ct', 'setter': 'set_ct_abx', 'set_template': '{{ [value,"smooth",500] }}'},
+            'prop.2.4': {'prop': 'color_mode'},
+        },
+    },
     'yeelink.light.lamp2': 'yeelink.light.ceiling16',
     'yeelink.light.lamp3': {
         'miio_specs': {
@@ -2186,7 +2228,11 @@ MIIO_TO_MIOT_SPECS = {
             'prop.5.1': {'prop': 'child_lock', 'setter': True, 'format': 'onoff'},
         },
     },
-
+    'qmi.powerstrip.v1': {
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+        },
+    },
     'zimi.powerstrip.v2': {
         'miio_props': ['current', 'mode', 'power_price'],
         'miio_specs': {
