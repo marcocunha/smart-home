@@ -44,6 +44,7 @@ homeassistant:
   currency: !secret ha_currency
   latitude: !secret ha_latitude
   longitude: !secret ha_longitude
+  country: !secret ha_country
   external_url: !secret external_url
   internal_url: !secret internal_url
   allowlist_external_urls: !secret ha_allowlist_external_urls
