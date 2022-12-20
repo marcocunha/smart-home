@@ -1,15 +1,45 @@
-# Include external resources only add when mode is yaml, otherwise manage in the resources in the dashboard configuration panel.
 resources:
-  - url: /local/sidebar-card.js?v=0.0.1
+  - url: /hacsfiles/sidebar-card/sidebar-card.js
     type: module
   - url: /hacsfiles/kiosk-mode/kiosk-mode.js
     type: module
+button_card_templates: !include_dir_merge_named "../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
 kiosk_mode:
   user_settings:
     - users:
         - "Samsung Tab S 10.5"
       kiosk: true
       ignore_entity_settings: true
+sidebar:
+  width: 15
+  digitalClock: true
+  date: true
+  sidebarMenu:
+    - action: navigate
+      navigation_path: "/lovelace-tablet-dashboard/home"
+      name: "Home"
+      active: true
+    - action: navigate
+      navigation_path: "/lovelace-tablet-dashboard/alarm"
+      name: "Alarm"
+    - action: navigate
+      navigation_path: "/lovelace-tablet-dashboard/climate"
+      name: "Climate"
+  sidebar:
+  bottomCard:
+    type: vertical-stack
+    cardOptions:
+      cards:
+        - type: custom:button-card
+          entity: input_boolean.guest_mode
+          name: Guest mode
+          size: 30%
+    cardStyle: |
+      :host {
+        width: 100%;
+      }
+
 views:
   - !include tablet-views/home.yaml
   - !include tablet-views/alarm.yaml
+  - !include tablet-views/climate.yaml

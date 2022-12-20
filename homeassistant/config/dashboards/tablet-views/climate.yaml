@@ -1,0 +1,9 @@
+title: Climate
+path: climate
+icon: mdi:home-thermometer
+cards:
+  - type: 'custom:button-card'
+    template: card_input_boolean
+    entity: input_boolean.guest_mode
+    variables:
+      ulm_card_input_boolean_name: Guest Mode

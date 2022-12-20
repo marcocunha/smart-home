@@ -3,21 +3,22 @@ icon: mdi:home
 path: home
 type: sidebar
 cards:
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: person.marco
+        use_entity_picture: true
+        content_info: state
+      - type: entity
+        entity: person.darlene_parreira
+        use_entity_picture: true
+        content_info: state
   - square: false
     columns: 3
     type: grid
     cards:
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-chips-card
-            chips:
-              - type: menu
-              - type: entity
-                entity: person.marco
-                icon: mdi:face-man
-              - type: entity
-                entity: person.darlene_parreira
-                icon: mdi:face-woman
           - type: vertical-stack
             cards:
               - type: custom:mushroom-title-card
@@ -48,27 +49,46 @@ cards:
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
-            subtitle: Media
-          - type: custom:mushroom-media-player-card
+            title: Media
+          - type: custom:mini-media-player
+            entity: media_player.spotify_marco_cunha
+            artwork: none
+            name: Spotify
+            volume_stateless: false
+            group: false
+          - type: custom:mini-media-player
             entity: media_player.lg_webos_tv_uj630v
-            media_controls:
-              - on_off
-            volume_controls:
-              - volume_mute
-              - volume_set
-              - volume_buttons
-            collapsible_controls: true
             name: LG UJ630V
-            layout: horizontal
-            fill_container: false
-            secondary_info: state
-            icon_type: icon
+            icon: mdi:television
+            group: false
+            volume_stateless: false
+            toggle_power: true
+            artwork: none
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Lighting
           - type: custom:mushroom-light-card
             entity: light.0x000b57fffe8e3230
             use_light_color: false
             show_brightness_control: true
+          - type: custom:mushroom-entity-card
+            entity: switch.christmas_tree_socket_1
+            icon: phu:christmas-tree
+            icon_color: red
+            fill_container: false
+            name: Christmas Tree
+            tap_action:
+              action: toggle
+            icon_type: icon
+            layout: vertical
+            primary_info: name
+            secondary_info: state
+
     view_layout:
       position: main
+  - type: custom:mushroom-title-card
+    title: Cameras
   - square: true
     columns: 4
     type: grid

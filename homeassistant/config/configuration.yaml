@@ -23,20 +23,19 @@ lovelace:
   mode: storage #Dashboards in storage mode can be created in the configuration panel.
   # Add more dashboards
   dashboards:
-    lovelace-generated: # Needs to contain a hyphen (-)
-      mode: yaml
-      filename: dashboards/overview.yaml
-      title: Overview
-      icon: mdi:tools
-      show_in_sidebar: true
-      require_admin: true
-    lovelace-tablet-dashboard:
+    lovelace-tablet-dashboard: # Needs to contain a hyphen (-)
       mode: yaml
       filename: dashboards/tablet.yaml
       title: Tablet
       show_in_sidebar: true
       icon: mdi:tablet
-
+    vacuum-dashboard:
+      mode: yaml
+      filename: dashboards/vacuum.yaml
+      title: Vacuum Cleaner
+      show_in_sidebar: true
+      icon: mdi:robot-vacuum
+      require_admin: true
 # Load Home Assistant integrations as packages
 homeassistant:
   name: !secret ha_name

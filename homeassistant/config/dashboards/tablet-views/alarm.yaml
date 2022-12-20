@@ -2,4 +2,78 @@ theme: Backend-selected
 title: Alarm
 path: alarm
 icon: mdi:security
+type: sidebar
 cards:
+  - square: true
+    columns: 3
+    type: grid
+    cards:
+      - show_state: false
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.garagem_sub
+        name: Garagem
+      - show_state: false
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.frente_sub
+        name: Frente
+      - show_state: false
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.piscina_sub
+        name: Piscina
+      - show_state: false
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.traseira_sub
+        name: Traseiras
+      - type: picture-entity
+        aspect_ratio: 92%
+        camera_view: live
+        entity: camera.wallpanel_samsung
+        name: Wallpanel Camera
+        show_name: true
+        show_state: false
+  - type: horizontal-stack
+    cards:
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.wallpanel_samsung_tab_s_10_5_motion_detected
+            state: "on"
+        card:
+          type: custom:mushroom-entity-card
+          entity: binary_sensor.wallpanel_samsung_tab_s_10_5_motion_detected
+          icon: mdi:motion-sensor
+          tap_action:
+            action: none
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+          icon_type: icon
+          layout: vertical
+          name: Wallpanel Motion
+          icon_color: red
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.wallpanel_samsung_tab_s_10_5_face_detected
+            state: "on"
+        card:
+          type: custom:mushroom-entity-card
+          entity: binary_sensor.wallpanel_samsung_tab_s_10_5_face_detected
+          icon: mdi:motion-sensor
+          tap_action:
+            action: none
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+          icon_type: icon
+          layout: vertical
+          name: Wallpanel Face
+          icon_color: red
