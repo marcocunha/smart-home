@@ -1,13 +1,13 @@
-id: motion_detected_swimming_pool
-alias: Motion detected - Swimming pool
+id: motion_detected_back
+alias: Motion detected - Back
 mode: single
 max_exceeded: silent
 variables:
   notify_device: notify.ha_mobile_apps
-  trigger_entity: binary_sensor.piscina_motion_alarm
-  doorbell_cam: camera.piscina_sub
+  trigger_entity: binary_sensor.traseira_motion_alarm
+  doorbell_cam: camera.traseira_sub
   notification_title: Movimento Detectado
-  notification_message: Piscina
+  notification_message: Traseiras
   persistent_notification: false
   image_file: >-
     /local/doorbell/{{ expand(trigger_entity)[0].last_changed | as_timestamp  |
@@ -15,7 +15,7 @@ variables:
 trigger:
   platform: state
   entity_id:
-    - binary_sensor.piscina_motion_alarm
+    - binary_sensor.traseira_motion_alarm
   # Optional
   from: "off"
   # Optional
@@ -28,7 +28,7 @@ condition:
     state: "off"
 action:
   - data_template:
-      entity_id: camera.piscina_sub
+      entity_id: camera.traseira_sub
       filename: >-
         /config/www/doorbell/{{ expand(trigger_entity)[0].last_changed |
         as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S") }}.jpg

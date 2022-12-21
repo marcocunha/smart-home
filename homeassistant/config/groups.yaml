@@ -1,0 +1,10 @@
+##############################################################
+## Groups  ##
+##############################################################
+
+household:
+  name: Household
+  entities:
+    - device_tracker.userone_REDACTED
+    - device_tracker.REDACTED_REDACTED
+    - device_tracker.userthree_REDACTED
