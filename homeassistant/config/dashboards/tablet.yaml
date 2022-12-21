@@ -11,7 +11,7 @@ kiosk_mode:
       kiosk: true
       ignore_entity_settings: true
 sidebar:
-  width: 15
+  width: 13
   digitalClock: true
   date: true
   sidebarMenu:
@@ -26,18 +26,6 @@ sidebar:
       navigation_path: "/lovelace-tablet-dashboard/climate"
       name: "Climate"
   sidebar:
-  bottomCard:
-    type: vertical-stack
-    cardOptions:
-      cards:
-        - type: custom:button-card
-          entity: input_boolean.guest_mode
-          name: Guest mode
-          size: 30%
-    cardStyle: |
-      :host {
-        width: 100%;
-      }
 
 views:
   - !include tablet-views/home.yaml
