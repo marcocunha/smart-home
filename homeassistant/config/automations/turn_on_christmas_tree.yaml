@@ -1,0 +1,31 @@
+id: turn_on_christmas_tree
+alias: Turn on christmas tree
+description: "Turn on christmas tree if anyone at home"
+mode: single
+trigger:
+  - platform: time_pattern
+    hours: "18"
+    minutes: "0"
+    seconds: "0"
+  - platform: state
+    entity_id:
+      - input_boolean.anyone_home
+    to: "on"
+condition:
+  - condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.anyone_home
+        state: "on"
+      - condition: time
+        after: "18:00:00"
+        alias: After 18h
+      - condition: time
+        before: "23:00:00"
+        alias: Before 23h
+action:
+  - type: turn_on
+    device_id: 5ba8c8993aef8a0ad6b1f06452ff8288
+    entity_id: switch.christmas_tree_socket_1
+    domain: switch
+

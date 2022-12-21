@@ -1,0 +1,28 @@
+id: turn_off_christmas_tree
+alias: Turn off christmas tree
+description: "Turn off christmas tree at 23:01 or if no-one at home"
+mode: single
+trigger:
+  - platform: time_pattern
+    hours: "23"
+    minutes: "1"
+    seconds: "0"
+  - platform: state
+    entity_id:
+      - input_boolean.anyone_home
+    to: "off"
+condition:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.anyone_home
+        state: "off"
+      - condition: time
+        after: "23:01:00"
+        alias: After 23:01h
+action:
+  - type: turn_on
+    device_id: 5ba8c8993aef8a0ad6b1f06452ff8288
+    entity_id: switch.christmas_tree_socket_1
+    domain: switch
+
