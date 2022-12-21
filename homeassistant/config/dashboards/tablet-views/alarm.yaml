@@ -8,37 +8,115 @@ cards:
     columns: 3
     type: grid
     cards:
-      - show_state: false
-        show_name: true
-        camera_view: auto
-        type: picture-entity
-        entity: camera.garagem_sub
-        name: Garagem
-      - show_state: false
-        show_name: true
-        camera_view: auto
-        type: picture-entity
-        entity: camera.frente_sub
-        name: Frente
-      - show_state: false
-        show_name: true
-        camera_view: auto
-        type: picture-entity
-        entity: camera.piscina_sub
-        name: Piscina
-      - show_state: false
-        show_name: true
-        camera_view: auto
-        type: picture-entity
-        entity: camera.traseira_sub
-        name: Traseiras
-      - type: picture-entity
-        aspect_ratio: 92%
-        camera_view: live
-        entity: camera.wallpanel_samsung
-        name: Wallpanel Camera
-        show_name: true
-        show_state: false
+      - type: vertical-stack
+        cards:
+        - show_state: false
+          show_name: true
+          camera_view: auto
+          type: picture-entity
+          entity: camera.garagem_sub
+          name: Garagem
+        - type: entities
+          entities:
+            - entity: binary_sensor.garagem_alarm_local
+              name: Alarm Local
+            - entity: binary_sensor.garagem_cross_line_alarm
+              name: Cross Line Alarm
+            - entity: binary_sensor.garagem_cross_region_detection
+              name: Cross Region Detection
+            - entity: binary_sensor.garagem_motion_alarm
+              name: Motion Alarm
+            - entity: binary_sensor.garagem_smart_motion_human
+              name: Smart Motion Human
+            - entity: binary_sensor.garagem_smart_motion_vehicle
+              name: Smart Motion Vehicle
+          title: Garagem
+      - type: vertical-stack
+        cards:
+        - show_state: false
+          show_name: true
+          camera_view: auto
+          type: picture-entity
+          entity: camera.frente_sub
+          name: Frente
+        - type: entities
+          entities:
+            - entity: binary_sensor.frente_alarm_local
+              name: Alarm Local
+            - entity: binary_sensor.frente_cross_line_alarm
+              name: Cross Line Alarm
+            - entity: binary_sensor.frente_cross_region_detection
+              name: Cross Region Detection
+            - entity: binary_sensor.frente_motion_alarm
+              name: Motion Alarm
+            - entity: binary_sensor.frente_smart_motion_human
+              name: Smart Motion Human
+            - entity: binary_sensor.frente_smart_motion_vehicle
+              name: Smart Motion Vehicle
+          title: Frente
+      - type: vertical-stack
+        cards:
+        - show_state: false
+          show_name: true
+          camera_view: auto
+          type: picture-entity
+          entity: camera.piscina_sub
+          name: Piscina
+        - type: entities
+          entities:
+            - entity: binary_sensor.piscina_alarm_local
+              name: Alarm Local
+            - entity: binary_sensor.piscina_cross_line_alarm
+              name: Cross Line Alarm
+            - entity: binary_sensor.piscina_cross_region_detection
+              name: Cross Region Detection
+            - entity: binary_sensor.piscina_motion_alarm
+              name: Motion Alarm
+            - entity: binary_sensor.piscina_smart_motion_human
+              name: Smart Motion Human
+            - entity: binary_sensor.piscina_smart_motion_vehicle
+              name: Smart Motion Vehicle
+          title: Piscina
+      - type: vertical-stack
+        cards:
+        - show_state: false
+          show_name: true
+          camera_view: auto
+          type: picture-entity
+          entity: camera.traseira_sub
+          name: Traseiras
+        - type: entities
+          entities:
+            - entity: binary_sensor.traseira_alarm_local
+              name: Alarm Local
+            - entity: binary_sensor.traseira_cross_line_alarm
+              name: Cross Line Alarm
+            - entity: binary_sensor.traseira_cross_region_detection
+              name: Cross Region Detection
+            - entity: binary_sensor.traseira_motion_alarm
+              name: Motion Alarm
+            - entity: binary_sensor.traseira_smart_motion_human
+              name: Smart Motion Human
+            - entity: binary_sensor.traseira_smart_motion_vehicle
+              name: Smart Motion Vehicle
+      - type: vertical-stack
+        cards:
+        - type: picture-entity
+          aspect_ratio: 92%
+          camera_view: live
+          entity: camera.wallpanel_samsung
+          name: Wallpanel Camera
+          show_name: true
+          show_state: false
+        - type: entities
+          entities:
+            - entity: binary_sensor.wallpanel_samsung_tab_s_10_5_face_detected
+              name: Face Detected
+            - entity: binary_sensor.wallpanel_samsung_tab_s_10_5_motion_detected
+              name: Motion Detected
+            - entity: sensor.wallpanel_samsung_tab_s_10_5_light
+              name: Light
+
   - type: horizontal-stack
     cards:
       - type: conditional

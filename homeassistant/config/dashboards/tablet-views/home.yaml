@@ -112,25 +112,25 @@ cards:
     columns: 4
     type: grid
     cards:
-      - show_state: true
+      - show_state: false
         show_name: true
         camera_view: auto
         type: picture-entity
         entity: camera.garagem_sub
         name: Garagem
-      - show_state: true
+      - show_state: false
         show_name: true
         camera_view: auto
         type: picture-entity
         entity: camera.frente_sub
         name: Frente
-      - show_state: true
+      - show_state: false
         show_name: true
         camera_view: auto
         type: picture-entity
         entity: camera.piscina_sub
         name: Piscina
-      - show_state: true
+      - show_state: false
         show_name: true
         camera_view: auto
         type: picture-entity

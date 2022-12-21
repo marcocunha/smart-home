@@ -1,18 +1,23 @@
 title: Climate
 path: climate
 icon: mdi:home-thermometer
+type: sidebar
 cards:
-  - type: custom:mini-graph-card
-    entities:
-      - entity: sensor.0xa4c1384ff3ab62d2_temperature
-        name: Temperature
-        show_state: true
-      - entity: sensor.0xa4c1384ff3ab62d2_humidity
-        name: Humidity
-        show_state: true
-    name: Living Room
-    show:
-      average: true
-      icon: false
-      name: true
-      labels: true
+  - square: false
+    columns: 3
+    type: grid
+    cards:
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.0xa4c1384ff3ab62d2_temperature
+            name: Temperature
+            show_state: true
+          - entity: sensor.0xa4c1384ff3ab62d2_humidity
+            name: Humidity
+            show_state: true
+        name: Living Room
+        show:
+          average: true
+          icon: false
+          name: true
+          labels: true
