@@ -21,7 +21,7 @@ condition:
         after: "23:01:00"
         alias: After 23:01h
 action:
-  - type: turn_on
+  - type: turn_off
     device_id: 5ba8c8993aef8a0ad6b1f06452ff8288
     entity_id: switch.christmas_tree_socket_1
     domain: switch
