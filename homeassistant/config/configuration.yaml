@@ -12,9 +12,7 @@ default_config:
 tts:
   - platform: google_translate
 
-automation: !include_dir_list automations
-script: !include scripts.yaml
-scene: !include scenes.yaml
+
 
 frontend:
     themes: !include_dir_merge_named themes
@@ -54,3 +52,10 @@ homeassistant:
   packages: !include_dir_named integrations
   
 
+#################################################################
+## Includes
+#################################################################
+automation: !include_dir_list automations
+script: !include scripts.yaml
+scene: !include scenes.yaml
+input_boolean: !include helpers/input_boolean.yaml

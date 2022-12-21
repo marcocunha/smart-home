@@ -1,0 +1,24 @@
+id: set_both_home_on
+alias: Both at home ON
+description: "Set both_home to on when both at home"
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - person.darlene_parreira
+      - person.marco
+    to: home
+condition:
+  - condition: and
+    conditions:
+      - condition: state
+        entity_id: person.marco
+        state: home
+      - condition: state
+        entity_id: person.darlene_parreira
+        state: home
+action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.both_home

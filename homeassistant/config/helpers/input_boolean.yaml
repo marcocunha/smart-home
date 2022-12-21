@@ -1,0 +1,18 @@
+##############################################################
+## Input Boolean  ##
+##############################################################
+
+both_home:
+  name: Both at home
+  initial: off
+  icon: mdi:home
+
+anyone_home:
+  name: Anyone at home
+  initial: off
+  icon: mdi:home
+
+guest_mode:
+  name: Guest Mode
+  initial: off
+  icon: mdi:account-group

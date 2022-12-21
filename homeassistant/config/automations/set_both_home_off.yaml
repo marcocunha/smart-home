@@ -1,0 +1,24 @@
+id: set_both_home_off
+alias: Both at home OFF
+description: "Set both_home to OFF when both are not at home"
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - person.marco
+      - person.darlene_parreira
+    to: not_home
+condition:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: person.marco
+        state: not_home
+      - condition: state
+        entity_id: person.darlene_parreira
+        state: not_home
+action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.both_home
