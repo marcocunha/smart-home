@@ -1,6 +1,6 @@
 id: set_anyone_home_on
 alias: Anyone at home ON
-description: "Set set_anyone_home to on when anyone is at home"
+description: "Set anyone_home to on when anyone is at home"
 mode: single
 trigger:
   - platform: state
