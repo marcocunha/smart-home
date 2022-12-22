@@ -157,6 +157,23 @@ MIIO_TO_MIOT_SPECS = {
         },
     },
 
+    'chuangmi.camera.ipc019': {
+        'miio_specs': {
+            'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
+            'prop.2.2': {'prop': 'flip', 'setter': True, 'template': '{{ 0 if value in ["off"] else 180 }}'},
+            'prop.2.3': {'prop': 'night_mode', 'setter': True},
+            'prop.2.4': {'prop': 'watermark', 'setter': True, 'format': 'onoff'},
+            'prop.2.5': {'prop': 'wdr', 'setter': True, 'format': 'onoff'},
+            'prop.2.6': {'prop': 'full_color', 'setter': True, 'format': 'onoff'},
+            'prop.2.7': {'prop': 'motion_record', 'setter': True, 'dict': {
+                'stop': 1,
+                'off': 2,
+                'on': 3,
+            }, 'default': 1},
+            'action.3.1': {'setter': 'sd_format'},
+            'action.3.2': {'setter': 'sd_umount'},
+        },
+    },
     'chuangmi.plug.hmi205': {
         'miio_specs': {
             'prop.2.1': {'prop': 'power', 'setter': True, 'format': 'onoff'},
@@ -727,6 +744,10 @@ MIIO_TO_MIOT_SPECS = {
             'prop.4.1': {'prop': 'volume', 'setter': True},
         },
     },
+    'minij.washer.v8': {
+        'extend_model': 'minij.washer.v5',
+        'chunk_properties': 1,
+    },
     'minij.washer.v14': {
         'extend_model': 'minij.washer.v5',
         'chunk_properties': 1,
@@ -761,6 +782,33 @@ MIIO_TO_MIOT_SPECS = {
                 'set_template': '{{ [0 if value else 1] }}',
             },
         }
+    },
+
+    'nwt.derh.wdh318efw1': {
+        'chunk_properties': 1,
+        'miio_specs': {
+            'prop.2.1': {'prop': 'on_off', 'setter': 'set_power', 'format': 'onoff'},
+            'prop.2.2': {
+                'prop': 'mode',
+                'setter': True,
+                'dict': {
+                    'auto': 0,
+                    'on': 1,
+                    'dry_cloth': 2,
+                },
+                'set_template': '{{ '
+                                '["on"] if value == 1 else '
+                                '["dry_cloth"] if value == 2 else '
+                                '{"method": "set_auto","params": [props.auto]} }}',
+            },
+            'prop.2.3': {'prop': 'fan_st', 'setter': True},
+            'prop.2.101': {'prop': 'auto', 'setter': True},
+            'prop.2.102': {'prop': 'tank_full', 'format': 'onoff'},
+            'prop.3.1': {'prop': 'humidity'},
+            'prop.4.1': {'prop': 'buzzer', 'setter': True, 'format': 'onoff'},
+            'prop.5.1': {'prop': 'led', 'setter': True, 'format': 'onoff'},
+            'prop.6.1': {'prop': 'child_lock', 'setter': True, 'format': 'onoff'},
+        },
     },
 
     'opple.light.bydceiling': {
@@ -1831,13 +1879,26 @@ MIIO_TO_MIOT_SPECS = {
 
     'yunmi.waterpuri.lx5': {
         'chunk_properties': 1,
-        'miio_props': ['run_status', 'f1_totalflow', 'f2_totalflow'],
-        'entity_attrs': ['run_status', 'f1_totalflow', 'f2_totalflow'],
+        'miio_props': ['run_status', 'f1_totalflow', 'f1_totaltime', 'f2_totalflow', 'f2_totaltime'],
+        'entity_attrs': ['run_status', 'f1_totalflow', 'f1_totaltime', 'f2_totalflow', 'f2_totaltime'],
         'miio_specs': {
             'prop.2.1': {'prop': 'temperature'},
             'prop.2.101': {'prop': 'rinse'},
             'prop.2.102': {'prop': 'lightMode', 'setter': True},
             'prop.2.103': {'prop': 'tds_warn_thd', 'setter': True},
+            'prop.2.111': {
+                'prop': 'f1_totaltime',
+                'template': '{{ (100 - 100 * props.f1_usedtime / value) | round(1) }}',
+            },
+            'prop.2.112': {
+                'prop': 'f2_totaltime',
+                'template': '{{ (100 - 100 * props.f2_usedtime / value) | round(1) }}',
+            },
+            'prop.2.113': {
+                'prop': 'f3_totaltime',
+                'template': '{{ (100 - 100 * props.f3_usedtime / value) | round(1) }}',
+            },
+            'prop.3.1': {'prop': 'tds_in'},
             'prop.3.2': {'prop': 'tds_out'},
             'prop.4.1': {'prop': 'f1_usedtime'},
             'prop.4.2': {'prop': 'f1_usedflow'},
@@ -1845,6 +1906,43 @@ MIIO_TO_MIOT_SPECS = {
             'prop.5.2': {'prop': 'f2_usedflow'},
         },
     },
+    'yunmi.waterpuri.lx7': 'yunmi.waterpuri.lx5',
+    'yunmi.waterpuri.lx9': {
+        'extend_model': 'yunmi.waterpuri.lx5',
+        'without_props': True,
+        'miio_commands': [
+            {
+                'method': 'get_prop',
+                'params': ['all'],
+                'values': [
+                    'run_status',
+                    'f1_totalflow', 'f1_totaltime', 'f1_usedflow', 'f1_usedtime',
+                    'f2_totalflow', 'f2_totaltime', 'f2_usedflow', 'f2_usedtime',
+                    'tds_in', 'tds_out', 'rinse', 'temperature', 'tds_warn_thd',
+                    'f3_totalflow', 'f3_totaltime', 'f3_usedflow', 'f3_usedtime',
+                ],
+            },
+            {
+                'method': 'get_prop',
+                'params': ['lightMode'],
+                'values': True,
+            },
+        ],
+        'entity_attrs': [
+            'run_status',
+            'f1_totalflow', 'f1_totaltime',
+            'f2_totalflow', 'f2_totaltime',
+            'f3_totalflow', 'f3_totaltime',
+        ],
+        'miio_specs': {
+            'prop.2.1': {'prop': 'tds_in'},
+            'prop.2.2': {'prop': 'tds_out'},
+            'prop.3.1': {'prop': 'temperature'},
+            'prop.6.1': {'prop': 'f3_usedtime'},
+            'prop.6.2': {'prop': 'f3_usedflow'},
+        },
+    },
+    'yunmi.waterpuri.lx11': 'yunmi.waterpuri.lx9',
 
     'yyunyi.wopener.yypy24': {
         'chunk_properties': 1,

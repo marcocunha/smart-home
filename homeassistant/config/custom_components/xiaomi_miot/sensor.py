@@ -37,7 +37,7 @@ from .core.miot_spec import (
     MiotService,
     MiotProperty,
 )
-from .core.utils import local_zone
+from .core.utils import local_zone, get_translation
 
 try:
     # hass 2021.4.0b0+
@@ -78,10 +78,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     model = str(config.get(CONF_MODEL) or '')
     spec = hass.data[DOMAIN]['miot_specs'].get(model)
     entities = []
-    if model in ['yunmi.waterpuri.lx9', 'yunmi.waterpuri.lx11']:
-        entity = WaterPurifierYunmiEntity(config)
-        entities.append(entity)
-    elif isinstance(spec, MiotSpec):
+    if isinstance(spec, MiotSpec):
         for srv in spec.get_services(
             'battery', 'environment', 'tds_sensor', 'switch_sensor', 'vibration_sensor', 'occupancy_sensor',
             'temperature_humidity_sensor', 'illumination_sensor', 'gas_sensor', 'smoke_sensor',
@@ -154,10 +151,12 @@ class MiotSensorEntity(MiotEntity, SensorEntity):
         )
         if miot_service.name in ['lock']:
             self._prop_state = miot_service.get_property('operation_method') or self._prop_state
-        if miot_service.name in ['tds_sensor']:
+        elif miot_service.name in ['tds_sensor']:
             self._prop_state = miot_service.get_property('tds_out') or self._prop_state
         elif miot_service.name in ['temperature_humidity_sensor']:
-            self._prop_state = miot_service.get_property('temperature', 'indoor_temperature') or self._prop_state
+            self._prop_state = miot_service.get_property(
+                'temperature', 'indoor_temperature', 'relative_humidity',
+            ) or self._prop_state
         elif miot_service.name in ['sleep_monitor']:
             self._prop_state = miot_service.get_property('sleep_state') or self._prop_state
         elif miot_service.name in ['gas_sensor']:
@@ -167,8 +166,10 @@ class MiotSensorEntity(MiotEntity, SensorEntity):
         elif miot_service.name in ['occupancy_sensor']:
             self._prop_state = miot_service.get_property('occupancy_status') or self._prop_state
 
-        self._name = f'{self.device_name} {self._prop_state.friendly_desc}'
         self._attr_icon = self._miot_service.entity_icon
+        if self._prop_state:
+            self._name = f'{self.device_name} {self._prop_state.friendly_desc}'
+            self._attr_icon = self._prop_state.entity_icon or self._attr_icon
         self._attr_state_class = None
         self._attr_native_unit_of_measurement = None
 
@@ -202,12 +203,12 @@ class MiotSensorEntity(MiotEntity, SensorEntity):
 
     async def async_update(self):
         await super().async_update()
-        if not self._available:
+        if not self._available or not self._prop_state:
             return
         if self._miot_service.name in ['lock'] and self._prop_state.full_name not in self._state_attrs:
             if how := self._state_attrs.get('lock_method'):
                 await self.async_update_attrs({
-                    self._prop_state.full_name: how,
+                    self._prop_state.full_name: get_translation(how, ['lock_method']),
                 })
             elif edt := self._state_attrs.get('event.11', {}):
                 if isinstance(edt, dict):
@@ -419,6 +420,7 @@ class BaseSensorSubEntity(BaseSubEntity, SensorEntity):
         value = self._attr_state
         if hasattr(self, '_attr_native_value') and self._attr_native_value is not None:
             value = self._attr_native_value
+        value = get_translation(value, [self._attr])
         if self.device_class == DEVICE_CLASS_TIMESTAMP:
             value = datetime_with_tzinfo(value)
         return value
