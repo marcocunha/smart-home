@@ -104,7 +104,9 @@ DEVICE_CUSTOMIZES = {
     },
     'cubee.airrtc.*': {
         'chunk_properties': 1,
-        'exclude_miot_services': 'heatold',
+        'switch_properties': 'childlock',
+        'select_properties': 'tempactivate,tempcomp',
+        'exclude_miot_properties': 'fault,sensortype,tempfloor,maxsettemp,minsettemp',
     },
     'cuco.light.sl4': {
         'switch_properties': 'swich',
@@ -391,6 +393,12 @@ DEVICE_CUSTOMIZES = {
         'select_properties': 'work_mode,hip_water_gage,woman_water_gage,hip_nozzle_position,woman_nozzle_pos,'
                              'seat_temperature,wind_temperature,water_temperature,auto_mode',
     },
+    'isleep.blanket.*': {
+        'sensor_properties': 'fault,temperature,water_level',
+        'select_properties': 'mode,sleep_level',
+        'switch_properties': 'low_temperature,screen_switch,key_tone,automatic_shutdown,fast_heating',
+        'number_properties': 'target_temperature,countdown_time',
+    },
     'izq.sensor_occupy.24': {
         'interval_seconds': 15,
         'sensor_properties': 'illumination,distance,has_someone_duration,no_one_duration',
@@ -421,6 +429,8 @@ DEVICE_CUSTOMIZES = {
     },
     'lumi.acpartner.mcn04': {
         'chunk_properties': 7,
+        'switch_properties': 'quick_cool_enable,indicator_light',
+        'select_properties': 'ac_mode',
         'miio_cloud_props': [],
         'stat_power_cost_type': 'stat_day_v3',
         'stat_power_cost_key': '7.1',
@@ -776,7 +786,9 @@ DEVICE_CUSTOMIZES = {
     },
     'xiaomi.tv.*': {
         'auto_cloud': True,
+        'switch_properties': 'is_on',
         'number_properties': 'speaker.volume',
+        'text_actions': 'message_router.post',
     },
     'xiaomi.tvbox.*': {
         'auto_cloud': True,
@@ -784,6 +796,11 @@ DEVICE_CUSTOMIZES = {
     },
     'xiaomi.watch.*': {
         'sensor_properties': 'current_step_count,current_distance',
+    },
+    'xiaomi.wifispeaker.*': {
+        'switch_properties': 'sleep_mode,no_disturb',
+        'button_actions': 'wake_up,play_music,tv_switchon,stop_alarm',
+        'text_actions': 'play_text,execute_text_directive',
     },
 
     'yeelink.bhf_light.v5': {
@@ -904,8 +921,11 @@ DEVICE_CUSTOMIZES = {
         'select_properties': 'screen.brightness',
         'number_properties': 'speed_level',
     },
+    'zimi.mosq.v2:light_indicator.on': {
+        'reverse_state': True,
+    },
     'zimi.mosq.*': {
-        'light_services': 'light_indicator',
+        'switch_properties': 'light_indicator.on',
     },
     'zimi.plug.zncz01': {
         'sensor_attributes': 'power_cost_today,power_cost_month',
@@ -1037,6 +1057,12 @@ DEVICE_CUSTOMIZES = {
         'switch_properties': 'water_pump,automatic_feeding,heating',
         'number_properties': 'target_temperature,pump_flux,target_feeding_measure,'
                              'ambient_light_custom.stream,ambient_light_custom.speed',
+    },
+    '*.foot_bath.*': {
+        'sensor_properties': 'temperature,left_time,fold_status,water_level_status',
+        'switch_properties': 'foot_massage,constant_temperature_heating',
+        'select_properties': 'heat_level,motor_control',
+        'number_properties': 'target_time,target_temperature',
     },
     '*.heater.*': {
         'switch_properties': 'heater.on',

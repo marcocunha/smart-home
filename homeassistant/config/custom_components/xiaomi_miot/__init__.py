@@ -1037,7 +1037,7 @@ class MiioEntity(BaseEntity):
 
     def update_attrs(self, attrs: dict, update_parent=False, update_subs=True):
         self._state_attrs.update(attrs or {})
-        if self.hass and self.platform:
+        if self.hass and self.platform and update_subs:
             tps = cv.ensure_list(self.custom_config('attributes_template'))
             for tpl in tps:
                 if not tpl:
@@ -1465,7 +1465,7 @@ class MiotEntity(MiioEntity):
                 pls = self.custom_config_list(f'{d}_properties') or []
                 if pls:
                     self._update_sub_entities(pls, '*', domain=d)
-            for d in ['button']:
+            for d in ['button', 'text']:
                 als = self.custom_config_list(f'{d}_actions') or []
                 if als:
                     self._update_sub_entities(None, '*', domain=d, actions=als)
@@ -1970,6 +1970,7 @@ class MiotEntity(MiioEntity):
         add_numbers = self._add_entities.get('number')
         add_selects = self._add_entities.get('select')
         add_buttons = self._add_entities.get('button')
+        add_texts = self._add_entities.get('text')
         exclude_services = self._state_attrs.get('exclude_miot_services') or []
         for s in sls:
             if s.name in exclude_services:
@@ -2026,6 +2027,10 @@ class MiotEntity(MiioEntity):
                         from .button import MiotButtonActionSubEntity
                         self._subs[fnm] = MiotButtonActionSubEntity(self, p, option=opt)
                         add_buttons([self._subs[fnm]])
+                    elif add_texts and domain == 'text':
+                        from .text import MiotTextActionSubEntity
+                        self._subs[fnm] = MiotTextActionSubEntity(self, p, option=opt)
+                        add_texts([self._subs[fnm]])
                 elif add_buttons and domain == 'button' and p.value_list:
                     from .button import MiotButtonSubEntity
                     nls = []
@@ -2140,23 +2145,34 @@ class MiotEntity(MiioEntity):
 
 
 class MiotToggleEntity(MiotEntity, ToggleEntity):
+    _reverse_state = None
+
     def __init__(self, miot_service=None, device=None, **kwargs):
         super().__init__(miot_service, device, **kwargs)
         self._prop_power = None
         if miot_service:
             self._prop_power = miot_service.get_property('on', 'power', 'switch')
 
+    async def async_added_to_hass(self):
+        await super().async_added_to_hass()
+        self._reverse_state = self.custom_config_bool('reverse_state', None)
+
     @property
     def is_on(self):
+        val = None
         if self._prop_power:
-            return not not self._state_attrs.get(self._prop_power.full_name)
-        return None
+            val = not not self._state_attrs.get(self._prop_power.full_name)
+            if self._reverse_state:
+                val = not val
+        return val
 
     def turn_on(self, **kwargs):
         if self._prop_power:
             val = True
             if self._prop_power.value_range:
                 val = self._prop_power.range_max() or 1
+            elif self._reverse_state:
+                val = not val
             return self.set_property(self._prop_power, val)
         return False
 
@@ -2165,6 +2181,8 @@ class MiotToggleEntity(MiotEntity, ToggleEntity):
             val = False
             if self._prop_power.value_range:
                 val = self._prop_power.range_min() or 0
+            elif self._reverse_state:
+                val = not val
             return self.set_property(self._prop_power, val)
         act = self._miot_service.get_action('stop_working', 'power_off')
         if act:
@@ -2340,6 +2358,7 @@ class BaseSubEntity(BaseEntity):
             if hasattr(self, '_miot_property'):
                 prop = getattr(self, '_miot_property')
                 if prop:
+                    mar.append(f'{mod}:{prop.full_name}')
                     mar.append(f'{mod}:{prop.name}')
         return mar
 
@@ -2411,9 +2430,10 @@ class BaseSubEntity(BaseEntity):
     def set_parent_property(self, val, prop):
         ret = self.call_parent('set_property', prop, val)
         if ret:
+            key = prop.full_name if isinstance(prop, MiotProperty) else prop
             self.update_attrs({
-                prop: val,
-            })
+                key: val,
+            }, update_parent=False)
         return ret
 
 

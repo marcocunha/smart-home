@@ -697,6 +697,7 @@ def get_customize_options(hass, options={}, bool2selects=[], entity_id='', model
         })
 
     if domain == 'switch' or re.search(r'plug', model, re.I):
+        bool2selects.extend(['reverse_state'])
         options.update({
             'descriptions_for_on': cv.string,
             'stat_power_cost_key': cv.string,
@@ -763,6 +764,9 @@ def get_customize_options(hass, options={}, bool2selects=[], entity_id='', model
 
     if domain == 'device_tracker':
         bool2selects.extend(['disable_location_name'])
+
+    if domain == 'text' and re.search(r'execute_text_directive', entity_id, re.I):
+        bool2selects.extend(['silent_execution'])
 
     if 'yeelink.' in model:
         options.update({
