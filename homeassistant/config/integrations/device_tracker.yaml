@@ -1,0 +1,21 @@
+#
+# Device Tracker
+#
+#
+# The device tracker allows you to track devices in Home Assistant.
+# This can happen by querying your wireless router or by having applications push location info.
+#
+# https://www.home-assistant.io/integrations/device_tracker
+#
+device_tracker:
+  # Bluetooth Tracker
+  # https://www.home-assistant.io/integrations/bluetooth_tracker
+  - platform: bluetooth_tracker
+    request_rssi: true
+    new_device_defaults:
+      track_new_devices: true
+  # Bluetooth LE Tracker
+  # https://www.home-assistant.io/integrations/bluetooth_le_tracker
+  - platform: bluetooth_le_tracker
+    track_new_devices: true
+    interval_seconds: 30
