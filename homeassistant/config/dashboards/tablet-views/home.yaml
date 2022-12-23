@@ -3,16 +3,22 @@ icon: mdi:home
 path: home
 type: sidebar
 cards:
-  - type: custom:mushroom-chips-card
-    chips:
-      - type: entity
-        entity: person.marco
-        use_entity_picture: true
-        content_info: state
-      - type: entity
-        entity: person.darlene_parreira
-        use_entity_picture: true
-        content_info: state
+  - type: horizontal-stack
+    cards: 
+    - type: custom:mushroom-chips-card
+      chips:
+        - type: entity
+          entity: person.marco
+          use_entity_picture: true
+          content_info: state
+        - type: entity
+          entity: person.darlene_parreira
+          use_entity_picture: true
+          content_info: state   
+    - type: custom:mushroom-chips-card
+      chips:
+        - type: alarm-control-panel
+          entity: alarm_control_panel.ajax_security_system
   - square: false
     columns: 3
     type: grid
@@ -25,8 +31,6 @@ cards:
                 title: Weather
               - type: custom:mushroom-chips-card
                 chips:
-                  - type: entity
-                    entity: sun.sun
                   - type: template
                     content: >-
                       Sunrise  {% if states.sun.sun %} {{

@@ -1,0 +1,13 @@
+#
+# MQTT Alarm Control Panel
+#
+# https://www.home-assistant.io/integrations/alarm_control_panel.mqtt/
+#
+mqtt:
+  alarm_control_panel:
+    - state_topic: "alarm/state"
+      command_topic: "alarm/command"
+      name: Ajax Security System
+      unique_id: 'alarm.ajax'
+      code_arm_required: false
+      code_disarm_required: false

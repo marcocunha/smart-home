@@ -4,6 +4,16 @@ path: alarm
 icon: mdi:security
 type: sidebar
 cards:
+  - type: custom:mushroom-alarm-control-panel-card
+    entity: alarm_control_panel.ajax_security_system
+    states:
+      - armed_home
+    name: Alarm
+    layout: horizontal
+    secondary_info: state
+    primary_info: name
+    show_keypad: false
+
   - square: true
     columns: 3
     type: grid

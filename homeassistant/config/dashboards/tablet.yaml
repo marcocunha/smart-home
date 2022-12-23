@@ -11,7 +11,7 @@ kiosk_mode:
       kiosk: true
       ignore_entity_settings: true
 sidebar:
-  width: 12
+  width: 14
   digitalClock: true
   date: true
   sidebarMenu:
