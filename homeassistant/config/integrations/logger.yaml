@@ -1,0 +1,15 @@
+#
+# Logger
+#
+# https://www.home-assistant.io/integrations/logger/
+#
+
+logger:
+  default: warning
+  filters:
+    homeassistant.components.camera:
+      # Vacuum Map sometimes takes longer to update.
+      - "Updating xiaomi_cloud_map_extractor camera took longer than the scheduled update interval"
+    homeassistant.helpers.entity:
+      # Vacuum Map sometime take more time to update.
+      - "Update of camera.roborock_live_map is taking over 10 seconds"
