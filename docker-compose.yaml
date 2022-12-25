@@ -21,6 +21,7 @@ services:
     volumes:
       - ${ALBERTO_HOME_DIR}/homeassistant/config:/config
       - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
     #devices:
       # - /dev/ttyUSB0:/dev/ttyUSB0
     restart: unless-stopped
