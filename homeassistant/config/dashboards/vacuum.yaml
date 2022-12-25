@@ -1,480 +1,141 @@
+# Dreame vacuum integration for Home Assistant
+# More info about this integration
+# https://github.com/Tasshack/dreame-vacuum
 title: Vacuum Cleaner
 views:
   - path: vacuum
     title: Vacuum
     cards:
       - type: custom:xiaomi-vacuum-map-card
-        entity: vacuum.dreame_p2028_9238_robot_cleaner
         vacuum_platform: default
-        debug: false
+        entity: vacuum.dreame_bot_z10_pro
+        debug: true
         map_source:
-          camera: camera.xiaomi_cloud_map_extractor
+          camera: camera.dreame_bot_z10_pro_map
         calibration_source:
           camera: true
-        camera_calibration: true
-        two_finger_pan: true
-        map_locked: true
-        title: Rosita
         map_modes:
-          - template: vacuum_clean_segment
-            max_selections: 5
+          - template: vacuum_clean_zone
+            max_selections: 10
             repeats_type: EXTERNAL
             max_repeats: 3
             service_call_schema:
-              service: xiaomi_miot.call_action
+              service: dreame_vacuum.vacuum_clean_zone
               service_data:
-                entity_id: vacuum.dreame_p2028_9238_robot_cleaner
-                siid: 2
-                aiid: 1
-                params:
-                  - piid: 1
-                    value: 18
-                  - piid: 10
-                    value: '{"selects":[[[[selection_unwrapped]],[[repeats]],3,3,1]]}'
-                force_params: true
-            predefined_selections:
-            - id: 10
-              outline:
-                - - 2000
-                  - -10550
-                - - 2000
-                  - -150
-                - - 9850
-                  - -150
-                - - 9850
-                  - -10550
-              label:
-                text: Living room
-                x: 5025
-                y: -3350
-                offset_y: 35
-              icon:
-                name: "mdi:television"
-                x: 5000
-                y: -3350
-            - id: 7
-              outline:
-                - - 9900
-                  - -10350
-                - - 9900
-                  - -6450
-                - - 13700
-                  - -6450
-                - - 13700
-                  - -10350
-              label:
-                text: Master Bedroom
-                x: 11800
-                y: -8400
-                offset_y: 35
-              icon:
-                name: "mdi:bed-king-outline"
-                x: 11800
-                y: -8400
-            - id: 9
-              outline:
-                - - -1400
-                  - -8550
-                - - -1400
-                  - -900
-                - - 1950
-                  - -900
-                - - 1950
-                  - -8550
-              label:
-                text: Kitchen
-                x: 275
-                y: -4725
-                offset_y: 35
-              icon:
-                name: "mdi:pot-mix"
-                x: 275
-                y: -4725
-            - id: 5
-              outline:
-                - - 12600
-                  - -6450
-                - - 12600
-                  - -3400
-                - - 14700
-                  - -3400
-                - - 14700
-                  - -6450
-              label:
-                text: WC Master bedroom
-                x: 13650
-                y: -4925
-                offset_y: 35
-              icon:
-                name: "mdi:shower"
-                x: 13650
-                y: -4925
-            - id: 6
-              outline:
-                - - 7400
-                  - -6400
-                - - 7400
-                  - -4150
-                - - 12350
-                  - -4150
-                - - 12350
-                  - -6400
-              label:
-                text: Hall
-                x: 9875
-                y: -5275
-                offset_y: 35
-              icon:
-                name: "mdi:broom"
-                x: 9875
-                y: -5275
-            - id: 4
-              outline:
-                - - 7600
-                  - -5250
-                - - 7600
-                  - -3400
-                - - 9850
-                  - -3400
-                - - 9850
-                  - -5250
-              label:
-                text: Bathroom
-                x: 8725
-                y: -4325
-                offset_y: 35
-              icon:
-                name: "mdi:shower"
-                x: 8725
-                y: -4325
-            - id: 3
-              outline:
-                - - 7700
-                  - -4200
-                - - 7700
-                  - 600
-                - - 11100
-                  - 600
-                - - 11100
-                  - -4200
-              label:
-                text: Office
-                x: 9400
-                y: -1700
-                offset_y: 35
-              icon:
-                name: "mdi:chair-rolling"
-                x: 9400
-                y: -1800
-            - id: 2
-              outline:
-                - - 11350
-                  - -4150
-                - - 11350
-                  - 600
-                - - 14700
-                  - 600
-                - - 14700
-                  - -4150
-              label:
-                text: Guest bedroom
-                x: 13025
-                y: -1775
-                offset_y: 35
-              icon:
-                name: "mdi:bunk-bed-outline"
-                x: 13025
-                y: -1775
-            - id: 1
-              outline:
-                - - -1400
-                  - -850
-                - - -1400
-                  - 650
-                - - 1050
-                  - 650
-                - - 1050
-                  - -850
-              label:
-                text: Laundry
-                x: -175
-                y: -100
-                offset_y: 35
-              icon:
-                name: "mdi:iron-outline"
-                x: -175
-                y: -100
-          - template: vacuum_clean_zone
-            max_selections: 1
+                entity_id: "[[entity_id]]"
+                zone: "[[selection]]"
+                repeats: "[[repeats]]"
+          - template: vacuum_clean_segment
             repeats_type: EXTERNAL
-            max_repeats: 5
+            max_repeats: 3
             service_call_schema:
-              service: xiaomi_miot.call_action
+              service: dreame_vacuum.vacuum_clean_segment
               service_data:
-                entity_id: vacuum.dreame_p2028_9238_robot_cleaner
-                siid: 4
-                aiid: 1
-                params:
-                  - piid: 1
-                    value: 19
-                  - piid: 10
-                    value: '{"areas":[[[[selection_unwrapped]],[[repeats]],1,1]]}'
-                force_params: true
-        tiles:
-        - label: Status
-          entity: vacuum.dreame_p2028_9238_robot_cleaner
-          attribute: vacuum.status_desc
-          icon: mdi:robot-vacuum
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-unknown
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-unknown
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-outline
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-outline
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-alert
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-alert
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-10
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-10
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-20
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-20
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-30
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-30
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-40
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-40
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-50
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-50
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-60
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-60
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-70
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-70
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-80
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-80
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-90
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-90
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-charging-100
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-charging-100
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-10
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-10
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-20
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-20
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-30
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-30
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-40
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-40
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-50
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-50
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-60
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-60
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-70
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-70
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-80
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-80
-        - entity: vacuum.dreame_p2028_9238_robot_cleaner
-          label: Battery
-          attribute: battery_level
-          icon: mdi:battery-90
-          unit: '%'
-          tap_action: none
-          conditions:
-            - entity: vacuum.dreame_p2028_9238_robot_cleaner
-              attribute: battery_icon
-              value: mdi:battery-90
-        - label: Fan Speed
-          entity: vacuum.dreame_p2028_9238_robot_cleaner
-          attribute: fan_speed
-          icon: mdi:fan
-        - label: Mop
-          entity: vacuum.dreame_p2028_9238_robot_cleaner
-          attribute: vacuum_extend.waterbox_status
-          icon: mdi:water
-        - label: Filter
-          entity: vacuum.dreame_p2028_9238_robot_cleaner
-          attribute: filter.filter_left_time
-          icon: mdi:air-filter
-          unit: ' h'
-        - label: Main Brush
-          entity: vacuum.dreame_p2028_9238_robot_cleaner
-          attribute: brush_cleaner.brush_left_time
-          icon: mdi:atom-variant
-          unit: ' h'
-        - label: Side Brush
-          entity: vacuum.dreame_p2028_9238_robot_cleaner
-          attribute: brush_left_time-10-1
-          icon: mdi:axis
-          unit: ' h'
+                entity_id: "[[entity_id]]"
+                segments: "[[selection]]"
+                repeats: "[[repeats]]"
+            predefined_selections:
+              - id: 1
+                outline:
+                  - - -1500
+                    - -800
+                  - - -1500
+                    - 750
+                  - - 1550
+                    - 750
+                  - - 1550
+                    - -800
+              - id: 2
+                outline:
+                  - - 11350
+                    - -4150
+                  - - 11350
+                    - 600
+                  - - 14750
+                    - 600
+                  - - 14750
+                    - -4150
+              - id: 3
+                outline:
+                  - - 7700
+                    - -4250
+                  - - 7700
+                    - 700
+                  - - 11150
+                    - 700
+                  - - 11150
+                    - -4250
+              - id: 4
+                outline:
+                  - - 7550
+                    - -5300
+                  - - 7550
+                    - -3400
+                  - - 9850
+                    - -3400
+                  - - 9850
+                    - -5300
+              - id: 5
+                outline:
+                  - - 12650
+                    - -6500
+                  - - 12650
+                    - -3450
+                  - - 14750
+                    - -3450
+                  - - 14750
+                    - -6500
+              - id: 6
+                outline:
+                  - - 7400
+                    - -6450
+                  - - 7400
+                    - -4150
+                  - - 12400
+                    - -4150
+                  - - 12400
+                    - -6450
+              - id: 7
+                outline:
+                  - - 9900
+                    - -10400
+                  - - 9900
+                    - -6450
+                  - - 14250
+                    - -6450
+                  - - 14250
+                    - -10400
+              - id: 9
+                outline:
+                  - - -1700
+                    - -8550
+                  - - -1700
+                    - -550
+                  - - 2000
+                    - -550
+                  - - 2000
+                    - -8550
+              - id: 10
+                outline:
+                  - - 1700
+                    - -12400
+                  - - 1700
+                    - -100
+                  - - 9800
+                    - -100
+                  - - 9800
+                    - -12400
+          - name: Clean Spot
+            icon: mdi:map-marker-plus
+            max_repeats: 3
+            selection_type: MANUAL_POINT
+            repeats_type: EXTERNAL
+            service_call_schema:
+              service: dreame_vacuum.vacuum_clean_spot
+              service_data:
+                entity_id: "[[entity_id]]"
+                points: "[[selection]]"
+                repeats: "[[repeats]]"
+        title: Rosita
+        map_locked: false
+        two_finger_pan: true

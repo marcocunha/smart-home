@@ -1,0 +1,42 @@
+# https://www.home-assistant.io/integrations/script/
+
+# Map of rooms:
+#
+# 1 - Lavandaria
+# 2 - Quarto-Visitas
+# 3 - Escritorio
+# 4 - WC
+# 5 - WC-Suite
+# 6 - Hall
+# 7 - Suite
+# 9 - Cozinha
+# 10 - Sala
+
+vacuum_clean_social_areas:
+  alias: Vacuum Clean Social Areas
+  icon: mdi:sofa
+  sequence:
+    - service: dreame_vacuum.vacuum_clean_segment
+      data:
+        segments:
+          - 1
+          - 9
+          - 10
+      target:
+        entity_id: vacuum.dreame_bot_z10_pro
+
+vacuum_clean_private_areas:
+  alias: Vacuum Clean Private Areas
+  icon: mdi:bed
+  sequence:
+    - service: dreame_vacuum.vacuum_clean_segment
+      data:
+        segments:
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+      target:
+        entity_id: vacuum.dreame_bot_z10_pro

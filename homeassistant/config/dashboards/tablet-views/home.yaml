@@ -53,6 +53,73 @@ cards:
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
+            title: Lighting
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.0x000b57fffe8e3230
+                use_light_color: false
+                show_brightness_control: true
+              - type: custom:mushroom-entity-card
+                entity: switch.christmas_tree_socket_1
+                icon: phu:christmas-tree
+                icon_color: red
+                fill_container: false
+                name: Christmas Tree
+                tap_action:
+                  action: toggle
+                icon_type: icon
+                layout: vertical
+                primary_info: name
+                secondary_info: state
+          - type: custom:mushroom-title-card
+            title: Rosita
+          - type: custom:mushroom-vacuum-card
+            entity: vacuum.dreame_bot_z10_pro
+            icon_animation: true
+            name: Rosita
+            layout: horizontal
+            commands:
+              - return_home
+              - start_pause
+            fill_container: false
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Clean - Public
+                secondary: ''
+                icon: mdi:sofa
+                icon_color: orange
+                entity: script.vacuum_clean_social_areas
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: script.vacuum_clean_social_areas
+                  data: {}
+                  target: {}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-template-card
+                primary: Clean - Private
+                secondary: ''
+                icon: mdi:bed
+                icon_color: red
+                entity: script.vacuum_clean_private_areas
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: script.vacuum_clean_private_areas
+                  data: {}
+                  target: {}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
             title: Media
           - type: custom:mini-media-player
             entity: media_player.spotify_marco_cunha
@@ -86,28 +153,6 @@ cards:
                 tap_action:
                   action: more-info
                 icon_color: brown
-      - type: vertical-stack
-        cards:
-          - type: custom:mushroom-title-card
-            title: Lighting
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-light-card
-                entity: light.0x000b57fffe8e3230
-                use_light_color: false
-                show_brightness_control: true
-              - type: custom:mushroom-entity-card
-                entity: switch.christmas_tree_socket_1
-                icon: phu:christmas-tree
-                icon_color: red
-                fill_container: false
-                name: Christmas Tree
-                tap_action:
-                  action: toggle
-                icon_type: icon
-                layout: vertical
-                primary_info: name
-                secondary_info: state
     view_layout:
       position: main
   - type: custom:mushroom-title-card

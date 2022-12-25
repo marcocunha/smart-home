@@ -17,7 +17,7 @@ homeassistant/config/known_devices.yaml
 homeassistant/config/.homekit.state
 homeassistant/config/GA_SERVICE_ACCOUNT.json
 homeassistant/config/.storage
-homeassistant/config/secrets.yaml
+homeassistant/config/www/doorbell/*.jpg
 *home-assistant_*.db*
 *home-assistant*.log*
 homeassistant/config/zigbee.db

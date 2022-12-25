@@ -53,7 +53,7 @@ homeassistant:
 ## Includes
 #################################################################
 automation: !include_dir_list automations
-script: !include scripts.yaml
+script: !include_dir_merge_named scripts
 scene: !include scenes.yaml
 input_boolean: !include helpers/input_boolean.yaml
 group: !include groups.yaml
