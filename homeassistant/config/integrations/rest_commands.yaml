@@ -1,0 +1,8 @@
+#
+# RESTful Command
+#
+# https://www.home-assistant.io/integrations/rest_command/
+#
+rest_command:
+  trigger_alarm_status_check:
+    url: !secret check_alarm_status_url

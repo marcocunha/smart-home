@@ -12,4 +12,4 @@ logger:
       - "Updating xiaomi_cloud_map_extractor camera took longer than the scheduled update interval"
     homeassistant.helpers.entity:
       # Vacuum Map sometime take more time to update.
-      - "Update of camera.roborock_live_map is taking over 10 seconds"
+      - "Update of camera.xiaomi_cloud_map_extractor is taking over 10 seconds"
