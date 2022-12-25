@@ -1,0 +1,13 @@
+id: fetch_periodically_alarm_status
+alias: Fetch periodically alarm status
+mode: single
+max_exceeded: silent
+trigger:
+  - platform: homeassistant
+    event: start
+  - platform: time_pattern
+    # every 10 minutes
+    minutes: "/10"
+action:
+  - service: rest_command.trigger_alarm_status_check
+    data: {}
