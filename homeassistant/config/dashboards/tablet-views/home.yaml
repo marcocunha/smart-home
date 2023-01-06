@@ -72,10 +72,17 @@ cards:
             title: Lighting
           - type: horizontal-stack
             cards:
-              - type: custom:mushroom-light-card
-                entity: light.0x000b57fffe8e3230
-                use_light_color: false
-                show_brightness_control: true
+              - type: custom:mushroom-entity-card
+                layout: vertical
+                entity: switch.0xa4c1384daf115830
+                icon: mdi:bed
+                icon_color: purple
+                name: Suite Luz Presença
+                fill_container: false
+                tap_action:
+                  action: toggle
+                primary_info: name
+                secondary_info: state
               - type: custom:mushroom-entity-card
                 entity: switch.christmas_tree_socket_1
                 icon: phu:christmas-tree
