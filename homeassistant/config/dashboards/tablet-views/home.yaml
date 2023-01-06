@@ -167,7 +167,7 @@ cards:
                 icon: mdi:television
                 group: false
                 volume_stateless: false
-                toggle_power: true
+                toggle_power: false
                 artwork: none
     view_layout:
       position: main
