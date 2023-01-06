@@ -8,6 +8,21 @@ trigger:
   - platform: time_pattern
     # every 10 minutes
     minutes: "/10"
+condition:
+- condition: or
+  alias: TV is off or macmini is not visible
+  conditions:
+    - condition: state
+      entity_id: media_player.lg_webos_tv_oled48c16la
+      state: "off"
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: media_player.lg_webos_tv_oled48c16la
+          attribute: source
+          # mac mini is visible, probably being used
+          state: HDMI 3
+          alias: Mac mini is visible, probably being used
 action:
   - service: rest_command.trigger_alarm_status_check
     data: {}

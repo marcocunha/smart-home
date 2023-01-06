@@ -20,8 +20,8 @@ trigger:
   from: "off"
   # Optional
   to: "on"
-  # "on" for 5 seconds
-  for: "00:00:05"
+  # "on" for 3 seconds
+  for: "00:00:03"
 condition:
   - condition: state
     entity_id: input_boolean.anyone_home
@@ -44,4 +44,4 @@ action:
         ttl: 0
         priority: high
   - delay:
-      minutes: 5
+      minutes: 3
