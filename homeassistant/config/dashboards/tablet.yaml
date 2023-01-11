@@ -28,7 +28,11 @@ sidebar:
   template: |
     {% set calendar = states('calendar.recolha_lixo')%}
     {% set event_available = is_state('calendar.recolha_lixo', 'on')%}
-    {% if event_available %}<li>Recolha de lixo: {{ state_attr('calendar.recolha_lixo', 'message') }}</li>{% endif %}
+    {% if event_available %}<li>♻️{{ state_attr('calendar.recolha_lixo', 'message') }} </li>{% endif %} 
+    {% set bread_calendar = states('calendar.entrega_pao')%}
+    {% set bread_event_available = is_state('calendar.entrega_pao', 'on')%}
+    {% if bread_event_available %}<li>🍞Pao fresco</li>{% endif %}
+
 views:
   - !include tablet-views/home.yaml
   - !include tablet-views/alarm.yaml
