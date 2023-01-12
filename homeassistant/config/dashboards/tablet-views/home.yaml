@@ -43,8 +43,6 @@ cards:
                       (as_timestamp(states.sun.sun.attributes.next_setting)) |
                       timestamp_custom(('%H:%M') )}} {% endif %}
                     icon: mdi:weather-sunset-down
-                  - type: entity
-                    entity: sensor.moon
               - show_current: true
                 show_forecast: true
                 type: weather-forecast
