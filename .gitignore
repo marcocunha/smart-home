@@ -18,6 +18,7 @@ homeassistant/config/.homekit.state
 homeassistant/config/GA_SERVICE_ACCOUNT.json
 homeassistant/config/.storage
 homeassistant/config/www/doorbell/*.jpg
+homeassistant/config/backups
 *home-assistant_*.db*
 *home-assistant*.log*
 homeassistant/config/zigbee.db
