@@ -40,20 +40,18 @@ I'm happy with my decision so far. This router gives the constant 600-900 Mbit/s
 
 Below you can find the list of the devices connected to the local network. Most of them have static IP addresses.
 
-| Device                         | IP                 | HA Integration                     | Protocol           |
-| ------------------------------ | :----------------- | ---------------------------------- | ------------------ |
-| [Raspberry Pi][pi]             | `192.168.1.121`\*  | –                                  | –                  |
-| [SP22 Smartplug 1][teckinsp22] | `192.168.178.164`  | [teckin_sp22][int_teckin_sp22]\*\* | WiFi 2.4GHz & MQTT |
-| [Ajax Security System][ajax]   | `192.168.1.10`\*  | –                                  | -                  |
-| XVR (CCTV recorder)            | `192.168.1.108`\* | –                                  | -                  |
-| [Bosh Hob][bosch-hob]          | `192.168.1.117`    | –                                  | WiFi 2.4GHz        |
+| Device                         | HA Integration                   | Protocol           |
+| ------------------------------ | -------------------------------- | ------------------ |
+| [Raspberry Pi][pi]             | –                                | –                  |
+| [SP22 Smartplug 1][teckinsp22] | [teckin_sp22][int_teckin_sp22]\* | WiFi 2.4GHz & MQTT |
+| [Ajax Security System][ajax]   | –                                | -                  |
+| XVR (CCTV recorder)            | –                                | -                  |
+| [Bosh Hob][bosch-hob]          | –                                | WiFi 2.4GHz        |
 
 
 
+\* — means the device is integrated via custom integration.
 
-\* — means the device is connected via Ethernet instead of WiFi to ensure a more reliable connection.
-
-\*\* — means the device is integrated via custom integration.
 
 <!-- Devices -->
 [pi]: https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
