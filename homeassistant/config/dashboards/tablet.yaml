@@ -32,6 +32,7 @@ sidebar:
     {% set bread_calendar = states('calendar.entrega_pao')%}
     {% set bread_event_available = is_state('calendar.entrega_pao', 'on')%}
     {% if bread_event_available %}<li>🍞Pao fresco</li>{% endif %}
+    <li> </li>
 
 views:
   - !include tablet-views/home.yaml

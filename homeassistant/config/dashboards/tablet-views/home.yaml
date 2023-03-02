@@ -81,18 +81,6 @@ cards:
                   action: toggle
                 primary_info: name
                 secondary_info: state
-              - type: custom:mushroom-entity-card
-                entity: switch.christmas_tree_socket_1
-                icon: phu:christmas-tree
-                icon_color: red
-                fill_container: false
-                name: Christmas Tree
-                tap_action:
-                  action: toggle
-                icon_type: icon
-                layout: vertical
-                primary_info: name
-                secondary_info: state
           - type: custom:mushroom-title-card
             title: Rosita
           - type: custom:mushroom-vacuum-card
