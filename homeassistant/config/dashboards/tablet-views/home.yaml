@@ -8,7 +8,7 @@ cards:
     - type: custom:mushroom-chips-card
       chips:
         - type: entity
-          entity: person.marco
+          entity: person.marco_cunha
           use_entity_picture: true
           content_info: state
         - type: entity

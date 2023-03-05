@@ -5,14 +5,14 @@ mode: single
 trigger:
   - platform: state
     entity_id:
-      - person.marco
+      - person.marco_cunha
       - person.darlene_parreira
     to: not_home
 condition:
   - condition: or
     conditions:
       - condition: state
-        entity_id: person.marco
+        entity_id: person.marco_cunha
         state: not_home
       - condition: state
         entity_id: person.darlene_parreira

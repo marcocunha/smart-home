@@ -6,13 +6,13 @@ trigger:
   - platform: state
     entity_id:
       - person.darlene_parreira
-      - person.marco
+      - person.marco_cunha
     to: home
 condition:
   - condition: and
     conditions:
       - condition: state
-        entity_id: person.marco
+        entity_id: person.marco_cunha
         state: home
       - condition: state
         entity_id: person.darlene_parreira
