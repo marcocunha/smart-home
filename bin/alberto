@@ -57,11 +57,31 @@ function alberto:command:init() {
   sudo apt-get full-upgrade -y
   sudo apt autoremove -y
 
+  # Install docker
+  if ! smart-home:exists docker; then
+    echo "Installing docker..."
+    curl -fsSL https://get.docker.com | sh
+    sudo usermod -G docker -a "$USER"
+  fi
+
+  if ! smart-home:exists docker-compose; then
+    echo "Installing docker-compose..."
+    pip install docker-compose
+  fi
+
+  echo "Installing additional packages..."
+  sudo apt-get install -y git cockpit python3-pip nodejs
+
   echo "Installing python dependencies..."
   pip3 install -r "$ALBERTO_HOME_DIR/requirements.txt"
   
   echo "Addint pre-commit hooks..."
   pre-commit install
+
+  if [ ! -f "$ALBERTO_HOME_DIR/.env" ]; then
+    echo "Creating .env file..."
+    cp "$ALBERTO_HOME_DIR/.env.example" "$ALBERTO_HOME_DIR/.env"
+  fi
 
   echo "Done!"
   echo "Please, reboot!"
