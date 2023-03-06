@@ -11,7 +11,7 @@ device_tracker:
   # Bluetooth Tracker
   # https://www.home-assistant.io/integrations/bluetooth_tracker
   - platform: bluetooth_tracker
-    request_rssi: true
+    request_rssi: false
     new_device_defaults:
       track_new_devices: true
   # Bluetooth LE Tracker
