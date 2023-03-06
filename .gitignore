@@ -32,3 +32,5 @@ zigbee2mqtt/data/database.db
 zigbee2mqtt/data/state.json
 zigbee2mqtt/data/configuration.yaml
 zigbee2mqtt/data/backups/
+influxdb/data/
+influxdb/config/influx-configs

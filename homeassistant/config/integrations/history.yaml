@@ -1,0 +1,16 @@
+#
+# History
+#
+# https://www.home-assistant.io/integrations/history/
+#
+
+history:
+  exclude:
+    domains:
+      - automation
+      - updater
+    entities:
+      - sensor.last_boot
+      - sensor.date
+    entity_globs:
+      - binary_sensor.*_occupancy

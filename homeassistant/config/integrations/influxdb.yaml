@@ -1,0 +1,33 @@
+#
+# InfluxDB
+#
+# https://www.home-assistant.io/integrations/influxdb/
+#
+
+influxdb:
+  api_version: 2
+  ssl: false
+  host: !secret influxdb_host
+  port: 8086
+  token: !secret influxdb_token
+  organization: !secret influx_org
+  bucket: homeassistant
+  tags:
+    source: HomeAssistant
+  tags_attributes:
+    - friendly_name
+  default_measurement: state
+  ignore_attributes:
+    - icon
+  exclude:
+    domains:
+      - updater
+      - automation
+      - calendar
+      - camera
+      - media_player
+      - remote
+    entities:
+      - sun.sun
+    entity_globs:
+      - device_tracker.*

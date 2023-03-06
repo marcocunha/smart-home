@@ -1,0 +1,13 @@
+#
+# Recorder
+#
+# https://www.home-assistant.io/integrations/recorder/
+#
+
+recorder:
+  db_url: !secret mariadb_url
+  purge_keep_days: 30
+  commit_interval: 20
+  exclude:
+    entity_globs:
+      - device_tracker.*

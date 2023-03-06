@@ -27,6 +27,9 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
+    depends_on:
+      - mariadb
+      - influxdb
   
   # Duplicati
   # Free backup software to store encrypted backups online
@@ -44,14 +47,34 @@ services:
   
   # MariaDB
   # A database Nginx Proxy Manager and Umami
-  db:
-    container_name: db
+  mariadb:
+    container_name: mariadb
     image: mariadb
     restart: unless-stopped
+    network_mode: host
     volumes:
       - ${ALBERTO_HOME_DIR}/mariadb/dbdata:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
-      - ${ALBERTO_HOME_DIR}/db:/docker-entrypoint-initdb.d # FIX entrypoint
+      - ${ALBERTO_HOME_DIR}/mariadb/config/mariadb.conf.d:/etc/mysql/mariadb.conf.d
+      - ${ALBERTO_HOME_DIR}/mariadb/init:/docker-entrypoint-initdb.d # FIX entrypoint
+    env_file:
+      - .env
+
+  # InfluxDB
+  # Open-source time series database
+  influxdb:
+    container_name: influxdb
+    image: influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086/tcp"   # So we can access the WebUI
+    volumes:
+      - ${ALBERTO_HOME_DIR}/influxdb/data:/var/lib/influxdb2
+      - ${ALBERTO_HOME_DIR}/influxdb/config/:/etc/influxdb2
+    ulimits:
+      nofile:
+        soft: 32768
+        hard: 32768
     env_file:
       - .env
   
@@ -66,7 +89,7 @@ services:
     ports:
       - 8082:8080
     depends_on:
-      - db
+      - mariadb
   
   # Nginx Proxy Manager
   # Nice and simple Nginx UI for managing reverce proxy
@@ -91,7 +114,7 @@ services:
       - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
       - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/log:/var/log
     depends_on:
-      - db
+      - mariadb
 
   # Mosquitto
   # Message broker that implements the MQTT protocol 
