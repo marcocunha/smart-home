@@ -13,3 +13,5 @@ logger:
     homeassistant.helpers.entity:
       # Vacuum Map sometime take more time to update.
       - "Update of camera.xiaomi_cloud_map_extractor is taking over 10 seconds"
+    homeassistant.components.recorder.db_schema:
+    - "State attributes for camera.xiaomi_cloud_map_extractor exceed maximum size of 16384 bytes. This can cause database performance issues; Attributes will not be stored"
