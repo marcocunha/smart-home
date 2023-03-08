@@ -3,6 +3,8 @@ resources:
     type: module
   - url: /hacsfiles/kiosk-mode/kiosk-mode.js
     type: module
+  - url: /hacsfiles/weather-radar-card/weather-radar-card.js
+    type: module
 button_card_templates: !include_dir_merge_named "../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
 kiosk_mode:
   user_settings:
@@ -25,6 +27,9 @@ sidebar:
     - action: navigate
       navigation_path: "/lovelace-tablet-dashboard/climate"
       name: "Climate"
+    - action: navigate
+      navigation_path: "/lovelace-tablet-dashboard/vacuum-cleaner"
+      name: "Rosita"
   template: |
     {% set calendar = states('calendar.recolha_lixo')%}
     {% set event_available = is_state('calendar.recolha_lixo', 'on')%}
@@ -38,3 +43,4 @@ views:
   - !include tablet-views/home.yaml
   - !include tablet-views/alarm.yaml
   - !include tablet-views/climate.yaml
+  - !include tablet-views/vacuum.yaml

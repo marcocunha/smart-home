@@ -1,0 +1,142 @@
+title: Vacuum
+path: vacuum-cleaner
+icon: mdi:robot-vacuum
+type: sidebar
+cards:
+  - square: false
+    columns: 1
+    type: grid
+    cards:
+      - type: custom:xiaomi-vacuum-map-card
+        vacuum_platform: default
+        entity: vacuum.dreame_bot_z10_pro
+        debug: true
+        map_source:
+          camera: camera.dreame_bot_z10_pro_map
+        calibration_source:
+          camera: true
+        map_modes:
+          - template: vacuum_clean_zone
+            max_selections: 10
+            repeats_type: EXTERNAL
+            max_repeats: 3
+            service_call_schema:
+              service: dreame_vacuum.vacuum_clean_zone
+              service_data:
+                entity_id: "[[entity_id]]"
+                zone: "[[selection]]"
+                repeats: "[[repeats]]"
+          - template: vacuum_clean_segment
+            repeats_type: EXTERNAL
+            max_repeats: 3
+            service_call_schema:
+              service: dreame_vacuum.vacuum_clean_segment
+              service_data:
+                entity_id: "[[entity_id]]"
+                segments: "[[selection]]"
+                repeats: "[[repeats]]"
+            predefined_selections:
+              - id: 1
+                outline:
+                  - - -1500
+                    - -800
+                  - - -1500
+                    - 750
+                  - - 1550
+                    - 750
+                  - - 1550
+                    - -800
+              - id: 2
+                outline:
+                  - - 11350
+                    - -4150
+                  - - 11350
+                    - 600
+                  - - 14750
+                    - 600
+                  - - 14750
+                    - -4150
+              - id: 3
+                outline:
+                  - - 7700
+                    - -4250
+                  - - 7700
+                    - 700
+                  - - 11150
+                    - 700
+                  - - 11150
+                    - -4250
+              - id: 4
+                outline:
+                  - - 7550
+                    - -5300
+                  - - 7550
+                    - -3400
+                  - - 9850
+                    - -3400
+                  - - 9850
+                    - -5300
+              - id: 5
+                outline:
+                  - - 12650
+                    - -6500
+                  - - 12650
+                    - -3450
+                  - - 14750
+                    - -3450
+                  - - 14750
+                    - -6500
+              - id: 6
+                outline:
+                  - - 7400
+                    - -6450
+                  - - 7400
+                    - -4150
+                  - - 12400
+                    - -4150
+                  - - 12400
+                    - -6450
+              - id: 7
+                outline:
+                  - - 9900
+                    - -10400
+                  - - 9900
+                    - -6450
+                  - - 14250
+                    - -6450
+                  - - 14250
+                    - -10400
+              - id: 9
+                outline:
+                  - - -1700
+                    - -8550
+                  - - -1700
+                    - -550
+                  - - 2000
+                    - -550
+                  - - 2000
+                    - -8550
+              - id: 10
+                outline:
+                  - - 1700
+                    - -12400
+                  - - 1700
+                    - -100
+                  - - 9800
+                    - -100
+                  - - 9800
+                    - -12400
+          - name: Clean Spot
+            icon: mdi:map-marker-plus
+            max_repeats: 3
+            selection_type: MANUAL_POINT
+            repeats_type: EXTERNAL
+            service_call_schema:
+              service: dreame_vacuum.vacuum_clean_spot
+              service_data:
+                entity_id: "[[entity_id]]"
+                points: "[[selection]]"
+                repeats: "[[repeats]]"
+        title: Rosita
+        map_locked: false
+        two_finger_pan: true
