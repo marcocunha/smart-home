@@ -10,8 +10,25 @@ logger:
     homeassistant.components.camera:
       # Vacuum Map sometimes takes longer to update.
       - "Updating xiaomi_cloud_map_extractor camera took longer than the scheduled update interval"
+      - "Setup of camera platform .* is taking over 10 seconds."
     homeassistant.helpers.entity:
       # Vacuum Map sometime take more time to update.
       - "Update of camera.xiaomi_cloud_map_extractor is taking over 10 seconds"
+      # TV sometime take more time to update.
+      - "Update of media_player.lg_webos_tv_oled48c16la is taking over 10 seconds"
     homeassistant.components.recorder.db_schema:
-    - "State attributes for camera.xiaomi_cloud_map_extractor exceed maximum size of 16384 bytes. This can cause database performance issues; Attributes will not be stored"
+      - "State attributes for camera.xiaomi_cloud_map_extractor exceed maximum size of 16384 bytes. This can cause database performance issues; Attributes will not be stored"
+    homeassistant.loader:
+      - "We found a custom integration .* which has not been tested by Home Assistant"
+    homeassistant.components.button:
+      - "Setup of button platform .* is taking over 10 seconds."
+    homeassistant.components.sensor:
+      - "Setup of .* is taking over 10 seconds."
+    homeassistant.components.select:
+      - "Setup of select platform .* is taking over 10 seconds."
+    homeassistant.components.number:
+      - "Setup of number platform .* is taking over 10 seconds."
+    homeassistant.components.switch:
+      - "Setup of switch platform .* is taking over 10 seconds."
+    homeassistant.components.vacuum:
+      - "Setup of vacuum platform .* is taking over 10 seconds."
