@@ -1,13 +1,13 @@
-id: motion_detected_garage
-alias: Motion detected - Garage
+id: motion_detected_frente
+alias: Motion detected - Frente
 mode: single
 max_exceeded: silent
 variables:
   notify_device: notify.ha_mobile_apps
-  trigger_entity: binary_sensor.garagem_smart_motion_human
-  doorbell_cam: camera.garagem_sub
+  trigger_entity: binary_sensor.frente_smart_motion_human
+  doorbell_cam: camera.frente_sub
   notification_title: Movimento Detectado
-  notification_message: Garagem
+  notification_message: Frente
   persistent_notification: false
   image_file: >-
     /local/doorbell/{{ expand(trigger_entity)[0].last_changed | as_timestamp  |
@@ -15,7 +15,7 @@ variables:
 trigger:
   platform: state
   entity_id:
-    - binary_sensor.garagem_smart_motion_human
+    - binary_sensor.frente_smart_motion_human
   # Optional
   from: "off"
   # Optional
@@ -33,7 +33,7 @@ condition:
         state: armed_home
 action:
   - data_template:
-      entity_id: camera.garagem_sub
+      entity_id: camera.frente_sub
       filename: >-
         /config/www/doorbell/{{ expand(trigger_entity)[0].last_changed |
         as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg

@@ -1,13 +1,13 @@
-id: motion_detected_garage
-alias: Motion detected - Garage
+id: motion_detected_tablet
+alias: Motion detected - Tablet
 mode: single
 max_exceeded: silent
 variables:
   notify_device: notify.ha_mobile_apps
-  trigger_entity: binary_sensor.garagem_smart_motion_human
-  doorbell_cam: camera.garagem_sub
+  trigger_entity: binary_sensor.wallpanel_samsung_tab_s_10_5_motion_detected
+  doorbell_cam: camera.wallpanel_samsung
   notification_title: Movimento Detectado
-  notification_message: Garagem
+  notification_message: Tablet
   persistent_notification: false
   image_file: >-
     /local/doorbell/{{ expand(trigger_entity)[0].last_changed | as_timestamp  |
@@ -15,9 +15,7 @@ variables:
 trigger:
   platform: state
   entity_id:
-    - binary_sensor.garagem_smart_motion_human
-  # Optional
-  from: "off"
+    - binary_sensor.wallpanel_samsung_tab_s_10_5_motion_detected
   # Optional
   to: "on"
   # "on" for 2 seconds
@@ -33,7 +31,7 @@ condition:
         state: armed_home
 action:
   - data_template:
-      entity_id: camera.garagem_sub
+      entity_id: camera.wallpanel_samsung
       filename: >-
         /config/www/doorbell/{{ expand(trigger_entity)[0].last_changed |
         as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
@@ -48,9 +46,5 @@ action:
         image: "{{ image_file }}"
         ttl: 0
         priority: high
-        actions:
-          - action: "URI"
-            title: "Open Camera"
-            uri: "app://com.mm.android.DMSS"
   - delay:
       minutes: 3

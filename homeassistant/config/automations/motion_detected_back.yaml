@@ -11,27 +11,32 @@ variables:
   persistent_notification: false
   image_file: >-
     /local/doorbell/{{ expand(trigger_entity)[0].last_changed | as_timestamp  |
-    timestamp_custom("%Y-%m-%d_%H-%M-%S") }}.jpg
+    timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
 trigger:
   platform: state
   entity_id:
-    - binary_sensor.traseira_smart_motion_human
+    - binary_sensor.piscina_smart_motion_human
   # Optional
   from: "off"
   # Optional
   to: "on"
-  # "on" for 3 seconds
-  for: "00:00:03"
+  # "on" for 2 seconds
+  for: "00:00:02"
 condition:
-  - condition: state
-    entity_id: input_boolean.anyone_home
-    state: "off"
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.anyone_home
+        state: "off"
+      - condition: state
+        entity_id: alarm_control_panel.ajax_security_system
+        state: armed_home
 action:
   - data_template:
       entity_id: camera.traseira_sub
       filename: >-
         /config/www/doorbell/{{ expand(trigger_entity)[0].last_changed |
-        as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S") }}.jpg
+        as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
     service: camera.snapshot
   - service: notify.ha_mobile_apps
     data:
@@ -43,5 +48,9 @@ action:
         image: "{{ image_file }}"
         ttl: 0
         priority: high
+        actions:
+          - action: "URI"
+            title: "Open Camera"
+            uri: "app://com.mm.android.DMSS"
   - delay:
       minutes: 3
