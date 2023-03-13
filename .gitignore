@@ -34,3 +34,4 @@ zigbee2mqtt/data/configuration.yaml
 zigbee2mqtt/data/backups/
 influxdb/data/
 influxdb/config/influx-configs
+homeassistant/config/tts/
