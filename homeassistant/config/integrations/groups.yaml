@@ -1,0 +1,12 @@
+#
+# Group
+#
+# https://www.home-assistant.io/integrations/group/
+#
+group:
+  household:
+    name: Household
+    icon: mdi:home-heart
+    entities:
+      - person.marco_cunha
+      - person.darlene_parreira

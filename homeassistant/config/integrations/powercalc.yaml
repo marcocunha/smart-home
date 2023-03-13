@@ -1,0 +1,11 @@
+#
+# PowerCalc
+#
+# https://github.com/bramstroker/homeassistant-powercalc
+#
+# Custom component for Home Assistant to estimate the power consumption (as virtual meters) of lights, fans, smart speakers and other devices, which don't have a built-in power meter.
+#
+
+powercalc:
+  #https://homeassistant-powercalc.readthedocs.io/en/latest/utility-meter.html
+  create_utility_meters: true

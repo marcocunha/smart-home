@@ -13,3 +13,7 @@ anyone_home:
 guest_mode:
   name: Guest Mode
   icon: mdi:account-group
+
+do_not_disturb:
+  name: Do Not Disturb Mode
+  icon: mdi:bell-off-outline

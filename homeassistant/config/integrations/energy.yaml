@@ -1,0 +1,20 @@
+#
+# Integration - Riemann sum integral
+#
+# https://www.home-assistant.io/integrations/integration/#energy
+#
+# This integrations provides the Riemann sum of the values provided by a source sensor. The Riemann sum is an approximation of an integral by a finite sum.
+#
+
+
+sensor:
+  - platform: integration
+    source: sensor.raspberrypi_power
+    name: raspberrypi_energy_spent
+    unit_prefix: k
+    round: 2
+  - platform: integration
+    source: sensor.macmini_power
+    name: macmini_energy_spent
+    unit_prefix: k
+    round: 2

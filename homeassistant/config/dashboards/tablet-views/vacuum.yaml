@@ -4,13 +4,13 @@ icon: mdi:robot-vacuum
 type: sidebar
 cards:
   - square: false
-    columns: 1
+    columns: 2
     type: grid
     cards:
       - type: custom:xiaomi-vacuum-map-card
         vacuum_platform: default
         entity: vacuum.dreame_bot_z10_pro
-        debug: true
+        debug: false
         map_source:
           camera: camera.dreame_bot_z10_pro_map
         calibration_source:

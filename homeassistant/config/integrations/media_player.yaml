@@ -1,0 +1,14 @@
+#
+# Media Player
+#
+# https://www.home-assistant.io/integrations/media_player/
+#
+# Interacts with media players on your network.
+#
+media_player:
+  - name: all_speakers
+    platform: group
+    entities:
+      - media_player.chromecast_lg
+      - media_player.lg_webos_tv_oled48c16la
+      - media_player.spotify_marco_cunha

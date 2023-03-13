@@ -6,6 +6,8 @@
 
 logger:
   default: warning
+  logs:
+    custom_components.powercalc: warning
   filters:
     homeassistant.components.camera:
       # Vacuum Map sometimes takes longer to update.
@@ -19,7 +21,7 @@ logger:
     homeassistant.components.recorder.db_schema:
       - "State attributes for camera.xiaomi_cloud_map_extractor exceed maximum size of 16384 bytes. This can cause database performance issues; Attributes will not be stored"
     homeassistant.loader:
-      - "We found a custom integration .* which has not been tested by Home Assistant"
+      - "We found a custom integration .* which has not been tested by Home Assistant."
     homeassistant.components.button:
       - "Setup of button platform .* is taking over 10 seconds."
     homeassistant.components.sensor:
