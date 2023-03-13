@@ -11,7 +11,7 @@ action:
   - service: delete.files_in_folder
     data:
       folder: "/config/www/doorbell/"
-      time: 604800 #older than a week
+      time: 604800 # older than a week
       only_extensions:
         - ".png"
         - ".jpg"
