@@ -1,0 +1,16 @@
+id: send_notification_low_batteries
+alias: Send notification to marco if batteries are low
+description: ""
+use_blueprint:
+  path: gmlupatelli/low_battery_notification.yaml
+  input:
+    monday_enabled: false
+    tuesday_enabled: false
+    wednesday_enabled: false
+    thursday_enabled: false
+    friday_enabled: false
+    saturday_enabled: false
+    actions:
+      - service: notify.mobile_app_samsung_s22
+        data:
+          message: Sensor batteries are low {{sensors}}
