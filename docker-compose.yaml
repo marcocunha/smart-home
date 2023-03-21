@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Portainer CE
@@ -14,7 +14,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${ALBERTO_HOME_DIR}/portainer:/data
-  
+
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
@@ -23,14 +23,14 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
     #devices:
-      # - /dev/ttyUSB0:/dev/ttyUSB0
+    # - /dev/ttyUSB0:/dev/ttyUSB0
     restart: unless-stopped
     privileged: true
     network_mode: host
     depends_on:
       - mariadb
       - influxdb
-  
+
   # Duplicati
   # Free backup software to store encrypted backups online
   duplicati:
@@ -44,7 +44,7 @@ services:
     ports:
       - 8200:8200
     restart: unless-stopped
-  
+
   # MariaDB
   # A database Nginx Proxy Manager and Umami
   mariadb:
@@ -67,7 +67,7 @@ services:
     image: influxdb
     restart: unless-stopped
     ports:
-      - "8086:8086/tcp"   # So we can access the WebUI
+      - "8086:8086/tcp" # So we can access the WebUI
     volumes:
       - ${ALBERTO_HOME_DIR}/influxdb/data:/var/lib/influxdb2
       - ${ALBERTO_HOME_DIR}/influxdb/config/:/etc/influxdb2
@@ -77,7 +77,7 @@ services:
         hard: 32768
     env_file:
       - .env
-  
+
   # Adminer
   # A dead-simple database manager
   adminer:
@@ -90,7 +90,7 @@ services:
       - 8082:8080
     depends_on:
       - mariadb
-  
+
   # Nginx Proxy Manager
   # Nice and simple Nginx UI for managing reverce proxy
   nginx:
@@ -108,7 +108,7 @@ services:
       DB_MYSQL_PORT: ${MYSQL_PORT}
       DB_MYSQL_USER: ${MYSQL_USER}
       DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      DB_MYSQL_NAME: 'nginxproxymanager'
+      DB_MYSQL_NAME: "nginxproxymanager"
     volumes:
       - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/data:/data
       - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
@@ -117,7 +117,7 @@ services:
       - mariadb
 
   # Mosquitto
-  # Message broker that implements the MQTT protocol 
+  # Message broker that implements the MQTT protocol
   mosquitto:
     container_name: mosquitto
     image: eclipse-mosquitto
@@ -185,3 +185,14 @@ services:
       - "traefik.udp.routers.wireguard-udp.entrypoints=wireguard"
       - "traefik.udp.routers.wireguard-udp.service=wireguard-udp-svc"
       - "traefik.udp.services.wireguard-udp-svc.loadbalancer.server.port=51820"
+
+    # What's Up Docker
+    # What's Up Docker (WUD) is a monitoring tool that keeps Docker container versions up-to-date by notifying users whenever a new version is available.
+    # https://fmartinou.github.io/whats-up-docker/
+  whatsupdocker:
+    image: fmartinou/whats-up-docker
+    container_name: wud
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 3000:3000
