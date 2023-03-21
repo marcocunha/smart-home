@@ -74,8 +74,19 @@ cards:
                 layout: vertical
                 entity: switch.0xa4c1384daf115830
                 icon: mdi:bed
-                icon_color: purple
+                icon_color: amber
                 name: Suite Luz Presença
+                fill_container: false
+                tap_action:
+                  action: toggle
+                primary_info: name
+                secondary_info: state
+              - type: custom:mushroom-entity-card
+                layout: vertical
+                entity: switch.smart_switch_light_escritorio
+                icon: mdi:chair-rolling
+                icon_color: amber
+                name: Escritório
                 fill_container: false
                 tap_action:
                   action: toggle
@@ -128,15 +139,15 @@ cards:
                   action: none
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Blinds
-          - type: entities
-            entities:
-              - entity: cover.blinds_lavandaria
-                name: Lavandaria
-                icon: mdi:iron-board
-                secondary_info: position
-            state_color: false
+          # - type: custom:mushroom-title-card
+          #   title: Blinds
+          # - type: entities
+          #   entities:
+          #     - entity: cover.blinds_lavandaria
+          #       name: Lavandaria
+          #       icon: mdi:iron-board
+          #       secondary_info: position
+          #   state_color: false
           - type: vertical-stack
             cards:
               - type: custom:mushroom-title-card
