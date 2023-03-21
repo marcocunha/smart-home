@@ -1,0 +1,23 @@
+# https://www.home-assistant.io/integrations/script/
+
+speak_announcement:
+  alias: Speak Announcement via Wallpanel
+  icon: mdi:bell-badge
+  fields:
+    message:
+      name: Message
+      description: The message to say
+      required: true
+      selector:
+        text:
+  sequence:
+    - alias: Make an announcement on tablet
+      choose:
+        - conditions:
+            - condition: state
+              entity_id: input_boolean.anyone_home
+              state: "on"
+          sequence:
+            - service: rest_command.wallpanel_speak
+              data:
+                message: "{{ message }}"
