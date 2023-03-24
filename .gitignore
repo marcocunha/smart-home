@@ -37,3 +37,4 @@ influxdb/config/influx-configs
 homeassistant/config/tts/
 homeassistant/config/image/**/512x512
 homeassistant/config/image/**/original
+bin/logs/cronlog

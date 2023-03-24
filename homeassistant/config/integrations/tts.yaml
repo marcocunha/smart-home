@@ -1,0 +1,14 @@
+#
+# TTS
+#
+# https://www.home-assistant.io/integrations/tts/
+#
+
+tts:
+  - platform: google_translate
+    language: "pt"
+    tld: pt
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+    service_name: google_say

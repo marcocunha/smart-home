@@ -6,3 +6,10 @@
 rest_command:
   trigger_alarm_status_check:
     url: !secret check_alarm_status_url
+  wallpanel_speak:
+    url: !secret wallpanel_command_url
+    method: POST
+    headers:
+      content_type: "application/json; charset=utf-8"
+    payload: '{"speak":"{{ message }}"}'
+    content_type: "application/json; charset=utf-8"

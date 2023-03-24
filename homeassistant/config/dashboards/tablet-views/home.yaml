@@ -19,6 +19,19 @@ cards:
       chips:
         - type: alarm-control-panel
           entity: alarm_control_panel.ajax_security_system
+        - type: template
+          double_tap_action:
+            action: none
+          entity: script.garage
+          content: Garagem
+          icon: mdi:garage-lock
+          tap_action:
+            action: call-service
+            service: script.garage
+            data: {}
+            target: {}
+          hold_action:
+            action: none
   - square: false
     columns: 3
     type: grid
