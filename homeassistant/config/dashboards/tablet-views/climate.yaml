@@ -44,3 +44,17 @@ cards:
           icon: false
           name: true
           labels: true
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.sensor_temperature_humidity_wc_suite_temperature
+            name: Temperature
+            show_state: true
+          - entity: sensor.sensor_temperature_humidity_wc_suite_humidity
+            name: Humidity
+            show_state: true
+        name: WC Suite
+        show:
+          average: true
+          icon: false
+          name: true
+          labels: true
