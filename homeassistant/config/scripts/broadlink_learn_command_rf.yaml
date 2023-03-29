@@ -1,0 +1,13 @@
+broadlink_learn_command_rf:
+  alias: Broadlink Learn Command RF
+  sequence:
+    - service: remote.learn_command
+      data:
+        command_type: rf
+        device: Fireplace
+        command:
+          - power
+        alternative: true
+      target:
+        entity_id: remote.broadlink_rm4_pro
+  mode: single
