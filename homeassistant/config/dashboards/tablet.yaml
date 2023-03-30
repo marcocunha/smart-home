@@ -5,6 +5,8 @@ resources:
     type: module
   - url: /hacsfiles/weather-radar-card/weather-radar-card.js
     type: module
+  - url: /hacsfiles/lovelace-hourly-weather/hourly-weather.js
+    type: module
 button_card_templates: !include_dir_merge_named "../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
 kiosk_mode:
   user_settings:
