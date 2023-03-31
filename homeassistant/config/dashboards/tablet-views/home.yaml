@@ -4,34 +4,38 @@ path: home
 type: sidebar
 cards:
   - type: horizontal-stack
-    cards: 
-    - type: custom:mushroom-chips-card
-      chips:
-        - type: entity
-          entity: person.marco_cunha
-          use_entity_picture: true
-          content_info: state
-        - type: entity
-          entity: person.darlene_parreira
-          use_entity_picture: true
-          content_info: state   
-    - type: custom:mushroom-chips-card
-      chips:
-        - type: alarm-control-panel
-          entity: alarm_control_panel.ajax_security_system
-        - type: template
-          double_tap_action:
-            action: none
-          entity: script.garage
-          content: Garagem
-          icon: mdi:garage-lock
-          tap_action:
-            action: call-service
-            service: script.garage
-            data: {}
-            target: {}
-          hold_action:
-            action: none
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: entity
+            entity: person.marco_cunha
+            use_entity_picture: true
+            content_info: state
+          - type: entity
+            entity: person.darlene_parreira
+            use_entity_picture: true
+            content_info: state
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: alarm-control-panel
+            entity: alarm_control_panel.ajax_security_system
+          - type: template
+            double_tap_action:
+              action: none
+            entity: script.garage
+            content: Garagem
+            icon: mdi:garage-lock
+            tap_action:
+              action: call-service
+              service: script.garage
+              data: {}
+              target: {}
+            hold_action:
+              action: none
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: " "
   - square: false
     columns: 3
     type: grid
@@ -40,8 +44,6 @@ cards:
         cards:
           - type: vertical-stack
             cards:
-              - type: custom:mushroom-title-card
-                title: Weather
               - type: custom:mushroom-chips-card
                 chips:
                   - type: template
@@ -66,6 +68,127 @@ cards:
                 type: weather-forecast
                 entity: weather.home
                 secondary_info_attribute: humidity
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.0xa4c1384daf115830
+                icon: mdi:lamp
+                show_state: false
+                name: Presença
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.0x9035eafffe891ad0
+                icon: mdi:bed-king
+                show_state: false
+                name: Suite
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.smart_switch_light_escritorio
+                icon: mdi:chair-rolling
+                show_state: false
+                name: Escritório
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+          - type: custom:mushroom-title-card
+            title: Rosita
+          - type: custom:mushroom-vacuum-card
+            entity: vacuum.dreame_bot_z10_pro
+            icon_animation: true
+            name: Rosita
+            layout: horizontal
+            commands:
+              - return_home
+              - start_pause
+            fill_container: false
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Clean - Public
+                secondary: ""
+                icon: mdi:sofa
+                icon_color: orange
+                entity: script.vacuum_clean_social_areas
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: script.vacuum_clean_social_areas
+                  data: {}
+                  target: {}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-template-card
+                primary: Clean - Private
+                secondary: ""
+                icon: mdi:bed
+                icon_color: red
+                entity: script.vacuum_clean_private_areas
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: script.vacuum_clean_private_areas
+                  data: {}
+                  target: {}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+      - type: vertical-stack
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mini-media-player
+                entity: media_player.spotify_marco_cunha
+                artwork: none
+                name: Spotify
+                volume_stateless: false
+                group: false
+              - type: custom:mini-media-player
+                entity: media_player.lg_webos_tv_oled48c16la
+                name: LG OLED
+                icon: mdi:television
+                group: false
+                volume_stateless: false
+                toggle_power: false
+                artwork: none
               - type: custom:mushroom-template-card
                 primary: Living Room
                 secondary: >
@@ -82,123 +205,8 @@ cards:
                 tap_action:
                   action: more-info
                 icon_color: brown
-      - type: vertical-stack
-        cards:
-          - type: custom:mushroom-title-card
-            title: Lighting
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-entity-card
-                layout: vertical
-                entity: switch.0xa4c1384daf115830
-                icon: mdi:lamp
-                icon_color: amber
-                name: Suite Luz Presença
-                fill_container: false
-                tap_action:
-                  action: toggle
-                primary_info: name
-                secondary_info: state
-              - type: custom:mushroom-entity-card
-                layout: vertical
-                entity: switch.0x9035eafffe891ad0
-                icon: mdi:bed-king
-                icon_color: amber
-                name: Suite
-                fill_container: false
-                tap_action:
-                  action: toggle
-                primary_info: name
-                secondary_info: state
-              - type: custom:mushroom-entity-card
-                layout: vertical
-                entity: switch.smart_switch_light_escritorio
-                icon: mdi:chair-rolling
-                icon_color: amber
-                name: Escritório
-                fill_container: false
-                tap_action:
-                  action: toggle
-                primary_info: name
-                secondary_info: state
-          - type: custom:mushroom-title-card
-            title: Rosita
-          - type: custom:mushroom-vacuum-card
-            entity: vacuum.dreame_bot_z10_pro
-            icon_animation: true
-            name: Rosita
-            layout: horizontal
-            commands:
-              - return_home
-              - start_pause
-            fill_container: false
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-template-card
-                primary: Clean - Public
-                secondary: ''
-                icon: mdi:sofa
-                icon_color: orange
-                entity: script.vacuum_clean_social_areas
-                layout: horizontal
-                tap_action:
-                  action: call-service
-                  service: script.vacuum_clean_social_areas
-                  data: {}
-                  target: {}
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-              - type: custom:mushroom-template-card
-                primary: Clean - Private
-                secondary: ''
-                icon: mdi:bed
-                icon_color: red
-                entity: script.vacuum_clean_private_areas
-                layout: horizontal
-                tap_action:
-                  action: call-service
-                  service: script.vacuum_clean_private_areas
-                  data: {}
-                  target: {}
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-      - type: vertical-stack
-        cards:
-          # - type: custom:mushroom-title-card
-          #   title: Blinds
-          # - type: entities
-          #   entities:
-          #     - entity: cover.blinds_lavandaria
-          #       name: Lavandaria
-          #       icon: mdi:iron-board
-          #       secondary_info: position
-          #   state_color: false
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-title-card
-                title: Media
-              - type: custom:mini-media-player
-                entity: media_player.spotify_marco_cunha
-                artwork: none
-                name: Spotify
-                volume_stateless: false
-                group: false
-              - type: custom:mini-media-player
-                entity: media_player.lg_webos_tv_oled48c16la
-                name: LG OLED
-                icon: mdi:television
-                group: false
-                volume_stateless: false
-                toggle_power: false
-                artwork: none
     view_layout:
       position: main
-  - type: custom:mushroom-title-card
-    title: Cameras
   - square: true
     columns: 4
     type: grid
