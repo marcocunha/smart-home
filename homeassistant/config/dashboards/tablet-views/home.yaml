@@ -61,7 +61,7 @@ cards:
               - type: custom:hourly-weather
                 entity: weather.openweathermap
                 num_segments: 12 # optional, defaults to 12
-                name: Next 12 hours # optional, defaults to "Hourly Weather"
+                name: null # optional, defaults to "Hourly Weather"
                 show_precipitation_amounts: true
               - show_current: false
                 show_forecast: true
