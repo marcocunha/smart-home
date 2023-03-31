@@ -6,4 +6,4 @@ export ALBERTO_HOME_DIR="$HOME/alberto"
 export PATH="$PATH:$ALBERTO_HOME_DIR/bin"
 
 echo "Restarting via script"
-alberto restart
+/home/pi/alberto/bin/alberto restart
