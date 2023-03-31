@@ -14,8 +14,10 @@ device_tracker:
     request_rssi: false
     new_device_defaults:
       track_new_devices: true
+    interval_seconds: 300 #every 5min
   # Bluetooth LE Tracker
   # https://www.home-assistant.io/integrations/bluetooth_le_tracker
   - platform: bluetooth_le_tracker
     track_new_devices: true
-    interval_seconds: 30
+    track_battery_interval: true
+    interval_seconds: 300 #every 5min
