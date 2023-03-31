@@ -1,0 +1,25 @@
+title: Formula1
+path: formulaone
+icon: "phu:f1"
+type: sidebar
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:formulaone-card
+        card_type: next_race
+        date_locale: pt-pt
+        image_clickable: false
+      - type: horizontal-stack
+        cards:
+          - type: custom:formulaone-card
+            card_type: constructor_standings
+            title: Constructor Standings
+            standings:
+              show_teamlogo: true
+          - type: custom:formulaone-card
+            card_type: driver_standings
+            title: Driver Standings
+            standings:
+              show_flag: true
+              show_team: true
+              show_teamlogo: true

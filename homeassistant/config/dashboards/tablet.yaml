@@ -9,6 +9,11 @@ resources:
     type: module
   - url: /hacsfiles/button-card/button-card.js
     type: module
+  - url: /hacsfiles/formulaone-card/formulaone-card.js
+    type: module
+  - url: /local/community/custom-brand-icons/custom-brand-icons.js
+    type: js
+
 button_card_templates: !include_dir_merge_named "../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
 kiosk_mode:
   user_settings:
@@ -34,6 +39,9 @@ sidebar:
     - action: navigate
       navigation_path: "/lovelace-tablet-dashboard/vacuum-cleaner"
       name: "Rosita"
+    - action: navigate
+      navigation_path: "/lovelace-tablet-dashboard/formulaone"
+      name: "Formula1"
   template: |
     {% set calendar = states('calendar.recolha_lixo')%}
     {% set event_available = is_state('calendar.recolha_lixo', 'on')%}
@@ -48,3 +56,4 @@ views:
   - !include tablet-views/alarm.yaml
   - !include tablet-views/climate.yaml
   - !include tablet-views/vacuum.yaml
+  - !include tablet-views/f1.yaml
