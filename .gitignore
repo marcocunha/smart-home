@@ -39,3 +39,4 @@ homeassistant/config/image/**/512x512
 homeassistant/config/image/**/original
 bin/logs/cronlog
 whatsupdocker/wud.json
+apprise_api/config/apprise.yml
