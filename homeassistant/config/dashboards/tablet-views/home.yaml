@@ -63,6 +63,7 @@ cards:
                 num_segments: 12 # optional, defaults to 12
                 name: null # optional, defaults to "Hourly Weather"
                 show_precipitation_amounts: true
+                show_precipitation_probability: true
               - show_current: false
                 show_forecast: true
                 type: weather-forecast
@@ -175,6 +176,48 @@ cards:
         cards:
           - type: vertical-stack
             cards:
+              - type: horizontal-stack
+                cards:
+                  - type: 'custom:button-card'
+                    name: Lavandaria
+                    entity: cover.estores_lavandaria
+                    # show_state: true
+                    state:
+                      - value: 'open'                      
+                      - value: 'closing'
+                        color: rgb(189, 255, 5)
+                        styles:
+                          card:
+                            - animation: blink 2s ease infinite
+                      - value: 'opening'
+                        color: rgb(189, 255, 5)
+                        styles:
+                          card:
+                            - animation: blink 2s ease infinite
+                      - value: 'close'                        
+                    aspect_ratio: 2/1
+                  - type: 'custom:button-card'
+                    icon: mdi:arrow-up-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.open_cover
+                      service_data:
+                        entity_id: cover.estores_lavandaria
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5                        
+                  - type: 'custom:button-card'
+                    icon: mdi:arrow-down-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.close_cover
+                      service_data:
+                        entity_id: cover.estores_lavandaria
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
               - type: custom:mini-media-player
                 entity: media_player.spotify_marco_cunha
                 artwork: none
