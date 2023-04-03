@@ -186,13 +186,39 @@ services:
       - "traefik.udp.routers.wireguard-udp.service=wireguard-udp-svc"
       - "traefik.udp.services.wireguard-udp-svc.loadbalancer.server.port=51820"
 
-    # What's Up Docker
-    # What's Up Docker (WUD) is a monitoring tool that keeps Docker container versions up-to-date by notifying users whenever a new version is available.
-    # https://fmartinou.github.io/whats-up-docker/
+  # What's Up Docker
+  # What's Up Docker (WUD) is a monitoring tool that keeps Docker container versions up-to-date by notifying users whenever a new version is available.
+  # https://fmartinou.github.io/whats-up-docker/
   whatsupdocker:
     image: fmartinou/whats-up-docker
     container_name: wud
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - "${ALBERTO_HOME_DIR}/whatsupdocker:/store"
+    env_file:
+      - .env
+    environment:
+      # Watch the local docker host every day at 1am
+      - WUD_WATCHER_LOCAL_CRON=0 1 * * *
+      - WUD_TRIGGER_APPRISE_LOCAL_URL=http://apprise:3001
+      - WUD_TRIGGER_APPRISE_LOCAL_TAG=devops # the tags to use with the config (optional)
     ports:
       - 3000:3000
+    healthcheck:
+      test: wget --no-verbose --tries=1 --no-check-certificate --spider http://localhost:3000
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 10s 
+
+
+  # Apprise
+  # Apprise API was designed to easily fit into existing (and new) eco-systems that are looking for a simple notification solution.
+  # https://github.com/caronc/apprise-api
+  apprise:
+    image: caronc/apprise
+    container_name: apprise
+    ports:
+      - 3001:8000
+    volumes:
+      - "${ALBERTO_HOME_DIR}/apprise_api/config:/.config"
