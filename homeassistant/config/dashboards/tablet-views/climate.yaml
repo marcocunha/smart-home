@@ -3,58 +3,76 @@ path: climate
 icon: mdi:home-thermometer
 type: sidebar
 cards:
-  - type: horizontal-stack
+  - type: vertical-stack
     cards:
-      - type: 'custom:weather-radar-card'
-        frame_count: 20
-        frame_delay: 300
-        center_latitude: 38.54
-        center_longitude: -9.03 
-        marker_latitude: 38.54
-        marker_longitude: -9.03
-        show_marker: true
-        show_range: true
-        show_recenter: true
-        show_playback: true
-      - type: custom:mini-graph-card
-        entities:
-          - entity: sensor.0xa4c1384ff3ab62d2_temperature
-            name: Temperature
-            show_state: true
-          - entity: sensor.0xa4c1384ff3ab62d2_humidity
-            name: Humidity
-            show_state: true
-        name: Living Room
-        show:
-          average: true
-          icon: false
-          name: true
-          labels: true
-      - type: custom:mini-graph-card
-        entities:
-          - entity: sensor.wc_temperature_humidity_sensor_temperature
-            name: Temperature
-            show_state: true
-          - entity: sensor.wc_temperature_humidity_sensor_humidity
-            name: Humidity
-            show_state: true
-        name: WC Serviço
-        show:
-          average: true
-          icon: false
-          name: true
-          labels: true
-      - type: custom:mini-graph-card
-        entities:
-          - entity: sensor.sensor_temperature_humidity_wc_suite_temperature
-            name: Temperature
-            show_state: true
-          - entity: sensor.sensor_temperature_humidity_wc_suite_humidity
-            name: Humidity
-            show_state: true
-        name: WC Suite
-        show:
-          average: true
-          icon: false
-          name: true
-          labels: true
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.temperature_humidity_sensor_1_temperature
+                name: Temperature
+                show_state: true
+              - entity: sensor.temperature_humidity_sensor_1_humidity
+                name: Humidity
+                show_state: true
+            name: Sala
+            show:
+              average: true
+              icon: false
+              name: true
+              labels: true
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.sensor_temperature_humidity_escritorio_temperature
+                name: Temperature
+                show_state: true
+              - entity: sensor.sensor_temperature_humidity_escritorio_humidity
+                name: Humidity
+                show_state: true
+            name: Escritório
+            show:
+              average: true
+              icon: false
+              name: true
+              labels: true
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.wc_temperature_humidity_sensor_temperature
+                name: Temperature
+                show_state: true
+              - entity: sensor.wc_temperature_humidity_sensor_humidity
+                name: Humidity
+                show_state: true
+            name: WC Serviço
+            show:
+              average: true
+              icon: false
+              name: true
+              labels: true
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.sensor_temperature_humidity_wc_suite_temperature
+                name: Temperature
+                show_state: true
+              - entity: sensor.sensor_temperature_humidity_wc_suite_humidity
+                name: Humidity
+                show_state: true
+            name: WC Suite
+            show:
+              average: true
+              icon: false
+              name: true
+              labels: true
+      - type: horizontal-stack
+        cards:
+          - type: "custom:weather-radar-card"
+            frame_count: 20
+            frame_delay: 300
+            center_latitude: 38.54
+            center_longitude: -9.03
+            marker_latitude: 38.54
+            marker_longitude: -9.03
+            show_marker: true
+            show_range: true
+            show_recenter: true
+            show_playback: true
