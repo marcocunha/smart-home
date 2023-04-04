@@ -9,10 +9,10 @@ cards:
         cards:
           - type: custom:mini-graph-card
             entities:
-              - entity: sensor.temperature_humidity_sensor_1_temperature
+              - entity: sensor.sensor_temperature_humidity_sala_temperature
                 name: Temperature
                 show_state: true
-              - entity: sensor.temperature_humidity_sensor_1_humidity
+              - entity: sensor.sensor_temperature_humidity_sala_humidity
                 name: Humidity
                 show_state: true
             name: Sala
@@ -30,6 +30,20 @@ cards:
                 name: Humidity
                 show_state: true
             name: Escritório
+            show:
+              average: true
+              icon: false
+              name: true
+              labels: true
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.sensor_temperature_humidity_garagem_temperature
+                name: Temperature
+                show_state: true
+              - entity: sensor.sensor_temperature_humidity_garagem_humidity
+                name: Humidity
+                show_state: true
+            name: Garagem
             show:
               average: true
               icon: false
