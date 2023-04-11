@@ -32,6 +32,18 @@ cards:
               target: {}
             hold_action:
               action: none
+          - type: entity
+            entity: switch.torradeira_plug
+            icon_color: deep-orange
+            double_tap_action:
+              action: none
+            name: Torradeira
+            content_info: state
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+
   - type: horizontal-stack
     cards:
       - type: custom:mushroom-title-card

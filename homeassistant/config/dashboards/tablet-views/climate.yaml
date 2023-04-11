@@ -49,6 +49,8 @@ cards:
               icon: false
               name: true
               labels: true
+      - type: horizontal-stack
+        cards:
           - type: custom:mini-graph-card
             entities:
               - entity: sensor.wc_temperature_humidity_sensor_temperature
