@@ -1,34 +1,32 @@
 id: send_notification_toaster_is_on
 alias: Send notification if toaster is on
-description: ""
-mode: single
-max_exceeded: silent
-variables:
-  notify_device: notify.ha_mobile_apps
-  trigger_entity: switch.torradeira_plug
-  notification_title: Torradeira ligada
-  persistent_notification: true
+mode: restart
 trigger:
-  platform: state
-  entity_id:
-    - switch.torradeira_plug
-  # Optional
-  to: "on"
-  # "on" for 5 minutes
-  for: "00:05:00"
+  - platform: state
+    entity_id:
+      - switch.torradeira_plug
+    to: "on"
+    for: "00:05:00"
+  - platform: time_pattern
+    minutes: /5
+condition:
+  - condition: state
+    entity_id: switch.torradeira_plug
+    state: "on"
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
 action:
-  # inside a automation actions or script sequence
-  - alias: "Set up variables for the actions"
+  - alias: Set up variables for the actions
     variables:
-      # Including an id in the action allows us to identify this script run
-      # and not accidentally trigger for other notification actions
       action_turnoff: "{{ 'TURN_OFF_' ~ context.id }}"
       action_ignore: "{{ 'IGNORE_' ~ context.id }}"
-  - alias: "Ask to turn off the toaster"
+  - alias: Ask to turn off the toaster
     service: notify.ha_mobile_apps
     data:
       title: "{{ notification_title }}"
-      message: "Torradeira ligada por mais de 5 minutos. Pretende desligar?"
+      message: Torradeira ligada por mais de 5 minutos. Pretende desligar?
       data:
         tag: "{{ notification_title }}"
         persistent: "{{ persistent_notification }}"
@@ -39,19 +37,17 @@ action:
             title: Desligar
           - action: "{{ action_ignore }}"
             title: Ignorar
-  - alias: "Wait for a response"
+  - alias: Wait for a response
     wait_for_trigger:
       - platform: event
         event_type: mobile_app_notification_action
         event_data:
-          # waiting for the specific action avoids accidentally continuing
-          # for another script/automation's notification action
           action: "{{ action_turnoff }}"
       - platform: event
         event_type: mobile_app_notification_action
         event_data:
           action: "{{ action_ignore }}"
-  - alias: "Perform the action"
+  - alias: Perform the action
     choose:
       - conditions: "{{ wait.trigger.event.data.action == action_turnoff }}"
         sequence:
@@ -59,3 +55,10 @@ action:
             data: {}
             target:
               entity_id: switch.torradeira_plug
+alias: Send notification if toaster is on
+max_exceeded: silent
+variables:
+  notify_device: notify.ha_mobile_apps
+  trigger_entity: switch.torradeira_plug
+  notification_title: Torradeira ligada
+  persistent_notification: true
