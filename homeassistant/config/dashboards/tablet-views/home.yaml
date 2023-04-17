@@ -190,25 +190,25 @@ cards:
             cards:
               - type: horizontal-stack
                 cards:
-                  - type: 'custom:button-card'
+                  - type: "custom:button-card"
                     name: Lavandaria
                     entity: cover.estores_lavandaria
                     # show_state: true
                     state:
-                      - value: 'open'                      
-                      - value: 'closing'
+                      - value: "open"
+                      - value: "closing"
                         color: rgb(189, 255, 5)
                         styles:
                           card:
                             - animation: blink 2s ease infinite
-                      - value: 'opening'
+                      - value: "opening"
                         color: rgb(189, 255, 5)
                         styles:
                           card:
                             - animation: blink 2s ease infinite
-                      - value: 'close'                        
+                      - value: "close"
                     aspect_ratio: 2/1
-                  - type: 'custom:button-card'
+                  - type: "custom:button-card"
                     icon: mdi:arrow-up-bold
                     tap_action:
                       action: call-service
@@ -218,8 +218,8 @@ cards:
                     styles:
                       card:
                         - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5                        
-                  - type: 'custom:button-card'
+                        - --mdc-ripple-press-opacity: 0.5
+                  - type: "custom:button-card"
                     icon: mdi:arrow-down-bold
                     tap_action:
                       action: call-service
@@ -262,31 +262,103 @@ cards:
                 icon_color: brown
     view_layout:
       position: main
-  - square: true
-    columns: 4
-    type: grid
+  - type: horizontal-stack
     cards:
-      - show_state: false
-        show_name: true
-        camera_view: auto
-        type: picture-entity
-        entity: camera.garagem_sub
-        name: Garagem
-      - show_state: false
-        show_name: true
-        camera_view: auto
-        type: picture-entity
-        entity: camera.frente_sub
-        name: Frente
-      - show_state: false
-        show_name: true
-        camera_view: auto
-        type: picture-entity
-        entity: camera.piscina_sub
-        name: Piscina
-      - show_state: false
-        show_name: true
-        camera_view: auto
-        type: picture-entity
-        entity: camera.traseira_sub
-        name: Traseiras
+      - type: custom:frigate-card
+        card_mod:
+          style: |
+            ha-card {
+              height: 300px !important;
+            }
+        cameras:
+          - camera_entity: camera.frente
+            live_provider: ha
+            triggers:
+              motion: false
+        view:
+          default: live
+          update_force: false
+          scan:
+            enabled: false
+        live:
+          controls:
+            title: 
+              mode: none
+        menu:
+          style: hidden
+        dimensions:
+          aspect_ratio_mode: dynamic
+      - type: custom:frigate-card
+        card_mod:
+          style: |
+            ha-card {
+              height: 300px !important;
+            }
+        cameras:
+          - camera_entity: camera.garagem
+            live_provider: ha
+            triggers:
+              motion: false
+        view:
+          default: live
+          update_force: false
+          scan:
+            enabled: false
+        live:
+          controls:
+            title: 
+              mode: none
+        menu:
+          style: hidden
+        dimensions:
+          aspect_ratio_mode: dynamic
+      - type: custom:frigate-card
+        card_mod:
+          style: |
+            ha-card {
+              height: 300px !important;
+            }
+        cameras:
+          - camera_entity: camera.piscina
+            live_provider: ha
+            triggers:
+              motion: false
+        view:
+          default: live
+          update_force: false
+          scan:
+            enabled: false
+        live:
+          controls:
+            title: 
+              mode: none
+        menu:
+          style: hidden
+        dimensions:
+          aspect_ratio_mode: dynamic
+      - type: custom:frigate-card
+        card_mod:
+          style: |
+            ha-card {
+              height: 300px !important;
+            }
+        cameras:
+          - camera_entity: camera.traseiras
+            live_provider: ha
+            triggers:
+              motion: false
+            frigate:
+              label: person
+        view:
+          default: live
+          update_force: false
+          scan:
+            enabled: false
+        live:
+          controls:
+            title: 
+              mode: none
+        menu:
+          style: hidden
+        dimensions:
+          aspect_ratio_mode: dynamic
