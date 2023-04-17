@@ -1,6 +1,12 @@
 id: send_notification_toaster_is_on
 alias: Send notification if toaster is on
 mode: restart
+max_exceeded: silent
+variables:
+  notify_device: notify.ha_mobile_apps
+  trigger_entity: switch.torradeira_plug
+  notification_title: Torradeira ligada
+  persistent_notification: true
 trigger:
   - platform: state
     entity_id:
@@ -55,10 +61,3 @@ action:
             data: {}
             target:
               entity_id: switch.torradeira_plug
-alias: Send notification if toaster is on
-max_exceeded: silent
-variables:
-  notify_device: notify.ha_mobile_apps
-  trigger_entity: switch.torradeira_plug
-  notification_title: Torradeira ligada
-  persistent_notification: true
