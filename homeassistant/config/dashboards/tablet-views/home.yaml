@@ -230,6 +230,48 @@ cards:
                       card:
                         - --mdc-ripple-color: rgb(189, 255, 5)
                         - --mdc-ripple-press-opacity: 0.5
+              - type: horizontal-stack
+                cards:
+                  - type: "custom:button-card"
+                    name: Escritório
+                    entity: cover.shelly_plus_2pm_escritorio
+                    # show_state: true
+                    state:
+                      - value: "open"
+                      - value: "closing"
+                        color: rgb(189, 255, 5)
+                        styles:
+                          card:
+                            - animation: blink 2s ease infinite
+                      - value: "opening"
+                        color: rgb(189, 255, 5)
+                        styles:
+                          card:
+                            - animation: blink 2s ease infinite
+                      - value: "close"
+                    aspect_ratio: 2/1
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-up-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.open_cover
+                      service_data:
+                        entity_id: cover.shelly_plus_2pm_escritorio
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-down-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.close_cover
+                      service_data:
+                        entity_id: cover.shelly_plus_2pm_escritorio
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
               - type: custom:mini-media-player
                 entity: media_player.spotify_marco_cunha
                 artwork: none
