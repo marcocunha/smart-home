@@ -43,11 +43,18 @@ cards:
               action: toggle
             hold_action:
               action: none
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: entity
+            entity: sensor.sensor_temperature_humidity_sala_temperature
+            icon_color: deep-orange
+          - type: entity
+            entity: sensor.sensor_temperature_humidity_sala_humidity
+            icon_color: blue
 
   - type: horizontal-stack
     cards:
       - type: custom:mushroom-title-card
-        title: " "
   - square: false
     columns: 3
     type: grid
@@ -139,8 +146,6 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-          - type: custom:mushroom-title-card
-            title: Rosita
           - type: custom:mushroom-vacuum-card
             entity: vacuum.dreame_bot_z10_pro
             icon_animation: true
@@ -286,121 +291,55 @@ cards:
                 volume_stateless: false
                 toggle_power: false
                 artwork: none
-              - type: custom:mushroom-template-card
-                primary: Living Room
-                secondary: >
-                  {{ states('sensor.sensor_temperature_humidity_sala_temperature' ) }} {{
-                  state_attr('sensor.sensor_temperature_humidity_sala_temperature', 'unit_of_measurement')}} |
-                  {{ states('sensor.sensor_temperature_humidity_sala_humidity' ) }} {{
-                  state_attr('sensor.sensor_temperature_humidity_sala_humidity', 'unit_of_measurement')}}
-
-                icon: mdi:sofa
-                multiline_secondary: false
-                layout: horizontal
-                fill_container: false
-                entity: sensor.sensor_temperature_humidity_sala_temperature
-                tap_action:
-                  action: more-info
-                icon_color: brown
     view_layout:
       position: main
   - type: horizontal-stack
     cards:
-      - type: custom:frigate-card
+      - type: custom:webrtc-camera
+        url: !secret frente_low_cam_url
         card_mod:
           style: |
             ha-card {
               height: 300px !important;
             }
-        cameras:
-          - camera_entity: camera.frente
-            live_provider: ha
-            triggers:
-              motion: false
-        view:
-          default: live
-          update_force: false
-          scan:
-            enabled: false
-        live:
-          controls:
-            title: 
-              mode: none
-        menu:
-          style: hidden
-        dimensions:
-          aspect_ratio_mode: dynamic
-      - type: custom:frigate-card
+        poster: https://home-assistant.io/images/cast/splash.png
+        muted: true
+        intersection: 0.75
+        background: true
+        mode: webrtc,mse,mp4,mjpeg
+      - type: custom:webrtc-camera
+        url: !secret garagem_low_cam_url
         card_mod:
           style: |
             ha-card {
               height: 300px !important;
             }
-        cameras:
-          - camera_entity: camera.garagem
-            live_provider: ha
-            triggers:
-              motion: false
-        view:
-          default: live
-          update_force: false
-          scan:
-            enabled: false
-        live:
-          controls:
-            title: 
-              mode: none
-        menu:
-          style: hidden
-        dimensions:
-          aspect_ratio_mode: dynamic
-      - type: custom:frigate-card
+        poster: https://home-assistant.io/images/cast/splash.png
+        muted: true
+        intersection: 0.75
+        background: true
+        mode: webrtc,mse,mp4,mjpeg
+      - type: custom:webrtc-camera
+        url: !secret piscina_low_cam_url
         card_mod:
           style: |
             ha-card {
               height: 300px !important;
             }
-        cameras:
-          - camera_entity: camera.piscina
-            live_provider: ha
-            triggers:
-              motion: false
-        view:
-          default: live
-          update_force: false
-          scan:
-            enabled: false
-        live:
-          controls:
-            title: 
-              mode: none
-        menu:
-          style: hidden
-        dimensions:
-          aspect_ratio_mode: dynamic
-      - type: custom:frigate-card
+        poster: https://home-assistant.io/images/cast/splash.png
+        muted: true
+        intersection: 0.75
+        background: true
+        mode: webrtc,mse,mp4,mjpeg
+      - type: custom:webrtc-camera
+        url: !secret traseiras_low_cam_url
         card_mod:
           style: |
             ha-card {
               height: 300px !important;
             }
-        cameras:
-          - camera_entity: camera.traseiras
-            live_provider: ha
-            triggers:
-              motion: false
-            frigate:
-              label: person
-        view:
-          default: live
-          update_force: false
-          scan:
-            enabled: false
-        live:
-          controls:
-            title: 
-              mode: none
-        menu:
-          style: hidden
-        dimensions:
-          aspect_ratio_mode: dynamic
+        poster: https://home-assistant.io/images/cast/splash.png
+        muted: true
+        intersection: 0.75
+        background: true
+        mode: webrtc,mse,mp4,mjpeg
