@@ -26,9 +26,23 @@ kiosk_mode:
       kiosk: true
       ignore_entity_settings: true
 sidebar:
-  width: 14
   digitalClock: true
   date: true
+  width:
+    mobile: 0
+    tablet: 14
+    desktop: 14
+  style: |
+    .date {
+      font-size: 32px;
+      margin-left: 6px;
+    }
+    .sidebarMenu li {
+      font-weight: 200!important;
+    }
+    .sidebarMenu li.active {
+      font-weight: 400!important;
+    }
   sidebarMenu:
     - action: navigate
       navigation_path: "/lovelace-tablet-dashboard/home"
@@ -55,6 +69,35 @@ sidebar:
     {% if bread_event_available %}<li>🍞Pao fresco</li>{% endif %}
     <li> </li>
 
+  bottomCard:
+    type: weather-forecast
+    cardOptions:
+      name: Home
+      show_forecast: true
+      entity: weather.home
+      tap_action:
+        action: navigate
+        navigation_path: /lovelace-tablet-dashboard/climate
+    cardStyle: |
+      :host {
+        width: 100%;
+        position: relative;
+        bottom: 0;
+        left: 0;
+      }
+      ha-card {
+        font-weight: 200;
+        padding: none;
+        width: 110%;
+        border: none;
+        background: none;
+        overflow: hidden !important;
+        box-shadow: none !important;
+        ha-card-border-radius: 0px;
+        margin-top: -16px;
+        margin-right: -10px;
+        margin-left: -10px;        
+      }
 views:
   - !include tablet-views/home.yaml
   - !include tablet-views/alarm.yaml

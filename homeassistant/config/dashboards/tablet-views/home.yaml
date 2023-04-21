@@ -79,15 +79,12 @@ cards:
                     icon: mdi:weather-sunset-down
               - type: custom:hourly-weather
                 entity: weather.openweathermap
-                num_segments: 12 # optional, defaults to 12
+                num_segments: 9 # optional, defaults to 12
                 name: null # optional, defaults to "Hourly Weather"
                 show_precipitation_amounts: true
                 show_precipitation_probability: true
-              - show_current: false
-                show_forecast: true
-                type: weather-forecast
-                entity: weather.home
-                secondary_info_attribute: humidity
+                colors:
+                  sunny: yellow
       - type: vertical-stack
         cards:
           - type: horizontal-stack

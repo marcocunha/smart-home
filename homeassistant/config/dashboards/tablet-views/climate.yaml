@@ -81,6 +81,11 @@ cards:
               labels: true
       - type: horizontal-stack
         cards:
+          - show_current: true
+            show_forecast: true
+            type: weather-forecast
+            entity: weather.home
+            secondary_info_attribute: humidity
           - type: "custom:weather-radar-card"
             frame_count: 20
             frame_delay: 300

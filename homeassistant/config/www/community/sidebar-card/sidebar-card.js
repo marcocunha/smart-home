@@ -18143,7 +18143,7 @@ class SidebarCard extends LitElement {
                         }, 100);
                     }
                 }
-            }, 2);
+            }, 5000);
         }
     }
     _updateActiveMenu() {
