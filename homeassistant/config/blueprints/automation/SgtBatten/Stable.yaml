@@ -1,5 +1,5 @@
 blueprint:
-  name: Frigate Notifications (0.11.0.17)
+  name: Frigate Notifications (0.12.0.1)
   description: "## Frigate Notifications\n\nThis blueprint will send a notification
     to your device when a Frigate event for the selected camera is fired. The notification
     will initially include the thumbnail of the detection, but include an actionable
@@ -171,8 +171,8 @@ blueprint:
             value: thumbnail
           - label: Snapshot
             value: snapshot
-          custom_value: false
           multiple: false
+          custom_value: false
     update_thumbnail:
       name: Update Attachment (Optional)
       description: Update the notification if a new "better" image is available.
@@ -195,8 +195,8 @@ blueprint:
           - teal
           - amber
           - pink
-          custom_value: false
           multiple: false
+          custom_value: false
     icon:
       name: Notification Icon (Optional)
       description: Change the icon that displays on the notification. You can enter
@@ -400,8 +400,8 @@ blueprint:
           max: 300.0
           min: 0.0
           unit_of_measurement: seconds
-          step: 1.0
           mode: slider
+          step: 1.0
     silence_timer:
       name: Silence New Object Notifications (Optional)
       description: "How long to silence notifications for this camera when requested
@@ -413,8 +413,8 @@ blueprint:
           max: 300.0
           min: 0.0
           unit_of_measurement: minutes
-          step: 1.0
           mode: slider
+          step: 1.0
     loiter_timer:
       name: Loitering Notifications (Optional)
       description: 'Sends new loitering notification if a stationary object is detected
@@ -427,8 +427,8 @@ blueprint:
           max: 300.0
           min: 0.0
           unit_of_measurement: minutes
-          step: 1.0
           mode: slider
+          step: 1.0
     tap_action:
       name: Tap Action URL
       description: "# Action Buttons and URLs\n\nThe url to open when tapping on the
@@ -566,8 +566,8 @@ blueprint:
           - top-right
           - top-left
           - center
-          custom_value: false
           multiple: false
+          custom_value: false
     tv_size:
       name: TV Notification Size (Optional)
       description: Set the size of the notification on your TV.
@@ -580,8 +580,8 @@ blueprint:
           - medium
           - large
           - max
-          custom_value: false
           multiple: false
+          custom_value: false
     tv_duration:
       name: TV Notification Duration (Optional)
       description: The duration (in seconds) the notification will display on your
@@ -592,8 +592,8 @@ blueprint:
           max: 300.0
           min: 0.0
           unit_of_measurement: seconds
-          step: 1.0
           mode: slider
+          step: 1.0
     tv_transparency:
       name: TV notification Transaparency (Optional)
       description: Set the transparency of the notificaiton on your TV.
@@ -607,8 +607,8 @@ blueprint:
           - 50%
           - 75%
           - 100%
-          custom_value: false
           multiple: false
+          custom_value: false
     tv_interrupt:
       name: TV Notification Interrupt (Optional)
       description: If set to true the notification is interactive and can be dismissed
