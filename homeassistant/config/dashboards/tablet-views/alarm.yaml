@@ -13,7 +13,6 @@ cards:
     secondary_info: state
     primary_info: name
     show_keypad: false
-
   - square: true
     columns: 3
     type: grid

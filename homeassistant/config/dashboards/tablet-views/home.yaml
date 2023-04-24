@@ -292,51 +292,27 @@ cards:
       position: main
   - type: horizontal-stack
     cards:
-      - type: custom:webrtc-camera
-        url: !secret frente_low_cam_url
-        card_mod:
-          style: |
-            ha-card {
-              height: 300px !important;
-            }
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        intersection: 0.75
-        background: true
-        mode: webrtc,mse,mp4,mjpeg
-      - type: custom:webrtc-camera
-        url: !secret garagem_low_cam_url
-        card_mod:
-          style: |
-            ha-card {
-              height: 300px !important;
-            }
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        intersection: 0.75
-        background: true
-        mode: webrtc,mse,mp4,mjpeg
-      - type: custom:webrtc-camera
-        url: !secret piscina_low_cam_url
-        card_mod:
-          style: |
-            ha-card {
-              height: 300px !important;
-            }
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        intersection: 0.75
-        background: true
-        mode: webrtc,mse,mp4,mjpeg
-      - type: custom:webrtc-camera
-        url: !secret traseiras_low_cam_url
-        card_mod:
-          style: |
-            ha-card {
-              height: 300px !important;
-            }
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        intersection: 0.75
-        background: true
-        mode: webrtc,mse,mp4,mjpeg
+      - show_state: false
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.garagem_sub
+        name: Garagem
+      - show_state: false
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.frente_sub
+        name: Frente
+      - show_state: false
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.piscina_sub
+        name: Piscina
+      - show_state: false
+        show_name: true
+        camera_view: auto
+        type: picture-entity
+        entity: camera.traseira_sub
+        name: Traseiras
