@@ -1,0 +1,13 @@
+id: remote_toggle_garage
+alias: Toggle garage using remote.tuya.garagem
+mode: single
+trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 149b39eaad8da492f392577d03198112
+    type: action
+    subtype: 1_single
+    discovery_id: 0xa4c1387d28db6c69 action_1_single
+action:
+  - service: script.garage
+    data: {}
