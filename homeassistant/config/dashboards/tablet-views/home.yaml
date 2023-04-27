@@ -89,60 +89,78 @@ cards:
         cards:
           - type: horizontal-stack
             cards:
-              - type: "custom:button-card"
-                entity: switch.0xa4c1384daf115830
-                icon: mdi:lamp
-                show_state: false
-                name: Presença
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(100,100,100)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                aspect_ratio: 1/1
-                tap_action:
-                  action: toggle
-              - type: "custom:button-card"
-                entity: switch.0x9035eafffe891ad0
-                icon: mdi:bed-king
-                show_state: false
-                name: Suite
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(100,100,100)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                aspect_ratio: 1/1
-                tap_action:
-                  action: toggle
-              - type: "custom:button-card"
-                entity: switch.smart_switch_light_escritorio
-                icon: mdi:chair-rolling
-                show_state: false
-                name: Escritório
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(100,100,100)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                aspect_ratio: 1/1
-                tap_action:
-                  action: toggle
+            - type: "custom:button-card"
+              entity: switch.plug_bedlight_darlene_suite
+              icon: mdi:lamp
+              show_state: false
+              name: Darlene
+              state:
+                - value: "on"
+                  color: rgb(255,191,0)
+                - value: "off"
+                  color: rgb(100,100,100)
+              styles:
+                card:
+                  - --mdc-ripple-color: rgb(255,191,0)
+                  - --mdc-ripple-press-opacity: 0.5
+                  - font-size: 15px
+              aspect_ratio: 1/1
+              tap_action:
+                action: toggle
+            - type: "custom:button-card"
+              entity: switch.0xa4c1384daf115830
+              icon: mdi:lamp
+              show_state: false
+              name: Marco
+              state:
+                - value: "on"
+                  color: rgb(255,191,0)
+                - value: "off"
+                  color: rgb(100,100,100)
+              styles:
+                card:
+                  - --mdc-ripple-color: rgb(255,191,0)
+                  - --mdc-ripple-press-opacity: 0.5
+                  - font-size: 15px
+              aspect_ratio: 1/1
+              tap_action:
+                action: toggle
+            - type: "custom:button-card"
+              entity: switch.0x9035eafffe891ad0
+              icon: mdi:bed-king
+              show_state: false
+              name: Suite
+              state:
+                - value: "on"
+                  color: rgb(255,191,0)
+                - value: "off"
+                  color: rgb(100,100,100)
+              styles:
+                card:
+                  - --mdc-ripple-color: rgb(255,191,0)
+                  - --mdc-ripple-press-opacity: 0.5
+                  - font-size: 15px
+              aspect_ratio: 1/1
+              tap_action:
+                action: toggle
+            - type: "custom:button-card"
+              entity: switch.smart_switch_light_escritorio
+              icon: mdi:chair-rolling
+              show_state: false
+              name: Escritório
+              state:
+                - value: "on"
+                  color: rgb(255,191,0)
+                - value: "off"
+                  color: rgb(100,100,100)
+              styles:
+                card:
+                  - --mdc-ripple-color: rgb(255,191,0)
+                  - --mdc-ripple-press-opacity: 0.5
+                  - font-size: 15px
+              aspect_ratio: 1/1
+              tap_action:
+                action: toggle
           - type: custom:mushroom-vacuum-card
             entity: vacuum.dreame_bot_z10_pro
             icon_animation: true
