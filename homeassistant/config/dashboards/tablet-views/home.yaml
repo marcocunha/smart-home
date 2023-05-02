@@ -19,19 +19,21 @@ cards:
         chips:
           - type: alarm-control-panel
             entity: alarm_control_panel.ajax_security_system
-          - type: template
+          - type: entity
+            entity: binary_sensor.sensor_garage_door_contact
             double_tap_action:
               action: none
-            entity: script.garage
-            content: Garagem
-            icon: mdi:garage-lock
+            name: Garagem
+            content_info: state
             tap_action:
               action: call-service
               service: script.garage
-              data: {}
               target: {}
             hold_action:
               action: none
+            icon: mdi:garage-lock
+            use_entity_picture: false
+            icon_color: blue
           - type: entity
             entity: switch.torradeira_plug
             icon_color: deep-orange
@@ -85,125 +87,165 @@ cards:
                 show_precipitation_probability: true
                 colors:
                   sunny: yellow
+              - type: custom:mushroom-vacuum-card
+                entity: vacuum.dreame_bot_z10_pro
+                icon_animation: true
+                name: Rosita
+                layout: horizontal
+                commands:
+                  - return_home
+                  - start_pause
+                fill_container: false
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Clean - Public
+                    secondary: ""
+                    icon: mdi:sofa
+                    icon_color: orange
+                    entity: script.vacuum_clean_social_areas
+                    layout: horizontal
+                    tap_action:
+                      action: call-service
+                      service: script.vacuum_clean_social_areas
+                      data: {}
+                      target: {}
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                  - type: custom:mushroom-template-card
+                    primary: Clean - Private
+                    secondary: ""
+                    icon: mdi:bed
+                    icon_color: red
+                    entity: script.vacuum_clean_private_areas
+                    layout: horizontal
+                    tap_action:
+                      action: call-service
+                      service: script.vacuum_clean_private_areas
+                      data: {}
+                      target: {}
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
       - type: vertical-stack
         cards:
           - type: horizontal-stack
             cards:
-            - type: "custom:button-card"
-              entity: switch.plug_bedlight_darlene_suite
-              icon: mdi:lamp
-              show_state: false
-              name: Darlene
-              state:
-                - value: "on"
-                  color: rgb(255,191,0)
-                - value: "off"
-                  color: rgb(100,100,100)
-              styles:
-                card:
-                  - --mdc-ripple-color: rgb(255,191,0)
-                  - --mdc-ripple-press-opacity: 0.5
-                  - font-size: 15px
-              aspect_ratio: 1/1
-              tap_action:
-                action: toggle
-            - type: "custom:button-card"
-              entity: switch.0xa4c1384daf115830
-              icon: mdi:lamp
-              show_state: false
-              name: Marco
-              state:
-                - value: "on"
-                  color: rgb(255,191,0)
-                - value: "off"
-                  color: rgb(100,100,100)
-              styles:
-                card:
-                  - --mdc-ripple-color: rgb(255,191,0)
-                  - --mdc-ripple-press-opacity: 0.5
-                  - font-size: 15px
-              aspect_ratio: 1/1
-              tap_action:
-                action: toggle
-            - type: "custom:button-card"
-              entity: switch.0x9035eafffe891ad0
-              icon: mdi:bed-king
-              show_state: false
-              name: Suite
-              state:
-                - value: "on"
-                  color: rgb(255,191,0)
-                - value: "off"
-                  color: rgb(100,100,100)
-              styles:
-                card:
-                  - --mdc-ripple-color: rgb(255,191,0)
-                  - --mdc-ripple-press-opacity: 0.5
-                  - font-size: 15px
-              aspect_ratio: 1/1
-              tap_action:
-                action: toggle
-            - type: "custom:button-card"
-              entity: switch.smart_switch_light_escritorio
-              icon: mdi:chair-rolling
-              show_state: false
-              name: Escritório
-              state:
-                - value: "on"
-                  color: rgb(255,191,0)
-                - value: "off"
-                  color: rgb(100,100,100)
-              styles:
-                card:
-                  - --mdc-ripple-color: rgb(255,191,0)
-                  - --mdc-ripple-press-opacity: 0.5
-                  - font-size: 15px
-              aspect_ratio: 1/1
-              tap_action:
-                action: toggle
-          - type: custom:mushroom-vacuum-card
-            entity: vacuum.dreame_bot_z10_pro
-            icon_animation: true
-            name: Rosita
-            layout: horizontal
-            commands:
-              - return_home
-              - start_pause
-            fill_container: false
+              - type: "custom:button-card"
+                entity: switch.bomba_piscina_switch_0
+                icon: mdi:water-pump
+                show_state: false
+                name: Bomba
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.projectores_piscina_switch_0
+                icon: mdi:light-flood-up
+                show_state: false
+                name: Piscina
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: custom:mushroom-title-card
+              - type: custom:mushroom-title-card
           - type: horizontal-stack
             cards:
-              - type: custom:mushroom-template-card
-                primary: Clean - Public
-                secondary: ""
-                icon: mdi:sofa
-                icon_color: orange
-                entity: script.vacuum_clean_social_areas
-                layout: horizontal
+              - type: "custom:button-card"
+                entity: switch.plug_bedlight_darlene_suite
+                icon: mdi:lamp
+                show_state: false
+                name: Darlene
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
                 tap_action:
-                  action: call-service
-                  service: script.vacuum_clean_social_areas
-                  data: {}
-                  target: {}
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-              - type: custom:mushroom-template-card
-                primary: Clean - Private
-                secondary: ""
-                icon: mdi:bed
-                icon_color: red
-                entity: script.vacuum_clean_private_areas
-                layout: horizontal
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.0xa4c1384daf115830
+                icon: mdi:lamp
+                show_state: false
+                name: Marco
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
                 tap_action:
-                  action: call-service
-                  service: script.vacuum_clean_private_areas
-                  data: {}
-                  target: {}
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.0x9035eafffe891ad0
+                icon: mdi:bed-king
+                show_state: false
+                name: Suite
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.smart_switch_light_escritorio
+                icon: mdi:chair-rolling
+                show_state: false
+                name: Escritório
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
       - type: vertical-stack
         cards:
           - type: vertical-stack
@@ -254,7 +296,7 @@ cards:
                 cards:
                   - type: "custom:button-card"
                     name: Escritório
-                    entity: cover.shelly_plus_2pm_escritorio
+                    entity: cover.estores_escritorio
                     # show_state: true
                     state:
                       - value: "open"
@@ -276,7 +318,7 @@ cards:
                       action: call-service
                       service: cover.open_cover
                       service_data:
-                        entity_id: cover.shelly_plus_2pm_escritorio
+                        entity_id: cover.estores_escritorio
                     styles:
                       card:
                         - --mdc-ripple-color: rgb(189, 255, 5)
@@ -287,7 +329,7 @@ cards:
                       action: call-service
                       service: cover.close_cover
                       service_data:
-                        entity_id: cover.shelly_plus_2pm_escritorio
+                        entity_id: cover.estores_escritorio
                     styles:
                       card:
                         - --mdc-ripple-color: rgb(189, 255, 5)
