@@ -1,0 +1,10 @@
+#
+# Timmer
+#
+# https://www.home-assistant.io/integrations/timer/
+#
+
+timer:
+  swimming_pool_pump:
+    name: Swimming Pool Pump Timer
+    icon: mdi:water-pump
