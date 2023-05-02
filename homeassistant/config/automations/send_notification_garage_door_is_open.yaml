@@ -1,0 +1,87 @@
+id: send_notification_garage_door_is_open
+alias: The garage door is open for a while
+mode: restart
+max_exceeded: silent
+variables:
+  notify_device: notify.ha_mobile_apps
+  trigger_entity: binary_sensor.sensor_garage_door_contact
+  notification_title: Garagem Aberta
+  persistent_notification: true
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.sensor_garage_door_contact
+    # Optional
+    to: "on"
+    # "on" for 15 minutes
+    for: "00:15:00"
+    #every 5 minutes
+  - platform: time_pattern
+    minutes: /5
+    #whenever the alarm is armed
+  - platform: state
+    entity_id:
+      - alarm_control_panel.ajax_security_system
+    # Optional
+    to: "armed_home"
+condition:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.sensor_garage_door_contact
+        state: "on"
+        for:
+          hours: 00
+          minutes: 45
+          seconds: 0
+        alias: "Door open for more than 45min"
+      - condition: and
+        alias: "Door open and nobody home"
+        conditions:
+          - condition: state
+            entity_id: binary_sensor.sensor_garage_door_contact
+            state: "on"
+          - condition: or
+            conditions:
+            - condition: state
+              entity_id: input_boolean.anyone_home
+              state: "off"
+            - condition: state
+              entity_id: alarm_control_panel.ajax_security_system
+              state: armed_home
+action:
+  - alias: Set up variables for the actions
+    variables:
+      action_close: "{{ 'CLOSE_GARAGE_' ~ context.id }}"
+      action_ignore: "{{ 'IGNORE_' ~ context.id }}"
+  - alias: Ask to close the garage door
+    service: notify.ha_mobile_apps
+    data:
+      title: "{{ notification_title }}"
+      message: Garagem aberta. Pretendes fechar?
+      data:
+        tag: "{{ notification_title }}"
+        persistent: "{{ persistent_notification }}"
+        ttl: 0
+        priority: high
+        actions:
+          - action: "{{ action_close }}"
+            title: Fechar
+          - action: "{{ action_ignore }}"
+            title: Ignorar
+  - alias: Wait for a response
+    wait_for_trigger:
+      - platform: event
+        event_type: mobile_app_notification_action
+        event_data:
+          action: "{{ action_close }}"
+      - platform: event
+        event_type: mobile_app_notification_action
+        event_data:
+          action: "{{ action_ignore }}"
+  - alias: Perform the action
+    choose:
+      - conditions: "{{ wait.trigger.event.data.action == action_close }}"
+        sequence:
+          - service: script.garage
+            data: {}
