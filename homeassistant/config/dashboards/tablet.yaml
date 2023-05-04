@@ -17,6 +17,8 @@ resources:
     type: js
   - url: /hacsfiles/lovelace-card-mod/card-mod.js
     type: js
+  - url: /hacsfiles/power-flow-card/power-flow-card.js
+    type: module
 
 button_card_templates: !include_dir_merge_named "../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
 kiosk_mode:
@@ -49,24 +51,24 @@ sidebar:
       name: "Home"
       active: true
     - action: navigate
+      navigation_path: "/lovelace-tablet-dashboard/controls"
+      name: "Controls"
+    - action: navigate
       navigation_path: "/lovelace-tablet-dashboard/alarm"
       name: "Alarm"
     - action: navigate
       navigation_path: "/lovelace-tablet-dashboard/climate"
       name: "Climate"
     - action: navigate
-      navigation_path: "/lovelace-tablet-dashboard/vacuum-cleaner"
-      name: "Rosita"
-    - action: navigate
       navigation_path: "/lovelace-tablet-dashboard/formulaone"
       name: "Formula1"
   template: |
     {% set calendar = states('calendar.recolha_lixo')%}
     {% set event_available = is_state('calendar.recolha_lixo', 'on')%}
-    {% if event_available %}<li>♻️{{ state_attr('calendar.recolha_lixo', 'message') }} </li>{% endif %} 
+    {% if event_available %}<li>♻️ {{ state_attr('calendar.recolha_lixo', 'message') }} </li>{% endif %} 
     {% set bread_calendar = states('calendar.entrega_pao')%}
     {% set bread_event_available = is_state('calendar.entrega_pao', 'on')%}
-    {% if bread_event_available %}<li>🍞Pao fresco</li>{% endif %}
+    {% if bread_event_available %}<li>🍞 Pao fresco</li>{% endif %}
     <li> </li>
 
   bottomCard:
@@ -100,6 +102,7 @@ sidebar:
       }
 views:
   - !include tablet-views/home.yaml
+  - !include tablet-views/controls.yaml
   - !include tablet-views/alarm.yaml
   - !include tablet-views/climate.yaml
   - !include tablet-views/vacuum.yaml

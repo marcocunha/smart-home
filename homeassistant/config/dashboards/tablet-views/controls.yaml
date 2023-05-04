@@ -1,0 +1,257 @@
+title: Controls
+icon: mdi:devices
+path: controls
+type: sidebar
+cards:
+  - square: false
+    columns: 3
+    type: grid
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: 🪟 Curtains
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                name: Lavandaria
+                entity: cover.estores_lavandaria
+                # show_state: true
+                state:
+                  - value: "open"
+                  - value: "closing"
+                    color: rgb(189, 255, 5)
+                    styles:
+                      card:
+                        - animation: blink 2s ease infinite
+                  - value: "opening"
+                    color: rgb(189, 255, 5)
+                    styles:
+                      card:
+                        - animation: blink 2s ease infinite
+                  - value: "close"
+                aspect_ratio: 2/1
+              - type: "custom:button-card"
+                icon: mdi:arrow-up-bold
+                tap_action:
+                  action: call-service
+                  service: cover.open_cover
+                  service_data:
+                    entity_id: cover.estores_lavandaria
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(189, 255, 5)
+                    - --mdc-ripple-press-opacity: 0.5
+              - type: "custom:button-card"
+                icon: mdi:arrow-down-bold
+                tap_action:
+                  action: call-service
+                  service: cover.close_cover
+                  service_data:
+                    entity_id: cover.estores_lavandaria
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(189, 255, 5)
+                    - --mdc-ripple-press-opacity: 0.5
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                name: Escritório
+                entity: cover.estores_escritorio
+                # show_state: true
+                state:
+                  - value: "open"
+                  - value: "closing"
+                    color: rgb(189, 255, 5)
+                    styles:
+                      card:
+                        - animation: blink 2s ease infinite
+                  - value: "opening"
+                    color: rgb(189, 255, 5)
+                    styles:
+                      card:
+                        - animation: blink 2s ease infinite
+                  - value: "close"
+                aspect_ratio: 2/1
+              - type: "custom:button-card"
+                icon: mdi:arrow-up-bold
+                tap_action:
+                  action: call-service
+                  service: cover.open_cover
+                  service_data:
+                    entity_id: cover.estores_escritorio
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(189, 255, 5)
+                    - --mdc-ripple-press-opacity: 0.5
+              - type: "custom:button-card"
+                icon: mdi:arrow-down-bold
+                tap_action:
+                  action: call-service
+                  service: cover.close_cover
+                  service_data:
+                    entity_id: cover.estores_escritorio
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(189, 255, 5)
+                    - --mdc-ripple-press-opacity: 0.5
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: 💡 Lights
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.plug_bedlight_darlene_suite
+                icon: mdi:lamp
+                show_state: false
+                name: Darlene
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.0xa4c1384daf115830
+                icon: mdi:lamp
+                show_state: false
+                name: Marco
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.0x9035eafffe891ad0
+                icon: mdi:bed-king
+                show_state: false
+                name: Suite
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.smart_switch_light_escritorio
+                icon: mdi:chair-rolling
+                show_state: false
+                name: Escritório
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: 🎧 Media
+          - type: custom:mini-media-player
+            entity: media_player.spotify_marco_cunha
+            artwork: none
+            name: Spotify
+            volume_stateless: false
+            group: false
+          - type: custom:mini-media-player
+            entity: media_player.lg_webos_tv_oled48c16la
+            name: LG OLED
+            icon: mdi:television
+            group: false
+            volume_stateless: false
+            toggle_power: false
+            artwork: none
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: 🔌 Others
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.bomba_piscina_switch_0
+                icon: mdi:water-pump
+                show_state: false
+                name: Bomba
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.projectores_piscina_switch_0
+                icon: mdi:light-flood-up
+                show_state: false
+                name: Piscina
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.hot_water
+                icon: mdi:water-thermometer-outline
+                show_state: false
+                name: Ág. Quente
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: custom:mushroom-title-card
