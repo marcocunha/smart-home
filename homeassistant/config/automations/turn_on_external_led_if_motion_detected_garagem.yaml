@@ -1,0 +1,51 @@
+id: turn_on_external_led_if_motion_detected_garagem
+alias: Turn on external led if motion is detected in Garage
+mode: single
+max_exceeded: silent
+variables:
+  camera: garagem
+trigger:
+  - platform: mqtt
+    topic: frigate/events
+    payload: garagem/new
+    value_template: >-
+      {{ value_json['after']['camera'] | lower | replace('-','_') }}/{{
+      value_json['type']}}
+condition:
+  - condition: sun
+    after: sunset
+    before: sunrise
+  - condition: state
+    entity_id: switch.barra_led_exterior_switch_0
+    state: "off"
+  - condition: or
+    alias: It must be a person or a car detected
+    conditions:
+      - condition: template
+        value_template: "{{ trigger.payload_json['after']['label'] == 'person' }}"
+        alias: A Person
+      - condition: template
+        value_template: "{{ trigger.payload_json['after']['label'] == 'car' }}"
+        alias: A Car
+  - condition: template
+    value_template: "{{ trigger.payload_json['after']['entered_zones']|length > 0 }}"
+    alias: Must entered a zone, otherwise ignore it
+action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.barra_led_exterior_switch_0
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.barra_led_exterior_switch_0
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
