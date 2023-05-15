@@ -158,16 +158,17 @@ cards:
                       - background-color: >
                           [[[
                             if (states['sensor.swimming_pool_pump_on_today'].state < 6)
-                              return "red";
-                            return "green";
+                              return "maroon";
+                            return "darkolivegreen";
                           ]]]
                       - border-radius: 50%
                       - position: absolute
-                      - left: 5%
+                      - right: 5%
                       - top: 5%
                       - height: 30px
                       - width: 30px
                       - font-size: 12px
+                      - font-weight: bold
                       - line-height: 30px
                 aspect_ratio: 1/1
                 tap_action:
