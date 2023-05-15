@@ -142,6 +142,10 @@ cards:
                 state:
                   - value: "on"
                     color: rgb(255,191,0)
+                    name: >
+                      [[[var sen = states['sensor.swimming_pool_pump_on_today'].state
+                          return '' + (sen ? sen : '0') + 'h';
+                        ]]]
                   - value: "off"
                     color: rgb(100,100,100)
                 styles:
@@ -149,9 +153,29 @@ cards:
                     - --mdc-ripple-color: rgb(255,191,0)
                     - --mdc-ripple-press-opacity: 0.5
                     - font-size: 15px
+                  custom_fields:
+                    worked_time:
+                      - background-color: >
+                          [[[
+                            if (states['sensor.swimming_pool_pump_on_today'].state < 6)
+                              return "red";
+                            return "green";
+                          ]]]
+                      - border-radius: 50%
+                      - position: absolute
+                      - left: 5%
+                      - top: 5%
+                      - height: 30px
+                      - width: 30px
+                      - font-size: 12px
+                      - line-height: 30px
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
+                custom_fields:
+                  worked_time: >
+                    [[[ return states['sensor.swimming_pool_pump_on_today'].state ]]]
+
               - type: "custom:button-card"
                 entity: switch.projectores_piscina_switch_0
                 icon: mdi:light-flood-up
