@@ -1,0 +1,22 @@
+#
+# History Stats
+# The history_stats sensor platform provides quick statistics about another integration or platforms, using data from the history integration.
+
+# It can track how long the integration has been in a specific state, in a custom time period.
+
+# Examples of what you can track:
+
+# How long you were at home this week
+# How long the lights were ON yesterday
+# How long you watched TV today
+#
+# https://www.home-assistant.io/integrations/history_stats/
+
+sensor:
+  - platform: history_stats
+    name: Swimming Pool Pump ON today
+    entity_id: switch.bomba_piscina_switch_0
+    state: "on"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
