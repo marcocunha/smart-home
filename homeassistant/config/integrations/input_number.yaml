@@ -1,0 +1,14 @@
+#
+# Input Number
+
+#
+# https://www.home-assistant.io/integrations/input_number/
+#
+input_number:
+  swimming_pool_minimum_duration_h:
+    name: Swimming Pool Pump Minimum Duration in h
+    initial: 6
+    min: 0
+    max: 12
+    step: 1
+    mode: box

@@ -17,7 +17,7 @@ trigger:
     for: "00:15:00"
     #every 5 minutes
   - platform: time_pattern
-    minutes: /5
+    minutes: /20
     #whenever the alarm is armed
   - platform: state
     entity_id:

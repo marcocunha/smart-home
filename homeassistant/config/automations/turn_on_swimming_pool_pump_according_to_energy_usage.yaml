@@ -1,0 +1,72 @@
+id: turn_on_swimming_pool_pump_according_to_energy_usage
+alias: Turn on swimming pool pump according to the energy usage
+description: "Turn on swimming pool pump according to the energy usage"
+mode: restart
+max_exceeded: silent
+variables:
+  notify_device: notify.ha_mobile_apps
+  notification_title: Oportunidade para a bomba da piscina funcionar
+  persistent_notification: true
+trigger:
+  - platform: numeric_state
+    entity_id: sensor.energy_consumption_mean_over_last_10_minutes
+    for:
+      hours: 0
+      minutes: 20
+      seconds: 0
+    below: -1000
+    alias: Enough energy to have the swimming pool pump working
+condition:
+  - condition: and
+    conditions:
+      - condition: template
+        value_template: "{{states('sensor.swimming_pool_pump_on_today') <= states('input_number.swimming_pool_minimum_duration_h')}}"
+        alias: Swimming Pool pump working for less than X time
+      - condition: numeric_state
+        entity_id: sensor.energy_consumption_mean_over_last_10_minutes
+        below: -1000
+        alias: Enough energy to have the swimming pool pump working
+      - condition: numeric_state
+        entity_id: sensor.bomba_piscina_switch_0_power
+        below: 0.1
+        alias: Pump turned off
+      # Ask only after 9am
+      - condition: time
+        after: "9:00:00"
+action:
+  - alias: Set up variables for the actions
+    variables:
+      action_turnon: "{{ 'TURN_ON_' ~ context.id }}"
+      action_ignore: "{{ 'IGNORE_' ~ context.id }}"
+  - alias: Ask to turn on the swimming pool pump
+    service: notify.ha_mobile_apps
+    data:
+      title: "{{ notification_title }}"
+      message: Oportunidade para ligar a bomba da piscina. Pretende ligar?
+      data:
+        tag: "{{ notification_title }}"
+        persistent: "{{ persistent_notification }}"
+        ttl: 0
+        priority: high
+        actions:
+          - action: "{{ action_turnon }}"
+            title: Ligar
+          - action: "{{ action_ignore }}"
+            title: Ignorar
+  - alias: Wait for a response
+    wait_for_trigger:
+      - platform: event
+        event_type: mobile_app_notification_action
+        event_data:
+          action: "{{ action_turnon }}"
+      - platform: event
+        event_type: mobile_app_notification_action
+        event_data:
+          action: "{{ action_ignore }}"
+  - alias: Perform the action
+    choose:
+      - conditions: "{{ wait.trigger.event.data.action == action_turnon }}"
+        sequence:
+          - service: switch.turn_on
+            target:
+              device_id: 11352414f861aaceba25adee16b975f5

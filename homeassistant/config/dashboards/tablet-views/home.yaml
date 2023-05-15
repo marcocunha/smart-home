@@ -157,7 +157,7 @@ cards:
                     worked_time:
                       - background-color: >
                           [[[
-                            if (states['sensor.swimming_pool_pump_on_today'].state < 6)
+                            if (states['sensor.swimming_pool_pump_on_today'].state < states['input_number.swimming_pool_minimum_duration_h'].state)
                               return "maroon";
                             return "darkolivegreen";
                           ]]]
