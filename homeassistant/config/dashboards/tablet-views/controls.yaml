@@ -11,12 +11,18 @@ cards:
         cards:
           - type: custom:mushroom-title-card
             title: 🪟 Curtains
-          - type: horizontal-stack
+          # <Lavandaria>
+          - type: vertical-stack
             cards:
               - type: "custom:button-card"
                 name: Lavandaria
                 entity: cover.estores_lavandaria
+                color_type: label-card
                 # show_state: true
+                show_icon: false
+                tap_action: none
+                hold_action: none
+                double_tap_action: none
                 state:
                   - value: "open"
                   - value: "closing"
@@ -30,35 +36,111 @@ cards:
                       card:
                         - animation: blink 2s ease infinite
                   - value: "close"
-                aspect_ratio: 2/1
-              - type: "custom:button-card"
-                icon: mdi:arrow-up-bold
-                tap_action:
-                  action: call-service
-                  service: cover.open_cover
-                  service_data:
-                    entity_id: cover.estores_lavandaria
+                custom_fields:
+                  position: >
+                    [[[ return states['cover.estores_lavandaria'].attributes.current_position + '%' ]]]
                 styles:
                   card:
-                    - --mdc-ripple-color: rgb(189, 255, 5)
-                    - --mdc-ripple-press-opacity: 0.5
-              - type: "custom:button-card"
-                icon: mdi:arrow-down-bold
-                tap_action:
-                  action: call-service
-                  service: cover.close_cover
-                  service_data:
-                    entity_id: cover.estores_lavandaria
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(189, 255, 5)
-                    - --mdc-ripple-press-opacity: 0.5
-          - type: horizontal-stack
+                  # - height: 120%
+                  name:
+                    - justify-self: center
+                    - padding: 0px 5px
+                    - position: absolute
+                    - top: 20%
+                  custom_fields:
+                    position:
+                      - position: absolute
+                      - right: 10%
+                      - height: 30px
+                      - width: 50px
+                      - font-size: 14px
+                      - line-height: 30px
+                      - font-weight: bold
+              - type: horizontal-stack
+                cards:
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-down-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.close_cover
+                      service_data:
+                        entity_id: cover.estores_lavandaria
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 25%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 25
+                        entity_id: cover.estores_lavandaria
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 50%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 50
+                        entity_id: cover.estores_lavandaria
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 75%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 75
+                        entity_id: cover.estores_lavandaria
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-up-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.open_cover
+                      service_data:
+                        entity_id: cover.estores_lavandaria
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                # </Lavandaria>
+
+          # <Escritório>
+          - type: vertical-stack
             cards:
               - type: "custom:button-card"
                 name: Escritório
                 entity: cover.estores_escritorio
+                color_type: label-card
                 # show_state: true
+                show_icon: false
+                tap_action: none
+                hold_action: none
+                double_tap_action: none
                 state:
                   - value: "open"
                   - value: "closing"
@@ -72,35 +154,111 @@ cards:
                       card:
                         - animation: blink 2s ease infinite
                   - value: "close"
-                aspect_ratio: 2/1
-              - type: "custom:button-card"
-                icon: mdi:arrow-up-bold
-                tap_action:
-                  action: call-service
-                  service: cover.open_cover
-                  service_data:
-                    entity_id: cover.estores_escritorio
+                custom_fields:
+                  position: >
+                    [[[ return states['cover.estores_escritorio'].attributes.current_position + '%' ]]]
                 styles:
                   card:
-                    - --mdc-ripple-color: rgb(189, 255, 5)
-                    - --mdc-ripple-press-opacity: 0.5
-              - type: "custom:button-card"
-                icon: mdi:arrow-down-bold
-                tap_action:
-                  action: call-service
-                  service: cover.close_cover
-                  service_data:
-                    entity_id: cover.estores_escritorio
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(189, 255, 5)
-                    - --mdc-ripple-press-opacity: 0.5
-          - type: horizontal-stack
+                  # - height: 120%
+                  name:
+                    - justify-self: center
+                    - padding: 0px 5px
+                    - position: absolute
+                    - top: 20%
+                  custom_fields:
+                    position:
+                      - position: absolute
+                      - right: 10%
+                      - height: 30px
+                      - width: 50px
+                      - font-size: 14px
+                      - line-height: 30px
+                      - font-weight: bold
+              - type: horizontal-stack
+                cards:
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-down-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.close_cover
+                      service_data:
+                        entity_id: cover.estores_escritorio
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 25%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 25
+                        entity_id: cover.estores_escritorio
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 50%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 50
+                        entity_id: cover.estores_escritorio
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 75%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 75
+                        entity_id: cover.estores_escritorio
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-up-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.open_cover
+                      service_data:
+                        entity_id: cover.estores_escritorio
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                # </Lavandaria>
+
+          # <Suite>
+          - type: vertical-stack
             cards:
               - type: "custom:button-card"
                 name: Suite
                 entity: cover.curtains_suite
+                color_type: label-card
                 # show_state: true
+                show_icon: false
+                tap_action: none
+                hold_action: none
+                double_tap_action: none
                 state:
                   - value: "open"
                   - value: "closing"
@@ -114,29 +272,98 @@ cards:
                       card:
                         - animation: blink 2s ease infinite
                   - value: "close"
-                aspect_ratio: 2/1
-              - type: "custom:button-card"
-                icon: mdi:arrow-up-bold
-                tap_action:
-                  action: call-service
-                  service: cover.open_cover
-                  service_data:
-                    entity_id: cover.curtains_suite
+                custom_fields:
+                  position: >
+                    [[[ return states['cover.curtains_suite'].attributes.current_position + '%' ]]]
                 styles:
                   card:
-                    - --mdc-ripple-color: rgb(189, 255, 5)
-                    - --mdc-ripple-press-opacity: 0.5
-              - type: "custom:button-card"
-                icon: mdi:arrow-down-bold
-                tap_action:
-                  action: call-service
-                  service: cover.close_cover
-                  service_data:
-                    entity_id: cover.curtains_suite
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(189, 255, 5)
-                    - --mdc-ripple-press-opacity: 0.5
+                  # - height: 120%
+                  name:
+                    - justify-self: center
+                    - padding: 0px 5px
+                    - position: absolute
+                    - top: 20%
+                  custom_fields:
+                    position:
+                      - position: absolute
+                      - right: 10%
+                      - height: 30px
+                      - width: 50px
+                      - font-size: 14px
+                      - line-height: 30px
+                      - font-weight: bold
+              - type: horizontal-stack
+                cards:
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-down-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.close_cover
+                      service_data:
+                        entity_id: cover.curtains_suite
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 25%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 25
+                        entity_id: cover.curtains_suite
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 50%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 50
+                        entity_id: cover.curtains_suite
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 75%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 75
+                        entity_id: cover.curtains_suite
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-up-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.open_cover
+                      service_data:
+                        entity_id: cover.curtains_suite
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
@@ -276,6 +503,7 @@ cards:
                     color: rgb(255,191,0)
                   - value: "off"
                     color: rgb(100,100,100)
+                    icon: mdi:water-pump-off
                 styles:
                   card:
                     - --mdc-ripple-color: rgb(255,191,0)
@@ -288,7 +516,7 @@ cards:
                 entity: switch.projectores_piscina_switch_0
                 icon: mdi:light-flood-up
                 show_state: false
-                name: Piscina
+                name: P. Piscina
                 state:
                   - value: "on"
                     color: rgb(255,191,0)
@@ -320,4 +548,22 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-              - type: custom:mushroom-title-card
+              - type: "custom:button-card"
+                entity: switch.torradeira_plug
+                icon: mdi:toaster
+                show_state: false
+                name: Torradeira
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                    icon: mdi:toaster-off
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle

@@ -20,6 +20,13 @@ cards:
           - type: alarm-control-panel
             entity: alarm_control_panel.ajax_security_system
           - type: entity
+            entity: cover.curtains_group
+            name: Estores
+            content_info: state
+            tap_action:
+              action: toggle
+            icon_color: amber
+          - type: entity
             entity: binary_sensor.sensor_garage_door_contact
             double_tap_action:
               action: none
@@ -33,10 +40,10 @@ cards:
               action: none
             icon: mdi:garage-lock
             use_entity_picture: false
-            icon_color: blue
+            icon_color: amber
           - type: entity
             entity: switch.torradeira_plug
-            icon_color: deep-orange
+            icon_color: amber
             double_tap_action:
               action: none
             name: Torradeira
