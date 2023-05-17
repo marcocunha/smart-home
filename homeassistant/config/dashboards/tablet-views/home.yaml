@@ -41,17 +41,7 @@ cards:
             icon: mdi:garage-lock
             use_entity_picture: false
             icon_color: amber
-          - type: entity
-            entity: switch.torradeira_plug
-            icon_color: amber
-            double_tap_action:
-              action: none
-            name: Torradeira
-            content_info: state
-            tap_action:
-              action: toggle
-            hold_action:
-              action: none
+            
       - type: custom:mushroom-chips-card
         chips:
           - type: entity
@@ -188,7 +178,7 @@ cards:
                 entity: switch.projectores_piscina_switch_0
                 icon: mdi:light-flood-up
                 show_state: false
-                name: Piscina
+                name: P. Piscina
                 state:
                   - value: "on"
                     color: rgb(255,191,0)

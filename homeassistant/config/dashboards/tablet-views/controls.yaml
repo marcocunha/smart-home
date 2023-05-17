@@ -567,3 +567,27 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.plug_monitor
+                icon: mdi:monitor
+                show_state: false
+                name: Monitor
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                    icon: mdi:monitor-off
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: custom:mushroom-title-card
+              - type: custom:mushroom-title-card
+              - type: custom:mushroom-title-card
