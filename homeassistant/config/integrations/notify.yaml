@@ -11,7 +11,7 @@ notify:
   - name: marco
     platform: group
     services:
-      - service: mobile_app_sm_s901b
+      - service: mobile_app_samsung_s22
   - name: darlene
     platform: group
     services:
@@ -23,7 +23,7 @@ notify:
   - name: "ha_mobile_apps"
     platform: group
     services:
-      - service: 'mobile_app_sm_s901b'
+      - service: 'mobile_app_samsung_s22'
       - service: 'mobile_app_oppo'
   - name: all
     platform: group
