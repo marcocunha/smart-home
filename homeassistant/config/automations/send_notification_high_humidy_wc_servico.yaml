@@ -4,7 +4,7 @@ mode: restart
 max_exceeded: silent
 variables:
   notification_title: Humidade WC Serviço
-  persistent_notification: true
+  persistent_notification: false
 trigger:
   - platform: numeric_state
     entity_id: sensor.wc_temperature_humidity_sensor_humidity
@@ -34,12 +34,3 @@ action:
         persistent: "{{ persistent_notification }}"
         ttl: 0
         priority: high
-        actions:
-          - action: "{{ action_ack }}"
-            title: OK
-  - alias: Wait for a response
-    wait_for_trigger:
-      - platform: event
-        event_type: mobile_app_notification_action
-        event_data:
-          action: "{{ action_ack }}"
