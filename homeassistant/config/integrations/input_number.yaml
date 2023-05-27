@@ -12,3 +12,10 @@ input_number:
     max: 12
     step: 1
     mode: box
+  swimming_pool_average_consumption_w:
+    name: Swimming Pool Pump Average Consumption in W
+    initial: 750
+    min: 700
+    max: 800
+    step: 1
+    mode: box

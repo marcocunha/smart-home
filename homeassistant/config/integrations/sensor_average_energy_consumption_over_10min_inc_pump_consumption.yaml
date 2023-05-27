@@ -1,0 +1,11 @@
+#
+# Statistics
+# The statistics sensor platform observes the state of a source sensor and provides aggregated statistical characteristics about its recent past.
+#
+# https://www.home-assistant.io/integrations/statistics/
+sensor:
+  - platform: template
+    sensors:
+      average_consumption_inc_pool_pump:
+        value_template: >-
+          {{ states('sensor.energy_consumption_mean_over_last_10_minutes') | float + states('input_number.swimming_pool_average_consumption_w') | float }}
