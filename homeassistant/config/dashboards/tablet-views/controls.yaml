@@ -128,7 +128,124 @@ cards:
                         - --mdc-ripple-press-opacity: 0.5
                     aspect_ratio: 1/1
                 # </Lavandaria>
-
+           # <Lavandaria>
+          # <Hall>
+          - type: vertical-stack
+            cards:
+              - type: "custom:button-card"
+                name: Hall
+                entity: cover.curtains_hall
+                color_type: label-card
+                # show_state: true
+                show_icon: false
+                tap_action: none
+                hold_action: none
+                double_tap_action: none
+                state:
+                  - value: "open"
+                  - value: "closing"
+                    color: rgb(189, 255, 5)
+                    styles:
+                      card:
+                        - animation: blink 2s ease infinite
+                  - value: "opening"
+                    color: rgb(189, 255, 5)
+                    styles:
+                      card:
+                        - animation: blink 2s ease infinite
+                  - value: "close"
+                custom_fields:
+                  position: >
+                    [[[ return states['cover.curtains_hall'].attributes.current_position + '%' ]]]
+                styles:
+                  card:
+                  # - height: 120%
+                  name:
+                    - justify-self: center
+                    - padding: 0px 5px
+                    - position: absolute
+                    - top: 20%
+                  custom_fields:
+                    position:
+                      - position: absolute
+                      - right: 10%
+                      - height: 30px
+                      - width: 50px
+                      - font-size: 14px
+                      - line-height: 30px
+                      - font-weight: bold
+              - type: horizontal-stack
+                cards:
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-down-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.close_cover
+                      service_data:
+                        entity_id: cover.curtains_hall
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 25%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 25
+                        entity_id: cover.curtains_hall
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 50%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 50
+                        entity_id: cover.curtains_hall
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    color_type: auto
+                    name: 75%
+                    show_name: true
+                    tap_action:
+                      action: call-service
+                      service: cover.set_cover_position
+                      service_data:
+                        position: 75
+                        entity_id: cover.curtains_hall
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+                  - type: "custom:button-card"
+                    icon: mdi:arrow-up-bold
+                    tap_action:
+                      action: call-service
+                      service: cover.open_cover
+                      service_data:
+                        entity_id: cover.curtains_hall
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(189, 255, 5)
+                        - --mdc-ripple-press-opacity: 0.5
+                    aspect_ratio: 1/1
+          # </Hall>
           # <Escritório>
           - type: vertical-stack
             cards:
