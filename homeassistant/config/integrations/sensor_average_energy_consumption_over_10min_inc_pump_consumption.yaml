@@ -8,4 +8,15 @@ sensor:
     sensors:
       average_consumption_inc_pool_pump:
         value_template: >-
-          {{ states('sensor.energy_consumption_mean_over_last_10_minutes') | float + states('input_number.swimming_pool_average_consumption_w') | float }}
+          {% if has_value('sensor.energy_consumption_mean_over_last_10_minutes') %}
+            {% set energy_consumption_mean_over_last_10_minutes = states('sensor.energy_consumption_mean_over_last_10_minutes')| float %}
+          {% else %}
+            {% set energy_consumption_mean_over_last_10_minutes = 0.0 %}
+          {% endif %}
+          {% if has_value('input_number.swimming_pool_average_consumption_w') %}
+            {% set swimming_pool_average_consumption_w = states('input_number.swimming_pool_average_consumption_w')| float %}
+          {% else %}
+            {% set swimming_pool_average_consumption_w = 0.0 %}
+          {% endif %}
+
+          {{ energy_consumption_mean_over_last_10_minutes + swimming_pool_average_consumption_w }}
