@@ -7,14 +7,9 @@ variables:
   notification_title: Bomba da Piscina
   persistent_notification: false
 trigger:
-  - platform: numeric_state
-    entity_id: sensor.average_consumption_inc_pool_pump
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-    below: -500
-    alias: Enough energy to have the swimming pool pump working
+    #every 20 minutes
+  - platform: time_pattern
+    minutes: /20
 condition:
   - condition: and
     conditions:

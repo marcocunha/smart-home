@@ -16,7 +16,6 @@ trigger:
     #every 20 minutes
   - platform: time_pattern
     minutes: /20
-    # input_number.swimming_pool_average_consumption_w
 condition:
   - condition: and
     conditions:
