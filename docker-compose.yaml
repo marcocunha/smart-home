@@ -202,6 +202,8 @@ services:
       - WUD_WATCHER_LOCAL_CRON=0 1 * * *
       - WUD_TRIGGER_APPRISE_LOCAL_URL=http://apprise:3001
       - WUD_TRIGGER_APPRISE_LOCAL_TAG=devops # the tags to use with the config (optional)
+      - WUD_TRIGGER_APPRISE_SIMPLETITLE=Container $${name} can be updated
+      - WUD_TRIGGER_APPRISE_SIMPLEBODY=Container $${name} can be updated from version $${local} to version $${remote}
     ports:
       - 3000:3000
     healthcheck:
@@ -210,6 +212,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s 
+    depends_on:
+      - apprise
 
 
   # Apprise
