@@ -1,9 +1,11 @@
 id: frigate_inside_garagem_motion_detected
 alias: Frigate Motion detected Inside Garage
-description: ''
+description: ""
 use_blueprint:
   path: SgtBatten/Stable.yaml
   input:
+    labels:
+      - person
     tv_transparency: 0%
     camera: camera.inside_garagem
     state_filter: true
@@ -12,4 +14,4 @@ use_blueprint:
       - armed_home
     notify_group: ha_mobile_apps
     base_url: https://alberto.mcunha.me/
-    message: '{{ label }} detected - {{ camera_name }}'
+    message: "{{ label }} detected - {{ camera_name }}"
