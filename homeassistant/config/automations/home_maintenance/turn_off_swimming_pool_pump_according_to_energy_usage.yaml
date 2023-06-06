@@ -4,6 +4,7 @@ description: "Turn off swimming pool pump according to the energy usage"
 mode: restart
 max_exceeded: silent
 variables:
+  send_notification: false
   notify_device: notify.ha_mobile_apps
   trigger_entity: binary_sensor.sensor_garage_door_contact
   notification_title: Bomba da Piscina
@@ -37,40 +38,42 @@ action:
   - alias: Set up variables for the actions
     variables:
       message: "{{ 'Produção demasiado baixa, consumo: ' ~ states('sensor.energy_consumption_mean_over_last_10_minutes')  ~ 'W. Desligada automaticamente.'}}"
-  - alias: Send a message to mobile app
-    choose:
-      - conditions:
-          - condition: template
-            value_template: >-
-              {{states('sensor.swimming_pool_pump_on_today') >
-              states('input_number.swimming_pool_minimum_duration_h')}}
-            alias: Swimming Pool pump already worked the desired time
-        sequence:
-          - alias: Inform swimming pool pump was turned off due to time usage
-            service: notify.ha_mobile_apps
-            data:
-              title: "{{ notification_title }}"
-              message: "{{ 'Bomba já trabalhou : ' ~ states('sensor.swimming_pool_pump_on_today')  ~ 'h. Desligada automaticamente.'}}"
+  - if: "{{ send_notification == true }}"
+    then:
+    - alias: Send a message to mobile app
+      choose:
+        - conditions:
+            - condition: template
+              value_template: >-
+                {{states('sensor.swimming_pool_pump_on_today') >
+                states('input_number.swimming_pool_minimum_duration_h')}}
+              alias: Swimming Pool pump already worked the desired time
+          sequence:
+            - alias: Inform swimming pool pump was turned off due to time usage
+              service: notify.ha_mobile_apps
               data:
-                tag: "{{ notification_title }}"
-                persistent: "{{ persistent_notification }}"
-                ttl: 0
-                priority: high
-      - conditions:
-          - condition: numeric_state
-            entity_id: sensor.average_consumption_inc_pool_pump
-            above: -300
-        sequence:
-          - alias: Inform swimming pool pump was turned off due to energy usage
-            service: notify.ha_mobile_apps
-            data:
-              title: "{{ notification_title }}"
-              message: "{{ message }}"
+                title: "{{ notification_title }}"
+                message: "{{ 'Bomba já trabalhou : ' ~ states('sensor.swimming_pool_pump_on_today')  ~ 'h. Desligada automaticamente.'}}"
+                data:
+                  tag: "{{ notification_title }}"
+                  persistent: "{{ persistent_notification }}"
+                  ttl: 0
+                  priority: high
+        - conditions:
+            - condition: numeric_state
+              entity_id: sensor.average_consumption_inc_pool_pump
+              above: -300
+          sequence:
+            - alias: Inform swimming pool pump was turned off due to energy usage
+              service: notify.ha_mobile_apps
               data:
-                tag: "{{ notification_title }}"
-                persistent: "{{ persistent_notification }}"
-                ttl: 0
-                priority: high
+                title: "{{ notification_title }}"
+                message: "{{ message }}"
+                data:
+                  tag: "{{ notification_title }}"
+                  persistent: "{{ persistent_notification }}"
+                  ttl: 0
+                  priority: high
   - alias: Perform the action
     service: switch.turn_off
     target:

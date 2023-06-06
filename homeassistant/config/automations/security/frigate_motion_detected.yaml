@@ -1,0 +1,26 @@
+id: frigate_motion_detected
+alias: Frigate Motion detected
+mode: single
+max_exceeded: silent
+trigger:
+  platform: mqtt
+  topic: frigate/events
+condition:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.anyone_home
+        state: "off"
+      - condition: state
+        entity_id: alarm_control_panel.ajax_security_system
+        state: armed_home
+action:
+  - service: notify.ha_mobile_apps
+    data_template:
+      message: 'A {{trigger.payload_json["after"]["label"]}} was detected.'
+      data:
+        image: 'http://192.168.1.146:5000/api/events/{{trigger.payload_json["after"]["id"]}}/thumbnail.jpg?format=android'
+        tag: '{{trigger.payload_json["after"]["id"]}}'
+        when: '{{trigger.payload_json["after"]["start_time"]|int}}'
+        ttl: 0
+        priority: high

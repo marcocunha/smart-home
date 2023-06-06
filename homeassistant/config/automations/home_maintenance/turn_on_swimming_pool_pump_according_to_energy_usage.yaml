@@ -3,6 +3,7 @@ alias: Turn on swimming pool pump according to the energy usage
 description: "Turn on swimming pool pump according to the energy usage"
 mode: single
 variables:
+  send_notification: false
   notify_device: notify.ha_mobile_apps
   notification_title: Bomba da Piscina
   persistent_notification: false
@@ -28,16 +29,18 @@ condition:
       - condition: time
         after: "09:00:00"
 action:
-  - alias: Inform swimming pool pump was turned on
-    service: notify.ha_mobile_apps
-    data:
-      title: "{{ notification_title }}"
-      message: Bomba da piscina ligada
+  - if: "{{ send_notification == true }}"
+    then:
+    - alias: Inform swimming pool pump was turned on
+      service: notify.ha_mobile_apps
       data:
-        tag: "{{ notification_title }}"
-        persistent: "{{ persistent_notification }}"
-        ttl: 0
-        priority: high
+        title: "{{ notification_title }}"
+        message: Bomba da piscina ligada
+        data:
+          tag: "{{ notification_title }}"
+          persistent: "{{ persistent_notification }}"
+          ttl: 0
+          priority: high
   - alias: Perform the action
     service: switch.turn_on
     target:
