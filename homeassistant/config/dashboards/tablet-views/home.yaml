@@ -251,26 +251,30 @@ cards:
   - type: horizontal-stack
     cards:
       - show_state: false
-        show_name: true
+        show_name: false
         camera_view: auto
         type: picture-entity
-        entity: camera.garagem_sub
+        entity: camera.garagem
+        camera_image: camera.garagem
         name: Garagem
       - show_state: false
-        show_name: true
+        show_name: false
         camera_view: auto
         type: picture-entity
-        entity: camera.frente_sub
+        entity: camera.frente
+        camera_image: camera.frente
         name: Frente
       - show_state: false
-        show_name: true
+        show_name: false
         camera_view: auto
         type: picture-entity
-        entity: camera.piscina_sub
+        entity: camera.piscina
+        camera_image: camera.piscina
         name: Piscina
       - show_state: false
-        show_name: true
+        show_name: false
         camera_view: auto
         type: picture-entity
-        entity: camera.traseira_sub
+        entity: camera.traseiras
+        camera_image: camera.traseiras
         name: Traseiras
