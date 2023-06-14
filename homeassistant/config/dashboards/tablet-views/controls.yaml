@@ -524,7 +524,7 @@ cards:
                 tap_action:
                   action: toggle
               - type: "custom:button-card"
-                entity: switch.0x9035eafffe891ad0
+                entity: light.switch_light_suite
                 icon: mdi:bed-king
                 show_state: false
                 name: Suite
@@ -579,33 +579,60 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-              - type: custom:mushroom-title-card
-              - type: custom:mushroom-title-card
-              - type: custom:mushroom-title-card
-
-      - type: vertical-stack
-        cards:
-          - type: custom:mushroom-title-card
-            title: 🎧 Media
-          - type: custom:mini-media-player
-            entity: media_player.spotify_marco_cunha
-            artwork: none
-            name: Spotify
-            volume_stateless: false
-            group: false
-          - type: custom:mini-media-player
-            entity: media_player.lg_webos_tv_oled48c16la
-            name: LG OLED
-            icon: mdi:television
-            group: false
-            volume_stateless: false
-            toggle_power: false
-            artwork: none
-      - type: vertical-stack
-        cards:
-          - type: custom:mushroom-title-card
-      - type: vertical-stack
-        cards:
+              - type: "custom:button-card"
+                entity: light.multiswitch_wc_suite_mirror
+                icon: mdi:mirror-rectangle
+                show_state: false
+                name: Espelho WC Suite
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: light.multiswitch_wc_suite_ceiling
+                icon: mdi:light-recessed
+                show_state: false
+                name: WC Suite
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: switch.projectores_piscina_switch_0
+                icon: mdi:light-flood-up
+                show_state: false
+                name: P. Piscina
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
           - type: custom:mushroom-title-card
             title: 🔌 Others
           - type: horizontal-stack
@@ -687,16 +714,34 @@ cards:
           - type: horizontal-stack
             cards:
               - type: "custom:button-card"
-                entity: switch.plug_monitor
-                icon: mdi:monitor
+                entity: light.multiswitch_wc_suite_ceiling
+                icon: mdi:light-recessed
                 show_state: false
-                name: Monitor
+                name: WC Suite
                 state:
                   - value: "on"
                     color: rgb(255,191,0)
                   - value: "off"
                     color: rgb(100,100,100)
-                    icon: mdi:monitor-off
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: fan.multiswitch_wc_suite_ventax
+                icon: mdi:fan
+                show_state: false
+                name: Ventax WC Suite
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                    icon: mdi:fan-off
                 styles:
                   card:
                     - --mdc-ripple-color: rgb(255,191,0)
@@ -707,4 +752,22 @@ cards:
                   action: toggle
               - type: custom:mushroom-title-card
               - type: custom:mushroom-title-card
-              - type: custom:mushroom-title-card
+
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: 🎧 Media
+          - type: custom:mini-media-player
+            entity: media_player.spotify_marco_cunha
+            artwork: none
+            name: Spotify
+            volume_stateless: false
+            group: false
+          - type: custom:mini-media-player
+            entity: media_player.lg_webos_tv_oled48c16la
+            name: LG OLED
+            icon: mdi:television
+            group: false
+            volume_stateless: false
+            toggle_power: false
+            artwork: none
