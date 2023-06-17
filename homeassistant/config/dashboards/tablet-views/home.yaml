@@ -41,7 +41,7 @@ cards:
             icon: mdi:garage-lock
             use_entity_picture: false
             icon_color: amber
-            
+
       - type: custom:mushroom-chips-card
         chips:
           - type: entity
@@ -139,10 +139,6 @@ cards:
                 state:
                   - value: "on"
                     color: rgb(255,191,0)
-                    name: >
-                      [[[var sen = states['sensor.swimming_pool_pump_on_today'].state
-                          return '' + (sen ? sen : '0') + 'h';
-                        ]]]
                   - value: "off"
                     color: rgb(100,100,100)
                 styles:
@@ -162,9 +158,9 @@ cards:
                       - position: absolute
                       - right: 5%
                       - top: 5%
-                      - height: 30px
-                      - width: 30px
-                      - font-size: 12px
+                      - height: 33px
+                      - width: 33px
+                      - font-size: 11px
                       - font-weight: bold
                       - line-height: 30px
                 aspect_ratio: 1/1
@@ -172,7 +168,7 @@ cards:
                   action: toggle
                 custom_fields:
                   worked_time: >
-                    [[[ return states['sensor.swimming_pool_pump_on_today'].state ]]]
+                    [[[ return states['sensor.swimming_pool_pump_on_today'].state + 'h' ]]]
 
               - type: "custom:button-card"
                 entity: switch.projectores_piscina_switch_0
@@ -207,9 +203,29 @@ cards:
                     - --mdc-ripple-color: rgb(255,191,0)
                     - --mdc-ripple-press-opacity: 0.5
                     - font-size: 15px
+                  custom_fields:
+                    temperature:
+                      - background-color: >
+                          [[[
+                            if (states['sensor.resistencia_termoacumulador_temperature'].state < 45)
+                              return "maroon";
+                            return "darkolivegreen";
+                          ]]]
+                      - border-radius: 50%
+                      - position: absolute
+                      - right: 0%
+                      - top: 0%
+                      - height: 40px
+                      - width: 40px
+                      - font-size: 10px
+                      - font-weight: bold
+                      - line-height: 38px
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
+                custom_fields:
+                  temperature: >
+                    [[[ return states['sensor.resistencia_termoacumulador_temperature'].state + 'ºC']]]
       - type: vertical-stack
         cards:
           - type: vertical-stack
