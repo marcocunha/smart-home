@@ -7,9 +7,9 @@
 input_number:
   swimming_pool_minimum_duration_h:
     name: Swimming Pool Pump Minimum Duration in h
-    initial: 6
+    initial: 12
     min: 0
-    max: 12
+    max: 99
     step: 1
     mode: box
   swimming_pool_average_consumption_w:

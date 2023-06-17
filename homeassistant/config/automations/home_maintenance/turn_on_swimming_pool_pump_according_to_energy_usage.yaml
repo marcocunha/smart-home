@@ -25,9 +25,9 @@ condition:
         entity_id: sensor.bomba_piscina_switch_0_power
         below: 0.1
         alias: Pump turned off
-      # Ask only after 9am
+      # Only after 8am
       - condition: time
-        after: "09:00:00"
+        after: "08:00:00"
 action:
   - if: "{{ send_notification == true }}"
     then:

@@ -11,7 +11,7 @@ variables:
   persistent_notification: false
 trigger:
   - platform: numeric_state
-    entity_id: sensor.average_consumption_inc_pool_pump
+    entity_id: sensor.energy_consumption_mean_over_last_10_minutes
     above: -300
     alias: Not enough energy to have the swimming pool pump working
     #every 20 minutes
@@ -27,7 +27,7 @@ condition:
             value_template: "{{states('sensor.swimming_pool_pump_on_today') > states('input_number.swimming_pool_minimum_duration_h')}}"
             alias: Swimming Pool pump already worked the desired time
           - condition: numeric_state
-            entity_id: sensor.average_consumption_inc_pool_pump
+            entity_id: sensor.energy_consumption_mean_over_last_10_minutes
             above: -300
             alias: Not enough energy to have the swimming pool pump working
       - condition: numeric_state
