@@ -2,5 +2,3 @@ theme: jekyll-theme-hacker
 title: Alberto
 description: The smart butler
 google_analytics: G-5NPHDXV053
-plugins:
-  - jekyll-last-modified-at
