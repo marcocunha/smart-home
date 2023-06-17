@@ -72,6 +72,13 @@ function alberto:command:init() {
   echo "Installing additional packages..."
   sudo apt-get install -y git cockpit python3-pip nodejs
 
+  echo "Installing ruby and rbenv..."
+  sudo apt-get install -y rbenv ruby-dev
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+  echo 'export GEM_HOME="$HOME/.gem"' >> ~/.bashrc
+  gem install bundler
+
   echo "Installing python dependencies..."
   pip3 install -r "$ALBERTO_HOME_DIR/requirements.txt"
   
