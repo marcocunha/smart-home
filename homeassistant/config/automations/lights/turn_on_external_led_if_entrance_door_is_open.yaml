@@ -1,0 +1,17 @@
+id: turn_on_external_led_if_entrance_door_is_open
+alias: Turn on external led if entrance door is open
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.door_entrance_contact
+    to: "on"
+    from: "off"
+    alias: "Entrance door opened"
+condition:
+  - condition: sun
+    after: sunset
+    before: sunrise
+action:
+  - service: script.turn_on_exterior_led_5min
+    data: {}
