@@ -1,0 +1,33 @@
+turn_on_exterior_led_5min:
+  alias: Turn on exterior LED for 5 minutes
+  icon: mdi:lightbulb-fluorescent-tube-outline
+  mode: single
+  sequence:
+    - if:
+        - condition: sun
+          after: sunset
+          before: sunrise
+        - condition: state
+          entity_id: switch.barra_led_exterior_switch_0
+          state: "off"
+      then:
+        - service: switch.turn_on
+          data: {}
+          target:
+            entity_id: switch.barra_led_exterior_switch_0
+        - delay:
+            hours: 0
+            minutes: 5
+            seconds: 0
+            milliseconds: 0
+        - service: switch.turn_off
+          data: {}
+          target:
+            entity_id: switch.barra_led_exterior_switch_0
+        - delay:
+            hours: 0
+            minutes: 5
+            seconds: 0
+            milliseconds: 0
+    
+
