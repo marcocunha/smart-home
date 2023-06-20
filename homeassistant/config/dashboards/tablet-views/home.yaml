@@ -150,19 +150,19 @@ cards:
                     worked_time:
                       - background-color: >
                           [[[
-                            if (states['sensor.swimming_pool_pump_on_today'].state < states['input_number.swimming_pool_minimum_duration_h'].state)
+                            if (parseFloat(states['sensor.swimming_pool_pump_on_today'].state) < parseFloat(states['input_number.swimming_pool_minimum_duration_h'].state))
                               return "maroon";
                             return "darkolivegreen";
                           ]]]
                       - border-radius: 50%
                       - position: absolute
-                      - right: 5%
-                      - top: 5%
+                      - right: 0%
+                      - top: 0%
                       - height: 33px
                       - width: 33px
                       - font-size: 11px
                       - font-weight: bold
-                      - line-height: 30px
+                      - line-height: 32px
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
@@ -215,17 +215,17 @@ cards:
                       - position: absolute
                       - right: 0%
                       - top: 0%
-                      - height: 40px
-                      - width: 40px
-                      - font-size: 10px
+                      - height: 33px
+                      - width: 33px
+                      - font-size: 11px
                       - font-weight: bold
-                      - line-height: 38px
+                      - line-height: 32px
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
                 custom_fields:
                   temperature: >
-                    [[[ return states['sensor.resistencia_termoacumulador_temperature'].state + 'ºC']]]
+                    [[[ return Math.floor(states['sensor.resistencia_termoacumulador_temperature'].state) + 'ºC']]]
       - type: vertical-stack
         cards:
           - type: vertical-stack
