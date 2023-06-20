@@ -28,7 +28,7 @@ condition:
             alias: Swimming Pool pump already worked the desired time
           - condition: numeric_state
             entity_id: sensor.energy_consumption_mean_over_last_10_minutes
-            above: -300
+            above: -150
             alias: Not enough energy to have the swimming pool pump working
       - condition: numeric_state
         entity_id: sensor.bomba_piscina_switch_0_power
@@ -62,7 +62,7 @@ action:
         - conditions:
             - condition: numeric_state
               entity_id: sensor.average_consumption_inc_pool_pump
-              above: -300
+              above: -150
           sequence:
             - alias: Inform swimming pool pump was turned off due to energy usage
               service: notify.ha_mobile_apps

@@ -8,18 +8,18 @@ variables:
   notification_title: Bomba da Piscina
   persistent_notification: false
 trigger:
-    #every 20 minutes
+    #every 10 minutes
   - platform: time_pattern
-    minutes: /20
+    minutes: /10
 condition:
   - condition: and
     conditions:
       - condition: template
-        value_template: "{{states('sensor.swimming_pool_pump_on_today') <= states('input_number.swimming_pool_minimum_duration_h')}}"
+        value_template: "{{states('sensor.swimming_pool_pump_on_today')|float <= states('input_number.swimming_pool_minimum_duration_h')|float}}"
         alias: Swimming Pool pump working for less than X time
       - condition: numeric_state
         entity_id: sensor.average_consumption_inc_pool_pump
-        below: -500
+        below: -150
         alias: Enough energy to have the swimming pool pump working
       - condition: numeric_state
         entity_id: sensor.bomba_piscina_switch_0_power
