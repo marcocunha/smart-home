@@ -7,19 +7,21 @@ variables:
   persistent_notification: false
   send_notification: true
 trigger:
-  - platform: numeric_state
-    entity_id: sensor.sensor_temperature_humidity_wc_suite_humidity
+  - platform: template
+    value_template: >-
+      {{ states('sensor.sensor_temperature_humidity_wc_suite_humidity') >=
+      states('input_number.bathroom_max_humidity_percentage') }}
     for:
       hours: 0
       minutes: 5
       seconds: 0
-    above: 80
   - platform: time_pattern
     minutes: /20
 condition:
-  - condition: numeric_state
-    entity_id: sensor.sensor_temperature_humidity_wc_suite_humidity
-    above: 80
+  - condition: template
+    value_template: |-
+      {{ states('sensor.sensor_temperature_humidity_wc_suite_humidity') >=
+            states('input_number.bathroom_max_humidity_percentage') }}
   - condition: state
     entity_id: fan.multiswitch_wc_suite_ventax
     state: "off"

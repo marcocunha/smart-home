@@ -7,19 +7,21 @@ variables:
   persistent_notification: false
   send_notification: true
 trigger:
-  - platform: numeric_state
-    entity_id: sensor.sensor_temperature_humidity_wc_suite_humidity
+  - platform: template
+    value_template: >-
+      {{ states('sensor.sensor_temperature_humidity_wc_suite_humidity') <
+      states('input_number.bathroom_max_humidity_percentage') }}
     for:
       hours: 0
       minutes: 10
       seconds: 0
-    below: 80
   - platform: time_pattern
     minutes: /20
 condition:
-  - condition: numeric_state
-    entity_id: sensor.sensor_temperature_humidity_wc_suite_humidity
-    below: 80
+  - condition: template
+    value_template: |-
+      {{ states('sensor.sensor_temperature_humidity_wc_suite_humidity') <
+            states('input_number.bathroom_max_humidity_percentage') }}
   - condition: state
     entity_id: fan.multiswitch_wc_suite_ventax
     state: "on"
@@ -30,18 +32,17 @@ action:
       message: "{{ 'Humidade na WC Suite normal: ' ~ states('sensor.sensor_temperature_humidity_wc_suite_humidity')  ~ '%. Ventilação desligada.'}}"
   - if: "{{ send_notification == true }}"
     then:
-    - alias: Send notification
-      service: notify.ha_mobile_apps
-      data:
-        title: "{{ notification_title }}"
-        message: "{{ message }}"
+      - alias: Send notification
+        service: notify.ha_mobile_apps
         data:
-          tag: "{{ notification_title }}"
-          persistent: "{{ persistent_notification }}"
-          ttl: 0
-          priority: high
+          title: "{{ notification_title }}"
+          message: "{{ message }}"
+          data:
+            tag: "{{ notification_title }}"
+            persistent: "{{ persistent_notification }}"
+            ttl: 0
+            priority: high
   - alias: Perform the action
     service: fan.turn_off
     target:
       entity_id: fan.multiswitch_wc_suite_ventax
-
