@@ -7,7 +7,7 @@ import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import timedelta
-from typing import Any, NamedTuple
+from typing import Any
 
 import homeassistant.helpers.config_validation as cv
 import homeassistant.helpers.device_registry as dr
@@ -17,7 +17,7 @@ from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from homeassistant.components.sensor import PLATFORM_SCHEMA, SensorEntity
 from homeassistant.components.utility_meter import max_28_days
 from homeassistant.components.utility_meter.const import METER_TYPES
-from homeassistant.config_entries import ConfigEntry, ConfigEntryState
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_DOMAIN,
     CONF_ENTITIES,
@@ -25,11 +25,14 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_UNIQUE_ID,
 )
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.entity_registry import RegistryEntryDisabler
+from homeassistant.helpers.entity_registry import (
+    EVENT_ENTITY_REGISTRY_UPDATED,
+    RegistryEntryDisabler,
+)
 from homeassistant.helpers.template import Template
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -70,6 +73,7 @@ from .const import (
     CONF_MULTIPLY_FACTOR,
     CONF_MULTIPLY_FACTOR_STANDBY,
     CONF_ON_TIME,
+    CONF_PLAYBOOK,
     CONF_POWER,
     CONF_POWER_SENSOR_CATEGORY,
     CONF_POWER_SENSOR_ID,
@@ -100,10 +104,12 @@ from .const import (
     ENTITY_CATEGORIES,
     ENTRY_DATA_ENERGY_ENTITY,
     ENTRY_DATA_POWER_ENTITY,
+    SERVICE_ACTIVATE_PLAYBOOK,
     SERVICE_CALIBRATE_ENERGY,
     SERVICE_CALIBRATE_UTILITY_METER,
     SERVICE_INCREASE_DAILY_ENERGY,
     SERVICE_RESET_ENERGY,
+    SERVICE_STOP_PLAYBOOK,
     CalculationStrategy,
     PowercalcDiscoveryType,
     SensorType,
@@ -136,6 +142,7 @@ from .sensors.power import VirtualPowerSensor, create_power_sensor
 from .sensors.utility_meter import create_utility_meters
 from .strategy.fixed import CONFIG_SCHEMA as FIXED_SCHEMA
 from .strategy.linear import CONFIG_SCHEMA as LINEAR_SCHEMA
+from .strategy.playbook import CONFIG_SCHEMA as PLAYBOOK_SCHEMA
 from .strategy.wled import CONFIG_SCHEMA as WLED_SCHEMA
 
 _LOGGER = logging.getLogger(__name__)
@@ -157,6 +164,7 @@ SENSOR_CONFIG = {
     vol.Optional(CONF_FIXED): FIXED_SCHEMA,
     vol.Optional(CONF_LINEAR): LINEAR_SCHEMA,
     vol.Optional(CONF_WLED): WLED_SCHEMA,
+    vol.Optional(CONF_PLAYBOOK): PLAYBOOK_SCHEMA,
     vol.Optional(CONF_DAILY_FIXED_ENERGY): DAILY_FIXED_ENERGY_SCHEMA,
     vol.Optional(CONF_CREATE_ENERGY_SENSOR): cv.boolean,
     vol.Optional(CONF_CREATE_UTILITY_METERS): cv.boolean,
@@ -276,11 +284,15 @@ async def async_setup_entry(
         async_add_entities(entities)
         return
 
-    # Add entry to an existing group
-    updated_group_entry = await add_to_associated_group(hass, entry)
-
     if CONF_UNIQUE_ID not in sensor_config:
         sensor_config[CONF_UNIQUE_ID] = entry.unique_id
+
+    if CONF_ENTITY_ID in sensor_config:
+        _register_entity_id_change_listener(
+            hass,
+            entry,
+            str(sensor_config.get(CONF_ENTITY_ID)),
+        )
 
     await _async_setup_entities(
         hass,
@@ -288,8 +300,9 @@ async def async_setup_entry(
         async_add_entities,
         config_entry=entry,
     )
-    if updated_group_entry and updated_group_entry.state == ConfigEntryState.LOADED:
-        await hass.config_entries.async_reload(updated_group_entry.entry_id)
+
+    # Add entry to an existing group
+    await add_to_associated_group(hass, entry)
 
 
 async def _async_setup_entities(
@@ -332,6 +345,46 @@ async def _async_setup_entities(
             entities_to_add.remove(entity)
 
     async_add_entities(entities_to_add)
+
+
+def _register_entity_id_change_listener(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    source_entity_id: str,
+) -> None:
+    """
+    When the user changes the entity id of the source entity,
+    we also need to change the powercalc config entry to reflect these changes
+    This method adds the necessary listener and handler to facilitate this
+    """
+
+    @callback
+    async def _entity_rename_listener(event: Event) -> None:
+        """Handle renaming of the entity"""
+        old_entity_id = event.data["old_entity_id"]
+        new_entity_id = event.data[CONF_ENTITY_ID]
+        _LOGGER.debug(
+            f"Entity id has been changed, updating powercalc config. old_id={old_entity_id}, new_id={new_entity_id}",
+        )
+        hass.config_entries.async_update_entry(
+            entry,
+            data={**entry.data, CONF_ENTITY_ID: new_entity_id},
+        )
+
+    @callback
+    def _filter_entity_id(event: Event) -> bool:
+        """Only dispatch the listener for update events concerning the source entity"""
+        return (
+            event.data["action"] == "update"
+            and "old_entity_id" in event.data
+            and event.data["old_entity_id"] == source_entity_id
+        )
+
+    hass.bus.async_listen(
+        EVENT_ENTITY_REGISTRY_UPDATED,
+        _entity_rename_listener,
+        event_filter=_filter_entity_id,
+    )
 
 
 @callback
@@ -394,6 +447,18 @@ def register_entity_services() -> None:
         SERVICE_INCREASE_DAILY_ENERGY,
         {vol.Required(CONF_VALUE): validate_is_number},  # type: ignore
         "async_increase",
+    )
+
+    platform.async_register_entity_service(
+        SERVICE_ACTIVATE_PLAYBOOK,
+        {vol.Required("playbook_id"): cv.string},  # type: ignore
+        "async_activate_playbook",
+    )
+
+    platform.async_register_entity_service(
+        SERVICE_STOP_PLAYBOOK,
+        {},
+        "async_stop_playbook",
     )
 
 
@@ -788,6 +853,7 @@ class EntitiesBucket:
         return bool(self.new) or bool(self.existing)
 
 
-class CreationContext(NamedTuple):
-    group: bool = False
-    entity_config: ConfigType = {}
+@dataclass
+class CreationContext:
+    group: bool = field(default=False)
+    entity_config: ConfigType = field(default_factory=dict)

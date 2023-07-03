@@ -16,9 +16,9 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_UNIQUE_ID,
     CONF_UNIT_OF_MEASUREMENT,
-    ENERGY_KILO_WATT_HOUR,
-    POWER_WATT,
     Platform,
+    UnitOfEnergy,
+    UnitOfPower,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
@@ -96,8 +96,11 @@ SCHEMA_DAILY_ENERGY_OPTIONS = vol.Schema(
     {
         vol.Optional(CONF_VALUE): vol.Coerce(float),
         vol.Optional(CONF_VALUE_TEMPLATE): selector.TemplateSelector(),
-        vol.Optional(CONF_UNIT_OF_MEASUREMENT, default=ENERGY_KILO_WATT_HOUR): vol.In(
-            [ENERGY_KILO_WATT_HOUR, POWER_WATT],
+        vol.Optional(
+            CONF_UNIT_OF_MEASUREMENT,
+            default=UnitOfEnergy.KILO_WATT_HOUR,
+        ): vol.In(
+            [UnitOfEnergy.KILO_WATT_HOUR, UnitOfPower.WATT],
         ),
         vol.Optional(CONF_ON_TIME): selector.DurationSelector(
             selector.DurationSelectorConfig(enable_day=False),
@@ -771,11 +774,10 @@ class OptionsFlowHandler(OptionsFlow):
         if self.sensor_type == SensorType.GROUP:
             data_schema = _create_group_options_schema(self.hass)
 
-        data_schema = _fill_schema_defaults(
+        return _fill_schema_defaults(
             data_schema,
             self.current_config | strategy_options,
         )
-        return data_schema
 
 
 async def _create_strategy_object(
