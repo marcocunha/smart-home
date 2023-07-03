@@ -1,0 +1,12 @@
+#
+# Light Groups
+#
+# https://www.home-assistant.io/integrations/group/
+#
+light:
+  - platform: group
+    name: "Suite Lights"
+    entities:
+      - light.zigbee_smartpowerplug_1
+      - light.plug_bedlight_darlene_suite
+      - light.switch_light_suite
