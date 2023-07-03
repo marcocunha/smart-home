@@ -16,7 +16,7 @@ action:
     service: notify.ha_mobile_apps
     data:
       title: "{{ notification_title }}"
-      message: "{{ 'A bomba hoje trabalhou: ' ~ states('sensor.swimming_pool_pump_on_today')  ~ 'h.'}}"
+      message: "{{ 'A bomba hoje trabalhou: ' ~ states('sensor.swimming_pool_pump_on_today')|float  ~ 'h.'}}"
       data:
         tag: "{{ notification_title }}"
         persistent: "{{ persistent_notification }}"
