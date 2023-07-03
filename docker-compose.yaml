@@ -30,6 +30,8 @@ services:
     depends_on:
       - mariadb
       - influxdb
+    #to fix bluetooth_tracker issue https://community.home-assistant.io/t/how-do-i-fix-unable-to-install-package-pybluez-0-22-error/579478/7
+    command: /bin/sh -c "apk add gcc musl-dev bluez-dev ; /init" 
 
   # Duplicati
   # Free backup software to store encrypted backups online
