@@ -5,7 +5,7 @@ max_exceeded: silent
 variables:
   notification_title: Humidade WC Suite
   persistent_notification: false
-  send_notification: true
+  send_notification: false
 trigger:
   - platform: template
     value_template: >-
