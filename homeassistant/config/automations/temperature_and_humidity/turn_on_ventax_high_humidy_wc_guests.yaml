@@ -1,0 +1,49 @@
+id: turn_on_ventax_high_humidy_wc_guests
+alias: Turn on ventax if humitidy of WC Guests is high
+mode: restart
+max_exceeded: silent
+variables:
+  notification_title: Humidade WC Guests
+  persistent_notification: false
+  send_notification: false
+trigger:
+  - platform: template
+    value_template: >-
+      {{ states('sensor.wc_temperature_humidity_sensor_humidity') >=
+      states('input_number.bathroom_max_humidity_percentage') }}
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - platform: time_pattern
+    minutes: /20
+condition:
+  - condition: template
+    value_template: |-
+      {{ states('sensor.wc_temperature_humidity_sensor_humidity') >=
+            states('input_number.bathroom_max_humidity_percentage') }}
+  - condition: state
+    entity_id: fan.multiswitch_wc_guests_center
+    state: "off"
+action:
+  - alias: Set up variables for the actions
+    variables:
+      action_ack: "{{ 'ACK_' ~ context.id }}"
+      message: "{{ 'Humidade na WC Serviço demasiado alta: ' ~ states('sensor.wc_temperature_humidity_sensor_humidity')  ~ '%. Ventilação ligada.'}}"
+  - if: "{{ send_notification == true }}"
+    then:
+    - alias: Send notification
+      service: notify.ha_mobile_apps
+      data:
+        title: "{{ notification_title }}"
+        message: "{{ message }}"
+        data:
+          tag: "{{ notification_title }}"
+          persistent: "{{ persistent_notification }}"
+          ttl: 0
+          priority: high
+  - alias: Perform the action
+    service: fan.turn_on
+    target:
+      entity_id: fan.multiswitch_wc_guests_center
+
