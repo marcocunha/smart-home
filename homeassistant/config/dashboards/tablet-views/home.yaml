@@ -42,8 +42,33 @@ cards:
             use_entity_picture: false
             icon_color: amber
 
+
       - type: custom:mushroom-chips-card
         chips:
+          - type: template
+            entity: sensor.count_lights_on
+            icon_color: '{{ ''amber'' if states(''sensor.count_lights_on'')|float > 0}}'
+            name: Luzes Ligadas
+            icon: mdi:lamps
+            content: "{{ states('sensor.count_lights_on')}}"
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+          - type: template
+            entity: sensor.count_doors_open
+            icon_color: '{{ ''amber'' if states(''sensor.count_doors_open'')|float > 0}}'
+            name: Portas Abertas
+            icon: mdi:door
+            content: "{{ states('sensor.count_doors_open')}}"
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
           - type: entity
             entity: sensor.sensor_temperature_humidity_sala_temperature
             icon_color: deep-orange
@@ -171,7 +196,7 @@ cards:
                     [[[ return states['sensor.swimming_pool_pump_on_today'].state + 'h' ]]]
 
               - type: "custom:button-card"
-                entity: switch.projectores_piscina_switch_0
+                entity: light.projectores_piscina
                 icon: mdi:light-flood-up
                 show_state: false
                 name: P. Piscina

@@ -1,0 +1,36 @@
+template:
+  - sensor:
+      - name: Count lights on
+        icon: mdi:counter
+        state: >
+          {{
+            states.light
+            | selectattr("state", "eq", "on")
+            | rejectattr("attributes.is_hue_group", "defined")
+            | rejectattr("attributes.entity_id", "defined")
+            | list
+            | count
+          }}
+      - name: Count doors open
+        icon: mdi:counter
+        state: >
+          {{
+            states.binary_sensor
+            | selectattr("state", "eq", "on")
+            | selectattr('attributes.device_class', 'defined')
+            | selectattr("attributes.device_class", "==", "door")
+            | list
+            | count
+          }}
+
+      - name: Count windows open
+        icon: mdi:counter
+        state: >
+          {{
+            states.binary_sensor
+            | selectattr("state", "eq", "on")
+            | selectattr('attributes.device_class', 'defined')
+            | selectattr("attributes.device_class", "==", "window")
+            | list
+            | count
+          }}

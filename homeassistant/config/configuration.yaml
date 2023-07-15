@@ -45,7 +45,7 @@ homeassistant:
   allowlist_external_urls: !secret ha_allowlist_external_urls
   # Load customizations
   # Only for those device that are not customisable from UI
-  customize: !include_dir_merge_named customizations
+  customize: !include customize.yaml
   # Load packages
   packages: !include_dir_named integrations
 

@@ -1,0 +1,7 @@
+# Lights that are on
+sensor.count_lights_on:
+  friendly_name: Luzes ligadas
+sensor.count_doors_open:
+  friendly_name: Portas abertas
+sensor.count_windows_open:
+  friendly_name: Janelas abertas
