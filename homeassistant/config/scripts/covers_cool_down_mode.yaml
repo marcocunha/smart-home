@@ -1,0 +1,18 @@
+covers_cool_down_mode:
+  alias: Set covers position to cool down mode
+  mode: single
+  sequence:
+    - alias: "Set variables"
+      variables:
+        entities:
+          - cover.curtains_kitchen
+          - cover.curtains_livingroom_right
+          - cover.curtains_livingroom_left
+          - cover.curtains_suite
+          - cover.curtains_hall
+        desired_position_percentage: 30
+    - service: cover.set_cover_position
+      data:
+        position: "{{ desired_position_percentage }}"
+      target:
+        entity_id: "{{ entities }}"
