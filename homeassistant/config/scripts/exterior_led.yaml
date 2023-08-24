@@ -1,7 +1,12 @@
-turn_on_exterior_led_5min:
-  alias: Turn on exterior LED for 5 minutes
+turn_on_exterior_led:
+  alias: Turn on exterior LED for a given duration (default 5min)
   icon: mdi:lightbulb-fluorescent-tube-outline
   mode: single
+  fields: 
+      duration:
+        description: Duration (min) that the light will be on
+        default: 5
+        example: "5"
   sequence:
     - if:
         - condition: sun
@@ -17,7 +22,7 @@ turn_on_exterior_led_5min:
             entity_id: switch.barra_led_exterior_switch_0
         - delay:
             hours: 0
-            minutes: 5
+            minutes: "{{ duration }}"
             seconds: 0
             milliseconds: 0
         - service: switch.turn_off
