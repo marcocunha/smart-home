@@ -28,12 +28,17 @@ from homeassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
 )
-from homeassistant.core import CoreState, HomeAssistant, State, callback
+from homeassistant.core import (
+    CoreState,
+    Event,
+    HomeAssistant,
+    State,
+    callback,
+)
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.event import (
-    Event,
     async_track_state_change_event,
     async_track_time_interval,
 )
@@ -43,7 +48,6 @@ from homeassistant.helpers.storage import Store
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from homeassistant.util import Throttle
 from homeassistant.util.unit_conversion import (
-    BaseUnitConverter,
     EnergyConverter,
     PowerConverter,
 )
@@ -51,6 +55,7 @@ from homeassistant.util.unit_conversion import (
 from custom_components.powercalc.const import (
     ATTR_ENTITIES,
     ATTR_IS_GROUP,
+    CONF_AREA,
     CONF_DISABLE_EXTENDED_ATTRIBUTES,
     CONF_ENERGY_SENSOR_PRECISION,
     CONF_ENERGY_SENSOR_UNIT_PREFIX,
@@ -71,6 +76,7 @@ from custom_components.powercalc.const import (
     SensorType,
     UnitPrefix,
 )
+from custom_components.powercalc.group_include.include import resolve_include_entities
 
 from .abstract import (
     BaseEntity,
@@ -339,6 +345,23 @@ def resolve_entity_ids_recursively(
     )
     resolved_ids.extend(entry.data.get(conf_key) or [])
 
+    # Include entities from defined areas
+    if CONF_AREA in entry.data:
+        area_entities = [
+            entity.entity_id
+            for entity in resolve_include_entities(
+                hass,
+                {CONF_AREA: entry.data[CONF_AREA]},
+            )
+            if isinstance(
+                entity,
+                PowerSensor
+                if device_class == SensorDeviceClass.POWER
+                else EnergySensor,
+            )
+        ]
+        resolved_ids.extend(area_entities)
+
     # Include the entities from sub groups
     subgroups = entry.data.get(CONF_SUB_GROUPS)
     if not subgroups:
@@ -350,6 +373,7 @@ def resolve_entity_ids_recursively(
             _LOGGER.error(f"Subgroup config entry not found: {subgroup_entry_id}")
             continue
         resolve_entity_ids_recursively(hass, subgroup_entry, device_class, resolved_ids)
+
     return resolved_ids
 
 
@@ -440,9 +464,6 @@ class GroupedSensor(BaseEntity, RestoreSensor, SensorEntity):
         if unique_id:
             self._attr_unique_id = unique_id
         self.entity_id = entity_id
-        self.unit_converter: BaseUnitConverter | None = None
-        if hasattr(self, "get_unit_converter"):
-            self.unit_converter = self.get_unit_converter()
         self._prev_state_store: PreviousStateStore = PreviousStateStore(self.hass)
 
     async def async_added_to_hass(self) -> None:
@@ -557,7 +578,7 @@ class GroupedSensor(BaseEntity, RestoreSensor, SensorEntity):
         member_available_states: list[State],
         member_states: list[State],
     ) -> Decimal:
-        ...
+        """Logic for the state calculation"""
 
 
 class GroupedPowerSensor(GroupedSensor, PowerSensor):
@@ -708,7 +729,7 @@ class PreviousStateStore:
                     entity_id: State.from_dict(json_state)
                     for (entity_id, json_state) in entities.items()
                 }
-        except HomeAssistantError as exc:
+        except HomeAssistantError as exc:  # pragma: no cover
             _LOGGER.error("Error loading previous energy sensor states", exc_info=exc)
 
         instance.async_setup_dump()
@@ -740,7 +761,7 @@ class PreviousStateStore:
         """Save the current states to storage."""
         try:
             await self.store.async_save(self.states)
-        except HomeAssistantError as exc:
+        except HomeAssistantError as exc:  # pragma: no cover
             _LOGGER.error("Error saving current states", exc_info=exc)
 
     @callback
