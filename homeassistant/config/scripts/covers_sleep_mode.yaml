@@ -1,0 +1,39 @@
+covers_sleep_mode:
+  alias: Set covers position to sleep mode
+  mode: single
+  sequence:
+    - alias: "Set variables"
+      variables:
+        entities_to_close:
+          - cover.curtains_livingroom_right
+          - cover.curtains_livingroom_left
+          - cover.estores_escritorio
+          - cover.curtains_guestroom
+          - cover.estores_lavandaria
+        entities_to_keep_open:
+          - cover.curtains_kitchen
+          - cover.curtains_hall
+          - cover.curtains_wcsuite
+          - cover.curtains_suite
+        lights_to_turn_off:
+          - light.projectores_piscina
+        lights_to_turn_on:
+          - light.plug_bedlight_darlene_suite
+          - light.zigbee_smartpowerplug_1
+        desired_position_percentage: 9
+    - service: cover.set_cover_position
+      data:
+        position: "{{ desired_position_percentage }}"
+      target:
+        entity_id: "{{ entities_to_keep_open }}"
+    - service: cover.close_cover
+      target:
+        entity_id: "{{ entities_to_close }}"
+    - service: light.turn_off
+      data: {}
+      target:
+        entity_id: "{{ lights_to_turn_off }}"
+    - service: light.turn_on
+      data: {}
+      target:
+        entity_id: "{{ lights_to_turn_on }}"

@@ -251,6 +251,49 @@ cards:
                 custom_fields:
                   temperature: >
                     [[[ return Math.floor(states['sensor.resistencia_termoacumulador_temperature'].state) + 'ºC']]]
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Morning
+                secondary: ''
+                icon: mdi:sun-angle-outline
+                icon_color: yellow
+                layout: vertical
+                tap_action:
+                  action: call-service
+                  service: script.morning_mode
+                  data: {}
+              - type: custom:mushroom-template-card
+                primary: '  Night'
+                secondary: ''
+                icon: mdi:weather-night
+                icon_color: blue
+                layout: vertical
+                tap_action:
+                  action: call-service
+                  service: script.covers_sleep_mode
+                  target: {}
+              - type: custom:mushroom-template-card
+                primary: Fresco
+                secondary: ''
+                icon: mdi:coolant-temperature
+                icon_color: green
+                layout: vertical
+                tap_action:
+                  action: call-service
+                  service: script.covers_cool_down_mode
+                  target: {}
+              - type: custom:mushroom-template-card
+                primary: Bed
+                secondary: ''
+                icon: mdi:bed-single-outline
+                icon_color: purple
+                layout: vertical
+                tap_action:
+                  action: call-service
+                  service: script.covers_sleep_mode
+                  target: {}
+
       - type: vertical-stack
         cards:
           - type: vertical-stack

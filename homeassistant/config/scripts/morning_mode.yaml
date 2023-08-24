@@ -1,0 +1,25 @@
+morning_mode:
+  alias: Morning mode
+  mode: single
+  sequence:
+    - alias: "Set variables"
+      variables:
+        curtains_to_open_completely:
+          - cover.curtains_livingroom_right
+          - cover.curtains_livingroom_left
+          - cover.estores_escritorio
+          - cover.estores_lavandaria
+          - cover.curtains_kitchen
+          - cover.curtains_hall 
+        curtains_to_open_partially:
+          - cover.curtains_guestroom
+          - cover.curtains_wcsuite
+        desired_position_percentage: 20
+    - service: cover.set_cover_position
+      data:
+        position: "{{ desired_position_percentage }}"
+      target:
+        entity_id: "{{ curtains_to_open_partially }}"
+    - service: cover.open_cover
+      target:
+        entity_id: "{{ curtains_to_open_completely }}"
