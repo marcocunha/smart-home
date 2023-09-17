@@ -2,6 +2,7 @@ turn_on_exterior_led:
   alias: Turn on exterior LED for a given duration (default 5min)
   icon: mdi:lightbulb-fluorescent-tube-outline
   mode: single
+  max_exceeded: silent
   fields: 
       duration:
         description: Duration (min) that the light will be on

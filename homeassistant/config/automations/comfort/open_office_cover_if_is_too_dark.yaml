@@ -5,7 +5,7 @@ mode: single
 trigger:
   - platform: state
     entity_id:
-      - binary_sensor.0x00158d000941201a_occupancy
+      - binary_sensor.sensor_occupancy_office_occupancy
     to: "on"
     for:
       hours: 0
@@ -13,7 +13,7 @@ trigger:
       seconds: 0
     alias: When someone in the office
   - platform: numeric_state
-    entity_id: sensor.0x00158d000941201a_illuminance_lux
+    entity_id: sensor.sensor_occupancy_office_illuminance_lux
     for:
       hours: 0
       minutes: 2
@@ -37,8 +37,8 @@ condition:
     below: 75
     alias: Curtains are below 75
 action:
-  - device_id: cc451ace859251f15fcc1eb749cd3147
-    domain: cover
-    entity_id: cover.estores_escritorio
-    type: set_position
-    position: 75
+  - service: cover.set_cover_position
+    data:
+      position: 75
+    target:
+      entity_id: cover.estores_escritorio
