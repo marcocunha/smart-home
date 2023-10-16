@@ -10,11 +10,11 @@ covers_sleep_mode:
           - cover.estores_escritorio
           - cover.curtains_guestroom
           - cover.estores_lavandaria
+          - cover.curtains_suite
+          - cover.curtains_wcsuite
         entities_to_keep_open:
           - cover.curtains_kitchen
           - cover.curtains_hall
-          - cover.curtains_wcsuite
-          - cover.curtains_suite
         lights_to_turn_off:
           - light.projectores_piscina
         lights_to_turn_on:
