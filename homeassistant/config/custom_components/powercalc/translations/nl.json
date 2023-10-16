@@ -21,7 +21,8 @@
         "step": {
             "daily_energy": {
                 "data": {
-                    "name": "Name",
+                    "create_utility_meters": "Creëer utiliteit meters",
+                    "name": "Naam",
                     "on_time": "Tijd aan per dag",
                     "start_time": "Start time",
                     "unique_id": "Uniek id",
@@ -306,6 +307,20 @@
             },
             "name": "Kalibreer utiliteitsmeter"
         },
+        "change_gui_config": {
+            "description": "Pas configuratie setting in één keer aan voor alle Powercalc GUI configuraties",
+            "fields": {
+                "field": {
+                    "description": "De optie die je aan wil passen",
+                    "name": "Optie"
+                },
+                "value": {
+                    "description": "De nieuwe waarde",
+                    "name": "Waarde"
+                }
+            },
+            "name": "Calibrate utility meter"
+        },
         "increase_daily_energy": {
             "description": "Verhoog de sensor.",
             "fields": {
@@ -323,6 +338,16 @@
         "stop_playbook": {
             "description": "Stop huidige actieve playbook.",
             "name": "Stop playbook"
+        },
+        "switch_sub_profile": {
+            "description": "Een aantal profielen in de bibliotheek ondersteunen verschillende sub profielen. Deze service maakt het mogelijk om een andere te kiezen.",
+            "fields": {
+                "profile": {
+                    "name": "Subprofiel",
+                    "description": "Specificeer een van de mogelijke sub profielen"
+                }
+            },
+            "name": "Schakel over naar ander subprofiel"
         }
     }
 }
