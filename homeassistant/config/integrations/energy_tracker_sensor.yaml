@@ -3,34 +3,34 @@
 #
 # https://www.home-assistant.io/integrations/rest
 #
-sensor:
-  - platform: rest
-    name: energy_tracker_sensor
-    resource: !secret energy_tracker_url
-    json_attributes:
-      - "OMIE price"
-      - "Supplier"
-      - "TAR"
-      - "Tariff"
-      - "net price"
-      - "date"
-    value_template: "OK"
-    #Define the refrequency to call the REST endpoint in seconds.
-    scan_interval: 300
-  - platform: template
-    sensors:
-      energy_omie_price:
-        friendly_name: "OMIE price per MWh"
-        value_template: "{{ state_attr('sensor.energy_tracker_sensor', 'OMIE price')}}"
-        unit_of_measurement: "EUR/MWh"
-        device_class: monetary
-      energy_tar_price:
-        friendly_name: "TAR per kWh"
-        value_template: "{{ state_attr('sensor.energy_tracker_sensor', 'TAR')}}"
-        unit_of_measurement: "EUR/kWh"
-        device_class: monetary
-      energy_net_price:
-        friendly_name: "Net price per kWh"
-        value_template: "{{ state_attr('sensor.energy_tracker_sensor', 'net price')}}"
-        unit_of_measurement: "EUR/kWh"
-        device_class: monetary
+# sensor:
+#   - platform: rest
+#     name: energy_tracker_sensor
+#     resource: !secret energy_tracker_url
+#     json_attributes:
+#       - "OMIE price"
+#       - "Supplier"
+#       - "TAR"
+#       - "Tariff"
+#       - "net price"
+#       - "date"
+#     value_template: "OK"
+#     #Define the refrequency to call the REST endpoint in seconds.
+#     scan_interval: 300
+#   - platform: template
+#     sensors:
+#       energy_omie_price:
+#         friendly_name: "OMIE price per MWh"
+#         value_template: "{{ state_attr('sensor.energy_tracker_sensor', 'OMIE price')}}"
+#         unit_of_measurement: "EUR/MWh"
+#         device_class: monetary
+#       energy_tar_price:
+#         friendly_name: "TAR per kWh"
+#         value_template: "{{ state_attr('sensor.energy_tracker_sensor', 'TAR')}}"
+#         unit_of_measurement: "EUR/kWh"
+#         device_class: monetary
+#       energy_net_price:
+#         friendly_name: "Net price per kWh"
+#         value_template: "{{ state_attr('sensor.energy_tracker_sensor', 'net price')}}"
+#         unit_of_measurement: "EUR/kWh"
+#         device_class: monetary

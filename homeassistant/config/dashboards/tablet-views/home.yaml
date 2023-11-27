@@ -232,7 +232,7 @@ cards:
                     temperature:
                       - background-color: >
                           [[[
-                            if (states['sensor.resistencia_termoacumulador_temperature'].state < 45)
+                            if (parseFloat(states['sensor.resistencia_termoacumulador_temperature'].state) < parseFloat(states['input_number.desired_hot_water_temperature'].state))
                               return "maroon";
                             return "darkolivegreen";
                           ]]]
@@ -304,32 +304,6 @@ cards:
                   solar: sensor.contador_producao_channel_1_power
                 watt_threshold: 1000
                 dashboard_link: /energy
-              - type: custom:mushroom-template-card
-                primary: "Price: {{states('sensor.energy_net_price')|round(3)}} €/kWh"
-                secondary: "OMIE: {{states('sensor.energy_omie_price')|round(3)}} €/MWh"
-                icon: mdi:transmission-tower-import
-                multiline_secondary: false
-                entity: sensor.energy_tracker_sensor
-                tap_action:
-                  action: navigate
-                  navigation_path: /energy
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                layout: horizontal
-                icon_color: white
-                card_mod:
-                  style: |
-                    ha-card {
-                        --card-primary-font-size: 1.2rem;
-                        border: none;
-                        box-shadow: none;
-                        background: rgba(0,0,0,0);
-                        margin-top: -0.5rem;
-                        margin-bottom: 1.5rem;
-                        flex-direction: inherit !important;
-                    }
     view_layout:
       position: main
   - type: horizontal-stack
