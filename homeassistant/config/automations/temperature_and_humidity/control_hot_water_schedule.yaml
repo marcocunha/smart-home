@@ -1,0 +1,46 @@
+id: control_hot_water_schedule
+alias: Control hot water based on schedule
+description: Control hot water based on schedule
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - schedule.hotwater_schedule
+  - platform: time_pattern
+    minutes: /30
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: schedule.hotwater_schedule
+            state: "on"
+            alias: "Hot Water schedule is ON"
+          - condition: template
+            value_template: |-
+              {{ states('sensor.resistencia_termoacumulador_temperature') <
+                    states('input_number.desired_hot_water_temperature') }}
+            alias: "Current temperature lower than desired temperature"
+        sequence:
+          - service: switch.turn_on
+            data: {}
+            target:
+              entity_id: switch.hot_water
+      - conditions:
+          - condition: or
+            alias: "Hot water schedule is OFF or has reached desired temperature"
+            conditions:
+              - condition: state
+                entity_id: schedule.hotwater_schedule
+                state: "off"
+                alias: "Hot Water schedule is OFF"
+              - condition: template
+                value_template: |-
+                  {{ states('sensor.resistencia_termoacumulador_temperature') >=
+                        states('input_number.desired_hot_water_temperature') }}
+                alias: "Actual temperature higher than desired temperature"
+        sequence:
+          - service: switch.turn_off
+            data: {}
+            target:
+              entity_id: switch.hot_water

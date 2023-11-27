@@ -26,3 +26,10 @@ input_number:
     max: 999
     step: 1
     mode: box
+  desired_hot_water_temperature:
+    name: Desired hot water temperature
+    initial: !secret CONST_DESIRED_HOT_WATER_TEMPERATURE
+    min: 0
+    max: 80
+    step: 1
+    mode: box
