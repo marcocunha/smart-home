@@ -6,9 +6,17 @@ cards:
   - type: vertical-stack
     cards:
       - type: custom:formulaone-card
-        card_type: next_race
-        date_locale: pt-pt
-        image_clickable: false
+        card_type: countdown
+      - type: horizontal-stack
+        cards:
+        - type: custom:formulaone-card
+          card_type: next_race
+          date_locale: pt-pt
+          image_clickable: false
+          show_raceinfo: true
+        - type: custom:formulaone-card
+          card_type: results
+          title: Results
       - type: horizontal-stack
         cards:
           - type: custom:formulaone-card

@@ -15,4 +15,4 @@ condition:
 action:
   - service: script.turn_on_exterior_led
     data:
-      duration: 10
+      duration: 15

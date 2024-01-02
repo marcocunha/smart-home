@@ -659,7 +659,7 @@ cards:
                 tap_action:
                   action: toggle
               - type: "custom:button-card"
-                entity: switch.smart_switch_light_escritorio
+                entity: light.office_light
                 icon: mdi:chair-rolling
                 show_state: false
                 name: Escritório
