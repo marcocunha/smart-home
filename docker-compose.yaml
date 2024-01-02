@@ -146,7 +146,7 @@ services:
       - 8080:8080
     devices:
       # Make sure this matched your adapter location
-      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_6eff811877d9eb119d90178e6fe9f4d9-if00-port0:/dev/ttyUSB0
     env_file:
       - .env
     depends_on:
