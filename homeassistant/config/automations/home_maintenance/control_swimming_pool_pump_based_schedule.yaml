@@ -1,0 +1,31 @@
+id: control_swimming_pool_pump_based_schedule
+alias: Control swimming pool pump based on schedule
+description: Control swimming pool pump based on schedule
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - schedule.swimming_pool_pump_schedule
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: schedule.swimming_pool_pump_schedule
+            state: "on"
+            alias: "Swimming pool pump schedule is ON"
+        sequence:
+          - alias: Turn on pump
+            service: switch.turn_on
+            target:
+              device_id: 11352414f861aaceba25adee16b975f5
+      - conditions:
+          - condition: state
+            entity_id: schedule.swimming_pool_pump_schedule
+            state: "off"
+            alias: "Swimming pool pump schedule is OFF"
+        sequence:
+          - alias: Turn off pump
+            service: switch.turn_off
+            target:
+              device_id: 11352414f861aaceba25adee16b975f5
