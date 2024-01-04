@@ -81,7 +81,7 @@ action:
           action: "{{ action_ignore }}"
   - alias: Perform the action
     choose:
-      - conditions: "{{ wait.trigger.event.data.action == action_close }}"
+      - conditions: "{{ (wait.trigger.event.data.action == action_close) and (is_state('binary_sensor.sensor_garage_door_contact', 'on')) }}"
         sequence:
           - service: script.garage
             data: {}
