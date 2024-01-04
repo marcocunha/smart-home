@@ -35,8 +35,6 @@ announcement:
               value: notify.marco
             - label: Darlene
               value: notify.darlene
-            - label: Tablet
-              value: notify.tablet
     speak:
       name: Speak or not
       description: Optionally specify to make the announcement silently (true by default)

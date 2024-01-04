@@ -1,5 +1,12 @@
 garage:
   alias: Toggle Garage
+  variables:
+    message: >-
+      {% if is_state('binary_sensor.sensor_garage_door_contact', 'on') %}
+        A fechar garagem
+      {% else %}
+        A abrir garagem
+      {% endif %}
   sequence:
     - if:
         - condition: not
@@ -15,7 +22,7 @@ garage:
             speak: true
             notify: true
             messages:
-              - A abrir ou a fechar garagem
+              - "{{ message }}"
             service: notify.all
             force_speak: false
       else:
@@ -25,7 +32,7 @@ garage:
             speak: true
             notify: false
             messages:
-              - A abrir ou a fechar garagem
+              - "{{ message }}"
             service: notify.all
             force_speak: false
     - alias: Toggle garage button
