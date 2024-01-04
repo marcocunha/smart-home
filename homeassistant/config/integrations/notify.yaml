@@ -5,7 +5,6 @@
 #
 # The notify integration makes it possible to send notifications to a wide variety of platforms.
 #
-
 notify:
   # Groups
   - name: marco
@@ -16,18 +15,13 @@ notify:
     platform: group
     services:
       - service: mobile_app_oppo
-  - name: tablet
-    platform: group
-    services:
-      - service: mobile_app_samsung_tab_s_10_5
   - name: "ha_mobile_apps"
     platform: group
     services:
-      - service: 'mobile_app_samsung_s22'
-      - service: 'mobile_app_oppo'
+      - service: "mobile_app_samsung_s22"
+      - service: "mobile_app_oppo"
   - name: all
     platform: group
     services:
       - service: marco
       - service: darlene
-      - service: tablet
