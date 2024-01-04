@@ -82,8 +82,6 @@ announcement:
       {% else %}
         There is no voiceover text.
       {% endif %}
-    multiline: >-
-      {{ test_data }}
   sequence:
     - alias: Make an announcement on speakers
       choose:
@@ -93,7 +91,7 @@ announcement:
               entity_id: group.household
               state: "home"
             - condition: state
-              entity_id: input_boolean.do_not_disturb
+              entity_id: schedule.dnd_schedule
               state: "off"
           sequence:
             - service: script.speak_announcement
