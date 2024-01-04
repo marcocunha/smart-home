@@ -13,5 +13,6 @@ use_blueprint:
     state_filter_states:
       - armed_home
     notify_group: ha_mobile_apps
+    notify_device: c5e66df13fa3b28125099c5a4229ddc0
     base_url: https://alberto.mcunha.me/
     message: "{{ label }} detected - {{ camera_name }}"

@@ -4,8 +4,10 @@ description: ''
 use_blueprint:
   path: SgtBatten/Stable.yaml
   input:
-    tv_transparency: 0%
     camera: camera.frente
+    notify_device: c5e66df13fa3b28125099c5a4229ddc0
+    notify_group: ha_mobile_apps
+    message: '{{ label }} detected - {{ camera_name }}'
     zone_filter: true
     zones:
       - Frente_Jardim
@@ -14,6 +16,5 @@ use_blueprint:
     state_entity: alarm_control_panel.ajax_security_system
     state_filter_states:
       - armed_home
-    notify_group: ha_mobile_apps
     base_url: https://alberto.mcunha.me/
-    message: '{{ label }} detected - {{ camera_name }}'
+    
