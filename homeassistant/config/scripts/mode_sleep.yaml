@@ -1,5 +1,5 @@
-covers_sleep_mode:
-  alias: Set covers position to sleep mode
+mode_sleep:
+  alias: Set the entities according to the sleep mode
   mode: single
   sequence:
     - alias: "Set variables"
@@ -24,18 +24,22 @@ covers_sleep_mode:
           - light.zigbee_smartpowerplug_1
         desired_position_percentage: 9
     - service: cover.set_cover_position
+      alias: Set covers position to sleep mode
       data:
         position: "{{ desired_position_percentage }}"
       target:
         entity_id: "{{ entities_to_keep_open }}"
     - service: cover.close_cover
+      alias: Close covers
       target:
         entity_id: "{{ entities_to_close }}"
     - service: light.turn_off
+      alias: Turn OFF certain lights
       data: {}
       target:
         entity_id: "{{ lights_to_turn_off }}"
     - service: light.turn_on
       data: {}
+      alias: Turn ON certain lights
       target:
         entity_id: "{{ lights_to_turn_on }}"

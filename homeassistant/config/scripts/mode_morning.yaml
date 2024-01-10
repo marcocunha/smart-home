@@ -1,5 +1,5 @@
-morning_mode:
-  alias: Morning mode
+mode_morning:
+  alias: Set the entities according to the morning mode
   mode: single
   sequence:
     - alias: "Set variables"
@@ -14,7 +14,8 @@ morning_mode:
         curtains_to_open_partially:
           - cover.curtains_guestroom
           - cover.curtains_wcsuite
-        desired_position_percentage: 20
+          - cover.curtains_suite
+        desired_position_percentage: 25
     - service: cover.set_cover_position
       data:
         position: "{{ desired_position_percentage }}"

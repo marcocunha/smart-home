@@ -261,7 +261,7 @@ cards:
                 layout: vertical
                 tap_action:
                   action: call-service
-                  service: script.morning_mode
+                  service: script.mode_morning
                   data: {}
               - type: custom:mushroom-template-card
                 primary: '  Night'
@@ -271,7 +271,7 @@ cards:
                 layout: vertical
                 tap_action:
                   action: call-service
-                  service: script.covers_sleep_mode
+                  service: script.mode_sleep
                   target: {}
               - type: custom:mushroom-template-card
                 primary: Fresco
@@ -291,7 +291,7 @@ cards:
                 layout: vertical
                 tap_action:
                   action: call-service
-                  service: script.covers_sleep_mode
+                  service: script.mode_sleep
                   target: {}
 
       - type: vertical-stack
