@@ -1,6 +1,6 @@
 id: control_hot_water_schedule
-alias: Control hot water based on schedule
-description: Control hot water based on schedule
+alias: Control hot water based on schedule and solar energy production
+description: Control hot water based on schedule and solar energy production
 mode: single
 trigger:
   - platform: state
@@ -12,10 +12,17 @@ condition: []
 action:
   - choose:
       - conditions:
-          - condition: state
-            entity_id: schedule.hotwater_schedule
-            state: "on"
-            alias: "Hot Water schedule is ON"
+          - condition: or
+            alias: "Hot water schedule is ON or we have energy excess."
+            conditions:
+              - condition: state
+                entity_id: schedule.hotwater_schedule
+                state: "on"
+                alias: "Hot Water schedule is ON"
+              - condition: template
+                value_template: |-
+                  {{ states('sensor.energy_consumption_mean_over_last_10_minutes')|float < -2000 }}
+                alias: "We have energy excess"
           - condition: template
             value_template: |-
               {{ states('sensor.resistencia_termoacumulador_temperature') <
