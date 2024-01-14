@@ -7,7 +7,7 @@ trigger:
     entity_id:
       - schedule.hotwater_schedule
   - platform: time_pattern
-    minutes: /30
+    minutes: /15
 condition: []
 action:
   - choose:
