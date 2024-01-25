@@ -2,27 +2,27 @@ schedule:
   hotwater_schedule:
     name: "Hotwater schedule"
     monday:
-      - from: "6:00:00"
+      - from: "5:00:00"
         to: "9:00:00"
       - from: "18:00:00"
         to: "21:30:00"
     tuesday:
-      - from: "6:00:00"
+      - from: "5:00:00"
         to: "9:00:00"
       - from: "18:00:00"
         to: "21:30:00"
     wednesday:
-      - from: "6:00:00"
+      - from: "5:00:00"
         to: "9:00:00"
       - from: "18:00:00"
         to: "21:30:00"
     thursday:
-      - from: "6:00:00"
+      - from: "5:00:00"
         to: "9:00:00"
       - from: "18:00:00"
         to: "21:30:00"
     friday:
-      - from: "6:00:00"
+      - from: "5:00:00"
         to: "9:00:00"
       - from: "18:00:00"
         to: "21:30:00"
