@@ -1392,6 +1392,7 @@ cards:
             name: LG OLED
             icon: mdi:television
             group: false
-            volume_stateless: false
+            volume_stateless: true
             toggle_power: false
             artwork: none
+            sound_mode: icon
