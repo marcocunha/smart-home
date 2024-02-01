@@ -30,14 +30,12 @@ from homeassistant.const import (
     UnitOfPower,
 )
 from homeassistant.core import (
-    CoreState,
-    Event,
     HomeAssistant,
     State,
     callback,
 )
 from homeassistant.exceptions import HomeAssistantError
-from homeassistant.helpers import device_registry
+from homeassistant.helpers import device_registry, start
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.event import (
@@ -66,6 +64,7 @@ from custom_components.powercalc.const import (
     CONF_GROUP_MEMBER_SENSORS,
     CONF_GROUP_POWER_ENTITIES,
     CONF_HIDE_MEMBERS,
+    CONF_IGNORE_UNAVAILABLE_STATE,
     CONF_POWER_SENSOR_PRECISION,
     CONF_SENSOR_TYPE,
     CONF_SUB_GROUPS,
@@ -177,7 +176,7 @@ async def create_group_sensors_from_config_entry(
         sensor_config[CONF_UNIQUE_ID] = entry.entry_id
 
     power_sensor_ids: set[str] = set(
-        resolve_entity_ids_recursively(hass, entry, SensorDeviceClass.POWER),
+        await resolve_entity_ids_recursively(hass, entry, SensorDeviceClass.POWER),
     )
     if power_sensor_ids:
         power_sensor = create_grouped_power_sensor(
@@ -189,7 +188,7 @@ async def create_group_sensors_from_config_entry(
         group_sensors.append(power_sensor)
 
     energy_sensor_ids: set[str] = set(
-        resolve_entity_ids_recursively(hass, entry, SensorDeviceClass.ENERGY),
+        await resolve_entity_ids_recursively(hass, entry, SensorDeviceClass.ENERGY),
     )
     if energy_sensor_ids:
         energy_sensor = create_grouped_energy_sensor(
@@ -324,8 +323,7 @@ async def add_to_associated_group(
     return group_entry
 
 
-@callback
-def resolve_entity_ids_recursively(
+async def resolve_entity_ids_recursively(
     hass: HomeAssistant,
     entry: ConfigEntry,
     device_class: SensorDeviceClass,
@@ -361,12 +359,13 @@ def resolve_entity_ids_recursively(
 
     # Include entities from defined areas
     if CONF_AREA in entry.data:
+        resolved_area_entities, _ = await resolve_include_entities(
+            hass,
+            {CONF_AREA: entry.data[CONF_AREA]},
+        )
         area_entities = [
             entity.entity_id
-            for entity in resolve_include_entities(
-                hass,
-                {CONF_AREA: entry.data[CONF_AREA]},
-            )
+            for entity in resolved_area_entities
             if isinstance(
                 entity,
                 PowerSensor
@@ -386,10 +385,20 @@ def resolve_entity_ids_recursively(
         if subgroup_entry is None:
             _LOGGER.error("Subgroup config entry not found: %s", subgroup_entry_id)
             continue
-        resolve_entity_ids_recursively(hass, subgroup_entry, device_class, resolved_ids)
+        await resolve_entity_ids_recursively(
+            hass, subgroup_entry, device_class, resolved_ids,
+        )
 
     return resolved_ids
 
+
+async def get_entries_having_subgroup(hass: HomeAssistant, subgroup_entry: ConfigEntry) -> list[ConfigEntry]:
+    return [
+        entry
+        for entry in hass.config_entries.async_entries(DOMAIN)
+        if entry.data.get(CONF_SENSOR_TYPE) == SensorType.GROUP
+           and subgroup_entry.entry_id in (entry.data.get(CONF_SUB_GROUPS) or [])
+    ]
 
 @callback
 def create_grouped_power_sensor(
@@ -521,6 +530,9 @@ class GroupedSensor(BaseEntity, RestoreSensor, SensorEntity):
 
         self._prev_state_store = await PreviousStateStore.async_get_instance(self.hass)
 
+        if isinstance(self, GroupedPowerSensor):
+            self.async_on_remove(start.async_at_start(self.hass, state_listener))
+
         self.async_on_remove(
             async_track_state_change_event(
                 self.hass,
@@ -555,11 +567,8 @@ class GroupedSensor(BaseEntity, RestoreSensor, SensorEntity):
             registry.async_update_entity(entity_id, hidden_by=hidden_by)
 
     @callback
-    def on_state_change(self, event: Event) -> None:
+    def on_state_change(self, _: Any) -> None:  # noqa
         """Triggered when one of the group entities changes state."""
-        if self.hass.state != CoreState.running:  # pragma: no cover
-            return
-
         all_states = [self.hass.states.get(entity_id) for entity_id in self._entities]
         states: list[State] = list(filter(None, all_states))
         available_states = [
@@ -568,7 +577,13 @@ class GroupedSensor(BaseEntity, RestoreSensor, SensorEntity):
             if state and state.state not in [STATE_UNKNOWN, STATE_UNAVAILABLE]
         ]
         if not available_states:
-            self._attr_available = False
+            if self._sensor_config.get(CONF_IGNORE_UNAVAILABLE_STATE) and isinstance(
+                self, GroupedPowerSensor,
+            ):
+                self._attr_native_value = 0
+                self._attr_available = True
+            else:
+                self._attr_available = False
             self.async_write_ha_state()
             return
 
