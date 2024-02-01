@@ -1,0 +1,18 @@
+id: turn_on_external_led_when_garage_door_is_open
+alias: Turn on external LED when garage door is open
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.sensor_garage_door_contact
+    from: "off"
+    to: "on"
+    alias: "Garage door opened"
+condition:
+  - condition: sun
+    after: sunset
+    before: sunrise
+action:
+  - service: script.turn_on_exterior_led
+    data:
+      duration: 15
