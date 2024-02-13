@@ -1,7 +1,7 @@
 turn_on_exterior_led:
   alias: Turn on exterior LED for a given duration (default 5min)
   icon: mdi:lightbulb-fluorescent-tube-outline
-  mode: single
+  mode: restart
   max_exceeded: silent
   fields: 
       duration:
@@ -13,9 +13,6 @@ turn_on_exterior_led:
         - condition: sun
           after: sunset
           before: sunrise
-        - condition: state
-          entity_id: switch.barra_led_exterior_switch_0
-          state: "off"
       then:
         - service: switch.turn_on
           data: {}
