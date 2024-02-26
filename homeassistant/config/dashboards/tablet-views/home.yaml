@@ -306,7 +306,7 @@ cards:
                 dashboard_link: /energy
               - type: custom:mushroom-template-card
                 primary:  >
-                  Corrente (acc): 
+                  Consumo (acc): 
                     {% if is_number(states('sensor.monthly_energy')) and is_number(states('input_number.static_price_per_kwh')) %}
                       {{ (states('sensor.monthly_energy') | float * states('input_number.static_price_per_kwh') | float) | round(2) }}
                     {% else %}

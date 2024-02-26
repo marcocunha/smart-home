@@ -1237,7 +1237,7 @@ cards:
           - type: horizontal-stack
             cards:
               - type: "custom:button-card"
-                entity: switch.barra_led_exterior_switch_0
+                entity: light.barra_led_exterior_switch_0
                 icon: mdi:coach-lamp
                 show_state: false
                 name: Barra
