@@ -14,7 +14,7 @@ turn_on_exterior_led:
           after: sunset
           before: sunrise
       then:
-        - service: switch.turn_on
+        - service: light.turn_on
           data: {}
           target:
             entity_id: light.barra_led_exterior_switch_0
@@ -23,7 +23,7 @@ turn_on_exterior_led:
             minutes: "{{ duration }}"
             seconds: 0
             milliseconds: 0
-        - service: switch.turn_off
+        - service: light.turn_off
           data: {}
           target:
             entity_id: light.barra_led_exterior_switch_0
