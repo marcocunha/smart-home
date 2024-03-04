@@ -159,6 +159,8 @@ services:
     container_name: wg-easy
     image: weejewel/wg-easy
     restart: unless-stopped
+    profiles:
+      - donotstart #do not start service
     ports:
       - "51820:51820/udp"
       - "51821:51821/tcp"
