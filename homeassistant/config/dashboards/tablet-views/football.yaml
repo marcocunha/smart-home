@@ -1,0 +1,26 @@
+title: Futebol
+path: football
+icon: "mdi:soccer"
+type: sidebar
+cards:
+  - type: vertical-stack
+    cards:
+    - type: horizontal-stack
+      cards:
+        - type: iframe
+          url: >-
+            https://www.fctables.com/teams/benfica1-181223/iframe/?type=team-last-match&lang_id=12&country=175&template=23&team=181223&timezone=Europe/Lisbon&time=24&width=400&height=200&font=Tahoma&fs=14&lh=24&bg=333333&fc=FFFFFF&logo=1&tlink=0&scfs=22&scfc=FFFFFF&scb=1&sclg=0&teamls=80&sh=0&hfb=0&hbc=3bafda&hfc=FFFFFF
+          title: 'Último Jogo'
+          aspect_ratio: 50%
+        - type: iframe
+          url: >-
+            https://www.fctables.com/teams/benfica1-181223/iframe/?type=team-next-match&lang_id=12&country=175&template=23&team=181223&timezone=Europe/Lisbon&time=24&width=400&height=200&font=Tahoma&fs=14&lh=24&bg=333333&fc=FFFFFF&logo=1&tlink=0&scfs=22&scfc=FFFFFF&scb=1&sclg=0&teamls=80&sh=0&hfb=0&hbc=3bafda&hfc=FFFFFF
+          title: 'Próximo Jogo'
+          aspect_ratio: 50%
+    - type: horizontal-stack
+      cards:
+        - type: iframe
+          url: >-
+            https://www.fctables.com/portugal/liga-zon-sagres/iframe/?type=table&lang_id=12&country=175&template=23&team=181223&timezone=Europe/Lisbon&time=24&po=1&ma=1&wi=1&dr=1&los=1&gf=0&ga=0&gd=0&pts=1&ng=0&form=1&width=950&height=550&font=Tahoma&fs=14&lh=24&bg=333333&fc=FFFFFF&logo=0&tlink=0&ths=1&thb=1&thba=282828&thc=FFFFFF&bc=282828&hob=282828&hobc=282828&lc=333333&sh=0&hfb=0&hbc=3bafda&hfc=FFFFFF
+          aspect_ratio: 55%
+
