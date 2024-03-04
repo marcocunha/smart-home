@@ -1,0 +1,21 @@
+id: remote_tuya_button_2
+alias: Open and close garage using remote.tuya.garagem button 2
+mode: single
+trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 149b39eaad8da492f392577d03198112
+    type: action
+    subtype: 2_single
+action:
+  - service: script.garage
+    data: {}
+    alias: Open garage door
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+  - service: script.garage
+    data: {}
+    alias: Close garage door
