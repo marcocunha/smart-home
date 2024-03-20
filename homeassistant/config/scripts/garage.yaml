@@ -8,42 +8,43 @@ garage:
         A abrir garagem
       {% endif %}
   sequence:
-    - if:
-        - condition: not
-          conditions:
-            - condition: state
-              entity_id: group.household
-              state: home
-          alias: Check if no-one at home
-      then:
-        - alias: Make an announcement on speakers and send notification
-          service: script.announcement
-          data:
-            speak: true
-            notify: true
-            messages:
-              - "{{ message }}"
-            service: notify.all
-            force_speak: false
-      else:
-        - alias: Make an announcement on speakers
-          service: script.announcement
-          data:
-            speak: true
-            notify: false
-            messages:
-              - "{{ message }}"
-            service: notify.all
-            force_speak: false
-    - alias: Toggle garage button
-      service: remote.send_command
-      data:
-        device: Garage
-        command: toggle
-        num_repeats: 1
-        delay_secs: 0.4
-        hold_secs: 0
-      target:
-        entity_id: remote.broadlink_rm4_pro
+    - parallel:
+      - if:
+          - condition: not
+            conditions:
+              - condition: state
+                entity_id: group.household
+                state: home
+            alias: Check if no-one at home
+        then:
+          - alias: Make an announcement on speakers and send notification
+            service: script.announcement
+            data:
+              speak: true
+              notify: true
+              messages:
+                - "{{ message }}"
+              service: notify.all
+              force_speak: false
+        else:
+          - alias: Make an announcement on speakers
+            service: script.announcement
+            data:
+              speak: true
+              notify: false
+              messages:
+                - "{{ message }}"
+              service: notify.all
+              force_speak: false
+      - alias: Toggle garage button
+        service: remote.send_command
+        data:
+          device: Garage
+          command: toggle
+          num_repeats: 1
+          delay_secs: 0.4
+          hold_secs: 0
+        target:
+          entity_id: remote.broadlink_rm4_pro
   icon: mdi:garage-open-variant
   mode: single
