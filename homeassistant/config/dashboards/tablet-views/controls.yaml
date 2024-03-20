@@ -1377,6 +1377,52 @@ cards:
                 tap_action:
                   action: toggle
               - type: custom:mushroom-title-card
+          - type: custom:mushroom-title-card
+            title: 🔑 Doors
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.portao_exterior_switch_0
+                icon: mdi:gate-arrow-right
+                show_state: false
+                name: Portão
+                state:
+                  - value: "on"
+                    color: rgb(100,100,100)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
+                entity: binary_sensor.sensor_garage_door_contact
+                icon: mdi:garage-lock
+                show_state: false
+                name: Garagem
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: call-service
+                  service: script.garage
+                  target: {}
+                hold_action:
+                  action: none
+              - type: custom:mushroom-title-card
+              - type: custom:mushroom-title-card
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
