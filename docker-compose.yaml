@@ -249,3 +249,17 @@ services:
       - "LOG_LEVEL=info"
       - "LOG_JSON=false"
     restart: always
+
+  # HA Connect Life API Connector
+  # Connectlife API proxy / MQTT Home Assistant integration
+  # The add-on utilizes the API acquired through reverse engineering from the Connectlife mobile app to control AC devices and integrates seamlessly with Home Assistant through MQTT, leveraging its discovery feature.
+  # The reason for the add-on was the lack of official support for device integration.
+  # https://github.com/Bilan/connectlife-api-connector
+  ha-connectlife-addon:
+    container_name: ha-connectlife-addon
+    image: ha-connectlife-addon
+    command: /bin/ash -c 'php artisan app:mqtt-loop'
+    env_file:
+      - .env
+    restart: always
+
