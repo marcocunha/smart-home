@@ -13,6 +13,9 @@ condition:
     after: sunset
     before: sunrise
 action:
-  - service: script.turn_on_exterior_led
+  - service: script.turn_on
+    target:
+      entity_id: script.turn_on_exterior_led
     data:
-      duration: 15
+      variables:
+        duration: 15

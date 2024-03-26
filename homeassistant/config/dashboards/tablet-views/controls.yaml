@@ -1272,7 +1272,24 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-              - type: custom:mushroom-title-card
+              - type: "custom:button-card"
+                entity: light.light_led_coffee_machine
+                icon: mdi:coffee-maker
+                show_state: false
+                name: M. Café
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
               - type: custom:mushroom-title-card
           - type: custom:mushroom-title-card
             title: 🔌 Others

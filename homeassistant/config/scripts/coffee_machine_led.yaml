@@ -1,0 +1,36 @@
+turn_on_coffee_machine_led:
+  alias: Turn on Coffee Machine LED for a given duration (default 5min)
+  icon: mdi:lightbulb-fluorescent-tube-outline
+  mode: restart
+  max_exceeded: silent
+  fields: 
+      duration:
+        description: Duration (min) that the light will be on
+        default: 5
+        example: "5"
+  sequence:
+    - if:
+        - condition: sun
+          after: sunset
+          before: sunrise
+      then:
+        - service: light.turn_on
+          data: {}
+          target:
+            entity_id: light.light_led_coffee_machine
+        - delay:
+            hours: 0
+            minutes: "{{ duration }}"
+            seconds: 0
+            milliseconds: 0
+        - service: light.turn_off
+          data: {}
+          target:
+            entity_id: light.light_led_coffee_machine
+        - delay:
+            hours: 0
+            minutes: 5
+            seconds: 0
+            milliseconds: 0
+    
+

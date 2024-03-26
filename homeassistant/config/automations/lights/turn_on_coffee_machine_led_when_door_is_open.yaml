@@ -1,0 +1,21 @@
+id: turn_on_coffee_machine_led_when_door_is_open
+alias: Turn on coffee machine LED when door is open
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.sensor_motion_coffee_machine_occupancy
+    from: "off"
+    to: "on"
+    alias: "Door opened"
+condition:
+  - condition: sun
+    after: sunset
+    before: sunrise
+action:
+  - service: script.turn_on
+    target:
+      entity_id: script.turn_on_coffee_machine_led
+    data:
+      variables:
+        duration: 5
