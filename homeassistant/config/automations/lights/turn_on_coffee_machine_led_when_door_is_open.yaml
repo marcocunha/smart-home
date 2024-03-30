@@ -9,9 +9,13 @@ trigger:
     to: "on"
     alias: "Door opened"
 condition:
-  - condition: sun
-    after: sunset
-    before: sunrise
+  - or:
+    - condition: sun
+      after: sunset
+      before: sunrise
+    - condition: numeric_state
+      entity_id: sensor.wallpanel_light
+      below: 550
 action:
   - service: script.turn_on
     target:
