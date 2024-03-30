@@ -7,78 +7,130 @@ cards:
     cards:
       - type: horizontal-stack
         cards:
-          - type: custom:mini-graph-card
-            entities:
-              - entity: sensor.sensor_temperature_humidity_sala_temperature
-                name: Temperature
-                show_state: true
-              - entity: sensor.sensor_temperature_humidity_sala_humidity
-                name: Humidity
-                show_state: true
-            name: Sala
-            show:
-              average: true
-              icon: false
-              name: true
-              labels: true
-          - type: custom:mini-graph-card
-            entities:
-              - entity: sensor.sensor_temperature_humidity_escritorio_temperature
-                name: Temperature
-                show_state: true
-              - entity: sensor.sensor_temperature_humidity_escritorio_humidity
-                name: Humidity
-                show_state: true
-            name: Escritório
-            show:
-              average: true
-              icon: false
-              name: true
-              labels: true
-          - type: custom:mini-graph-card
-            entities:
-              - entity: sensor.sensor_temperature_humidity_garagem_temperature
-                name: Temperature
-                show_state: true
-              - entity: sensor.sensor_temperature_humidity_garagem_humidity
-                name: Humidity
-                show_state: true
-            name: Garagem
-            show:
-              average: true
-              icon: false
-              name: true
-              labels: true
+        - show_name: false
+          show_icon: true
+          show_state: true
+          type: glance
+          entities:
+            - entity: sensor.sensor_temperature_humidity_sala_temperature
+            - entity: sensor.sensor_temperature_humidity_sala_humidity
+          columns: 2
+          theme: minimalist-desktop
+          title: Sala
+        - features:
+            - type: target-temperature
+            - type: climate-hvac-modes
+              hvac_modes:
+                - heat
+                - cool
+                - auto
+                - 'off'
+          type: tile
+          entity: climate.ac_sala_ac_sala
+          state_content: state
+          name: AC Sala
+          icon: mdi:air-conditioner
+        - show_name: false
+          show_icon: true
+          show_state: true
+          type: glance
+          entities:
+            - entity: sensor.sensor_temperature_humidity_escritorio_temperature
+            - entity: sensor.sensor_temperature_humidity_escritorio_humidity
+          columns: 2
+          theme: minimalist-desktop
+          title: Escritório
+        - features:
+            - type: target-temperature
+            - type: climate-hvac-modes
+              hvac_modes:
+                - heat
+                - cool
+                - auto
+                - 'off'
+          type: tile
+          entity: climate.ac_escritorio_ac_escritorio
+          state_content: state
+          icon: mdi:air-conditioner
       - type: horizontal-stack
         cards:
-          - type: custom:mini-graph-card
-            entities:
-              - entity: sensor.wc_temperature_humidity_sensor_temperature
-                name: Temperature
-                show_state: true
-              - entity: sensor.wc_temperature_humidity_sensor_humidity
-                name: Humidity
-                show_state: true
-            name: WC Serviço
-            show:
-              average: true
-              icon: false
-              name: true
-              labels: true
-          - type: custom:mini-graph-card
+          - show_name: false
+            show_icon: true
+            show_state: true
+            type: glance
+            entities: []
+            columns: 2
+            theme: minimalist-desktop
+            title: Suite
+          - features:
+              - type: target-temperature
+              - type: climate-hvac-modes
+                hvac_modes:
+                  - heat
+                  - cool
+                  - auto
+                  - 'off'
+            type: tile
+            entity: climate.ac_suite_ac_suite
+            state_content:
+              - state
+              - current_temperature
+            name: AC Suite
+            icon: mdi:air-conditioner
+          - show_name: false
+            show_icon: true
+            show_state: true
+            type: glance
+            entities: []
+            columns: 2
+            theme: minimalist-desktop
+            title: Q. Visitas
+          - features:
+              - type: target-temperature
+              - type: climate-hvac-modes
+                hvac_modes:
+                  - heat
+                  - cool
+                  - auto
+                  - 'off'
+            type: tile
+            entity: climate.ac_quarto_visitas_ac_quarto_visitas
+            state_content: state
+            name: AC Quarto Visitas
+            icon: mdi:air-conditioner  
+      - type: horizontal-stack
+        cards:    
+          - show_name: false
+            show_icon: true
+            show_state: true
+            type: glance
             entities:
               - entity: sensor.sensor_temperature_humidity_wc_suite_temperature
-                name: Temperature
-                show_state: true
               - entity: sensor.sensor_temperature_humidity_wc_suite_humidity
-                name: Humidity
-                show_state: true
-            name: WC Suite
-            show:
-              average: true
-              icon: false
-              name: true
-              labels: true
+            columns: 2
+            theme: minimalist-desktop
+            title: WC Suite
+          - show_name: false
+            show_icon: true
+            show_state: true
+            type: glance
+            entities:
+              - entity: sensor.wc_temperature_humidity_sensor_temperature
+              - entity: sensor.wc_temperature_humidity_sensor_humidity
+            columns: 2
+            theme: minimalist-desktop
+            title: WC Serviço
+          - show_name: false
+            show_icon: true
+            show_state: true
+            type: glance
+            entities:
+              - entity: sensor.sensor_temperature_humidity_garagem_temperature
+              - entity: sensor.sensor_temperature_humidity_garagem_humidity
+            columns: 2
+            theme: minimalist-desktop
+            title: Garagem
+          - type: custom:mushroom-title-card
       - type: horizontal-stack
         cards:
           - show_current: true
@@ -86,14 +138,3 @@ cards:
             type: weather-forecast
             entity: weather.home
             secondary_info_attribute: humidity
-          - type: "custom:weather-radar-card"
-            frame_count: 20
-            frame_delay: 300
-            center_latitude: 38.54
-            center_longitude: -9.03
-            marker_latitude: 38.54
-            marker_longitude: -9.03
-            show_marker: true
-            show_range: true
-            show_recenter: true
-            show_playback: true
