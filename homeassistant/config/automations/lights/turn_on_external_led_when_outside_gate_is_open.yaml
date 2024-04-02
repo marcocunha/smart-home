@@ -1,0 +1,21 @@
+id: turn_on_external_led_when_outside_gate_is_open
+alias: Turn on external LED when outside gate is open
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - switch.portao_exterior_switch_0
+    from: null
+    to: "on"
+    alias: "Outside gate opened"
+condition:
+  - condition: sun
+    after: sunset
+    before: sunrise
+action:
+  - service: script.turn_on
+    target:
+      entity_id: script.turn_on_exterior_led
+    data:
+      variables:
+        duration: 15
