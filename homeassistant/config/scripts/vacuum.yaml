@@ -19,9 +19,9 @@ vacuum_clean_social_areas:
     - service: dreame_vacuum.vacuum_clean_segment
       data:
         segments:
-          - 1
+          - 7
           - 9
-          - 10
+          - 8
       target:
         entity_id: vacuum.dreame_bot_z10_pro
 
@@ -32,11 +32,11 @@ vacuum_clean_private_areas:
     - service: dreame_vacuum.vacuum_clean_segment
       data:
         segments:
+          - 1
           - 2
           - 3
           - 4
-          - 5
           - 6
-          - 7
+          - 10
       target:
         entity_id: vacuum.dreame_bot_z10_pro
