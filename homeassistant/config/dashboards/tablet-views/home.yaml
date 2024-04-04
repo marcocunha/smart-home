@@ -351,31 +351,39 @@ cards:
       position: main
   - type: horizontal-stack
     cards:
-      - show_state: false
-        show_name: false
-        camera_view: auto
-        type: picture-entity
-        entity: camera.garagem
-        camera_image: camera.garagem
-        name: Garagem
-      - show_state: false
-        show_name: false
-        camera_view: auto
-        type: picture-entity
-        entity: camera.frente
-        camera_image: camera.frente
-        name: Frente
-      - show_state: false
-        show_name: false
-        camera_view: auto
-        type: picture-entity
-        entity: camera.piscina
-        camera_image: camera.piscina
-        name: Piscina
-      - show_state: false
-        show_name: false
-        camera_view: auto
-        type: picture-entity
-        entity: camera.traseiras
-        camera_image: camera.traseiras
-        name: Traseiras
+      - type: custom:webrtc-camera
+        url: rtsp://192.168.1.146:8554/garagem_low?mp4
+        server: http://192.168.1.146:1984/
+        ui: true
+        media: video
+        poster: https://home-assistant.io/images/cast/splash.png
+        muted: true
+        intersection: 0.75
+        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
+      - type: custom:webrtc-camera
+        url: rtsp://192.168.1.146:8554/frente_low?mp4
+        server: http://192.168.1.146:1984/
+        ui: true
+        media: video
+        poster: https://home-assistant.io/images/cast/splash.png
+        muted: true
+        intersection: 0.75
+        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
+      - type: custom:webrtc-camera
+        url: rtsp://192.168.1.146:8554/piscina_low?mp4
+        server: http://192.168.1.146:1984/
+        ui: true
+        media: video
+        poster: https://home-assistant.io/images/cast/splash.png
+        muted: true
+        intersection: 0.75
+        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
+      - type: custom:webrtc-camera
+        url: rtsp://192.168.1.146:8554/traseiras_low?mp4
+        server: http://192.168.1.146:1984/
+        ui: true
+        media: video
+        poster: https://home-assistant.io/images/cast/splash.png
+        muted: true
+        intersection: 0.75
+        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
