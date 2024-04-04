@@ -4,1089 +4,105 @@ path: controls
 type: sidebar
 cards:
   - square: false
-    columns: 3
+    columns: 2
     type: grid
     cards:
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
             title: 🪟 Curtains
-          # <Cozinha>
-          - type: vertical-stack
+          - type: grid
+            columns: 2
+            square: false
             cards:
-              - type: "custom:button-card"
-                name: Cozinha
-                entity: cover.curtains_kitchen
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.curtains_kitchen'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.curtains_kitchen
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.curtains_kitchen
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.curtains_kitchen
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.curtains_kitchen
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.curtains_kitchen
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </Cozinha>
-          # <Escritório>
-          - type: vertical-stack
-            cards:
-              - type: "custom:button-card"
-                name: Escritório
-                entity: cover.estores_escritorio
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.estores_escritorio'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.estores_escritorio
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.estores_escritorio
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.estores_escritorio
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.estores_escritorio
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.estores_escritorio
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </Escritorio>
-           # <Hall>
-          - type: vertical-stack
-            cards:
-              - type: "custom:button-card"
-                name: Hall
-                entity: cover.curtains_hall
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.curtains_hall'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.curtains_hall
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.curtains_hall
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.curtains_hall
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.curtains_hall
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.curtains_hall
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </Hall>
-          # <Lavandaria>
-          - type: vertical-stack
-            cards:
-              - type: "custom:button-card"
-                name: Lavandaria
+              - type: custom:mushroom-cover-card
                 entity: cover.estores_lavandaria
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.estores_lavandaria'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.estores_lavandaria
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.estores_lavandaria
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.estores_lavandaria
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.estores_lavandaria
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.estores_lavandaria
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </Lavandaria>
-          # <Quarto Visitas>
-          - type: vertical-stack
-            cards:
-              - type: "custom:button-card"
-                name: Quarto Visitas
+                name: Lavandaria
+                show_buttons_control: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-cover-card
+                entity: cover.curtains_kitchen
+                name: Cozinha
+                show_buttons_control: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-cover-card
+                entity: cover.zigbee_curtains_livingroom_group
+                name: Sala
+                show_buttons_control: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-cover-card
+                entity: cover.curtains_hall
+                name: Hall
+                show_buttons_control: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-cover-card
+                entity: cover.estores_escritorio
+                name: Escritório
+                show_buttons_control: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-cover-card
                 entity: cover.curtains_guestroom
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.curtains_guestroom'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.curtains_guestroom
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.curtains_guestroom
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.curtains_guestroom
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.curtains_guestroom
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.curtains_guestroom
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </Quarto Visitas>
-          # <Sala Direito>
-          - type: vertical-stack
-            cards:
-              - type: "custom:button-card"
-                name: Sala Dir.
-                entity: cover.curtains_livingroom_right
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.curtains_livingroom_right'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.curtains_livingroom_right
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.curtains_livingroom_right
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.curtains_livingroom_right
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.curtains_livingroom_right
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.curtains_livingroom_right
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </Sala Direito>
-          # <Sala Esquerdo>
-          - type: vertical-stack
-            cards:
-              - type: "custom:button-card"
-                name: Sala Esq.
-                entity: cover.curtains_livingroom_left
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.curtains_livingroom_left'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.curtains_livingroom_left
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.curtains_livingroom_left
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.curtains_livingroom_left
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.curtains_livingroom_left
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.curtains_livingroom_left
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </Sala Esquerdo>
-          # <Suite>
-          - type: vertical-stack
-            cards:
-              - type: "custom:button-card"
-                name: Suite
+                name: Quarto Visitas
+                show_buttons_control: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-cover-card
                 entity: cover.curtains_suite
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.curtains_suite'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.curtains_suite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.curtains_suite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.curtains_suite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.curtains_suite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.curtains_suite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </Suite>
-          # <WC Suite>
-          - type: vertical-stack
-            cards:
-              - type: "custom:button-card"
-                name: WC Suite
+                name: Suite
+                show_buttons_control: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-cover-card
                 entity: cover.curtains_wcsuite
-                color_type: label-card
-                # show_state: true
-                show_icon: false
-                tap_action: none
-                hold_action: none
-                double_tap_action: none
-                state:
-                  - value: "open"
-                    color: orange
-                  - value: "closing"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "opening"
-                    color: rgb(189, 255, 5)
-                    styles:
-                      card:
-                        - animation: blink 2s ease infinite
-                  - value: "close"
-                    color: gray
-                custom_fields:
-                  position: >
-                    [[[ return states['cover.curtains_wcsuite'].attributes.current_position + '%' ]]]
-                styles:
-                  card:
-                  # - height: 120%
-                  name:
-                    - justify-self: center
-                    - padding: 0px 5px
-                    - position: absolute
-                    - top: 20%
-                  custom_fields:
-                    position:
-                      - position: absolute
-                      - right: 10%
-                      - height: 30px
-                      - width: 50px
-                      - font-size: 14px
-                      - line-height: 30px
-                      - font-weight: bold
-              - type: horizontal-stack
-                cards:
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-down-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.close_cover
-                      service_data:
-                        entity_id: cover.curtains_wcsuite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 25%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 25
-                        entity_id: cover.curtains_wcsuite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 50%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 50
-                        entity_id: cover.curtains_wcsuite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    color_type: auto
-                    name: 75%
-                    show_name: true
-                    tap_action:
-                      action: call-service
-                      service: cover.set_cover_position
-                      service_data:
-                        position: 75
-                        entity_id: cover.curtains_wcsuite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-                  - type: "custom:button-card"
-                    icon: mdi:arrow-up-bold
-                    tap_action:
-                      action: call-service
-                      service: cover.open_cover
-                      service_data:
-                        entity_id: cover.curtains_wcsuite
-                    styles:
-                      card:
-                        - --mdc-ripple-color: rgb(189, 255, 5)
-                        - --mdc-ripple-press-opacity: 0.5
-                    aspect_ratio: 1/1
-          # </WC Suite>
+                name: WC Suite
+                show_buttons_control: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
             title: 💡 Lights
-          - type: horizontal-stack
+          - type: grid 
+            columns: 6
+            square: false
             cards:
               - type: "custom:button-card"
                 entity: switch.plug_bedlight_darlene_suite
@@ -1160,26 +176,6 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-          - type: horizontal-stack
-            cards:
-              - type: "custom:button-card"
-                entity: light.multiswitch_wc_suite_mirror
-                icon: mdi:mirror-rectangle
-                show_state: false
-                name: WC Suite
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(100,100,100)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                aspect_ratio: 1/1
-                tap_action:
-                  action: toggle
               - type: "custom:button-card"
                 entity: light.multiswitch_wc_suite_ceiling
                 icon: mdi:light-recessed
@@ -1234,8 +230,6 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-          - type: horizontal-stack
-            cards:
               - type: "custom:button-card"
                 entity: light.barra_led_exterior_switch_0
                 icon: mdi:coach-lamp
@@ -1290,10 +284,11 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-              - type: custom:mushroom-title-card
           - type: custom:mushroom-title-card
             title: 🔌 Others
-          - type: horizontal-stack
+          - type: grid 
+            columns: 6
+            square: false
             cards:
               - type: "custom:button-card"
                 entity: fan.multiswitch_wc_suite_ventax
@@ -1333,10 +328,6 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-              - type: custom:mushroom-title-card
-              - type: custom:mushroom-title-card
-          - type: horizontal-stack
-            cards:
               - type: "custom:button-card"
                 entity: switch.bomba_piscina_switch_0
                 icon: mdi:water-pump
@@ -1393,10 +384,11 @@ cards:
                 aspect_ratio: 1/1
                 tap_action:
                   action: toggle
-              - type: custom:mushroom-title-card
           - type: custom:mushroom-title-card
             title: 🔑 Doors
-          - type: horizontal-stack
+          - type: grid 
+            columns: 6
+            square: false
             cards:
               - type: "custom:button-card"
                 entity: switch.portao_exterior_switch_0
@@ -1438,12 +430,14 @@ cards:
                   target: {}
                 hold_action:
                   action: none
-              - type: custom:mushroom-title-card
-              - type: custom:mushroom-title-card
-      - type: vertical-stack
-        cards:
-          - type: custom:mushroom-title-card
-            title: 🎧 Media
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: 🎧 Media
+      - type: grid 
+        columns: 2
+        square: false
+        cards:  
           - type: custom:mini-media-player
             entity: media_player.spotify_marco_cunha
             artwork: none
