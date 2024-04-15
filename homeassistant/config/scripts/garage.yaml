@@ -36,16 +36,5 @@ garage:
                   - "{{ message }}"
                 service: notify.all
                 force_speak: false
-          else:
-            - alias: Make an announcement on speakers
-              service: script.announcement
-              data:
-                speak: true
-                notify: false
-                messages:
-                  - "{{ message }}"
-                service: notify.all
-                force_speak: false
-
   icon: mdi:garage-open-variant
   mode: single
