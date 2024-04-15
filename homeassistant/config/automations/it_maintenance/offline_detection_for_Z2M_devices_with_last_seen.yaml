@@ -1,0 +1,13 @@
+id: offline_detection_for_Z2M_devices_with_last_seen
+alias: Offline detection for Z2M devices with last_seen
+description: 'Offline detection for Z2M devices with last_seen'
+use_blueprint:
+  path: Mr-Groch/offline-notification-for-sensors-with-last_seen.yaml
+  input:
+    time: '20:00:00'
+    hours: 12
+    actions:
+    - service: notify.marco
+      metadata: {}
+      data:
+        message: 'These Zigbee devices might be offline: {{sensors}}'

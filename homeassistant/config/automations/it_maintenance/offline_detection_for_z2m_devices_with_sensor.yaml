@@ -1,0 +1,18 @@
+id: offline_detection_for_z2m_devices_with_sensor
+alias: Offline detection for Z2M devices with sensor z2m_offline_devices
+description: "Offline detection for Z2M devices with sensor z2m_offline_devices"
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.z2m_offline_devices
+    from: null
+    to: null
+condition: []
+action:
+  - service: notify.marco
+    metadata: {}
+    data:
+      message: >-
+        The following Zigbee Devices are offline
+        {{states('sensor.z2m_offline_devices')}}
