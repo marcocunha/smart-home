@@ -76,7 +76,9 @@ sidebar:
     type: weather-forecast
     cardOptions:
       name: Home
+      show_current: true
       show_forecast: true
+      forecast_type: daily
       entity: weather.home
       tap_action:
         action: navigate
@@ -89,17 +91,14 @@ sidebar:
         left: 0;
       }
       ha-card {
-        font-weight: 200;
+        font-weight: 100;
         padding: none;
-        width: 110%;
         border: none;
         background: none;
         overflow: hidden !important;
         box-shadow: none !important;
         ha-card-border-radius: 0px;
         margin-top: -16px;
-        margin-right: -10px;
-        margin-left: -10px;        
       }
 views:
   - !include tablet-views/home.yaml
