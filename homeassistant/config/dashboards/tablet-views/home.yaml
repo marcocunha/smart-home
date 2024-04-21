@@ -15,10 +15,10 @@ cards:
             entity: person.darlene_parreira
             use_entity_picture: true
             content_info: state
-      - type: custom:mushroom-chips-card
-        chips:
           - type: alarm-control-panel
             entity: alarm_control_panel.ajax_security_system
+      - type: custom:mushroom-chips-card
+        chips:
           - type: entity
             entity: cover.curtains_group
             name: Estores
@@ -39,6 +39,20 @@ cards:
             hold_action:
               action: none
             icon: mdi:garage-lock
+            use_entity_picture: false
+            icon_color: amber
+          - type: entity
+            entity: switch.portao_exterior_switch_0
+            show_state: false
+            double_tap_action:
+              action: none
+            name: Portão
+            content_info: name
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            icon: mdi:gate-arrow-right
             use_entity_picture: false
             icon_color: amber
 
@@ -358,6 +372,8 @@ cards:
         media: video
         poster: https://home-assistant.io/images/cast/splash.png
         muted: true
+        background: false
+        mode: mse,hls,mjpeg
         intersection: 0.75
         style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
       - type: custom:webrtc-camera
@@ -367,6 +383,8 @@ cards:
         media: video
         poster: https://home-assistant.io/images/cast/splash.png
         muted: true
+        background: false
+        mode: mse,hls,mjpeg
         intersection: 0.75
         style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
       - type: custom:webrtc-camera
@@ -374,6 +392,8 @@ cards:
         server: http://192.168.1.146:1984/
         ui: true
         media: video
+        background: false
+        mode: mse,hls,mjpeg
         poster: https://home-assistant.io/images/cast/splash.png
         muted: true
         intersection: 0.75
@@ -385,5 +405,7 @@ cards:
         media: video
         poster: https://home-assistant.io/images/cast/splash.png
         muted: true
+        background: false
+        mode: mse,hls,mjpeg
         intersection: 0.75
         style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
