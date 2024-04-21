@@ -1,6 +1,6 @@
 id: turn_on_swimming_pool_pump_according_to_energy_usage
-alias: Turn on swimming pool pump according to the energy usage
-description: "Turn on swimming pool pump according to the energy usage"
+alias: Turn on swimming pool pump according to the energy usage & schedule
+description: "Turn on swimming pool pump according to the energy usage & schedule"
 mode: single
 variables:
   send_notification: false
@@ -8,40 +8,50 @@ variables:
   notification_title: Bomba da Piscina
   persistent_notification: false
 trigger:
-    #every 10 minutes
+  #every 10 minutes
   - platform: time_pattern
     minutes: /10
+  - platform: state
+    entity_id:
+      - schedule.swimming_pool_pump_schedule
 condition:
-  - condition: and
+  - condition: or
     conditions:
-      - condition: template
-        value_template: "{{states('sensor.swimming_pool_pump_on_today')|float <= states('input_number.swimming_pool_minimum_duration_h')|float}}"
-        alias: Swimming Pool pump working for less than X time
-      - condition: numeric_state
-        entity_id: sensor.average_consumption_inc_pool_pump
-        below: -150
-        alias: Enough energy to have the swimming pool pump working
-      - condition: numeric_state
-        entity_id: sensor.bomba_piscina_switch_0_power
-        below: 0.1
-        alias: Pump turned off
-      # Only after 8am
-      - condition: time
-        after: "08:00:00"
+      - condition: and
+        alias: Energy consumption conditions
+        conditions:
+          - condition: template
+            value_template: "{{states('sensor.swimming_pool_pump_on_today')|float <= states('input_number.swimming_pool_minimum_duration_h')|float}}"
+            alias: Swimming Pool pump working for less than X time
+          - condition: numeric_state
+            entity_id: sensor.average_consumption_inc_pool_pump
+            below: -150
+            alias: Enough energy to have the swimming pool pump working
+          - condition: numeric_state
+            entity_id: sensor.bomba_piscina_switch_0_power
+            below: 0.1
+            alias: Pump turned off
+          # Only after 8am
+          - condition: time
+            after: "08:00:00"
+      - condition: state
+        entity_id: schedule.swimming_pool_pump_schedule
+        state: "on"
+        alias: "Swimming pool pump schedule is ON"
 action:
-  - if: "{{ send_notification == true }}"
-    then:
-    - alias: Inform swimming pool pump was turned on
-      service: notify.ha_mobile_apps
-      data:
-        title: "{{ notification_title }}"
-        message: Bomba da piscina ligada
-        data:
-          tag: "{{ notification_title }}"
-          persistent: "{{ persistent_notification }}"
-          ttl: 0
-          priority: high
   - alias: Perform the action
     service: switch.turn_on
     target:
       device_id: 11352414f861aaceba25adee16b975f5
+  - if: "{{ send_notification == true }}"
+    then:
+      - alias: Inform swimming pool pump was turned on
+        service: notify.ha_mobile_apps
+        data:
+          title: "{{ notification_title }}"
+          message: Bomba da piscina ligada
+          data:
+            tag: "{{ notification_title }}"
+            persistent: "{{ persistent_notification }}"
+            ttl: 0
+            priority: high
