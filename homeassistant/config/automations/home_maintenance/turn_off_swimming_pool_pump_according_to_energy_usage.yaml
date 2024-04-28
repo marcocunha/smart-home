@@ -34,6 +34,10 @@ condition:
         entity_id: sensor.bomba_piscina_switch_0_power
         above: 0
         alias: Swimming pool pump working
+      - condition: state
+        entity_id: schedule.swimming_pool_pump_schedule
+        state: "off"
+        alias: "Swimming pool pump schedule is OFF"
 action:
   - alias: Set up variables for the actions
     variables:
