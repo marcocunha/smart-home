@@ -116,7 +116,7 @@ function alberto:command:restart() {
 
 function alberto:command:update() {
   echo "Pulling latest images..."
-  docker-compose pull
+  docker-compose pull --ignore-pull-failures || true 
   echo "Building images..."
   docker-compose build
   echo "Starting containers..."
