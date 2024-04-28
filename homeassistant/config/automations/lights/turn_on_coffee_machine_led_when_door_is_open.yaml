@@ -10,9 +10,9 @@ trigger:
     alias: "Door opened"
 condition:
   - or:
-    - condition: sun
-      after: sunset
-      before: sunrise
+    - condition: numeric_state
+      entity_id: sensor.sun_solar_elevation
+      below: 20
     - condition: numeric_state
       entity_id: sensor.wallpanel_light
       below: 550
