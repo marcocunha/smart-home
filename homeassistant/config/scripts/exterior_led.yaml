@@ -3,29 +3,32 @@ turn_on_exterior_led:
   icon: mdi:lightbulb-fluorescent-tube-outline
   mode: restart
   max_exceeded: silent
-  fields: 
-      duration:
-        description: Duration (min) that the light will be on
-        default: 5
-        example: "5"
+  fields:
+    duration:
+      description: Duration (min) that the light will be on
+      default: 5
+      example: "5"
   sequence:
-    - service: light.turn_on
-      data: {}
-      target:
-        entity_id: light.barra_led_exterior_switch_0
-    - delay:
-        hours: 0
-        minutes: "{{ duration }}"
-        seconds: 0
-        milliseconds: 0
-    - service: light.turn_off
-      data: {}
-      target:
-        entity_id: light.barra_led_exterior_switch_0
-    - delay:
-        hours: 0
-        minutes: 5
-        seconds: 0
-        milliseconds: 0
-    
-
+    - if:
+        - condition: numeric_state
+          entity_id: sensor.sun_solar_elevation
+          below: 20
+      then:
+        - service: light.turn_on
+          data: {}
+          target:
+            entity_id: light.barra_led_exterior_switch_0
+        - delay:
+            hours: 0
+            minutes: "{{ duration }}"
+            seconds: 0
+            milliseconds: 0
+        - service: light.turn_off
+          data: {}
+          target:
+            entity_id: light.barra_led_exterior_switch_0
+        - delay:
+            hours: 0
+            minutes: 5
+            seconds: 0
+            milliseconds: 0

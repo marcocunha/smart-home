@@ -22,4 +22,4 @@ action:
       entity_id: script.turn_on_coffee_machine_led
     data:
       variables:
-        duration: 5
+        duration: 10
