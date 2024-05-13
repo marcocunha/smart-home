@@ -1,0 +1,14 @@
+id: remote_toggle_gate_button_3
+alias: Toggle gate door using remote.tuya.garagem button 3
+mode: single
+trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 149b39eaad8da492f392577d03198112
+    type: action
+    subtype: 3_single
+action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.portao_exterior_switch_0
