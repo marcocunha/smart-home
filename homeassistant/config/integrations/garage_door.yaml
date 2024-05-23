@@ -1,0 +1,17 @@
+cover:
+  - platform: template
+    covers:
+      garage_door:
+        device_class: garage
+        friendly_name: "Garage Door"
+        value_template: "{{ states('binary_sensor.sensor_garage_door_contact') == 'on'}}"
+        open_cover:
+          service: script.garage
+        close_cover:
+          service: script.garage
+        icon_template: >-
+          {% if states('binary_sensor.sensor_garage_door_contact') == "on" %}
+            mdi:garage-open
+          {% else %}
+            mdi:garage
+          {% endif %}

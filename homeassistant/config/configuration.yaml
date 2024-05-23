@@ -25,6 +25,12 @@ lovelace:
       title: Tablet
       show_in_sidebar: true
       icon: mdi:tablet
+    tablet-office-dashboard: # Needs to contain a hyphen (-)
+      mode: yaml
+      filename: dashboards/tablet-office.yaml
+      title: Tablet Office
+      show_in_sidebar: true
+      icon: mdi:tablet
     vacuum-dashboard:
       mode: yaml
       filename: dashboards/vacuum.yaml
