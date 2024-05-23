@@ -1,6 +1,6 @@
 title: Home
 icon: mdi:home
-path: home
+path: home-office
 type: sidebar
 cards:
   - type: horizontal-stack
@@ -97,20 +97,6 @@ cards:
         cards:
           - type: vertical-stack
             cards:
-              - type: custom:mushroom-chips-card
-                chips:
-                  - type: template
-                    content: >-
-                      Sunrise  {% if states.sun.sun %} {{
-                      (as_timestamp(states.sun.sun.attributes.next_rising)) |
-                      timestamp_custom(('%H:%M') )}} {% endif %}
-                    icon: mdi:weather-sunset-up
-                  - type: template
-                    content: >-
-                      Sunset  {% if states.sun.sun %} {{
-                      (as_timestamp(states.sun.sun.attributes.next_setting)) |
-                      timestamp_custom(('%H:%M') )}} {% endif %}
-                    icon: mdi:weather-sunset-down
               - type: custom:hourly-weather
                 entity: weather.openweathermap
                 num_segments: 9 # optional, defaults to 12
@@ -359,49 +345,3 @@ cards:
                     }
     view_layout:
       position: main
-  - type: horizontal-stack
-    cards:
-      - type: custom:webrtc-camera
-        url: rtsp://192.168.1.146:8554/garagem_low?mp4
-        server: http://192.168.1.146:1984/
-        ui: true
-        media: video
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        background: false
-        mode: mse,hls,mjpeg
-        intersection: 0.75
-        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
-      - type: custom:webrtc-camera
-        url: rtsp://192.168.1.146:8554/frente_low?mp4
-        server: http://192.168.1.146:1984/
-        ui: true
-        media: video
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        background: false
-        mode: mse,hls,mjpeg
-        intersection: 0.75
-        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
-      - type: custom:webrtc-camera
-        url: rtsp://192.168.1.146:8554/piscina_low?mp4
-        server: http://192.168.1.146:1984/
-        ui: true
-        media: video
-        background: false
-        mode: mse,hls,mjpeg
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        intersection: 0.75
-        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
-      - type: custom:webrtc-camera
-        url: rtsp://192.168.1.146:8554/traseiras_low?mp4
-        server: http://192.168.1.146:1984/
-        ui: true
-        media: video
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        background: false
-        mode: mse,hls,mjpeg
-        intersection: 0.75
-        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
