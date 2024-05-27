@@ -51,8 +51,6 @@ cards:
             icon: mdi:gate-arrow-right
             use_entity_picture: false
             icon_color: amber
-
-
       - type: custom:mushroom-chips-card
         chips:
           - type: template
@@ -148,6 +146,16 @@ cards:
                       action: none
                     double_tap_action:
                       action: none
+              - type: custom:mushroom-title-card
+              - type: custom:mini-media-player
+                entity: media_player.denon_home_150
+                group: false
+                volume_stateless: true
+                toggle_power: true
+                artwork: material
+                sound_mode: full
+                info: scroll
+                source: full
       - type: vertical-stack
         cards:
           - type: horizontal-stack
@@ -292,35 +300,33 @@ cards:
 
       - type: vertical-stack
         cards:
-          - type: vertical-stack
+          - type: custom:vertical-stack-in-card
             cards:
               - type: custom:power-flow-card
                 entities:
                   grid: sensor.contador_consumo_channel_1_power
                   solar: sensor.contador_producao_channel_1_power
                 watt_threshold: 1000
-                dashboard_link: /energy
               - type: custom:mushroom-template-card
                 primary:  >
                   Consumo (acc): 
-                    {% if is_number(states('sensor.monthly_energy')) and is_number(states('input_number.static_price_per_kwh')) %}
+                  {% if is_number(states('sensor.monthly_energy')) %}
+                    {{ (states('sensor.monthly_energy') | float) | round(2) }}
+                  {% endif %}
+                  kWH
+                secondary:  >
+                  Total: {% if is_number(states('sensor.monthly_energy')) and is_number(states('input_number.static_price_per_kwh')) %}
                       {{ (states('sensor.monthly_energy') | float * states('input_number.static_price_per_kwh') | float) | round(2) }}
                     {% else %}
                       None
                     {% endif %}
-                  €
-                secondary:  >
-                  Total: {% if is_number(states('sensor.monthly_energy')) %}
-                    {{ (states('sensor.monthly_energy') | float) | round(2) }}
-                  {% endif %}
-                  kWH | Preço/kWH:
+                  € | Preço/kWH:
                     {% if is_number(states('input_number.static_price_per_kwh')) %}
                       {{ (states('input_number.static_price_per_kwh') | float) | round(2) }}
                     {% else %}
                       None
                     {% endif %}
                   €
-                icon: mdi:transmission-tower-import
                 multiline_secondary: false
                 entity: sensor.energy_tracker_sensor
                 tap_action:
@@ -339,8 +345,6 @@ cards:
                         border: none;
                         box-shadow: none;
                         background: rgba(0,0,0,0);
-                        margin-top: -0.5rem;
-                        margin-bottom: 1.5rem;
                         flex-direction: inherit !important;
                     }
     view_layout:

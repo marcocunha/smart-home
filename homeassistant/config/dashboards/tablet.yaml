@@ -21,6 +21,8 @@ resources:
     type: module
   - url: /hacsfiles/lovelace-mushroom/mushroom.js
     type: js
+  - url: /hacsfiles/vertical-stack-in-card.js?v=0.4.4
+    type: js
     
 kiosk_mode:
   user_settings:
