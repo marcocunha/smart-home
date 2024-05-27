@@ -58,7 +58,9 @@ cards:
             show_icon: true
             show_state: true
             type: glance
-            entities: []
+            entities:
+              - entity: sensor.sensor_temperature_humidity_suite_temperature
+              - entity: sensor.sensor_temperature_humidity_suite_humidity
             columns: 2
             theme: minimalist-desktop
             title: Suite
@@ -81,7 +83,9 @@ cards:
             show_icon: true
             show_state: true
             type: glance
-            entities: []
+            entities:
+              - entity: sensor.sensor_temperature_humidity_guest_room_temperature
+              - entity: sensor.sensor_temperature_humidity_guest_room_humidity
             columns: 2
             theme: minimalist-desktop
             title: Q. Visitas
