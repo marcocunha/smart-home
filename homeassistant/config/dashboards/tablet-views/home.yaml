@@ -281,7 +281,7 @@ cards:
                 layout: vertical
                 tap_action:
                   action: call-service
-                  service: script.mode_sleep
+                  service: script.mode_night
                   target: {}
               - type: custom:mushroom-template-card
                 primary: Fresco

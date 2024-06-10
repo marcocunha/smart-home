@@ -22,6 +22,8 @@ resources:
   - url: /hacsfiles/lovelace-mushroom/mushroom.js
     type: js
     
+background: var(--background-image)
+    
 kiosk_mode:
   user_settings:
     - users:
@@ -36,12 +38,18 @@ sidebar:
     tablet: 14
     desktop: 14
   style: |
+    :host {
+        --sidebar-background: rgba(41, 6, 75, 0.5);
+        --sidebar-text-color: #FFF;
+        --face-color: #FFF;
+        --face-border-color: #FFF;
+    }
     .date {
       font-size: 32px;
       margin-left: 6px;
     }
     .sidebarMenu li {
-      font-weight: 200!important;
+      font-weight: 300!important;
     }
     .sidebarMenu li.active {
       font-weight: 400!important;
