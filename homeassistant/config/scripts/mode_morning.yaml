@@ -24,3 +24,8 @@ mode_morning:
     - service: cover.open_cover
       target:
         entity_id: "{{ curtains_to_open_completely }}"
+    - service: input_text.set_value
+      data:
+        value: MORNING
+      target:
+        entity_id: input_text.active_mode

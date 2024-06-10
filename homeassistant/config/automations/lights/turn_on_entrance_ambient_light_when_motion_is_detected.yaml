@@ -1,0 +1,26 @@
+id: turn_on_entrance_ambient_light_when_motion_is_detected
+alias: Turn on entrance ambient light if motion is detected
+description: ""
+mode: single
+trigger:
+  - type: motion
+    platform: device
+    device_id: a50d2db591a49ae69bb78dbe44fca6bc
+    entity_id: 25cf863f5c94e3fb21a64bfcc2904931
+    domain: binary_sensor
+condition:
+  - condition: numeric_state
+    entity_id: sensor.motion_sensor_illuminance_lux
+    below: 100
+  - condition: not
+    alias: Active mode is not SLEEP
+    conditions:
+      - condition: state
+        entity_id: input_text.active_mode
+        state: SLEEP
+action:
+  - service: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.candeeiro_ambiente_2

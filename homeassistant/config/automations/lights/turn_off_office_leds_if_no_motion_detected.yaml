@@ -1,0 +1,31 @@
+id: turn_off_office_leds_if_no_motion_detected
+alias: Turn off Office LEDs if no motion is detected
+description: ""
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.sensor_presence_office_motion_state
+    to: "none"
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - platform: state
+    entity_id:
+      - binary_sensor.sensor_presence_office_presence
+    to: "off"
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+condition:
+  - condition: state
+    entity_id: light.light_office_leds
+    state: "on"
+action:
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.light_office_leds

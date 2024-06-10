@@ -1,0 +1,28 @@
+id: turn_on_office_leds_if_motion_detected
+alias: Turn on Office LEDs if motion is detected
+description: ""
+mode: single
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.sensor_presence_office_motion_state
+    to: "large"
+  - platform: state
+    entity_id:
+      - sensor.sensor_presence_office_motion_state
+    to: "static"
+  - platform: state
+    entity_id:
+      - binary_sensor.sensor_presence_office_presence
+    to: "on"
+condition:
+  - condition: numeric_state
+    entity_id: sensor.sensor_presence_office_illuminance_lux
+    below: 250
+action:
+  - service: light.turn_on
+    metadata: {}
+    data:
+      brightness: 15
+    target:
+      entity_id: light.light_office_leds

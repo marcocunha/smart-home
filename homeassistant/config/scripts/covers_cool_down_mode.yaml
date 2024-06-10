@@ -16,3 +16,8 @@ covers_cool_down_mode:
         position: "{{ desired_position_percentage }}"
       target:
         entity_id: "{{ entities }}"
+    - service: input_text.set_value
+      data:
+        value: COOL_DOWN
+      target:
+        entity_id: input_text.active_mode
