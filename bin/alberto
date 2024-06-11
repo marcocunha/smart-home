@@ -37,17 +37,18 @@ function alberto:command:help() {
   echo "
   🏡 Alberto Smart Home
 
-  alberto help                       print this help message
-  alberto init                       install dependencies
-  alberto start                      start all services
-  alberto stop                       stop all services
-  alberto down                       stop and remove all containers
-  alberto restart                    restart all services
-  alberto update                     stop, update and restart all services
-  alberto prune                      delete obsolete containers
-  alberto password                   generate a password
-  alberto docs                       start dev server for docs
-  alberto ports                      show all ports in use
+  alberto help                            print this help message
+    alberto init                          install dependencies
+    alberto start                         start all services
+    alberto stop                          stop all services
+    alberto down                          stop and remove all containers
+    alberto restart                       restart all services
+    alberto update                        stop, update and restart all services
+    alberto prune                         delete obsolete containers
+    alberto password                      generate a password
+    alberto docs                          start dev server for docs
+    alberto ports                         show all ports in use
+    alberto mqtt-create-user [username]   create a user in mosquitto
 "
 }
 
@@ -145,6 +146,11 @@ function alberto:command:docs() {
 
 function alberto:command:ports() {
   sudo lsof -i -P -n | grep LISTEN
+}
+
+function alberto:command:mqtt-create-user() {
+  echo "creating MQTT user for username $1"
+  docker exec -it mosquitto mosquitto_passwd /mosquitto/data/pwfile $1
 }
 
 #
