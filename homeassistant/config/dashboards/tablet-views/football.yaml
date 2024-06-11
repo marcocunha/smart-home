@@ -3,24 +3,313 @@ path: football
 icon: "mdi:soccer"
 type: sidebar
 cards:
-  - type: vertical-stack
+  - type: custom:vertical-stack-in-card
     cards:
-    - type: horizontal-stack
-      cards:
-        - type: iframe
-          url: >-
-            https://www.fctables.com/teams/benfica1-181223/iframe/?type=team-last-match&lang_id=12&country=175&template=23&team=181223&timezone=Europe/Lisbon&time=24&width=400&height=200&font=Tahoma&fs=14&lh=24&bg=333333&fc=FFFFFF&logo=1&tlink=0&scfs=22&scfc=FFFFFF&scb=1&sclg=0&teamls=80&sh=0&hfb=0&hbc=3bafda&hfc=FFFFFF
-          title: 'Último Jogo'
-          aspect_ratio: 50%
-        - type: iframe
-          url: >-
-            https://www.fctables.com/teams/benfica1-181223/iframe/?type=team-next-match&lang_id=12&country=175&template=23&team=181223&timezone=Europe/Lisbon&time=24&width=400&height=200&font=Tahoma&fs=14&lh=24&bg=333333&fc=FFFFFF&logo=1&tlink=0&scfs=22&scfc=FFFFFF&scb=1&sclg=0&teamls=80&sh=0&hfb=0&hbc=3bafda&hfc=FFFFFF
-          title: 'Próximo Jogo'
-          aspect_ratio: 50%
-    - type: horizontal-stack
-      cards:
-        - type: iframe
-          url: >-
-            https://www.fctables.com/portugal/liga-zon-sagres/iframe/?type=table&lang_id=12&country=175&template=23&team=181223&timezone=Europe/Lisbon&time=24&po=1&ma=1&wi=1&dr=1&los=1&gf=0&ga=0&gd=0&pts=1&ng=0&form=1&width=950&height=550&font=Tahoma&fs=14&lh=24&bg=333333&fc=FFFFFF&logo=0&tlink=0&ths=1&thb=1&thba=282828&thc=FFFFFF&bc=282828&hob=282828&hobc=282828&lc=333333&sh=0&hfb=0&hbc=3bafda&hfc=FFFFFF
-          aspect_ratio: 55%
+      - type: custom:bootstrap-grid-card
+        cards:
+          - type: row
+            cards:
+              - type: custom:button-card
+                class: col-xs-3 col-md-1 col-2 col-lg-1
+                icon: mdi:calendar-today
+                size: 60%
+                styles:
+                  card:
+                    - height: 30px
+                tap_action:
+                  action: call-service
+                  service: input_text.set_value
+                  target:
+                    entity_id: input_text.football_tv_range_days
+                  data:
+                    value: today
+              - type: custom:button-card
+                class: col-xs-3 col-md-2 col-2 col-lg-1
+                icon: mdi:calendar-arrow-right
+                size: 60%
+                styles:
+                  card:
+                    - height: 30px
+                tap_action:
+                  action: call-service
+                  service: input_text.set_value
+                  target:
+                    entity_id: input_text.football_tv_range_days
+                  data:
+                    value: tomorrow
+              - type: custom:button-card
+                class: col-xs-3 col-md-2 col-2 col-lg-1
+                icon: mdi:calendar-end
+                size: 60%
+                styles:
+                  card:
+                    - height: 30px
+                tap_action:
+                  action: call-service
+                  service: input_text.set_value
+                  target:
+                    entity_id: input_text.football_tv_range_days
+                  data:
+                    value: nextdays
+              - type: custom:button-card
+                color_type: blank-card
+                class: col-xs-3 col-md-5 col-2 col-lg-7
+              - type: custom:button-card
+                class: col-xs-10 col-md-1 col-2 col-lg-1
+                icon: mdi:format-list-bulleted
+                size: 60%
+                styles:
+                  card:
+                    - height: 30px
+                tap_action:
+                  action: call-service
+                  service: input_text.set_value
+                  target:
+                    entity_id: input_text.football_tv_view_type
+                  data:
+                    value: list
+              - type: custom:button-card
+                class: col-xs-10 col-md-1 col-2 col-lg-1
+                size: 60%
+                styles:
+                  card:
+                    - height: 30px
+                tap_action:
+                  action: call-service
+                  service: input_text.set_value
+                  target:
+                    entity_id: input_text.football_tv_view_type
+                  data:
+                    value: grid
+                icon: mdi:order-bool-ascending
+      - type: vertical-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: sensor.football_tv_selected_view_type
+                state: today_list
+            card:
+              type: custom:html-template-card
+              ignore_line_breaks: true
+              content: |
+                <h2> Futebol na TV: <u>
+                  {{states.sensor.tv_football_games.attributes.todaygames.date }}</u>
+                  </h2>
+                  <table style="width: 100%; border: 1px solid; border-radius: 10px;">
+                  <tbody>
+                  {% for game in states.sensor.tv_football_games.attributes.todaygames.games -%}
+
+                  <tr>
+                  <td colspan="4" style=" text-align:center;"><img style=margin-top:10px;margin-right:10px;width:20px;border-radius:50px;height:20px" src={{game.countryIcon}} /><b>{{game.competitionName}} </b></td>
+
+                    <tr>
+                    
+                      <td style="font-size:10px;text-align:center; width:10%">{{game.time}}</td>
+                      <td> <div style="margin-left:10px;border-left:1px solid;height:30px"></div></td>
+                      <td >
+                          <div style="margin-top:10px; margin-bottom:5px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.homeTeamIcon}} /><label style="margin-left:10px">{{game.homeTeamName}} </label> </div>
+                          <div style="margin-bottom:10px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.awayTeamIcon}} /><label style="margin-left:10px">{{game.awayTeamName}} </label> </div>
+                      
+                      </td>
+                      <td style="width:20%; text-align:center">
+                        <div ><img
+                  style="max-height:30px; max-width:70px; height:auto;width:auto;"
+                  src={{game.channelIcon}} /><div>
+                        <div style="font-size:8px;">{{game.channel}}</div>
+                      </td>
+                  </tr>
+
+                  {%- endfor %}  <tbody> </table>
+          - type: conditional
+            conditions:
+              - entity: sensor.football_tv_selected_view_type
+                state: today_grid
+            card:
+              type: custom:html-template-card
+              title: null
+              ignore_line_breaks: true
+              content: >
+                <h2> Futebol na TV: <u>
+                {{states.sensor.tv_football_games.attributes.todaygames.date }}</u>
+                </h2>
+
+                {% for competition in states.sensor.tv_football_games.attributes.todaygames.competitions -%}
+                  <table style="margin-top:15px; width: 100%; border: 1px solid; border-radius: 10px;">
+                <tbody>
+                <tr>
+                <td colspan="4" style=" text-align:center;"><img style=margin-top:10px;margin-right:10px;width:20px;border-radius:50px;height:20px" src={{competition.icon}} /><b>{{competition.name}} </b></td>
+                    
+                  </tr>
+                  {% for game in competition.games -%}
+                  <tr>
+                    
+                      <td style="font-size:10px;text-align:center; width:10%">{{game.time}}</td>
+                      <td> <div style="margin-left:10px;border-left:1px solid;height:30px"></div></td>
+                      <td >
+                          <div style="margin-top:10px; margin-bottom:5px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.homeTeamIcon}} /><label style="margin-left:10px">{{game.homeTeamName}} </label> </div>
+                          <div style="margin-bottom:10px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.awayTeamIcon}} /><label style="margin-left:10px">{{game.awayTeamName}} </label> </div>
+                      
+                      </td>
+                      <td style="width:20%;text-align:center">
+                        <div ><img
+                  style="max-height:30px; max-width:70px; height:auto;width:auto;"
+                  src={{game.channelIcon}} /><div>
+                        <div style="font-size:8px;">{{game.channel}}</div>
+                      </td>
+                  </tr>
+                  {%- endfor %}  
+                <tbody> </table> {%- endfor %}  
+          - type: conditional
+            conditions:
+              - entity: sensor.football_tv_selected_view_type
+                state: tomorrow_list
+            card:
+              type: custom:html-template-card
+              ignore_line_breaks: true
+              content: |
+                <h2> Futebol na TV: <u>
+                  {{states.sensor.tv_football_games.attributes.tomorrowgames.date }}</u>
+                  </h2>
+                  <table style="width: 100%; border: 1px solid; border-radius: 10px;">
+                  <tbody>
+                  {% for game in states.sensor.tv_football_games.attributes.tomorrowgames.games -%}
+
+                  <tr>
+                  <td colspan="4" style=" text-align:center;"><img style=margin-top:10px;margin-right:10px;width:20px;border-radius:50px;height:20px" src={{game.countryIcon}} /><b>{{game.competitionName}} </b></td>
+
+                    <tr>
+                    
+                      <td style="font-size:10px;text-align:center; width:10%">{{game.time}}</td>
+                      <td> <div style="margin-left:10px;border-left:1px solid;height:30px"></div></td>
+                      <td >
+                          <div style="margin-top:10px; margin-bottom:5px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.homeTeamIcon}} /><label style="margin-left:10px">{{game.homeTeamName}} </label> </div>
+                          <div style="margin-bottom:10px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.awayTeamIcon}} /><label style="margin-left:10px">{{game.awayTeamName}} </label> </div>
+                      
+                      </td>
+                      <td style="width:20%;text-align:center">
+                        <div ><img
+                  style="max-height:30px; max-width:70px; height:auto;width:auto;"
+                  src={{game.channelIcon}} /><div>
+                        <div style="font-size:8px;">{{game.channel}}</div>
+                      </td>
+                  </tr>
+
+                  {%- endfor %}  <tbody> </table>
+          - type: conditional
+            conditions:
+              - entity: sensor.football_tv_selected_view_type
+                state: tomorrow_grid
+            card:
+              type: custom:html-template-card
+              ignore_line_breaks: true
+              content: >
+                <h2> Futebol na TV: <u>
+                {{states.sensor.tv_football_games.attributes.tomorrowgames.date
+                }}</u> </h2>
+
+                {% for competition in states.sensor.tv_football_games.attributes.tomorrowgames.competitions -%}
+                  <table style="margin-top:15px; width: 100%; border: 1px solid; border-radius: 10px;">
+                <tbody>
+                <tr>
+                <td colspan="4" style=" text-align:center;"><b>{{competition.name}} </b></td>
+                    
+                  </tr>
+                  {% for game in competition.games -%}
+                  <tr>
+                    
+                      <td style="font-size:10px;text-align:center; width:10%">{{game.time}}</td>
+                      <td> <div style="margin-left:10px;border-left:1px solid;height:30px"></div></td>
+                      <td >
+                          <div style="margin-top:10px; margin-bottom:5px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.homeTeamIcon}} /><label style="margin-left:10px">{{game.homeTeamName}} </label> </div>
+                          <div style="margin-bottom:10px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.awayTeamIcon}} /><label style="margin-left:10px">{{game.awayTeamName}} </label> </div>
+                      
+                      </td>
+                      <td style="width:20%;text-align:center">
+                        <div ><img
+                  style="max-height:30px; max-width:70px; height:auto;width:auto;"
+                  src={{game.channelIcon}} /><div>
+                        <div style="font-size:8px;">{{game.channel}}</div>
+                      </td>
+                  </tr>
+                  {%- endfor %}  
+                <tbody> </table> {%- endfor %}  
+          - type: conditional
+            conditions:
+              - entity: sensor.football_tv_selected_view_type
+                state: nextdays_list
+            card:
+              type: custom:html-template-card
+              ignore_line_breaks: true
+              content: >
+                {% for gameDate in
+                states.sensor.tv_football_games.attributes.gamesbydate -%}
+                    <h2>{{gameDate.date}}</h2>
+                      <table style="width: 100%; border: 1px solid; border-radius: 10px;">
+                <tbody>
+                      {% for game in gameDate.games -%}
+                      
+
+                  <tr>
+                  <td colspan="4" style=" text-align:center;"><img style=margin-top:10px;margin-right:10px;width:20px;border-radius:50px;height:20px" src={{game.countryIcon}} /><b>{{game.competitionName}} </b></td>
+
+                  <tr>
+                  
+                    <td style="font-size:10px;text-align:center; width:10%">{{game.time}}</td>
+                    <td> <div style="margin-left:10px;border-left:1px solid;height:30px"></div></td>
+                    <td >
+                        <div style="margin-top:10px; margin-bottom:5px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.homeTeamIcon}} /><label style="margin-left:10px">{{game.homeTeamName}} </label> </div>
+                        <div style="margin-bottom:10px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.awayTeamIcon}} /><label style="margin-left:10px">{{game.awayTeamName}} </label> </div>
+                    
+                    </td>
+                    <td style="width:20%;text-align:center">
+                      <div ><img
+                style="max-height:30px; max-width:70px; height:auto;width:auto;"
+                src={{game.channelIcon}} /><div>
+                      <div style="font-size:8px;">{{game.channel}}</div>
+                    </td>
+                </tr>
+                      {%- endfor %} 
+                        <tbody> </table>
+                  {%- endfor %} 
+          - type: conditional
+            conditions:
+              - entity: sensor.football_tv_selected_view_type
+                state: nextdays_grid
+            card:
+              type: custom:html-template-card
+              ignore_line_breaks: true
+              content: |
+                {% for gameDate in
+                states.sensor.tv_football_games.attributes.gamesbydate -%}
+                    <h2>{{gameDate.date}}</h2>
+                      
+                      {% for competition in gameDate.competitions -%}
+                        <table style="margin-top:15px; width: 100%; border: 1px solid; border-radius: 10px;">
+                        <tbody>
+                  <tr>
+                  <td colspan="4" style=" text-align:center;"><b>{{competition.name}} </b></td>
+                    
+                  </tr>
+                          {% for game in competition.games -%}
+                  <tr>
+                    
+                      <td style="font-size:10px;text-align:center; width:10%">{{game.time}}</td>
+                      <td> <div style="margin-left:10px;border-left:1px solid;height:30px"></div></td>
+                      <td >
+                          <div style="margin-top:10px; margin-bottom:5px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.homeTeamIcon}} /><label style="margin-left:10px">{{game.homeTeamName}} </label> </div>
+                          <div style="margin-bottom:10px"><img style="vertical-align:middle;width:20px;height:20px" src={{game.awayTeamIcon}} /><label style="margin-left:10px">{{game.awayTeamName}} </label> </div>
+                      
+                      </td>
+                      <td style="width:20%;text-align:center">
+                        <div ><img
+                  style="max-height:30px; max-width:70px; height:auto;width:auto;"
+                  src={{game.channelIcon}} /><div>
+                        <div style="font-size:8px;">{{game.channel}}</div>
+                      </td>
+                  </tr>
+                  {%- endfor %}
+                        </table>
+                        {%- endfor %} 
+                  {%- endfor %} 
+
 

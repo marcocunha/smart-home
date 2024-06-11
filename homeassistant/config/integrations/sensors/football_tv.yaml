@@ -1,0 +1,28 @@
+template:
+  - sensor:
+      - name: "Football TV Selected View Type"
+        state: >
+          {% if is_state('input_text.football_tv_range_days', 'today') and
+          is_state('input_text.football_tv_view_type', 'grid') %}
+            today_grid
+          {% endif %}
+          {% if is_state('input_text.football_tv_range_days', 'today') and
+          is_state('input_text.football_tv_view_type', 'list') %}
+            today_list
+          {% endif %}
+          {% if is_state('input_text.football_tv_range_days', 'tomorrow') and
+          is_state('input_text.football_tv_view_type', 'grid') %}
+            tomorrow_grid
+          {% endif %}
+          {% if is_state('input_text.football_tv_range_days', 'tomorrow') and
+          is_state('input_text.football_tv_view_type', 'list') %}
+            tomorrow_list
+          {% endif %}
+            {% if is_state('input_text.football_tv_range_days', 'nextdays') and
+          is_state('input_text.football_tv_view_type', 'grid') %}
+            nextdays_grid
+          {% endif %}
+          {% if is_state('input_text.football_tv_range_days', 'nextdays') and
+          is_state('input_text.football_tv_view_type', 'list') %}
+            nextdays_list  
+          {% endif %}

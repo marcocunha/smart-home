@@ -23,6 +23,8 @@ resources:
     type: js
   - url: /hacsfiles/vertical-stack-in-card.js?v=0.4.4
     type: js
+  - url: /hacsfiles/bootstrap-grid-card.js
+    type: js
     
 kiosk_mode:
   user_settings:
