@@ -28,8 +28,6 @@ mode_sleep:
           - light.multiswitch_wc_suite_mirror
           - light.suite_lights
         lights_to_turn_on:
-          - light.plug_bedlight_darlene_suite
-          - light.zigbee_smartpowerplug_1
         desired_position_percentage: 9
     - service: cover.set_cover_position
       alias: Set covers position to sleep mode
