@@ -18,8 +18,7 @@ trigger:
 condition:
   - condition: numeric_state
     entity_id: sensor.sensor_presence_office_illuminance_lux
-    below: 50
-    above: 0
+    below: 150
 action:
   - service: light.turn_on
     metadata: {}

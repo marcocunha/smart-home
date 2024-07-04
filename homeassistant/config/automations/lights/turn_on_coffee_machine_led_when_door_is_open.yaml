@@ -8,14 +8,6 @@ trigger:
     from: "off"
     to: "on"
     alias: "Door opened"
-condition:
-  - or:
-    - condition: numeric_state
-      entity_id: sensor.sun_solar_elevation
-      below: 20
-    - condition: numeric_state
-      entity_id: sensor.wallpanel_light
-      below: 550
 action:
   - service: script.turn_on
     target:

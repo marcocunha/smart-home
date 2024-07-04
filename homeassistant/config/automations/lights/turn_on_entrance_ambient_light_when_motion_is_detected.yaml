@@ -12,7 +12,6 @@ condition:
   - condition: numeric_state
     entity_id: sensor.motion_sensor_illuminance_lux
     below: 30
-    above: 0
   - condition: not
     alias: Active mode is not SLEEP
     conditions:
