@@ -114,50 +114,43 @@ cards:
                     entity: climate.ac_escritorio_ac_escritorio
                     state_content: state
                     icon: mdi:air-conditioner
+             
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-vacuum-card
-                    entity: vacuum.dreame_bot_z10_pro
-                    icon_animation: true
-                    name: Rosita
-                    commands:
-                      - return_home
-                      - start_pause
-                    fill_container: true
-                  - type: vertical-stack
-                    cards:
-                      - type: custom:mushroom-template-card
-                        primary: Clean - Public
-                        secondary: ""
-                        icon: mdi:sofa
-                        icon_color: orange
-                        entity: script.vacuum_clean_social_areas
-                        layout: horizontal
-                        tap_action:
-                          action: call-service
-                          service: script.vacuum_clean_social_areas
-                          data: {}
-                          target: {}
-                        hold_action:
-                          action: none
-                        double_tap_action:
-                          action: none
-                      - type: custom:mushroom-template-card
-                        primary: Clean - Private
-                        secondary: ""
-                        icon: mdi:bed
-                        icon_color: red
-                        entity: script.vacuum_clean_private_areas
-                        layout: horizontal
-                        tap_action:
-                          action: call-service
-                          service: script.vacuum_clean_private_areas
-                          data: {}
-                          target: {}
-                        hold_action:
-                          action: none
-                        double_tap_action:
-                          action: none
+                - type: tile
+                  entity: cover.estores_escritorio
+                  vertical: true
+                  name: Estores
+                  tap_action:
+                    action: more-info
+                  hold_action:
+                    action: more-info  
+                  double_tap_action:
+                    action: more-info
+                  # card_mod:
+                  #   style: |
+                  #     ha-card {
+                  #         --card-primary-font-size: 1.2rem;
+                  #         border: none;
+                  #         box-shadow: none;
+                  #         background: rgba(0,0,0,0);
+                  #     }
+                - type: gauge
+                  entity: sensor.sun_solar_elevation
+                  needle: false
+                  theme: ios-dark-mode-blue-red
+                  name: Elevação Sol
+                - type: gauge
+                  entity: sensor.sensor_presence_office_illuminance_lux
+                  unit: lx
+                  theme: ios-dark-mode-blue-red-alternative
+                  needle: false
+                  name: Iluminação
+                  max: 10
+                  severity:
+                    green: 0
+                    yellow: 1000
+                    red: 2000
               - type: custom:mushroom-title-card
       - type: vertical-stack
         cards:
@@ -180,7 +173,7 @@ cards:
                     - font-size: 15px
                 aspect_ratio: 1/1
                 tap_action:
-                  action: toggle
+                  action: more-info
                 hold_action:
                   action: more-info  
                 double_tap_action:
