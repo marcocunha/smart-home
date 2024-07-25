@@ -25,7 +25,7 @@ condition:
     state: "on"
 action:
   - service: light.turn_off
-    metadata: {}
-    data: {}
     target:
-      entity_id: light.light_office_leds
+      device_id:
+        - 5e1d63d99c520bcaf7ab65d64a32e26d
+    data: {}

@@ -21,8 +21,8 @@ condition:
     below: 150
 action:
   - service: light.turn_on
-    metadata: {}
     data:
       brightness: 15
     target:
-      entity_id: light.light_office_leds
+      device_id: 5e1d63d99c520bcaf7ab65d64a32e26d
+
