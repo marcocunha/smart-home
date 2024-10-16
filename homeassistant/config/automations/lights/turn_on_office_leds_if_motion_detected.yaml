@@ -18,11 +18,11 @@ trigger:
 condition:
   - condition: numeric_state
     entity_id: sensor.sensor_presence_office_illuminance_lux
-    below: 150
+    below: 800
 action:
   - service: light.turn_on
     data:
-      brightness: 15
+      brightness: 20
     target:
       device_id: 5e1d63d99c520bcaf7ab65d64a32e26d
 
