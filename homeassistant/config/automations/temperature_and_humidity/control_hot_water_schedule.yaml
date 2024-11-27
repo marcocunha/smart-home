@@ -6,11 +6,26 @@ trigger:
   - platform: state
     entity_id:
       - schedule.hotwater_schedule
+  - platform: state
+    entity_id:
+      - input_boolean.force_hot_water_off
   - platform: time_pattern
     minutes: /15
 condition: []
 action:
   - choose:
+      # Force the hot water to be switched off
+      - conditions:
+          - condition: state
+            alias: "Force the hot water to be switched off"
+            entity_id: input_boolean.force_hot_water_off
+            state: "on"
+        sequence:
+          - service: switch.turn_off
+            data: {}
+            target:
+              entity_id: switch.hot_water
+      # Conditions to turn off
       - conditions:
           - condition: or
             alias: "Hot water schedule is ON or we have energy excess."
@@ -33,9 +48,10 @@ action:
             data: {}
             target:
               entity_id: switch.hot_water
+      # Conditions to turn on
       - conditions:
           - condition: or
-            alias: "Hot water schedule is OFF or has reached desired temperature"
+            alias: "Hot water schedule is OFF or has reached the desired temperature"
             conditions:
               - condition: state
                 entity_id: schedule.hotwater_schedule

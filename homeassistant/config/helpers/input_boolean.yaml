@@ -17,3 +17,7 @@ guest_mode:
 do_not_disturb:
   name: Do Not Disturb Mode
   icon: mdi:bell-off-outline
+
+force_hot_water_off:
+  name: Force Hot Water automation to be disabled
+  icon: mdi:bell-off-outline
