@@ -4,21 +4,10 @@ import time
 import json
 from typing import cast
 from datetime import datetime, timedelta
-from functools import partial, cmp_to_key
+from functools import cmp_to_key
 
-from homeassistant.const import (
-    CONCENTRATION_PARTS_PER_MILLION,
-    CONF_HOST,
-    CONF_NAME,
-    CONF_TOKEN,
-    PERCENTAGE,
-    STATE_UNKNOWN,
-    UnitOfTemperature,
-    UnitOfTime,
-)
-from homeassistant.helpers.entity import (
-    Entity,
-)
+from homeassistant.const import STATE_UNKNOWN
+from homeassistant.helpers.entity import Entity
 from homeassistant.components.sensor import (
     DOMAIN as ENTITY_DOMAIN,
     SensorDeviceClass,
@@ -31,13 +20,11 @@ from . import (
     CONF_MODEL,
     CONF_XIAOMI_CLOUD,
     XIAOMI_CONFIG_SCHEMA as PLATFORM_SCHEMA,  # noqa: F401
-    MiioEntity,
     MiotEntity,
     BaseSubEntity,
     MiCoordinatorEntity,
     MiotPropertySubEntity,
     MiotCloud,
-    DeviceException,
     async_setup_config_entry,
     bind_services_to_entries,
 )
@@ -324,12 +311,17 @@ class MiotSensorEntity(MiotEntity, SensorEntity):
 
     @property
     def native_value(self):
-        if not self._prop_state:
+        prop = self._prop_state
+        if not prop:
             return None
-        key = f'{self._prop_state.full_name}_desc'
+        key = f'{prop.full_name}_desc'
         if key in self._state_attrs:
             return f'{self._state_attrs[key]}'.lower()
-        return self._prop_state.from_dict(self._state_attrs)
+        val = prop.from_dict(self._state_attrs)
+        if prop.value_range:
+            if not prop.range_min() <= val <= prop.range_max():
+                val = None
+        return val
 
     def before_select_modes(self, prop, option, **kwargs):
         if prop := self._miot_service.get_property('on'):
@@ -519,11 +511,15 @@ class MiotSensorSubEntity(MiotPropertySubEntity, BaseSensorSubEntity):
 
     @property
     def native_value(self):
+        prop = self._miot_property
         if not self._attr_native_unit_of_measurement:
-            key = f'{self._miot_property.full_name}_desc'
+            key = f'{prop.full_name}_desc'
             if key in self._state_attrs:
                 return f'{self._state_attrs[key]}'.lower()
-        val = self._miot_property.from_dict(self._state_attrs)
+        val = prop.from_dict(self._state_attrs)
+        if prop.value_range:
+            if not prop.range_min() <= val <= prop.range_max():
+                val = None
         if val is not None:
             svd = self.custom_config_number('value_ratio') or 0
             if svd:

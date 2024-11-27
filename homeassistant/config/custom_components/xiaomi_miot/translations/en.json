@@ -41,7 +41,8 @@
                     "filter_bssid": "Filter WiFi BSSID",
                     "bssid_list": "WiFi BSSID List",
                     "filter_did": "Filter Device",
-                    "did_list": "Device List"
+                    "did_list": "Device List",
+                    "home_ids": "Filter Home (Leave blank to save)"
                 }
             },
             "customizing": {
@@ -93,7 +94,9 @@
                     "number_properties": "number_properties",
                     "open_texts": "open_texts",
                     "percentage_property": "percentage_property",
+                    "scanner_properties": "scanner_properties",
                     "screenshot_compress": "screenshot_compress",
+                    "select_actions": "select_actions",
                     "select_properties": "select_properties",
                     "sensor_attributes": "sensor_attributes",
                     "sensor_properties": "sensor_properties",
@@ -106,6 +109,7 @@
                     "state_property": "state_property",
                     "switch_properties": "switch_properties",
                     "television_name": "television_name",
+                    "text_actions": "text_actions",
                     "turn_on_hvac": "turn_on_hvac",
                     "unit_of_measurement": "unit_of_measurement",
                     "value_ratio": "value_ratio",
@@ -168,7 +172,8 @@
                     "filter_bssid": "Filter WiFi BSSID",
                     "bssid_list": "WiFi BSSID List",
                     "filter_did": "Filter Device",
-                    "did_list": "Device List"
+                    "did_list": "Device List",
+                    "home_ids": "Filter Home (Leave blank to save)"
                 }
             }
         },
