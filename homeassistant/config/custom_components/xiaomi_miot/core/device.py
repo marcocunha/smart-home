@@ -210,6 +210,8 @@ class Device(CustomConfigHelper):
 
     @cached_property
     def unique_id(self):
+        if self.entry.get_config(CONF_TOKEN):
+            return self.info.unique_id
         return f'{self.info.unique_id}-{self.entry.id}'
 
     @cached_property
@@ -352,7 +354,7 @@ class Device(CustomConfigHelper):
                             attr = p.get('attr', prop.full_name)
                             c = p.get('class', MiotPropConv)
                             d = p.get('domain', None)
-                            ac = c(attr, domain=d, prop=prop, desc=p.get('desc', False))
+                            ac = c(attr, domain=d, prop=prop, desc=p.get('desc'))
                             self.add_converter(ac)
                             if conv and not d:
                                 conv.attrs.add(attr)
@@ -392,8 +394,7 @@ class Device(CustomConfigHelper):
                     self.log.warning(f'Unsupported customize entity: %s for %s', platform, prop.full_name)
                     continue
                 else:
-                    desc = bool(prop.value_list and platform in ['sensor', 'select'])
-                    conv = MiotPropConv(prop.full_name, platform, prop=prop, desc=desc)
+                    conv = MiotPropConv(prop.full_name, platform, prop=prop)
                     conv.with_option(
                         entity_type=None if platform == d else d,
                     )
@@ -676,7 +677,9 @@ class Device(CustomConfigHelper):
             try:
                 if self.miio2miot:
                     results = await self.miio2miot.async_get_miot_props(self.local, mapping)
-                    self.props.update(self.miio2miot.entity_attrs())
+                    if attrs := self.miio2miot.entity_attrs():
+                        self.props.update(attrs)
+                        self.dispatch(self.decode_attrs(attrs))
                 else:
                     if not max_properties:
                         max_properties = self.custom_config_integer('chunk_properties')
@@ -713,9 +716,10 @@ class Device(CustomConfigHelper):
                     self.miot_results.errors = exc
                     self.available = False
                 self._local_state = False
+                props_count = len(mapping)
                 log(
                     'Got MiioException while fetching the state: %s, mapping: %s, max_properties: %s/%s',
-                    exc, mapping, max_properties, len(mapping)
+                    exc, mapping, max_properties or props_count, props_count
                 )
 
         if use_cloud:
