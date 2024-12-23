@@ -19,7 +19,7 @@ notify:
     platform: group
     services:
       - service: "mobile_app_samsung_s22"
-      - service: "mobile_app_oppo"
+      - service: "mobile_app_cph2195"
   - name: all
     platform: group
     services:
