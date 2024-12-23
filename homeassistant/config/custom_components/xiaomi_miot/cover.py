@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from homeassistant.components.cover import (
     DOMAIN as ENTITY_DOMAIN,
-    CoverEntity,
+    CoverEntity as BaseEntity,
     CoverEntityFeature,  # v2022.5
     CoverDeviceClass,
     ATTR_POSITION,
@@ -15,6 +15,7 @@ from . import (
     CONF_MODEL,
     XIAOMI_CONFIG_SCHEMA as PLATFORM_SCHEMA,  # noqa: F401
     HassEntry,
+    XEntity,
     MiotEntity,
     async_setup_config_entry,
     bind_services_to_entries,
@@ -22,7 +23,9 @@ from . import (
 from .core.miot_spec import (
     MiotSpec,
     MiotService,
+    MiotProperty,
 )
+from .core.converters import MiotPropConv, MiotTargetPositionConv
 
 _LOGGER = logging.getLogger(__name__)
 DATA_KEY = f'{ENTITY_DOMAIN}.{DOMAIN}'
@@ -54,7 +57,75 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     bind_services_to_entries(hass, SERVICE_TO_METHOD)
 
 
-class MiotCoverEntity(MiotEntity, CoverEntity):
+class CoverEntity(XEntity, BaseEntity):
+    _attr_is_closed = None
+    _attr_target_cover_position = None
+    _attr_supported_features = CoverEntityFeature(0)
+    _conv_status = None
+    _conv_motor: MiotPropConv = None
+    _conv_current_position = None
+    _conv_target_position = None
+    _current_range = None
+    _target_range = None
+
+    def on_init(self):
+        for conv in self.device.converters:
+            prop = getattr(conv, 'prop', None)
+            if not isinstance(prop, MiotProperty):
+                continue
+            elif prop.in_list(['status']):
+                self._conv_status = conv
+            elif prop.in_list(['motor_control']):
+                self._conv_motor = conv
+            elif prop.in_list(['current_position']) and prop.value_range:
+                self._conv_current_position = conv
+                self._current_range = (prop.range_min, prop.range_max)
+            elif prop.value_range and isinstance(conv, MiotTargetPositionConv):
+                self._conv_target_position = conv
+                self._target_range = conv.ranged
+                self._attr_supported_features |= CoverEntityFeature.SET_POSITION
+            elif prop.value_range and prop.in_list(['target_position']):
+                self._conv_target_position = conv
+                self._target_range = (prop.range_min(), prop.range_max())
+                self._attr_supported_features |= CoverEntityFeature.SET_POSITION
+
+    def set_state(self, data: dict):
+        if self._conv_current_position:
+            val = self._conv_current_position.value_from_dict(data)
+            if val is not None:
+                self._attr_current_cover_position = int(val)
+        if self._conv_target_position:
+            val = self._conv_target_position.value_from_dict(data)
+            if val is not None:
+                self._attr_target_cover_position = int(val)
+                if not self._conv_current_position:
+                    self._attr_current_cover_position = self._attr_target_cover_position
+
+    async def async_open_cover(self, **kwargs):
+        if self._conv_motor:
+            val = self._conv_motor.prop.list_first('Open', 'Up')
+            if val is not None:
+                await self.device.async_write({self._conv_motor.full_name: val})
+                return
+        await self.async_set_cover_position(100)
+
+    async def async_close_cover(self, **kwargs):
+        if self._conv_motor:
+            val = self._conv_motor.prop.list_first('Close', 'Down')
+            if val is not None:
+                await self.device.async_write({self._conv_motor.full_name: val})
+                return
+        await self.async_set_cover_position(0)
+
+    async def async_set_cover_position(self, position, **kwargs):
+        if not self._conv_target_position:
+            return
+        await self.device.async_write({self._conv_target_position.full_name: position})
+
+XEntity.CLS[ENTITY_DOMAIN] = CoverEntity
+
+
+class MiotCoverEntity(MiotEntity, BaseEntity):
     def __init__(self, config: dict, miot_service: MiotService):
         super().__init__(miot_service, config=config, logger=_LOGGER)
 
@@ -112,7 +183,7 @@ class MiotCoverEntity(MiotEntity, CoverEntity):
         if not self._available:
             return
         if prop_reverse := self._miot_service.get_property('motor_reverse'):
-            if prop_reverse.from_dict(self._state_attrs):
+            if prop_reverse.from_device(self.device):
                 if self.custom_config_bool('auto_position_reverse'):
                     self._position_reverse = True
 
@@ -121,7 +192,7 @@ class MiotCoverEntity(MiotEntity, CoverEntity):
         pos = -1
         if self._prop_current_position:
             try:
-                cur = round(self._prop_current_position.from_dict(self._state_attrs), 2)
+                cur = round(self._prop_current_position.from_device(self.device), 2)
             except (TypeError, ValueError):
                 cur = None
             if cur is None:
@@ -149,7 +220,7 @@ class MiotCoverEntity(MiotEntity, CoverEntity):
         if pos < 0:
             # If the motor controller is stopped, generate fake middle position
             if self._prop_status:
-                sta = int(self._prop_status.from_dict(self._state_attrs) or -1)
+                sta = int(self._prop_status.from_device(self.device) or -1)
                 if sta in self._prop_status.list_search('Stopped'):
                     return 50
             return None
@@ -167,7 +238,7 @@ class MiotCoverEntity(MiotEntity, CoverEntity):
         pos = None
         if not self._prop_target_position:
             return pos
-        pos = self._prop_target_position.from_dict(self._state_attrs)
+        pos = self._prop_target_position.from_device(self.device)
         if pos is None:
             return pos
         pos = int(pos)
@@ -199,7 +270,7 @@ class MiotCoverEntity(MiotEntity, CoverEntity):
             pos = self.custom_config_number('closed_position', 1)
             return cur <= pos
         if self._prop_status:
-            sta = int(self._prop_status.from_dict(self._state_attrs) or -1)
+            sta = int(self._prop_status.from_device(self.device) or -1)
             cvs = self.custom_config_list('closed_status') or []
             if cvs:
                 return sta in cvs or f'{sta}' in cvs
@@ -209,14 +280,14 @@ class MiotCoverEntity(MiotEntity, CoverEntity):
     def is_closing(self):
         if not self._prop_status:
             return None
-        sta = int(self._prop_status.from_dict(self._state_attrs) or -1)
+        sta = int(self._prop_status.from_device(self.device) or -1)
         return sta in self._prop_status.list_search(*self._close_texts)
 
     @property
     def is_opening(self):
         if not self._prop_status:
             return None
-        sta = int(self._prop_status.from_dict(self._state_attrs) or -1)
+        sta = int(self._prop_status.from_device(self.device) or -1)
         return sta in self._prop_status.list_search(*self._open_texts)
 
     def motor_control(self, open_cover=True, **kwargs):
