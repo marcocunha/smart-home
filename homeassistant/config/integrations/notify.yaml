@@ -14,7 +14,7 @@ notify:
   - name: darlene
     platform: group
     services:
-      - service: mobile_app_oppo
+      - service: mobile_app_cph2195
   - name: "ha_mobile_apps"
     platform: group
     services:
