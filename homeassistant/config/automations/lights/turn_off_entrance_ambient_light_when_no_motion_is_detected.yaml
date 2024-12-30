@@ -1,0 +1,18 @@
+id: turn_off_entrance_ambient_light_when_no_motion_is_detected
+alias: Turn off Entrance Ambient Light if no motion is detected
+description: ""
+mode: single
+trigger:
+  #every 20 minutes
+  - platform: time_pattern
+    minutes: /20
+condition:
+  - condition: numeric_state
+    entity_id: sensor.motion_sensor_illuminance_lux
+    above: 50
+action:
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.candeeiro_ambiente_2
