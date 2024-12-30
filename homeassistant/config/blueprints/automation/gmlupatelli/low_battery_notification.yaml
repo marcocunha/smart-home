@@ -73,7 +73,8 @@ blueprint:
       selector:
         target:
           entity:
-            device_class: battery
+          - device_class:
+            - battery
     actions:
       name: Actions
       description: Notifications or similar to be run. {{sensors}} is replaced with
