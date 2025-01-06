@@ -4,24 +4,29 @@ mode: single
 max_exceeded: silent
 variables:
   notify_device: notify.ha_mobile_apps
-  trigger_entity: binary_sensor.garagem_smart_motion_human
-  doorbell_cam: camera.garagem_sub
-  notification_title: Movimento Detectado
-  notification_message: Garagem
+  trigger_entity: binary_sensor.dvr_camera_garagem_motion_alarm_2
+  doorbell_cam: camera.dvr_camera_garagem_sub_4
+  notification_title: Movimento Detectado na Garagem
   persistent_notification: false
   image_file: >-
     /local/doorbell/{{ expand(trigger_entity)[0].last_changed | as_timestamp  |
     timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
+  llm_model: gemini-1.5-pro
+  llm_prompt: >-
+    Atua como sendo o responsável pelo meu sistema de segurança em casa.
+    Descreve a imagem numa frase curta usando Português de Portugal. Se vires pessoas,
+    descreve-as.
 trigger:
   platform: state
   entity_id:
-    - binary_sensor.garagem_smart_motion_human
+    - binary_sensor.dvr_camera_garagem_motion_alarm_2
   # Optional
   from: "off"
   # Optional
   to: "on"
   # "on" for 2 seconds
   for: "00:00:02"
+
 condition:
   - condition: or
     conditions:
@@ -31,17 +36,34 @@ condition:
       - condition: state
         entity_id: alarm_control_panel.ajax_security_system
         state: armed_home
+
 action:
-  - data_template:
-      entity_id: camera.garagem_sub
+  - action: camera.snapshot
+    data:
       filename: >-
         /config/www/doorbell/{{ expand(trigger_entity)[0].last_changed |
         as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
-    service: camera.snapshot
+    target:
+      entity_id: "{{doorbell_cam}}"
+  - action: llmvision.image_analyzer
+    data:
+      remember: false
+      include_filename: false
+      target_width: 1280
+      max_tokens: 100
+      temperature: 0.2
+      expose_images: false
+      image_file: >-
+        /config/www/doorbell/{{ expand(trigger_entity)[0].last_changed |
+        as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
+      provider: 01JFTMMBPD3Y5F42RRWGGZ8W73
+      message: "{{llm_prompt}}"
+      model: "{{ llm_model }}"
+    response_variable: llm_response
   - service: notify.ha_mobile_apps
     data:
       title: "{{ notification_title }}"
-      message: "{{ notification_message }}"
+      message: "{{llm_response.response_text}}"
       data:
         tag: "{{ notification_title }}"
         persistent: "{{ persistent_notification }}"
