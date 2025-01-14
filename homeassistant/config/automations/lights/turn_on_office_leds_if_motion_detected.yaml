@@ -17,7 +17,7 @@ trigger:
     to: "on"
 condition:
   - condition: numeric_state
-    entity_id: sensor.sensor_presence_office_illuminance_lux
+    entity_id: sensor.sensor_presence_office_illuminance
     below: 800
 action:
   - service: light.turn_on

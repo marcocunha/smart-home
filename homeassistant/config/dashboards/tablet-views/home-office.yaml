@@ -141,7 +141,7 @@ cards:
                   theme: ios-dark-mode-blue-red
                   name: Elevação Sol
                 - type: gauge
-                  entity: sensor.sensor_presence_office_illuminance_lux
+                  entity: sensor.sensor_presence_office_illuminance
                   unit: lx
                   theme: ios-dark-mode-blue-red-alternative
                   needle: false

@@ -8,7 +8,7 @@ trigger:
     minutes: /20
 condition:
   - condition: numeric_state
-    entity_id: sensor.motion_sensor_illuminance_lux
+    entity_id: sensor.motion_sensor_illuminance
     above: 50
 action:
   - service: light.turn_off

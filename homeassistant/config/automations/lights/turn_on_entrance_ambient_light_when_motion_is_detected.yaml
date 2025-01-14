@@ -10,7 +10,7 @@ trigger:
     domain: binary_sensor
 condition:
   - condition: numeric_state
-    entity_id: sensor.motion_sensor_illuminance_lux
+    entity_id: sensor.motion_sensor_illuminance
     below: 30
   - condition: not
     alias: Active mode is not SLEEP

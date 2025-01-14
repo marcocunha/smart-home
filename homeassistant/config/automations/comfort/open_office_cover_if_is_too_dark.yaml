@@ -13,7 +13,7 @@ trigger:
       seconds: 0
     alias: When someone in the office
   - platform: numeric_state
-    entity_id: sensor.sensor_occupancy_office_illuminance_lux
+    entity_id: sensor.sensor_presence_office_illuminance
     for:
       hours: 0
       minutes: 2
