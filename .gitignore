@@ -41,3 +41,7 @@ bin/logs/cronlog
 whatsupdocker/wud.json
 apprise_api/config/apprise.yml
 diun/data/diun.db
+esphome/config/
+zigbee2mqtt/data/device_icons/
+zigbee2mqtt/data/configuration_backup_v*.yaml
+zigbee2mqtt/data/*.log
