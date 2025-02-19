@@ -9,8 +9,8 @@ variables:
 trigger:
   - platform: template
     value_template: >-
-      {{ states('sensor.wc_temperature_humidity_sensor_humidity') <
-      states('input_number.bathroom_max_humidity_percentage') }}
+      {{ states('sensor.wc_temperature_humidity_sensor_humidity') | float(0) <
+      states('input_number.bathroom_max_humidity_percentage') | float(0) }}
     for:
       hours: 0
       minutes: 10
@@ -27,8 +27,8 @@ condition:
       - and:
         - condition: template
           value_template: |-
-            {{ states('sensor.wc_temperature_humidity_sensor_humidity') <
-                  states('input_number.bathroom_max_humidity_percentage') }}
+            {{ states('sensor.wc_temperature_humidity_sensor_humidity') | float(0)<
+                  states('input_number.bathroom_max_humidity_percentage') | float(0) }}
         - condition: state
           entity_id: fan.multiswitch_wc_guests_center
           state: "on"
