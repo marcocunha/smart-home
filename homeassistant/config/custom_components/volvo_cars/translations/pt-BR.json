@@ -31,7 +31,8 @@
             "reauth_successful": "Credenciais atualizadas com sucesso"
         },
         "error": {
-            "invalid_auth": "Falha na autenticação"
+            "invalid_auth": "Falha na autenticação",
+            "invalid_vin": "O número VIN é inválido"
         },
         "step": {
             "otp": {
@@ -1178,6 +1179,12 @@
                         },
                         "name": "API"
                     },
+                    "device_tracker": {
+                        "data": {
+                            "device_tracker_picture": "Imagem"
+                        },
+                        "name": "Rastreador de dispositivo"
+                    },
                     "images": {
                         "data": {
                             "image_bg_color": "Cor de fundo das imagens",
@@ -1190,6 +1197,7 @@
                     },
                     "units": {
                         "data": {
+                            "energy_consumption_unit": "Unidade para consumo de energia",
                             "fuel_consumption_unit": "Unidade de consumo de combustível"
                         },
                         "name": "Unidades"
@@ -1199,6 +1207,12 @@
         }
     },
     "selector": {
+        "energy_consumption_unit": {
+            "options": {
+                "kwh_100km": "kWh/100 km",
+                "miles_kwh": "mi/kWh"
+            }
+        },
         "fuel_consumption_unit": {
             "options": {
                 "l_100km": "L/100 km",
