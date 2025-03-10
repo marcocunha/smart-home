@@ -3,401 +3,480 @@ icon: mdi:home
 path: home
 type: sidebar
 cards:
-  - type: horizontal-stack
+  - type: vertical-stack
     cards:
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: entity
-            entity: person.marco_cunha
-            use_entity_picture: true
-            content_info: state
-          - type: entity
-            entity: person.darlene_parreira
-            use_entity_picture: true
-            content_info: state
-          - type: alarm-control-panel
-            entity: alarm_control_panel.ajax_security_system
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: entity
-            entity: cover.curtains_group
-            name: Estores
-            content_info: state
-            tap_action:
-              action: toggle
-            icon_color: amber
-          - type: entity
-            entity: cover.garage_door
-            tap_action:
-              action: toggle
-            hold_action:
-              action: none
-            double_tap_action:
-              action: none
-            name: Garagem
-            content_info: name
-            icon_color: amber
-          - type: entity
-            entity: switch.portao_exterior_switch_0
-            show_state: false
-            double_tap_action:
-              action: none
-            name: Portão
-            content_info: name
-            tap_action:
-              action: toggle
-            hold_action:
-              action: none
-            icon: mdi:gate-arrow-right
-            use_entity_picture: false
-            icon_color: amber
-
-
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: template
-            entity: sensor.count_lights_on
-            icon_color: '{{ ''amber'' if states(''sensor.count_lights_on'')| float(0.0) > 0}}'
-            name: Luzes Ligadas
-            icon: mdi:lamps
-            content: "{{ states('sensor.count_lights_on')| float(0.0)}}"
-            tap_action:
-              action: none
-            hold_action:
-              action: none
-            double_tap_action:
-              action: none
-          - type: template
-            entity: sensor.count_doors_open
-            icon_color: '{{ ''amber'' if states(''sensor.count_doors_open'')| float(0.0) > 0}}'
-            name: Portas Abertas
-            icon: mdi:door
-            content: "{{ states('sensor.count_doors_open')| float(0.0)}}"
-            tap_action:
-              action: none
-            hold_action:
-              action: none
-            double_tap_action:
-              action: none
-          - type: entity
-            entity: sensor.sensor_temperature_humidity_sala_temperature
-            icon_color: deep-orange
-          - type: entity
-            entity: sensor.sensor_temperature_humidity_sala_humidity
-            icon_color: blue
-
-  - type: horizontal-stack
-    cards:
-      - type: custom:mushroom-title-card
-  - square: false
-    columns: 3
-    type: grid
-    cards:
-      - type: vertical-stack
+      - type: horizontal-stack
         cards:
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-chips-card
-                chips:
-                  - type: template
-                    content: >-
-                      Sunrise  {% if states.sun.sun %} {{
-                      (as_timestamp(states.sun.sun.attributes.next_rising)) |
-                      timestamp_custom(('%H:%M') )}} {% endif %}
-                    icon: mdi:weather-sunset-up
-                  - type: template
-                    content: >-
-                      Sunset  {% if states.sun.sun %} {{
-                      (as_timestamp(states.sun.sun.attributes.next_setting)) |
-                      timestamp_custom(('%H:%M') )}} {% endif %}
-                    icon: mdi:weather-sunset-down
-              - type: custom:hourly-weather
-                entity: weather.openweathermap
-                num_segments: 9 # optional, defaults to 12
-                name: null # optional, defaults to "Hourly Weather"
-                show_precipitation_amounts: true
-                show_precipitation_probability: true
-                colors:
-                  sunny: yellow
-              - type: custom:mushroom-vacuum-card
-                entity: vacuum.dreame_bot_z10_pro
-                icon_animation: true
-                name: Rosita
-                layout: horizontal
-                commands:
-                  - return_home
-                  - start_pause
-                fill_container: false
-              - type: horizontal-stack
-                cards:
-                  - type: custom:mushroom-template-card
-                    primary: Clean - Public
-                    secondary: ""
-                    icon: mdi:sofa
-                    icon_color: orange
-                    entity: script.vacuum_clean_social_areas
-                    layout: horizontal
-                    tap_action:
-                      action: call-service
-                      service: script.vacuum_clean_social_areas
-                      data: {}
-                      target: {}
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-                  - type: custom:mushroom-template-card
-                    primary: Clean - Private
-                    secondary: ""
-                    icon: mdi:bed
-                    icon_color: red
-                    entity: script.vacuum_clean_private_areas
-                    layout: horizontal
-                    tap_action:
-                      action: call-service
-                      service: script.vacuum_clean_private_areas
-                      data: {}
-                      target: {}
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-      - type: vertical-stack
-        cards:
-          - type: horizontal-stack
-            cards:
-              - type: "custom:button-card"
-                entity: switch.bomba_piscina_switch_0
-                icon: mdi:water-pump
-                show_state: false
-                name: Bomba
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(100,100,100)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                  custom_fields:
-                    worked_time:
-                      - background-color: >
-                          [[[
-                            if (parseFloat(states['sensor.swimming_pool_pump_on_today'].state) < parseFloat(states['input_number.swimming_pool_minimum_duration_h'].state))
-                              return "maroon";
-                            return "darkolivegreen";
-                          ]]]
-                      - border-radius: 50%
-                      - position: absolute
-                      - right: 0%
-                      - top: 0%
-                      - height: 33px
-                      - width: 33px
-                      - font-size: 11px
-                      - font-weight: bold
-                      - line-height: 32px
-                aspect_ratio: 1/1
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: person.marco_cunha
+                use_entity_picture: true
+                content_info: state
+              - type: entity
+                entity: person.darlene_parreira
+                use_entity_picture: true
+                content_info: state
+              - type: alarm-control-panel
+                entity: alarm_control_panel.ajax_security_system
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: cover.curtains_group
+                name: Estores
+                content_info: state
                 tap_action:
                   action: toggle
-                custom_fields:
-                  worked_time: >
-                    [[[ return states['sensor.swimming_pool_pump_on_today'].state + 'h' ]]]
-
-              - type: "custom:button-card"
-                entity: light.projectores_piscina
-                icon: mdi:light-flood-up
-                show_state: false
-                name: P. Piscina
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(100,100,100)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                aspect_ratio: 1/1
+                icon_color: amber
+              - type: entity
+                entity: cover.garage_door
                 tap_action:
                   action: toggle
-              - type: "custom:button-card"
-                entity: switch.hot_water
-                icon: mdi:water-thermometer-outline
-                show_state: false
-                name: Água quente
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(100,100,100)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                  custom_fields:
-                    temperature:
-                      - background-color: >
-                          [[[
-                            if (parseFloat(states['sensor.resistencia_termoacumulador_temperature'].state) < parseFloat(states['input_number.desired_hot_water_temperature'].state))
-                              return "maroon";
-                            return "darkolivegreen";
-                          ]]]
-                      - border-radius: 50%
-                      - position: absolute
-                      - right: 0%
-                      - top: 0%
-                      - height: 33px
-                      - width: 33px
-                      - font-size: 11px
-                      - font-weight: bold
-                      - line-height: 32px
-                aspect_ratio: 1/1
-                tap_action:
-                  action: toggle
-                custom_fields:
-                  temperature: >
-                    [[[ return Math.floor(states['sensor.resistencia_termoacumulador_temperature'].state) + 'ºC']]]
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-template-card
-                primary: Morning
-                secondary: ''
-                icon: mdi:sun-angle-outline
-                icon_color: yellow
-                layout: vertical
-                tap_action:
-                  action: call-service
-                  service: script.mode_morning
-                  data: {}
-              - type: custom:mushroom-template-card
-                primary: '  Night'
-                secondary: ''
-                icon: mdi:weather-night
-                icon_color: blue
-                layout: vertical
-                tap_action:
-                  action: call-service
-                  service: script.mode_night
-                  target: {}
-              - type: custom:mushroom-template-card
-                primary: Fresco
-                secondary: ''
-                icon: mdi:coolant-temperature
-                icon_color: green
-                layout: vertical
-                tap_action:
-                  action: call-service
-                  service: script.covers_cool_down_mode
-                  target: {}
-              - type: custom:mushroom-template-card
-                primary: Bed
-                secondary: ''
-                icon: mdi:bed-single-outline
-                icon_color: purple
-                layout: vertical
-                tap_action:
-                  action: call-service
-                  service: script.mode_sleep
-                  target: {}
-
-      - type: vertical-stack
-        cards:
-          - type: custom:vertical-stack-in-card
-            cards:
-              - type: custom:power-flow-card
-                entities:
-                  grid: sensor.contador_consumo_channel_1_power
-                  solar: sensor.contador_producao_channel_1_power
-                watt_threshold: 1000
-              - type: custom:mushroom-template-card
-                primary:  >
-                  Consumo (acc): 
-                  {% if is_number(states('sensor.monthly_energy')) %}
-                    {{ (states('sensor.monthly_energy') | float) | round(2) }}
-                  {% endif %}
-                  kWH
-                secondary:  >
-                  Total: {% if is_number(states('sensor.monthly_energy')) and is_number(states('input_number.static_price_per_kwh')) %}
-                      {{ (states('sensor.monthly_energy') | float * states('input_number.static_price_per_kwh') | float) | round(2) }}
-                    {% else %}
-                      None
-                    {% endif %}
-                  € | Preço/kWH:
-                    {% if is_number(states('input_number.static_price_per_kwh')) %}
-                      {{ (states('input_number.static_price_per_kwh') | float) | round(2) }}
-                    {% else %}
-                      None
-                    {% endif %}
-                  €
-                multiline_secondary: false
-                entity: sensor.energy_tracker_sensor
-                tap_action:
-                  action: navigate
-                  navigation_path: /energy
                 hold_action:
                   action: none
                 double_tap_action:
                   action: none
-                layout: horizontal
-                icon_color: white
-                card_mod:
-                  style: |
-                    ha-card {
-                        --card-primary-font-size: 1.2rem;
-                        border: none;
-                        box-shadow: none;
-                        background: rgba(0,0,0,0);
-                        flex-direction: inherit !important;
-                    }
-    view_layout:
-      position: main
-  - type: horizontal-stack
-    cards:
-      - type: custom:webrtc-camera
-        url: rtsp://192.168.1.146:8554/garagem_low?mp4
-        server: http://192.168.1.146:1984/
-        ui: true
-        media: video
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        background: false
-        mode: mse,hls,mjpeg
-        intersection: 0.75
-        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
-      - type: custom:webrtc-camera
-        url: rtsp://192.168.1.146:8554/frente_low?mp4
-        server: http://192.168.1.146:1984/
-        ui: true
-        media: video
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        background: false
-        mode: mse,hls,mjpeg
-        intersection: 0.75
-        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
-      - type: custom:webrtc-camera
-        url: rtsp://192.168.1.146:8554/piscina_low?mp4
-        server: http://192.168.1.146:1984/
-        ui: true
-        media: video
-        background: false
-        mode: mse,hls,mjpeg
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        intersection: 0.75
-        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
-      - type: custom:webrtc-camera
-        url: rtsp://192.168.1.146:8554/traseiras_low?mp4
-        server: http://192.168.1.146:1984/
-        ui: true
-        media: video
-        poster: https://home-assistant.io/images/cast/splash.png
-        muted: true
-        background: false
-        mode: mse,hls,mjpeg
-        intersection: 0.75
-        style: 'video {object-fit: fill;} .screenshot {display: none} .pictureinpicture {display: none}'
+                name: Garagem
+                content_info: name
+                icon_color: amber
+              - type: entity
+                entity: switch.portao_exterior_switch_0
+                show_state: false
+                double_tap_action:
+                  action: none
+                name: Portão
+                content_info: name
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: none
+                icon: mdi:gate-arrow-right
+                use_entity_picture: false
+                icon_color: amber
+
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                entity: sensor.count_lights_on
+                icon_color: "{{ 'amber' if states('sensor.count_lights_on')| float(0.0) > 0}}"
+                name: Luzes Ligadas
+                icon: mdi:lamps
+                content: "{{ states('sensor.count_lights_on')| float(0.0)}}"
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: template
+                entity: sensor.count_doors_open
+                icon_color: "{{ 'amber' if states('sensor.count_doors_open')| float(0.0) > 0}}"
+                name: Portas Abertas
+                icon: mdi:door
+                content: "{{ states('sensor.count_doors_open')| float(0.0)}}"
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: entity
+                entity: sensor.sensor_temperature_humidity_sala_temperature
+                icon_color: deep-orange
+              - type: entity
+                entity: sensor.sensor_temperature_humidity_sala_humidity
+                icon_color: blue
+              - type: action
+                tap_action:
+                  action: navigate
+                  navigation_path: "#tablet-extra-options"
+                icon: mdi:dots-horizontal
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-title-card
+      - square: false
+        columns: 3
+        type: grid
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-chips-card
+                    chips:
+                      - type: template
+                        content: >-
+                          Sunrise  {% if states.sun.sun %} {{
+                          (as_timestamp(states.sun.sun.attributes.next_rising)) |
+                          timestamp_custom(('%H:%M') )}} {% endif %}
+                        icon: mdi:weather-sunset-up
+                      - type: template
+                        content: >-
+                          Sunset  {% if states.sun.sun %} {{
+                          (as_timestamp(states.sun.sun.attributes.next_setting)) |
+                          timestamp_custom(('%H:%M') )}} {% endif %}
+                        icon: mdi:weather-sunset-down
+                  - type: custom:hourly-weather
+                    entity: weather.openweathermap
+                    num_segments: 9 # optional, defaults to 12
+                    name: null # optional, defaults to "Hourly Weather"
+                    show_precipitation_amounts: true
+                    show_precipitation_probability: true
+                    colors:
+                      sunny: yellow
+                  - type: custom:mushroom-vacuum-card
+                    entity: vacuum.dreame_bot_z10_pro
+                    icon_animation: true
+                    name: Rosita
+                    layout: horizontal
+                    commands:
+                      - return_home
+                      - start_pause
+                    fill_container: false
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mushroom-template-card
+                        primary: Clean - Public
+                        secondary: ""
+                        icon: mdi:sofa
+                        icon_color: orange
+                        entity: script.vacuum_clean_social_areas
+                        layout: horizontal
+                        tap_action:
+                          action: call-service
+                          service: script.vacuum_clean_social_areas
+                          data: {}
+                          target: {}
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                      - type: custom:mushroom-template-card
+                        primary: Clean - Private
+                        secondary: ""
+                        icon: mdi:bed
+                        icon_color: red
+                        entity: script.vacuum_clean_private_areas
+                        layout: horizontal
+                        tap_action:
+                          action: call-service
+                          service: script.vacuum_clean_private_areas
+                          data: {}
+                          target: {}
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+          - type: vertical-stack
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: "custom:button-card"
+                    entity: switch.bomba_piscina_switch_0
+                    icon: mdi:water-pump
+                    show_state: false
+                    name: Bomba
+                    state:
+                      - value: "on"
+                        color: rgb(255,191,0)
+                      - value: "off"
+                        color: rgb(100,100,100)
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(255,191,0)
+                        - --mdc-ripple-press-opacity: 0.5
+                        - font-size: 15px
+                      custom_fields:
+                        worked_time:
+                          - background-color: >
+                              [[[
+                                if (parseFloat(states['sensor.swimming_pool_pump_on_today'].state) < parseFloat(states['input_number.swimming_pool_minimum_duration_h'].state))
+                                  return "maroon";
+                                return "darkolivegreen";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - right: 0%
+                          - top: 0%
+                          - height: 33px
+                          - width: 33px
+                          - font-size: 11px
+                          - font-weight: bold
+                          - line-height: 32px
+                    aspect_ratio: 1/1
+                    tap_action:
+                      action: toggle
+                    custom_fields:
+                      worked_time: >
+                        [[[ return states['sensor.swimming_pool_pump_on_today'].state + 'h' ]]]
+
+                  - type: "custom:button-card"
+                    entity: light.projectores_piscina
+                    icon: mdi:light-flood-up
+                    show_state: false
+                    name: P. Piscina
+                    state:
+                      - value: "on"
+                        color: rgb(255,191,0)
+                      - value: "off"
+                        color: rgb(100,100,100)
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(255,191,0)
+                        - --mdc-ripple-press-opacity: 0.5
+                        - font-size: 15px
+                    aspect_ratio: 1/1
+                    tap_action:
+                      action: toggle
+                  - type: "custom:button-card"
+                    entity: switch.hot_water
+                    icon: mdi:water-thermometer-outline
+                    show_state: false
+                    name: Água quente
+                    state:
+                      - value: "on"
+                        color: rgb(255,191,0)
+                      - value: "off"
+                        color: rgb(100,100,100)
+                    styles:
+                      card:
+                        - --mdc-ripple-color: rgb(255,191,0)
+                        - --mdc-ripple-press-opacity: 0.5
+                        - font-size: 15px
+                      custom_fields:
+                        temperature:
+                          - background-color: >
+                              [[[
+                                if (parseFloat(states['sensor.resistencia_termoacumulador_temperature'].state) < parseFloat(states['input_number.desired_hot_water_temperature'].state))
+                                  return "maroon";
+                                return "darkolivegreen";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - right: 0%
+                          - top: 0%
+                          - height: 33px
+                          - width: 33px
+                          - font-size: 11px
+                          - font-weight: bold
+                          - line-height: 32px
+                    aspect_ratio: 1/1
+                    tap_action:
+                      action: toggle
+                    hold_action:
+                      action: navigate
+                      navigation_path: "#tablet-extra-options"
+                    custom_fields:
+                      temperature: >
+                        [[[ return Math.floor(states['sensor.resistencia_termoacumulador_temperature'].state) + 'ºC']]]
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Morning
+                    secondary: ""
+                    icon: mdi:sun-angle-outline
+                    icon_color: yellow
+                    layout: vertical
+                    tap_action:
+                      action: call-service
+                      service: script.mode_morning
+                      data: {}
+                  - type: custom:mushroom-template-card
+                    primary: "  Night"
+                    secondary: ""
+                    icon: mdi:weather-night
+                    icon_color: blue
+                    layout: vertical
+                    tap_action:
+                      action: call-service
+                      service: script.mode_night
+                      target: {}
+                  - type: custom:mushroom-template-card
+                    primary: Fresco
+                    secondary: ""
+                    icon: mdi:coolant-temperature
+                    icon_color: green
+                    layout: vertical
+                    tap_action:
+                      action: call-service
+                      service: script.covers_cool_down_mode
+                      target: {}
+                  - type: custom:mushroom-template-card
+                    primary: Bed
+                    secondary: ""
+                    icon: mdi:bed-single-outline
+                    icon_color: purple
+                    layout: vertical
+                    tap_action:
+                      action: call-service
+                      service: script.mode_sleep
+                      target: {}
+
+          - type: vertical-stack
+            cards:
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - type: custom:power-flow-card
+                    entities:
+                      grid: sensor.contador_consumo_channel_1_power
+                      solar: sensor.contador_producao_channel_1_power
+                    watt_threshold: 1000
+                  - type: custom:mushroom-template-card
+                    primary: >
+                      Consumo (acc): 
+                      {% if is_number(states('sensor.monthly_energy')) %}
+                        {{ (states('sensor.monthly_energy') | float) | round(2) }}
+                      {% endif %}
+                      kWH
+                    secondary: >
+                      Total: {% if is_number(states('sensor.monthly_energy')) and is_number(states('input_number.static_price_per_kwh')) %}
+                          {{ (states('sensor.monthly_energy') | float * states('input_number.static_price_per_kwh') | float) | round(2) }}
+                        {% else %}
+                          None
+                        {% endif %}
+                      € | Preço/kWH:
+                        {% if is_number(states('input_number.static_price_per_kwh')) %}
+                          {{ (states('input_number.static_price_per_kwh') | float) | round(2) }}
+                        {% else %}
+                          None
+                        {% endif %}
+                      €
+                    multiline_secondary: false
+                    entity: sensor.energy_tracker_sensor
+                    tap_action:
+                      action: navigate
+                      navigation_path: /energy
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    layout: horizontal
+                    icon_color: white
+                    card_mod:
+                      style: |
+                        ha-card {
+                            --card-primary-font-size: 1.2rem;
+                            border: none;
+                            box-shadow: none;
+                            background: rgba(0,0,0,0);
+                            flex-direction: inherit !important;
+                        }
+
+        view_layout:
+          position: main
+
+      - type: vertical-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: "#tablet-extra-options"
+          - type: custom:bubble-card
+            card_type: button
+            button_type: switch
+            entity: input_boolean.force_hot_water_off
+            name: Disable Hot Water Automation
+            icon: mdi:thermometer-water
+            scrolling_effect: true
+            show_icon: true
+            force_icon: true
+            show_state: true
+            show_attribute: false
+            show_name: true
+            card_layout: large
+            show_last_changed: false
+
+      - type: vertical-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: "#tablet-cameras"
+            width_desktop: 840px
+            auto_close: 20000 #20s
+            margin_top_desktop: calc(100vh - 900px)
+          - square: false
+            columns: 2
+            type: grid
+            title: Cameras
+            cards:
+              - type: custom:webrtc-camera
+                url: rtsp://192.168.1.146:8554/frente_low?mp4
+                server: http://192.168.1.146:1984/
+                ui: true
+                media: video
+                poster: https://home-assistant.io/images/cast/splash.png
+                muted: true
+                background: false
+                mode: mse,hls,mjpeg
+                intersection: 0.75
+                style: >-
+                  video {object-fit: fill;} .screenshot {display: none}
+                  .pictureinpicture {display: none}
+              - type: custom:webrtc-camera
+                url: rtsp://192.168.1.146:8554/garagem_low?mp4
+                server: http://192.168.1.146:1984/
+                ui: true
+                media: video
+                poster: https://home-assistant.io/images/cast/splash.png
+                muted: true
+                background: false
+                mode: mse,hls,mjpeg
+                intersection: 0.75
+                style: >-
+                  video {object-fit: fill;} .screenshot {display: none}
+                  .pictureinpicture {display: none}
+              - type: custom:webrtc-camera
+                url: rtsp://192.168.1.146:8554/piscina_low?mp4
+                server: http://192.168.1.146:1984/
+                ui: true
+                media: video
+                poster: https://home-assistant.io/images/cast/splash.png
+                muted: true
+                background: false
+                mode: mse,hls,mjpeg
+                intersection: 0.75
+                style: >-
+                  video {object-fit: fill;} .screenshot {display: none}
+                  .pictureinpicture {display: none}
+              - type: custom:webrtc-camera
+                url: rtsp://192.168.1.146:8554/traseiras_low?mp4
+                server: http://192.168.1.146:1984/
+                ui: true
+                media: video
+                poster: https://home-assistant.io/images/cast/splash.png
+                muted: true
+                background: false
+                mode: mse,hls,mjpeg
+                intersection: 0.75
+                style: >-
+                  video {object-fit: fill;} .screenshot {display: none}
+                  .pictureinpicture {display: none}
+
+      - type: vertical-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: "#vacuum-popup"
+            width_desktop: 640px
+            margin_top_desktop: calc(100vh - 900px)
+          - type: custom:xiaomi-vacuum-map-card
+            vacuum_platform: default
+            entity: vacuum.dreame_bot_z10_pro
+            debug: false
+            map_source:
+              camera: camera.dreame_bot_z10_pro_map
+            calibration_source:
+              camera: true
+            map_locked: true
+            two_finger_pan: false
+
+      - type: custom:bubble-card
+        card_type: horizontal-buttons-stack
+        hide_gradient: true
+        1_name: Cameras
+        1_icon: mdi:cctv
+        1_link: "#tablet-cameras"
+        1_entity: light.kitchen
+        2_name: Rosita
+        2_icon: mdi:robot-vacuum
+        2_link: "#vacuum-popup"
