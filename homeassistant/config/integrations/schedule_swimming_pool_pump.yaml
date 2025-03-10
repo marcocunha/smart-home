@@ -2,23 +2,23 @@ schedule:
   swimming_pool_pump_schedule:
     name: "Swimming Pool Pump schedule"
     monday:
-      - from: "11:00:00"
-        to: "15:00:00"
+      - from: "12:00:00"
+        to: "14:30:00"
     tuesday:
-      - from: "11:00:00"
-        to: "15:00:00"
+      - from: "12:00:00"
+        to: "14:30:00"
     wednesday:
-      - from: "11:00:00"
-        to: "15:00:00"
+      - from: "12:00:00"
+        to: "14:30:00"
     thursday:
-      - from: "11:00:00"
-        to: "15:00:00"
+      - from: "12:00:00"
+        to: "14:30:00"
     friday:
-      - from: "11:00:00"
-        to: "15:00:00"
+      - from: "12:00:00"
+        to: "14:30:00"
     saturday:
-      - from: "11:00:00"
-        to: "15:00:00"
+      - from: "12:00:00"
+        to: "14:30:00"
     sunday:
-      - from: "11:00:00"
-        to: "15:00:00"
+      - from: "12:00:00"
+        to: "14:30:00"
