@@ -13,6 +13,7 @@ from homeassistant.components.climate.const import (
     ATTR_CURRENT_HUMIDITY,
     ATTR_CURRENT_TEMPERATURE,
     ATTR_HVAC_MODE,
+    ATTR_FAN_MODE,
     DEFAULT_MAX_HUMIDITY,
     DEFAULT_MIN_HUMIDITY,
     HVACAction,
@@ -96,6 +97,8 @@ class BaseClimateEntity(BaseEntity):
     _hvac_modes = None
     _attr_is_on = None
     _attr_device_class = None
+    _attr_fan_mode = None
+    _attr_fan_modes = None
     _attr_hvac_mode = None
     _attr_preset_mode = None
     _attr_swing_mode = None
@@ -105,6 +108,7 @@ class BaseClimateEntity(BaseEntity):
     _attr_temperature_unit = None
 
     def on_init(self):
+        self._attr_hvac_modes = []
         self._hvac_modes = {
             HVACMode.OFF:  {'list': ['Off', 'Idle', 'None'], 'action': HVACAction.OFF},
             HVACMode.AUTO: {'list': ['Auto', 'Manual', 'Normal']},
@@ -170,6 +174,7 @@ class ClimateEntity(XEntity, BaseClimateEntity):
             if prop := self.custom_config('current_temp_property'):
                 self._prop_temperature = self._miot_service.spec.get_property(prop)
 
+        hvac_modes = set()
         for attr in self.conv.attrs:
             conv = self.device.find_converter(attr)
             prop = getattr(conv, 'prop', None) if conv else None
@@ -179,24 +184,19 @@ class ClimateEntity(XEntity, BaseClimateEntity):
                 self._conv_power = conv
                 self._attr_supported_features |= ClimateEntityFeature.TURN_ON
                 self._attr_supported_features |= ClimateEntityFeature.TURN_OFF
+                hvac_modes.add(HVACMode.OFF)
+                hvac_modes.add(HVACMode.AUTO)
             elif prop.in_list(['mode']):
                 self._conv_mode = conv
-                self._attr_hvac_modes = []
                 self._attr_preset_modes = prop.list_descriptions()
-                remove_hvac_modes = []
                 for mk, mv in self._hvac_modes.items():
                     val = prop.list_first(*(mv.get('list') or []))
                     if val is not None:
                         des = prop.list_description(val)
+                        hvac_modes.add(mk)
                         self._hvac_modes[mk]['value'] = val
                         self._hvac_modes[mk]['description'] = des
                         self._attr_preset_modes.remove(des)
-                    elif mk not in [HVACMode.OFF, HVACMode.AUTO]:
-                        remove_hvac_modes.append(mk)
-                for mk in remove_hvac_modes:
-                    self._hvac_modes.pop(mk, None)
-                for mk in self._hvac_modes.keys():
-                    self._attr_hvac_modes.append(mk)
                 if self._attr_preset_modes:
                     self._attr_supported_features |= ClimateEntityFeature.PRESET_MODE
             elif prop.in_list(['fan_level', 'speed_level', 'heat_level']):
@@ -208,9 +208,10 @@ class ClimateEntity(XEntity, BaseClimateEntity):
                 self._attr_swing_modes = [SWING_ON, SWING_OFF]
                 self._attr_supported_features |= ClimateEntityFeature.SWING_MODE
             elif prop.in_list(['horizontal_swing']):
-                self._conv_swing_h = conv
-                self._attr_swing_horizontal_modes = [SWING_ON, SWING_OFF]
-                self._attr_supported_features |= ClimateEntityFeature.SWING_HORIZONTAL_MODE
+                if hasattr(ClimateEntityFeature, 'SWING_HORIZONTAL_MODE'): # v2024.12
+                    self._conv_swing_h = conv
+                    self._attr_swing_horizontal_modes = [SWING_ON, SWING_OFF]
+                    self._attr_supported_features |= ClimateEntityFeature.SWING_HORIZONTAL_MODE
             elif prop.in_list(['target_temperature']):
                 self._conv_target_temp = conv
                 self._attr_min_temp = prop.range_min()
@@ -231,9 +232,10 @@ class ClimateEntity(XEntity, BaseClimateEntity):
                     self._attr_max_humidity = prop.range_max()
                 self._attr_supported_features |= ClimateEntityFeature.TARGET_HUMIDITY
 
+        self._attr_hvac_modes = list(hvac_modes)
+
     def set_state(self, data: dict):
         if self._conv_mode:
-            self.conv.attrs.add(self._conv_mode.full_name)
             val = self._conv_mode.value_from_dict(data)
             if val in self._attr_preset_modes:
                 self._attr_preset_mode = val
@@ -247,7 +249,7 @@ class ClimateEntity(XEntity, BaseClimateEntity):
             self._attr_is_on = val
             if val in [False, 0]:
                 self._attr_hvac_mode = HVACMode.OFF
-            elif self._attr_hvac_mode in [None, HVACMode.OFF]:
+            elif val and self._attr_hvac_mode in [None, HVACMode.OFF]:
                 self._attr_hvac_mode = HVACMode.AUTO
         self._attr_state = self._attr_hvac_mode
 
@@ -266,7 +268,6 @@ class ClimateEntity(XEntity, BaseClimateEntity):
 
         self.update_bind_sensor()
         if self._conv_target_temp:
-            self.conv.attrs.add(self._conv_mode.full_name)
             val = self._conv_target_temp.value_from_dict(data)
             if val is not None:
                 self._attr_target_temperature = val
@@ -294,15 +295,19 @@ class ClimateEntity(XEntity, BaseClimateEntity):
 
     async def async_turn_on(self):
         if self._conv_power:
-            await self.device.async_write({self._conv_power.attr: True})
+            await self.async_turn_switch(True)
             return
         await super().async_turn_on()
 
     async def async_turn_off(self):
         if self._conv_power:
-            await self.device.async_write({self._conv_power.attr: False})
+            await self.async_turn_switch(False)
             return
         await super().async_turn_off()
+
+    async def async_turn_switch(self, state):
+        if self._conv_power:
+            await self.device.async_write({self._conv_power.full_name: state})
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode):
         await self.async_set_temperature(**{ATTR_HVAC_MODE: hvac_mode})
@@ -313,26 +318,25 @@ class ClimateEntity(XEntity, BaseClimateEntity):
         for mk, mv in self._hvac_modes.items():
             des = mv.get('description')
             if preset_mode == des:
-                await self.device.async_write({self._conv_mode.attr: des})
+                await self.device.async_write({self._conv_mode.full_name: des})
                 return
 
     async def async_set_temperature(self, **kwargs):
         dat = {}
         hvac = kwargs.get(ATTR_HVAC_MODE)
+        if hvac == HVACMode.OFF:
+            await self.async_turn_switch(False)
+            return
 
-        if self._conv_power:
-            if hvac == HVACMode.OFF:
-                await self.device.async_write({self._conv_power.attr: False})
-                return
-            if not self._attr_is_on:
-                dat[self._conv_power.attr] = True
+        if self._conv_power and not self._attr_is_on:
+            dat[self._conv_power.full_name] = True
 
         if hvac and hvac != self._attr_hvac_mode and self._conv_mode:
             mode = self._hvac_modes.get(hvac)
             if not mode:
                 self.log.warning('Unsupported hvac mode: %s', hvac)
             elif (desc := mode.get('description')) is not None:
-                dat[self._conv_mode.attr] = desc
+                dat[self._conv_mode.full_name] = desc
 
         temp = kwargs.get(ATTR_TEMPERATURE)
         if temp and self._conv_target_temp:
@@ -341,28 +345,38 @@ class ClimateEntity(XEntity, BaseClimateEntity):
                 pass
             elif prop.is_integer or prop.range_step() == 1:
                 temp = int(temp)
-            dat[self._conv_target_temp.attr] = temp
+            dat[self._conv_target_temp.full_name] = temp
+
+        fan_mode = kwargs.get(ATTR_FAN_MODE)
+        if fan_mode and self._conv_speed:
+            dat[self._conv_speed.full_name] = fan_mode
+
         await self.device.async_write(dat)
 
     async def async_set_humidity(self, humidity: int):
         if not self._conv_target_humidity:
             return
-        await self.device.async_write({self._conv_target_humidity.attr: humidity})
+        await self.device.async_write({self._conv_target_humidity.full_name: humidity})
 
     async def async_set_fan_mode(self, fan_mode: str):
         if not self._conv_speed:
             return
-        await self.device.async_write({self._conv_speed.attr: fan_mode})
+        dat = {
+            ATTR_FAN_MODE: fan_mode,
+        }
+        if not self._attr_is_on and HVACMode.FAN_ONLY in self.hvac_modes:
+            dat[ATTR_HVAC_MODE] = HVACMode.FAN_ONLY
+        await self.async_set_temperature(**dat)
 
     async def async_set_swing_mode(self, swing_mode: str):
         if not self._conv_swing:
             return
-        await self.device.async_write({self._conv_swing.attr: swing_mode == SWING_ON})
+        await self.device.async_write({self._conv_swing.full_name: swing_mode == SWING_ON})
 
     async def async_set_swing_horizontal_mode(self, swing_horizontal_mode: str):
         if not self._conv_swing_h:
             return
-        await self.device.async_write({self._conv_swing_h.attr: swing_horizontal_mode == SWING_ON})
+        await self.device.async_write({self._conv_swing_h.full_name: swing_horizontal_mode == SWING_ON})
 
 XEntity.CLS[ENTITY_DOMAIN] = ClimateEntity
 
@@ -425,14 +439,7 @@ class MiotClimateEntity(MiotToggleEntity, BaseClimateEntity):
         self._power_modes = []
         if miot_service.get_property('heat_level'):
             self._power_modes.append('heater')
-        self._hvac_modes = {
-            HVACMode.OFF:  {'list': ['Off', 'Idle', 'None'], 'action': HVACAction.OFF},
-            HVACMode.AUTO: {'list': ['Auto', 'Manual', 'Normal']},
-            HVACMode.COOL: {'list': ['Cool'], 'action': HVACAction.COOLING},
-            HVACMode.HEAT: {'list': ['Heat'], 'action': HVACAction.HEATING},
-            HVACMode.DRY:  {'list': ['Dry'], 'action': HVACAction.DRYING},
-            HVACMode.FAN_ONLY: {'list': ['Fan'], 'action': HVACAction.FAN},
-        }
+        BaseClimateEntity.on_init(self)
         self._preset_modes = {}
 
     async def async_added_to_hass(self):
