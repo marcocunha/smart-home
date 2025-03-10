@@ -1,0 +1,145 @@
+title: EV
+path: ev
+icon: "mdi:ev-station"
+type: sidebar
+cards:
+  - type: vertical-stack
+    cards:
+      - square: false
+        columns: 3
+        type: grid
+        cards:
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            entity: sensor.volvo_volvo_c40_charging_connection_status
+            name: Charging Connection
+            card_layout: large
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            entity: sensor.volvo_volvo_c40_charging_system_status
+            name: Charging
+            card_layout: large
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            entity: sensor.volvo_volvo_c40_distance_to_empty_battery
+            name: Range
+            card_layout: large
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            entity: sensor.volvo_volvo_c40_estimated_charging_time
+            name: Est. charging time
+            card_layout: large
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            entity: sensor.volvo_volvo_c40_average_energy_consumption
+            name: Average energy consumption
+            card_layout: large
+          - type: custom:bubble-card
+            card_type: button
+            button_type: state
+            entity: sensor.volvo_volvo_c40_trip_meter_automatic
+            name: Trip meter
+            card_layout: large
+      - title: Volvo C40
+        image_url: ""
+        charging_image_url: ""
+        image_url_type: entity
+        charging_image_url_type: entity
+        vehicle_type: EV
+        unit_type: mi
+        level_entity: ""
+        range_entity: ""
+        charging_status_entity: sensor.volvo_volvo_c40_charging_connection_status
+        location_entity: sensor.volvo_geocoded_location
+        mileage_entity: sensor.volvo_volvo_c40_odometer
+        show_level: true
+        show_range: true
+        show_location: true
+        show_mileage: true
+        show_car_state: true
+        show_charge_limit: true
+        icon_grid_entities:
+          - row-separator
+          - lock.volvo_volvo_c40_lock
+        custom_icons:
+          lock.volvo_volvo_c40_lock:
+            inactiveState: default
+            activeState: default
+            inactive: mdi:lock
+            active: mdi:lock-open-variant
+            inactiveColor: "#b30000"
+            activeColor: "#175700"
+        icon_interactions:
+          button.volvo_volvo_c40_climatization_start:
+            type: toggle
+          lock.volvo_volvo_c40_lock:
+            type: trigger
+        icon_styles: {}
+        icon_labels:
+          lock.volvo_volvo_c40_lock: bottom
+        hybrid_display_order: fuel_first
+        car_state_entity: binary_sensor.volvo_volvo_c40_engine_status
+        charge_limit_entity: ""
+        icon_size: 24
+        icon_gap: 12
+        showEntityInformation: true
+        carStateTextColor: var(--primary-text-color)
+        rangeTextColor: var(--primary-text-color)
+        percentageTextColor: var(--primary-text-color)
+        icon_sizes: {}
+        engine_on_entity: ""
+        row_separator_color: Default
+        row_separator_height: 1
+        row_separators:
+          "0":
+            color: transparent
+            height: 1
+            icon_gap: 20
+            horizontalAlignment: center
+            verticalAlignment: middle
+        iconActiveColor: var(--primary-color)
+        iconInactiveColor: var(--primary-text-color)
+        useFormattedEntities: true
+        mainImageHeight: 280px
+        chargingImageHeight: 140px
+        showTitle: true
+        #layoutType: single
+        layoutType: double
+        useBarGradient: false
+        barGradientStops:
+          - percentage: 0
+            color: "#ff0000"
+          - percentage: 100
+            color: "#00ff00"
+        cardTitleColor: var(--primary-text-color)
+        cardBackgroundColor: "var(--ha-card-background, var(--card-background-color, #fff))"
+        barBackgroundColor: var(--secondary-text-color)
+        barBorderColor: "var(--ha-card-background, var(--card-background-color, #fff))"
+        barFillColor: var(--primary-color)
+        limitIndicatorColor: var(--primary-text-color)
+        infoTextColor: var(--secondary-text-color)
+        show_engine_animation: true
+        show_charging_animation: true
+        show_charging_status: true
+        show_engine_on: true
+        engine_on_image_url_type: none
+        type: custom:ultra-vehicle-card
+        battery_level_entity: sensor.volvo_volvo_c40_battery_charge_level
+        battery_range_entity: sensor.volvo_volvo_c40_distance_to_empty_battery
+        fuel_level_entity: ""
+        fuel_range_entity: ""
+        show_battery: true
+        show_battery_range: true
+        show_fuel: true
+        show_fuel_range: true
+        custom_labels: {}
+        charging_image_entity: image.volvo_volvo_c40_exterior_back_driver
+        grid_options:
+          columns: full
+          rows: 5
+        image_entity: image.volvo_volvo_c40_exterior
