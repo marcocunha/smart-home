@@ -376,7 +376,21 @@ cards:
             button_type: switch
             entity: input_boolean.force_hot_water_off
             name: Disable Hot Water Automation
-            icon: mdi:thermometer-water
+            icon: mdi:water-boiler-off
+            scrolling_effect: true
+            show_icon: true
+            force_icon: true
+            show_state: true
+            show_attribute: false
+            show_name: true
+            card_layout: large
+            show_last_changed: false
+          - type: custom:bubble-card
+            card_type: button
+            button_type: switch
+            entity: input_boolean.force_hot_water_on
+            name: Enable Hot Water Automation
+            icon: mdi:water-boiler
             scrolling_effect: true
             show_icon: true
             force_icon: true

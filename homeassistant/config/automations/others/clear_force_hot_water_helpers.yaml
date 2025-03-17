@@ -1,7 +1,7 @@
-id: clear_force_hot_water_off_helper
-alias: Clear Force Hot Water Off Helper
+id: clear_force_hot_water_helpers
+alias: Clear Force Hot Water Helpers
 mode: single
-description: Clears Force Hot Water Off Helper
+description: Clears Force Hot Water Helpers
 trigger:
   - platform: time
     at:
@@ -14,3 +14,7 @@ action:
     data: {}
     target:
       entity_id: input_boolean.force_hot_water_off
+  - action: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.force_hot_water_on

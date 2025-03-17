@@ -20,4 +20,8 @@ do_not_disturb:
 
 force_hot_water_off:
   name: Force Hot Water automation to be disabled
-  icon: mdi:bell-off-outline
+  icon: mdi:water-boiler-off
+  
+force_hot_water_on:
+  name: Force Hot Water automation to be enabled
+  icon: mdi:water-boiler
