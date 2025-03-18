@@ -33,6 +33,10 @@ cards:
             entity: sensor.volvo_volvo_c40_estimated_charging_time
             name: Est. charging time
             card_layout: large
+            state_unit: h
+            show_attribute: true
+            styles: |
+              ${card.querySelector('.bubble-state').innerText = parseFloat(state)/60 + 'h'}
           - type: custom:bubble-card
             card_type: button
             button_type: state

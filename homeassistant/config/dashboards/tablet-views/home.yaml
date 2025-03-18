@@ -385,6 +385,10 @@ cards:
             show_name: true
             card_layout: large
             show_last_changed: false
+            styles: |
+              .bubble-name-container {
+                color: ${state === 'on' ? 'black' : ''} !important;
+              }
           - type: custom:bubble-card
             card_type: button
             button_type: switch
@@ -399,6 +403,10 @@ cards:
             show_name: true
             card_layout: large
             show_last_changed: false
+            styles: |
+              .bubble-name-container {
+                color: ${state === 'on' ? 'black' : ''} !important;
+              }
 
       - type: vertical-stack
         cards:
