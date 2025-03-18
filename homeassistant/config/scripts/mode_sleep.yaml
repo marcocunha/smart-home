@@ -20,6 +20,7 @@ mode_sleep:
         lights_to_turn_off:
           - light.projectores_piscina
           - light.candeeiro_ambiente_2
+          - light.switch_tomada_poltrona
           - light.light_office_leds
           - light.office_light
           - light.multiswitch_wc_guests_left

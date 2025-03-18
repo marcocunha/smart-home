@@ -1,0 +1,25 @@
+id: turn_off_entrance_ambient_light_when_no_motion_is_detected
+alias: Turn off Entrance Ambient Lights if no motion is detected
+description: ""
+mode: single
+actions:
+  - alias: Turn off lights
+    parallel:
+      - action: light.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.candeeiro_ambiente_2
+      - action: light.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.switch_tomada_poltrona
+triggers:
+  - minutes: /20
+    trigger: time_pattern
+conditions:
+  - condition: numeric_state
+    entity_id: sensor.motion_sensor_illuminance
+    above: 50
+

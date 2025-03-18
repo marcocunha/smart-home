@@ -1,0 +1,31 @@
+id: turn_on_entrance_ambient_lights_when_motion_is_detected
+alias: Turn on entrance ambient lights if motion is detected
+description: ""
+mode: single
+triggers:
+  - trigger: state
+    entity_id:
+      - binary_sensor.motion_sensor_occupancy
+condition:
+  - condition: numeric_state
+    entity_id: sensor.motion_sensor_illuminance
+    below: 30
+  - condition: not
+    alias: Active mode is not SLEEP
+    conditions:
+      - condition: state
+        entity_id: input_text.active_mode
+        state: SLEEP
+actions:
+  - alias: Turn on lights
+    parallel:
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.candeeiro_ambiente_2
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.switch_tomada_poltrona

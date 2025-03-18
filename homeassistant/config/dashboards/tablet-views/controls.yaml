@@ -218,6 +218,24 @@ cards:
                 tap_action:
                   action: toggle
               - type: "custom:button-card"
+                entity: light.switch_tomada_poltrona
+                icon: mdi:floor-lamp
+                show_state: false
+                name: Poltrona
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+              - type: "custom:button-card"
                 entity: light.multiswitch_wc_suite_ceiling
                 icon: mdi:light-recessed
                 show_state: false

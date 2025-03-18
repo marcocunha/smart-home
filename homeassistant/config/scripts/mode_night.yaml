@@ -23,6 +23,7 @@ mode_night:
           - light.plug_bedlight_darlene_suite
           - light.zigbee_smartpowerplug_1
           - light.candeeiro_ambiente_2
+          - light.switch_tomada_poltrona
         desired_position_percentage: 9
     - service: cover.set_cover_position
       alias: Set covers position to sleep mode
