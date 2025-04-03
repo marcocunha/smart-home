@@ -1,0 +1,40 @@
+id: toaster_turn_off_automatically
+alias: Turn off toaster automatically after 10min
+mode: restart
+max_exceeded: silent
+variables:
+  notify_device: notify.ha_mobile_apps
+  trigger_entity: switch.torradeira_plug
+  notification_title: Torradeira desligada
+  persistent_notification: false
+trigger:
+  - platform: state
+    entity_id:
+      - switch.torradeira_plug
+    to: "on"
+    for: "00:10:00"
+  - platform: time_pattern
+    minutes: /10
+condition:
+  - condition: state
+    entity_id: switch.torradeira_plug
+    state: "on"
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.torradeira_plug
+  - alias: Notify toaster is off
+    service: notify.ha_mobile_apps
+    data:
+      title: "{{ notification_title }}"
+      message: Torradeira desligada automaticamente.
+      data:
+        tag: "{{ notification_title }}"
+        persistent: "{{ persistent_notification }}"
+        ttl: 0
+        priority: NORMAL
