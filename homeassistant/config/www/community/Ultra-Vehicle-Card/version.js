@@ -1,9 +1,18 @@
-// Upon any change to this file update 'import ... from 'version.js?v=0'' with a newer version number.
-// In all files importing this file.
+/**
+ * Ultra Vehicle Card Version
+ * v2.6.2
+ * 
+ * This file is auto-generated from src/version.ts
+ * DO NOT MODIFY DIRECTLY
+ */
 
 let version = "undefined";
+
 function setVersion(value) {
   version = value;
 }
+
+// Set default version (will be overridden by card)
+setVersion('2.6.2');
 
 export { version, setVersion };
