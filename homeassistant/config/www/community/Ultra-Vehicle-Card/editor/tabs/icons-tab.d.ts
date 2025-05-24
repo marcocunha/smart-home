@@ -9,13 +9,10 @@ export declare class IconsTab extends LitElement {
     config: UltraVehicleCardConfig;
     private _expandedIconRow;
     private _expandedIcon;
-    private _draggedIconRow;
-    private _draggedIcon;
-    private _dropTargetRow;
-    private _dropTargetIcon;
     private _activeIconTabs;
     private _layoutHelpExpanded;
     private _rowSettingsExpanded;
+    private _stateSettingsExpanded;
     private _t;
     private _generateUniqueId;
     private _getFriendlyName;
@@ -32,12 +29,6 @@ export declare class IconsTab extends LitElement {
     private _removeIcon;
     private _toggleIconEdit;
     private _updateIconConfig;
-    private _handleIconDragStart;
-    private _handleIconDragEnd;
-    private _handleIconDragOver;
-    private _handleIconDragLeave;
-    private _handleIconDrop;
-    private _rearrangeIcons;
     private _createDefaultIconRow;
     private _createDefaultIcon;
     private _resetIconColor;
@@ -68,5 +59,6 @@ export declare class IconsTab extends LitElement {
     private _renderColorPicker;
     private _toggleLayoutHelp;
     private _toggleRowSettings;
+    private _toggleStateSettings;
     static styles: import("lit").CSSResult;
 }

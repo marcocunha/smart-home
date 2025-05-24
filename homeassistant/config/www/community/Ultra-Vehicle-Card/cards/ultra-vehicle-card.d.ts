@@ -30,6 +30,7 @@ export declare class UltraVehicleCard extends LitElement {
         formatted_entities: boolean;
         show_units: boolean;
         vehicle_image_type: string;
+        sections_order: string[];
     };
     static get properties(): {
         hass: {};
@@ -37,6 +38,9 @@ export declare class UltraVehicleCard extends LitElement {
     };
     static get styles(): import("lit").CSSResult;
     setConfig(config: UltraVehicleCardConfig): void;
+    private _migrateBarsToIndividual;
+    private _cleanupInfoSections;
+    private _saveConfigChanges;
     private _checkForGradientOrAnimationChanges;
     private _forceFullRender;
     protected render(): import("lit").TemplateResult<1>;
@@ -70,7 +74,13 @@ export declare class UltraVehicleCard extends LitElement {
     private _computeImageStyle;
     private _normalizeState;
     private _renderBarLabels;
+    /**
+     * Process bar template and return the rendered result
+     * Similar to how templates are handled for icons
+     */
+    private _processBarTemplate;
     private _showMoreInfo;
+    firstUpdated(): void;
     connectedCallback(): void;
     disconnectedCallback(): void;
     private _handleForceGradientRefresh;
@@ -91,4 +101,9 @@ export declare class UltraVehicleCard extends LitElement {
     private _shouldRenderSection;
     private _cancelConfirmation;
     private _checkBarSideCondition;
+    private _processPercentageTemplate;
+    private _renderInfoRowsFromConfig;
+    private _renderSingleInfoRow;
+    private _renderSingleInfoEntity;
+    private _handleInfoEntityClick;
 }

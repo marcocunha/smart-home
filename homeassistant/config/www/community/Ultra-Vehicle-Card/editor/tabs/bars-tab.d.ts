@@ -24,6 +24,7 @@ export declare class BarsTab extends LitElement {
     private _fireForceRefreshEvent;
     private _fireForceGradientRefreshEvent;
     private _toggleBarExpand;
+    private _syncSectionsOrderWithBars;
     private _addBar;
     private _duplicateBar;
     private _removeBar;
