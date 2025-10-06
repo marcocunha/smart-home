@@ -48,3 +48,5 @@ zigbee2mqtt/data/*.log
 zigbee2mqtt_bkp/
 homeassistant/config/www/llmvision/*.jpg
 homeassistant/config/llmvision/events.db
+homeassistant/config/custom_components/*
+homeassistant/config/.ha_run.lock
