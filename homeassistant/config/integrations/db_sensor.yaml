@@ -1,10 +1,5 @@
-sensor:
-  #MariaDB Database Sensor
-  - platform: sql
-    db_url: !secret mariadb_url
-    scan_interval: 3600
-    queries:
-      - name: MariaDB Database Size
-        query: 'SELECT table_schema "homeassistant", Round(Sum(data_length + index_length) / POWER(1024,2), 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
-        column: "value"
-        unit_of_measurement: MB
+sql:
+  - name: MariaDB Database Size
+    query: 'SELECT table_schema "homeassistant", Round(Sum(data_length + index_length) / POWER(1024,2), 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+    column: "value"
+    unit_of_measurement: MB
