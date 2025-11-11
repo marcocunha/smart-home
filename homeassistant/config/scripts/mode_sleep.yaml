@@ -12,11 +12,10 @@ mode_sleep:
           - cover.estores_lavandaria
           - cover.curtains_suite
           - cover.curtains_wcsuite
-          - cover.curtains_kitchen
           - cover.curtains_hall
-        entities_to_keep_open:
-          #- cover.curtains_kitchen
-          #- cover.curtains_hall
+        curtains_to_close_partially:
+          - cover.curtains_kitchen
+        desired_position_percentage: 13
         lights_to_turn_off:
           - light.projectores_piscina
           - light.candeeiro_ambiente_2
@@ -29,28 +28,27 @@ mode_sleep:
           - light.multiswitch_wc_suite_mirror
           - light.suite_lights
         lights_to_turn_on:
-        desired_position_percentage: 9
-    - service: cover.set_cover_position
-      alias: Set covers position to sleep mode
+    - action: cover.close_cover
+      alias: Close covers
+      data: {}
+      target:
+        entity_id: "{{ entities_to_close }}"
+    - action: cover.set_cover_position
       data:
         position: "{{ desired_position_percentage }}"
       target:
-        entity_id: "{{ entities_to_keep_open }}"
-    - service: cover.close_cover
-      alias: Close covers
-      target:
-        entity_id: "{{ entities_to_close }}"
-    - service: light.turn_off
+        entity_id: "{{ curtains_to_close_partially }}"
+    - action: light.turn_off
       alias: Turn OFF certain lights
       data: {}
       target:
         entity_id: "{{ lights_to_turn_off }}"
-    - service: light.turn_on
-      data: {}
+    - action: light.turn_on
       alias: Turn ON certain lights
+      data: {}
       target:
         entity_id: "{{ lights_to_turn_on }}"
-    - service: input_text.set_value
+    - action: input_text.set_value
       data:
         value: SLEEP
       target:

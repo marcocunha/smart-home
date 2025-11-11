@@ -11,12 +11,12 @@ covers_cool_down_mode:
           - cover.curtains_suite
           - cover.curtains_hall
         desired_position_percentage: 30
-    - service: cover.set_cover_position
-      data:
-        position: "{{ desired_position_percentage }}"
+    - action: cover.set_cover_position
       target:
         entity_id: "{{ entities }}"
-    - service: input_text.set_value
+      data:
+        position: "{{ desired_position_percentage }}"
+    - action: input_text.set_value
       data:
         value: COOL_DOWN
       target:

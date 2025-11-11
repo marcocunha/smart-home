@@ -10,21 +10,22 @@ mode_morning:
           - cover.estores_escritorio
           - cover.estores_lavandaria
           - cover.curtains_kitchen
-          - cover.curtains_hall 
+          - cover.curtains_hall
         curtains_to_open_partially:
           - cover.curtains_guestroom
           - cover.curtains_wcsuite
           - cover.curtains_suite
         desired_position_percentage: 25
-    - service: cover.set_cover_position
-      data:
-        position: "{{ desired_position_percentage }}"
+    - action: cover.set_cover_position
       target:
         entity_id: "{{ curtains_to_open_partially }}"
-    - service: cover.open_cover
+      data:
+        position: "{{ desired_position_percentage }}"
+    - action: cover.open_cover
+      data: {}
       target:
         entity_id: "{{ curtains_to_open_completely }}"
-    - service: input_text.set_value
+    - action: input_text.set_value
       data:
         value: MORNING
       target:
