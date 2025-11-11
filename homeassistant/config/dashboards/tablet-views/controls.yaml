@@ -36,7 +36,7 @@ cards:
                 double_tap_action:
                   action: none
               - type: custom:mushroom-cover-card
-                entity: cover.zigbee_curtains_livingroom_group
+                entity: cover.estores_sala
                 name: Sala
                 show_buttons_control: true
                 tap_action:
@@ -100,7 +100,7 @@ cards:
         cards:
           - type: custom:mushroom-title-card
             title: 💡 Lights
-          - type: grid 
+          - type: grid
             columns: 6
             square: false
             cards:
@@ -195,10 +195,10 @@ cards:
                 tap_action:
                   action: toggle
                 hold_action:
-                  action: more-info  
+                  action: more-info
                 double_tap_action:
                   action: more-info
-              
+
               - type: "custom:button-card"
                 entity: light.candeeiro_ambiente_2
                 icon: mdi:lamp
@@ -363,7 +363,7 @@ cards:
                   action: toggle
           - type: custom:mushroom-title-card
             title: 🔌 Others
-          - type: grid 
+          - type: grid
             columns: 6
             square: false
             cards:
@@ -463,19 +463,18 @@ cards:
                   action: toggle
           - type: custom:mushroom-title-card
             title: 🔑 Doors
-          - type: grid 
+          - type: grid
             columns: 6
             square: false
             cards:
               - type: "custom:button-card"
-                entity: switch.portao_exterior_switch_0
-                icon: mdi:gate-arrow-right
+                entity: cover.portao_exterior
                 show_state: false
                 name: Portão
                 state:
-                  - value: "on"
+                  - value: "open"
                     color: rgb(100,100,100)
-                  - value: "off"
+                  - value: "closed"
                     color: rgb(100,100,100)
                 styles:
                   card:
@@ -511,10 +510,10 @@ cards:
     cards:
       - type: custom:mushroom-title-card
         title: 🎧 Media
-      - type: grid 
+      - type: grid
         columns: 2
         square: false
-        cards:  
+        cards:
           - type: custom:mini-media-player
             entity: media_player.spotify_marco_cunha
             artwork: none

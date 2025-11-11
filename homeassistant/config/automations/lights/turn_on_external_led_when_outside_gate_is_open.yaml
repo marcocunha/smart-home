@@ -4,7 +4,7 @@ mode: single
 trigger:
   - platform: state
     entity_id:
-      - switch.portao_exterior_switch_0
+      - binary_sensor.bthome_sensor_9d55_window
     from: null
     to: "on"
     alias: "Outside gate opened"

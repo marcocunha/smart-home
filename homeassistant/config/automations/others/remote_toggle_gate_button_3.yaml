@@ -8,7 +8,7 @@ trigger:
     type: action
     subtype: 3_single
 action:
-  - service: switch.toggle
+  - service: cover.toggle
     data: {}
     target:
-      entity_id: switch.portao_exterior_switch_0
+      entity_id: cover.portao_exterior

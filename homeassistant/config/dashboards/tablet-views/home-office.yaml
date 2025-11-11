@@ -17,8 +17,6 @@ cards:
             content_info: state
           - type: alarm-control-panel
             entity: alarm_control_panel.ajax_security_system
-      - type: custom:mushroom-chips-card
-        chips:
           - type: entity
             entity: cover.curtains_group
             name: Estores
@@ -69,6 +67,11 @@ cards:
           - type: entity
             entity: sensor.sensor_temperature_humidity_escritorio_humidity
             icon_color: blue
+          - type: action
+            tap_action:
+              action: navigate
+              navigation_path: "#tablet-extra-options"
+            icon: mdi:dots-horizontal
 
   - type: horizontal-stack
     cards:
@@ -100,7 +103,7 @@ cards:
                       - entity: sensor.sensor_temperature_humidity_escritorio_temperature
                       - entity: sensor.sensor_temperature_humidity_escritorio_humidity
                     columns: 2
-                    theme: ios-dark-mode-blue-red
+                    theme: minimalist-desktop
                     title: Escritório
                   - features:
                       - type: target-temperature
@@ -112,7 +115,9 @@ cards:
                           - 'off'
                     type: tile
                     entity: climate.ac_escritorio_ac_escritorio
-                    state_content: state
+                    state_content:
+                        - state
+                        - current_temperature
                     icon: mdi:air-conditioner
              
               - type: horizontal-stack
@@ -179,8 +184,29 @@ cards:
                 double_tap_action:
                   action: more-info
               - type: "custom:button-card"
-                entity: switch.portao_exterior_switch_0
-                icon: mdi:gate-arrow-right
+                entity: light.office_light
+                icon: mdi:chair-rolling
+                show_state: false
+                name: Escritório
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(255,255,255)
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info  
+                double_tap_action:
+                  action: more-info
+              - type: "custom:button-card"
+                entity: cover.portao_exterior
                 show_state: false
                 name: Portão
                 state:
@@ -353,3 +379,140 @@ cards:
     
     view_layout:
       position: main
+
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#tablet-extra-options"
+      - type: custom:bubble-card
+        card_type: button
+        button_type: switch
+        entity: input_boolean.force_hot_water_off
+        name: Disable Hot Water Automation
+        icon: mdi:water-boiler-off
+        scrolling_effect: true
+        show_icon: true
+        force_icon: true
+        show_state: true
+        show_attribute: false
+        show_name: true
+        card_layout: large
+        show_last_changed: false
+        styles: |
+          .bubble-name-container {
+            color: ${state === 'on' ? 'black' : ''} !important;
+          }
+      - type: custom:bubble-card
+        card_type: button
+        button_type: switch
+        entity: input_boolean.force_hot_water_on
+        name: Enable Hot Water Automation
+        icon: mdi:water-boiler
+        scrolling_effect: true
+        show_icon: true
+        force_icon: true
+        show_state: true
+        show_attribute: false
+        show_name: true
+        card_layout: large
+        show_last_changed: false
+        styles: |
+          .bubble-name-container {
+            color: ${state === 'on' ? 'black' : ''} !important;
+          }
+
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#tablet-cameras"
+        width_desktop: 840px
+        auto_close: 20000 #20s
+        margin_top_desktop: calc(100vh - 900px)
+      - square: false
+        columns: 2
+        type: grid
+        title: Cameras
+        cards:
+          - type: custom:webrtc-camera
+            url: rtsp://192.168.1.74:8554/frente_low?mp4
+            server: http://192.168.1.74:1984/
+            ui: true
+            media: video
+            poster: https://home-assistant.io/images/cast/splash.png
+            muted: true
+            background: false
+            mode: mse,hls,mjpeg
+            intersection: 0.75
+            style: >-
+              video {object-fit: fill;} .screenshot {display: none}
+              .pictureinpicture {display: none}
+          - type: custom:webrtc-camera
+            url: rtsp://192.168.1.74:8554/garagem_low?mp4
+            server: http://192.168.1.74:1984/
+            ui: true
+            media: video
+            poster: https://home-assistant.io/images/cast/splash.png
+            muted: true
+            background: false
+            mode: mse,hls,mjpeg
+            intersection: 0.75
+            style: >-
+              video {object-fit: fill;} .screenshot {display: none}
+              .pictureinpicture {display: none}
+          - type: custom:webrtc-camera
+            url: rtsp://192.168.1.74:8554/piscina_low?mp4
+            server: http://192.168.1.74:1984/
+            ui: true
+            media: video
+            poster: https://home-assistant.io/images/cast/splash.png
+            muted: true
+            background: false
+            mode: mse,hls,mjpeg
+            intersection: 0.75
+            style: >-
+              video {object-fit: fill;} .screenshot {display: none}
+              .pictureinpicture {display: none}
+          - type: custom:webrtc-camera
+            url: rtsp://192.168.1.74:8554/traseiras_low?mp4
+            server: http://192.168.1.74:1984/
+            ui: true
+            media: video
+            poster: https://home-assistant.io/images/cast/splash.png
+            muted: true
+            background: false
+            mode: mse,hls,mjpeg
+            intersection: 0.75
+            style: >-
+              video {object-fit: fill;} .screenshot {display: none}
+              .pictureinpicture {display: none}
+
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#vacuum-popup"
+        width_desktop: 640px
+        margin_top_desktop: calc(100vh - 900px)
+      - type: custom:xiaomi-vacuum-map-card
+        vacuum_platform: default
+        entity: vacuum.dreame_bot_z10_pro
+        debug: false
+        map_source:
+          camera: camera.dreame_bot_z10_pro_map
+        calibration_source:
+          camera: true
+        map_locked: true
+        two_finger_pan: false
+
+  - type: custom:bubble-card
+    card_type: horizontal-buttons-stack
+    hide_gradient: true
+    1_name: Cameras
+    1_icon: mdi:cctv
+    1_link: "#tablet-cameras"
+    1_entity: light.kitchen
+    2_name: Rosita
+    2_icon: mdi:robot-vacuum
+    2_link: "#vacuum-popup"

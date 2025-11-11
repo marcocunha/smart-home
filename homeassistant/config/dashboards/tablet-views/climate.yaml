@@ -27,7 +27,9 @@ cards:
                 - 'off'
           type: tile
           entity: climate.ac_sala_ac_sala
-          state_content: state
+          state_content:
+              - state
+              - current_temperature
           name: AC Sala
           icon: mdi:air-conditioner
         - show_name: false
@@ -50,7 +52,9 @@ cards:
                 - 'off'
           type: tile
           entity: climate.ac_escritorio_ac_escritorio
-          state_content: state
+          state_content:
+              - state
+              - current_temperature
           icon: mdi:air-conditioner
       - type: horizontal-stack
         cards:
@@ -99,7 +103,9 @@ cards:
                   - 'off'
             type: tile
             entity: climate.ac_quarto_visitas_ac_quarto_visitas
-            state_content: state
+            state_content:
+              - state
+              - current_temperature
             name: AC Quarto Visitas
             icon: mdi:air-conditioner  
       - type: horizontal-stack
@@ -134,7 +140,15 @@ cards:
             columns: 2
             theme: minimalist-desktop
             title: Garagem
-          - type: custom:mushroom-title-card
+          - type: tile
+            features:
+              - type: humidifier-toggle
+            entity: humidifier.dehumidifier
+            features_position: inline
+            vertical: true
+            show_entity_picture: false
+
+
       - type: horizontal-stack
         cards:
           - show_current: true
