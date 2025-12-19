@@ -13,7 +13,6 @@ mode_sleep:
           - cover.curtains_suite
           - cover.curtains_wcsuite
           - cover.curtains_hall
-        curtains_to_close_partially:
           - cover.curtains_kitchen
         desired_position_percentage: 13
         lights_to_turn_off:
@@ -27,17 +26,13 @@ mode_sleep:
           - light.multiswitch_wc_suite_ceiling
           - light.multiswitch_wc_suite_mirror
           - light.suite_lights
+          - light.plug_candeeiro_presenca_hall
         lights_to_turn_on:
     - action: cover.close_cover
       alias: Close covers
       data: {}
       target:
         entity_id: "{{ entities_to_close }}"
-    - action: cover.set_cover_position
-      data:
-        position: "{{ desired_position_percentage }}"
-      target:
-        entity_id: "{{ curtains_to_close_partially }}"
     - action: light.turn_off
       alias: Turn OFF certain lights
       data: {}

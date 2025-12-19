@@ -23,6 +23,7 @@ mode_night:
           - light.zigbee_smartpowerplug_1
           - light.candeeiro_ambiente_2
           - light.switch_tomada_poltrona
+          - light.plug_candeeiro_presenca_hall
     - action: cover.close_cover
       data: {}
       target:
