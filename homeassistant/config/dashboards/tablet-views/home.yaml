@@ -247,7 +247,7 @@ cards:
                         temperature:
                           - background-color: >
                               [[[
-                                if (parseFloat(states['sensor.resistencia_termoacumulador_temperature'].state) < parseFloat(states['input_number.desired_hot_water_temperature'].state))
+                                if (parseFloat(states['sensor.hot_water_temperature'].state) < parseFloat(states['input_number.desired_hot_water_temperature'].state))
                                   return "maroon";
                                 return "darkolivegreen";
                               ]]]
@@ -268,7 +268,7 @@ cards:
                       navigation_path: "#tablet-extra-options"
                     custom_fields:
                       temperature: >
-                        [[[ return Math.floor(states['sensor.resistencia_termoacumulador_temperature'].state) + 'ºC']]]
+                        [[[ return Math.floor(states['sensor.hot_water_temperature'].state) + 'ºC']]]
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-template-card
