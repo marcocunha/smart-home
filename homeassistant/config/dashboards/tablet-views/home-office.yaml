@@ -497,10 +497,10 @@ cards:
         margin_top_desktop: calc(100vh - 900px)
       - type: custom:xiaomi-vacuum-map-card
         vacuum_platform: default
-        entity: vacuum.dreame_bot_z10_pro
+        entity: vacuum.l40s_pro_ultra
         debug: false
         map_source:
-          camera: camera.dreame_bot_z10_pro_map
+          camera: camera.l40s_pro_ultra_map
         calibration_source:
           camera: true
         map_locked: true

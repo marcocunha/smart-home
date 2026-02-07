@@ -2,15 +2,15 @@
 
 # Map of rooms:
 #
-# 1 - Lavandaria
-# 2 - Quarto-Visitas
-# 3 - Escritorio
-# 4 - WC
-# 5 - WC-Suite
-# 6 - Hall
-# 7 - Suite
-# 9 - Cozinha
-# 10 - Sala
+# 1 - Cozinha
+# 2 - Lavandaria
+# 4 - Sala
+# 5 - WC-Visitas
+# 6 - Escritório
+# 7 - Hall
+# 8 - Suite
+# 9 - WC-Suite
+# 10 - Quarto Visitas
 
 vacuum_clean_social_areas:
   alias: Vacuum Clean Social Areas
@@ -19,11 +19,11 @@ vacuum_clean_social_areas:
     - service: dreame_vacuum.vacuum_clean_segment
       data:
         segments:
-          - 7
-          - 9
-          - 8
+          - 1
+          - 2
+          - 4
       target:
-        entity_id: vacuum.dreame_bot_z10_pro
+        entity_id: vacuum.l40s_pro_ultra
 
 vacuum_clean_private_areas:
   alias: Vacuum Clean Private Areas
@@ -32,11 +32,11 @@ vacuum_clean_private_areas:
     - service: dreame_vacuum.vacuum_clean_segment
       data:
         segments:
-          - 1
-          - 2
-          - 3
-          - 4
+          - 5
           - 6
+          - 7
+          - 8
+          - 9
           - 10
       target:
-        entity_id: vacuum.dreame_bot_z10_pro
+        entity_id: vacuum.l40s_pro_ultra

@@ -112,6 +112,5 @@ views:
   - !include tablet-views/home-office.yaml
   - !include tablet-views/controls.yaml
   - !include tablet-views/climate.yaml
-  - !include tablet-views/vacuum.yaml
   - !include tablet-views/football.yaml
   - !include tablet-views/f1.yaml

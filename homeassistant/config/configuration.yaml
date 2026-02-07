@@ -31,13 +31,6 @@ lovelace:
       title: Tablet Office
       show_in_sidebar: true
       icon: mdi:tablet
-    vacuum-dashboard:
-      mode: yaml
-      filename: dashboards/vacuum.yaml
-      title: Vacuum Cleaner
-      show_in_sidebar: true
-      icon: mdi:robot-vacuum
-      require_admin: true
 # Load Home Assistant integrations as packages
 homeassistant:
   name: !secret ha_name
