@@ -1,0 +1,30 @@
+id: notify_plant_problem
+alias: Plant problem notification
+description: Send a message about plant problems
+variables:
+  send_notification: true
+  notify_device: notify.ha_mobile_apps
+  notification_title: 🌱 Planta precisa de carinho
+  persistent_notification: false
+trigger:
+  - platform: state
+    entity_id:
+      - plant.pachira_aquatica
+    to: "problem"
+action:
+  - alias: Send notification
+    service: notify.ha_mobile_apps
+    data:
+      title: "{{ notification_title }}"
+      message: >
+        {{ trigger.to_state.attributes.friendly_name }} tem um problema.
+        {% for attr in ['moisture_status', 'temperature_status', 'conductivity_status', 'illuminance_status', 'humidity_status', 'dli_status'] %}
+          {% if trigger.to_state.attributes.get(attr) in ['Low', 'High'] %}
+          - {{ attr | replace('_status', '') | title }}: {{ trigger.to_state.attributes[attr] }}
+          {% endif %}
+        {% endfor %}
+      data:
+        tag: "{{ notification_title }}"
+        persistent: "{{ persistent_notification }}"
+        ttl: 0
+        priority: high
