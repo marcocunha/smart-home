@@ -1,0 +1,11 @@
+title: Vacuum
+path: vacuum
+icon: mdi:robot-vacuum
+type: sidebar
+cards:
+  - type: custom:dreame-vacuum-map-card
+    entity: vacuum.l40s_pro_ultra
+    title: Dreame Vacuum
+    map_entity: camera.l40s_pro_ultra_map
+    theme: dark
+    language: en
