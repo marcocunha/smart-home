@@ -4,6 +4,7 @@ mode_morning:
   sequence:
     - alias: "Set variables"
       variables:
+        active_mode: MORNING
         curtains_to_open_completely:
           - cover.curtains_livingroom_right
           - cover.curtains_livingroom_left
@@ -16,6 +17,11 @@ mode_morning:
           - cover.curtains_wcsuite
           - cover.curtains_suite
         desired_position_percentage: 25
+    - action: input_text.set_value
+      data:
+        value: "{{active_mode}}"
+      target:
+        entity_id: input_text.active_mode
     - action: cover.set_cover_position
       target:
         entity_id: "{{ curtains_to_open_partially }}"
@@ -25,8 +31,3 @@ mode_morning:
       data: {}
       target:
         entity_id: "{{ curtains_to_open_completely }}"
-    - action: input_text.set_value
-      data:
-        value: MORNING
-      target:
-        entity_id: input_text.active_mode

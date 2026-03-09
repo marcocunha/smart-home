@@ -19,6 +19,12 @@ condition:
   - condition: numeric_state
     entity_id: sensor.sensor_presence_office_illuminance
     below: 800
+  - condition: not
+    alias: Active mode is not SLEEP
+    conditions:
+      - condition: state
+        entity_id: input_text.active_mode
+        state: SLEEP
 action:
   - service: light.turn_on
     data:

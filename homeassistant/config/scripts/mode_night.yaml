@@ -4,6 +4,7 @@ mode_night:
   sequence:
     - alias: "Set variables"
       variables:
+        active_mode: NIGHT
         entities_to_close:
           - cover.curtains_livingroom_right
           - cover.curtains_livingroom_left
@@ -24,6 +25,11 @@ mode_night:
           - light.candeeiro_ambiente_2
           - light.switch_tomada_poltrona
           - light.plug_candeeiro_presenca_hall
+    - action: input_text.set_value
+      data:
+        value: "{{active_mode}}"
+      target:
+        entity_id: input_text.active_mode
     - action: cover.close_cover
       data: {}
       target:
@@ -43,8 +49,3 @@ mode_night:
       alias: Turn ON certain lights
       target:
         entity_id: "{{ lights_to_turn_on }}"
-    - action: input_text.set_value
-      data:
-        value: NIGHT
-      target:
-        entity_id: input_text.active_mode

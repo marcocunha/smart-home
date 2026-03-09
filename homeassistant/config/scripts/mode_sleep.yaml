@@ -4,6 +4,7 @@ mode_sleep:
   sequence:
     - alias: "Set variables"
       variables:
+        active_mode: SLEEP
         entities_to_close:
           - cover.curtains_livingroom_right
           - cover.curtains_livingroom_left
@@ -28,6 +29,11 @@ mode_sleep:
           - light.suite_lights
           - light.plug_candeeiro_presenca_hall
         lights_to_turn_on:
+    - action: input_text.set_value
+      data:
+        value: "{{active_mode}}"
+      target:
+        entity_id: input_text.active_mode
     - action: cover.close_cover
       alias: Close covers
       data: {}
@@ -43,8 +49,3 @@ mode_sleep:
       data: {}
       target:
         entity_id: "{{ lights_to_turn_on }}"
-    - action: input_text.set_value
-      data:
-        value: SLEEP
-      target:
-        entity_id: input_text.active_mode

@@ -4,6 +4,7 @@ covers_cool_down_mode:
   sequence:
     - alias: "Set variables"
       variables:
+        active_mode: COOL_DOWN
         entities:
           - cover.curtains_kitchen
           - cover.curtains_livingroom_right
@@ -11,6 +12,11 @@ covers_cool_down_mode:
           - cover.curtains_suite
           - cover.curtains_hall
         desired_position_percentage: 30
+    - action: input_text.set_value
+      data:
+        value: "{{active_mode}}"
+      target:
+        entity_id: input_text.active_mode
     - action: cover.set_cover_position
       target:
         entity_id: "{{ entities }}"
@@ -18,6 +24,6 @@ covers_cool_down_mode:
         position: "{{ desired_position_percentage }}"
     - action: input_text.set_value
       data:
-        value: COOL_DOWN
+        value:
       target:
         entity_id: input_text.active_mode
