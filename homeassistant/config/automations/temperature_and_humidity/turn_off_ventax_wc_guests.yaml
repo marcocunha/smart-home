@@ -9,7 +9,7 @@ variables:
 trigger:
   - platform: template
     value_template: >-
-      {{ states('sensor.wc_temperature_humidity_sensor_humidity') | float(0) <
+      {{ states('sensor.sensor_temperature_humidity_wc_servico_humidity') | float(0) <
       states('input_number.bathroom_max_humidity_percentage') | float(0) }}
     for:
       hours: 0
@@ -27,7 +27,7 @@ condition:
       - and:
         - condition: template
           value_template: |-
-            {{ states('sensor.wc_temperature_humidity_sensor_humidity') | float(0)<
+            {{ states('sensor.sensor_temperature_humidity_wc_servico_humidity') | float(0)<
                   states('input_number.bathroom_max_humidity_percentage') | float(0) }}
         - condition: state
           entity_id: fan.multiswitch_wc_guests_center
@@ -36,7 +36,7 @@ action:
   - alias: Set up variables for the actions
     variables:
       action_ack: "{{ 'ACK_' ~ context.id }}"
-      message: "{{ 'Humidade na WC Serviço normal: ' ~ states('sensor.wc_temperature_humidity_sensor_humidity')  ~ '%. Ventilação desligada.'}}"
+      message: "{{ 'Humidade na WC Serviço normal: ' ~ states('sensor.sensor_temperature_humidity_wc_servico_humidity')  ~ '%. Ventilação desligada.'}}"
   - if: "{{ send_notification == true }}"
     then:
       - alias: Send notification

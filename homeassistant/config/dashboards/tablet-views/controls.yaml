@@ -425,7 +425,7 @@ cards:
                 tap_action:
                   action: toggle
               - type: "custom:button-card"
-                entity: switch.hot_water
+                entity: switch.resistencia_termoacumulador_switch_0
                 icon: mdi:water-thermometer-outline
                 show_state: false
                 name: Ág. Quente

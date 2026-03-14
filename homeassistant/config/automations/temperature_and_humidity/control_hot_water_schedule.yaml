@@ -27,7 +27,7 @@ action:
           - service: switch.turn_off
             data: {}
             target:
-              entity_id: switch.hot_water
+              entity_id: switch.resistencia_termoacumulador_switch_0
       # Force the hot water to be switched on
       - conditions:
           - condition: state
@@ -38,7 +38,7 @@ action:
           - service: switch.turn_on
             data: {}
             target:
-              entity_id: switch.hot_water
+              entity_id: switch.resistencia_termoacumulador_switch_0
       # Conditions to turn on
       - conditions:
           - condition: or
@@ -61,7 +61,7 @@ action:
           - service: switch.turn_on
             data: {}
             target:
-              entity_id: switch.hot_water
+              entity_id: switch.resistencia_termoacumulador_switch_0
       # Conditions to turn off
       - conditions:
           - condition: or
@@ -80,4 +80,4 @@ action:
           - service: switch.turn_off
             data: {}
             target:
-              entity_id: switch.hot_water
+              entity_id: switch.resistencia_termoacumulador_switch_0
