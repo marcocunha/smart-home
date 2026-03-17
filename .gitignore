@@ -52,3 +52,4 @@ homeassistant/config/custom_components/
 homeassistant/config/.ha_run.lock
 homeassistant/config/custom_components/
 homeassistant/config/www/community/
+homeassistant/config/.cache/
