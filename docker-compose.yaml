@@ -35,7 +35,7 @@ services:
       - mariadb
       - influxdb
     #to fix bluetooth_tracker issue https://community.home-assistant.io/t/how-do-i-fix-unable-to-install-package-pybluez-0-22-error/579478/7
-    command: /bin/sh -c "apk add gcc musl-dev bluez-dev ; /init" 
+    command: /bin/sh -c "apk add gcc musl-dev bluez-dev ; /init"
     dns:
       - 192.168.1.1
       - 8.8.8.8 
@@ -100,40 +100,17 @@ services:
     depends_on:
       - mariadb
 
-  # Nginx Proxy Manager
-  # Nice and simple Nginx UI for managing reverce proxy
-  nginx:
-    container_name: nginx
-    image: jc21/nginx-proxy-manager:latest
-    restart: unless-stopped
-    profiles:
-      - donotstart #do not start service
-    ports:
-      - 80:80 # HTTP port
-      - 443:443 # HTTPS port
-      - 8081:81 # Admin Paner port
-    environment:
-      DB_MYSQL_HOST: ${MYSQL_HOST}
-      DB_MYSQL_PORT: ${MYSQL_PORT}
-      DB_MYSQL_USER: ${MYSQL_USER}
-      DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      DB_MYSQL_NAME: "nginxproxymanager"
-    volumes:
-      - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/data:/data
-      - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
-      - ${ALBERTO_HOME_DIR}/nginx-proxy-manager/log:/var/log
-    depends_on:
-      - mariadb
-
   # Mosquitto
   # Message broker that implements the MQTT protocol
   mosquitto:
     container_name: mosquitto
     image: eclipse-mosquitto
     restart: unless-stopped
+    user: 1883:1883
     ports:
-      - "1883:1883"
-      - "1884:1884"
+      - "1883:1883"    # MQTT
+      - "8883:8883"    # MQTTS (secure)
+      - "9001:9001"    # WebSockets
     volumes:
       - "${ALBERTO_HOME_DIR}/mosquitto/config:/mosquitto/config"
       - "${ALBERTO_HOME_DIR}/mosquitto/data:/mosquitto/data"
@@ -269,4 +246,22 @@ services:
     env_file:
       - .env
     restart: always
+
+  # ESPHome is a system to control your microcontrollers by simple yet powerful configuration files 
+  # and control them remotely through Home Automation systems.
+  # https://esphome.io/
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome
+    volumes:
+      - "${ALBERTO_HOME_DIR}/esphome/config:/config"
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "6052:6052/tcp"
+    restart: unless-stopped
+    privileged: true
+    #network_mode: host
+    env_file:
+      - .env
 

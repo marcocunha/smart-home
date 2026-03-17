@@ -37,7 +37,7 @@ function alberto:command:help() {
   echo "
   🏡 Alberto Smart Home
 
-  alberto help                            print this help message
+    alberto help                            print this help message
     alberto init                          install dependencies
     alberto start                         start all services
     alberto stop                          stop all services
