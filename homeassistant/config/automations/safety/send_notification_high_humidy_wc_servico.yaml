@@ -7,7 +7,7 @@ variables:
   persistent_notification: false
 trigger:
   - platform: numeric_state
-    entity_id: sensor.wc_temperature_humidity_sensor_humidity
+    entity_id: sensor.sensor_temperature_humidity_wc_servico_humidity
     for:
       hours: 0
       minutes: 15
@@ -17,13 +17,13 @@ trigger:
     minutes: /10
 condition:
   - condition: numeric_state
-    entity_id: sensor.wc_temperature_humidity_sensor_humidity
+    entity_id: sensor.sensor_temperature_humidity_wc_servico_humidity
     above: 90
 action:
   - alias: Set up variables for the actions
     variables:
       action_ack: "{{ 'ACK_' ~ context.id }}"
-      message: "{{ 'Humidade na WC Serviço demasiado alta: ' ~ states('sensor.wc_temperature_humidity_sensor_humidity')  ~ '%. Liga a ventilação.'}}"
+      message: "{{ 'Humidade na WC Serviço demasiado alta: ' ~ states('sensor.sensor_temperature_humidity_wc_servico_humidity')  ~ '%. Liga a ventilação.'}}"
   - alias: Send notification
     service: notify.ha_mobile_apps
     data:
