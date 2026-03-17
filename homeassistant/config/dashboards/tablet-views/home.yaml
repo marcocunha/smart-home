@@ -342,7 +342,7 @@ cards:
                         {% endif %}
                       €
                     multiline_secondary: false
-                    entity: sensor.energy_tracker_sensor
+                    entity: sensor.monthly_energy
                     tap_action:
                       action: navigate
                       navigation_path: /energy

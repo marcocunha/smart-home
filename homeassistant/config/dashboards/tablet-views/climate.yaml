@@ -125,8 +125,8 @@ cards:
             show_state: true
             type: glance
             entities:
-              - entity: sensor.wc_temperature_humidity_sensor_temperature
-              - entity: sensor.wc_temperature_humidity_sensor_humidity
+              - entity: sensor.sensor_temperature_humidity_wc_servico_temperature
+              - entity: sensor.sensor_temperature_humidity_wc_servico_humidity
             columns: 2
             theme: minimalist-desktop
             title: WC Serviço
