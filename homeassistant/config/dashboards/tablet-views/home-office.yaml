@@ -39,10 +39,10 @@ cards:
         chips:
           - type: template
             entity: sensor.count_lights_on
-            icon_color: "{{ 'amber' if states('sensor.count_lights_on')| float(0.0) > 0}}"
+            icon_color: "{{ 'amber' if states('sensor.count_lights_on')|int(0) > 0}}"
             name: Luzes Ligadas
             icon: mdi:lamps
-            content: "{{ states('sensor.count_lights_on')| float(0.0)}}"
+            content: "{{ states('sensor.count_lights_on')|int(0)}}"
             tap_action:
               action: none
             hold_action:
@@ -51,10 +51,10 @@ cards:
               action: none
           - type: template
             entity: sensor.count_doors_open
-            icon_color: "{{ 'amber' if states('sensor.count_doors_open')| float(0.0) > 0}}"
+            icon_color: "{{ 'amber' if states('sensor.count_doors_open')|int(0) > 0}}"
             name: Portas Abertas
             icon: mdi:door
-            content: "{{ states('sensor.count_doors_open')| float(0.0)}}"
+            content: "{{ states('sensor.count_doors_open')|int(0)}}"
             tap_action:
               action: none
             hold_action:
@@ -112,50 +112,50 @@ cards:
                           - heat
                           - cool
                           - auto
-                          - 'off'
+                          - "off"
                     type: tile
                     entity: climate.ac_escritorio_ac_escritorio
                     state_content:
-                        - state
-                        - current_temperature
+                      - state
+                      - current_temperature
                     icon: mdi:air-conditioner
-             
+
               - type: horizontal-stack
                 cards:
-                - type: tile
-                  entity: cover.estores_escritorio
-                  vertical: true
-                  name: Estores
-                  tap_action:
-                    action: more-info
-                  hold_action:
-                    action: more-info  
-                  double_tap_action:
-                    action: more-info
-                  # card_mod:
-                  #   style: |
-                  #     ha-card {
-                  #         --card-primary-font-size: 1.2rem;
-                  #         border: none;
-                  #         box-shadow: none;
-                  #         background: rgba(0,0,0,0);
-                  #     }
-                - type: gauge
-                  entity: sensor.sun_solar_elevation
-                  needle: false
-                  theme: ios-dark-mode-blue-red
-                  name: Elevação Sol
-                - type: gauge
-                  entity: sensor.sensor_presence_office_illuminance
-                  unit: lx
-                  theme: ios-dark-mode-blue-red-alternative
-                  needle: false
-                  name: Iluminação
-                  max: 10
-                  severity:
-                    green: 0
-                    yellow: 1000
-                    red: 2000
+                  - type: tile
+                    entity: cover.estores_escritorio
+                    vertical: true
+                    name: Estores
+                    tap_action:
+                      action: more-info
+                    hold_action:
+                      action: more-info
+                    double_tap_action:
+                      action: more-info
+                    # card_mod:
+                    #   style: |
+                    #     ha-card {
+                    #         --card-primary-font-size: 1.2rem;
+                    #         border: none;
+                    #         box-shadow: none;
+                    #         background: rgba(0,0,0,0);
+                    #     }
+                  - type: gauge
+                    entity: sensor.sun_solar_elevation
+                    needle: false
+                    theme: ios-dark-mode-blue-red
+                    name: Elevação Sol
+                  - type: gauge
+                    entity: sensor.sensor_presence_office_illuminance
+                    unit: lx
+                    theme: ios-dark-mode-blue-red-alternative
+                    needle: false
+                    name: Iluminação
+                    max: 10
+                    severity:
+                      green: 0
+                      yellow: 1000
+                      red: 2000
               - type: custom:mushroom-title-card
       - type: vertical-stack
         cards:
@@ -180,7 +180,7 @@ cards:
                 tap_action:
                   action: more-info
                 hold_action:
-                  action: more-info  
+                  action: more-info
                 double_tap_action:
                   action: more-info
               - type: "custom:button-card"
@@ -202,7 +202,7 @@ cards:
                 tap_action:
                   action: toggle
                 hold_action:
-                  action: more-info  
+                  action: more-info
                 double_tap_action:
                   action: more-info
               - type: "custom:button-card"
@@ -210,9 +210,9 @@ cards:
                 show_state: false
                 name: Portão
                 state:
-                  - value: "on"
-                    color: rgb(255,255,255)
-                  - value: "off"
+                  - value: "open"
+                    color: rgb(255,191,0)
+                  - value: "closed"
                     color: rgb(255,255,255)
                 styles:
                   card:
@@ -223,48 +223,25 @@ cards:
                 tap_action:
                   action: toggle
                 hold_action:
-                  action: more-info  
+                  action: more-info
                 double_tap_action:
                   action: more-info
-              - type: "custom:button-card"
+
+              - type: custom:mushroom-template-card
+                layout: vertical
+                fill_container: true
                 entity: switch.resistencia_termoacumulador_switch_0
+                primary: Água Quente
+                secondary: "{{ states('sensor.hot_water_temperature')|float(0)|round(0)}}ºC"
                 icon: mdi:water-thermometer-outline
-                show_state: false
-                name: Água quente
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(255,255,255)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                  custom_fields:
-                    temperature:
-                      - background-color: >
-                          [[[
-                            if (parseFloat(states['sensor.hot_water_temperature'].state) < parseFloat(states['input_number.desired_hot_water_temperature'].state))
-                              return "maroon";
-                            return "darkolivegreen";
-                          ]]]
-                      - border-radius: 50%
-                      - position: absolute
-                      - right: 0%
-                      - top: 0%
-                      - height: 33px
-                      - width: 33px
-                      - font-size: 11px
-                      - font-weight: bold
-                      - line-height: 32px
-                aspect_ratio: 1/1
+                icon_color: "{{ 'amber' if is_state('switch.resistencia_termoacumulador_switch_0', 'on') else 'grey' }}"
+                badge_icon: "{{ 'mdi:thermometer-low' if (states('sensor.hot_water_temperature')|float(0) < states('input_number.desired_hot_water_temperature')|float) else '' }}"
+                badge_color: maroon
                 tap_action:
                   action: toggle
-                custom_fields:
-                  temperature: >
-                    [[[ return Math.floor(states['sensor.hot_water_temperature'].state) + 'ºC']]]
-          - type: custom:mushroom-title-card
+                hold_action:
+                  action: navigate
+                  navigation_path: "#tablet-extra-options"
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-template-card
@@ -307,65 +284,42 @@ cards:
                   action: call-service
                   service: script.mode_sleep
                   target: {}
-      # - type: vertical-stack
-      #   cards:
-      #     - type: custom:mini-media-player
-      #       entity: media_player.denon_home_150
-      #       group: false
-      #       volume_stateless: true
-      #       toggle_power: true
-      #       artwork: material
-      #       sound_mode: full
-      #       info: scroll
-      #       source: full
-      #       replace_mute: play_stop
-      #     - type: custom:vertical-stack-in-card
-      #       cards:
-      #         - type: custom:power-flow-card
-      #           entities:
-      #             grid: sensor.contador_consumo_channel_1_power
-      #             solar: sensor.contador_producao_channel_1_power
-      #           watt_threshold: 1000
-      #         - type: custom:mushroom-template-card
-      #           primary: >
-      #             Consumo (acc): 
-      #             {% if is_number(states('sensor.monthly_energy')) %}
-      #               {{ (states('sensor.monthly_energy') | float) | round(2) }}
-      #             {% endif %}
-      #             kWH
-      #           secondary: >
-      #             Total: {% if is_number(states('sensor.monthly_energy')) and is_number(states('input_number.static_price_per_kwh')) %}
-      #                 {{ (states('sensor.monthly_energy') | float * states('input_number.static_price_per_kwh') | float) | round(2) }}
-      #               {% else %}
-      #                 None
-      #               {% endif %}
-      #             € | Preço/kWH:
-      #               {% if is_number(states('input_number.static_price_per_kwh')) %}
-      #                 {{ (states('input_number.static_price_per_kwh') | float) | round(2) }}
-      #               {% else %}
-      #                 None
-      #               {% endif %}
-      #             €
-      #           multiline_secondary: false
-      #           entity: sensor.energy_tracker_sensor
-      #           tap_action:
-      #             action: navigate
-      #             navigation_path: /energy
-      #           hold_action:
-      #             action: none
-      #           double_tap_action:
-      #             action: none
-      #           layout: horizontal
-      #           icon_color: white
-      #           card_mod:
-      #             style: |
-      #               ha-card {
-      #                   --card-primary-font-size: 1.2rem;
-      #                   border: none;
-      #                   box-shadow: none;
-      #                   background: rgba(0,0,0,0);
-      #                   flex-direction: inherit !important;
-      #               }
+
+          - type: horizontal-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: gauge
+                    entity: sensor.contador_consumo_channel_1_power
+                    name: Energia
+                    unit: W
+                    min: -4000
+                    max: 5000
+                    needle: true
+                    severity:
+                      green: -5000
+                      yellow: 0
+                      red: 2000
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mushroom-entity-card
+                        entity: sensor.monthly_energy
+                        name: Consumo mensal
+                        icon: mdi:lightning-bolt
+                        icon_color: amber
+                        primary_info: state
+                        secondary_info: name
+                      - type: custom:mushroom-template-card
+                        entity: sensor.monthly_energy
+                        primary: >
+                          {{ (states('sensor.monthly_energy') | float(0) *
+                          states('input_number.static_price_per_kwh') | float(0)) | round(2) }} €
+                        secondary: Custo Est.
+                        icon: mdi:cash
+                        icon_color: green
+                        tap_action:
+                          action: navigate
+                          navigation_path: /energy
   - type: custom:mini-media-player
     entity: media_player.denon_home_150
     group: false
@@ -375,16 +329,14 @@ cards:
     sound_mode: full
     info: scroll
     source: full
-    replace_mute: play_stop 
-    
+    replace_mute: play_stop
     view_layout:
       position: main
 
-  - type: vertical-stack
+  - type: custom:bubble-card
+    card_type: pop-up
+    hash: "#tablet-extra-options"
     cards:
-      - type: custom:bubble-card
-        card_type: pop-up
-        hash: "#tablet-extra-options"
       - type: custom:bubble-card
         card_type: button
         button_type: switch
@@ -422,14 +374,13 @@ cards:
             color: ${state === 'on' ? 'black' : ''} !important;
           }
 
-  - type: vertical-stack
+  - type: custom:bubble-card
+    card_type: pop-up
+    hash: "#tablet-cameras"
+    width_desktop: 840px
+    auto_close: 20000 #20s
+    margin_top_desktop: calc(100vh - 900px)
     cards:
-      - type: custom:bubble-card
-        card_type: pop-up
-        hash: "#tablet-cameras"
-        width_desktop: 840px
-        auto_close: 20000 #20s
-        margin_top_desktop: calc(100vh - 900px)
       - square: false
         columns: 2
         type: grid
@@ -488,13 +439,12 @@ cards:
               video {object-fit: fill;} .screenshot {display: none}
               .pictureinpicture {display: none}
 
-  - type: vertical-stack
+  - type: custom:bubble-card
+    card_type: pop-up
+    hash: "#vacuum-popup"
+    width_desktop: 640px
+    margin_top_desktop: calc(100vh - 900px)
     cards:
-      - type: custom:bubble-card
-        card_type: pop-up
-        hash: "#vacuum-popup"
-        width_desktop: 640px
-        margin_top_desktop: calc(100vh - 900px)
       - type: custom:xiaomi-vacuum-map-card
         vacuum_platform: default
         entity: vacuum.l40s_pro_ultra

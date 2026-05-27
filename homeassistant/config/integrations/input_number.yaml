@@ -7,7 +7,7 @@
 input_number:
   swimming_pool_minimum_duration_h:
     name: Swimming Pool Pump Minimum Duration in h
-    initial: 12
+    initial: !secret CONST_SWIMMING_POOL_MINIMUM_DURARTION_HOURS
     min: 0
     max: 99
     step: 1
