@@ -48,7 +48,7 @@ function alberto:command:help() {
     alberto password                      generate a password
     alberto docs                          start dev server for docs
     alberto ports                         show all ports in use
-    alberto mqtt-create-user [username]   create a user in mosquitto
+    alberto mqtt-create-user [username] [password]   create a user in mosquitto
 "
 }
 
@@ -65,9 +65,9 @@ function alberto:command:init() {
     sudo usermod -G docker -a "$USER"
   fi
 
-  if ! smart-home:exists docker-compose; then
-    echo "Installing docker-compose..."
-    pip install docker-compose
+  if ! smart-home:exists docker compose; then
+    echo "Installing docker compose..."
+    pip install docker compose
   fi
 
   echo "Installing additional packages..."
@@ -97,31 +97,31 @@ function alberto:command:init() {
 
 function alberto:command:start() {
   echo "Starting containers..."
-  docker-compose up -d
+  docker compose up -d
 }
 
 function alberto:command:stop() {
   echo "Stopping containers..."
-  docker-compose stop
+  docker compose stop
 }
 
 function alberto:command:down() {
   echo "Stopping and removing containers..."
-  docker-compose down --remove-orphans
+  docker compose down --remove-orphans
 }
 
 function alberto:command:restart() {
   echo "Restarting containers..."
-  docker-compose restart
+  docker compose restart
 }
 
 function alberto:command:update() {
   echo "Pulling latest images..."
-  docker-compose pull --ignore-pull-failures || true 
+  docker compose pull --ignore-pull-failures || true 
   echo "Building images..."
-  docker-compose build
+  docker compose build
   echo "Starting containers..."
-  docker-compose up -d
+  docker compose up -d
   echo "Prune to free up space..."
   docker system prune --volumes -f
 }
@@ -149,8 +149,8 @@ function alberto:command:ports() {
 }
 
 function alberto:command:mqtt-create-user() {
-  echo "creating MQTT user for username $1"
-  docker exec -it mosquitto mosquitto_passwd /mosquitto/data/pwfile $1
+  echo "creating MQTT user for username $1 and password $2"
+  docker compose exec mosquitto mosquitto_passwd -b /mosquitto/data/pwfile $1 $2
 }
 
 #
