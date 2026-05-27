@@ -56,7 +56,4 @@ script: !include_dir_merge_named scripts
 scene: !include scenes.yaml
 input_boolean: !include helpers/input_boolean.yaml
 
-hdmi_cec:
-  devices:
-    1: Chromecast
 delete:
