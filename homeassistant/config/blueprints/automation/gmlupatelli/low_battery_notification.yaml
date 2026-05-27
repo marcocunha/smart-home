@@ -1,7 +1,10 @@
 blueprint:
   name: Low battery level detection & notification for all battery sensors
-  description: Regularly test all sensors with 'battery' device-class for crossing
-    a certain battery level threshold and if so execute an action.
+  description: 'Regularly test all sensors with ''battery'' device-class for crossing
+    a certain battery level threshold and if so execute an action. Supports exclusion
+    by entities, devices, areas, and labels for flexible filtering.
+
+    '
   domain: automation
   source_url: https://github.com/gmlupatelli/blueprints_repo/blob/master/low_battery_notification/low_battery_notification.yaml
   input:
@@ -67,18 +70,16 @@ blueprint:
         boolean: {}
     exclude:
       name: Excluded Sensors
-      description: Battery sensors (e.g. smartphone) to exclude from detection. Only
-        entities are supported, areas and devices must be expanded!
+      description: Battery sensors (e.g. smartphone) to exclude from detection. Entities,
+        devices, areas, and labels are supported!
       default: {}
       selector:
-        target:
-          entity:
-          - device_class:
-            - battery
+        target: {}
     actions:
       name: Actions
       description: Notifications or similar to be run. {{sensors}} is replaced with
-        the names of sensors being low on battery.
+        a formated list of the names of sensors being low on battery. {{unformatted_sensors}}
+        is also available as an unformatted list for advanced templating.
       selector:
         action: {}
 variables:
@@ -92,19 +93,47 @@ variables:
   current_day: '{{ now().weekday() | int }}'
   threshold: !input threshold
   exclude: !input exclude
-  sensors: "{% set result = namespace(sensors=[]) %} {% for state in states.sensor
-    | selectattr('attributes.device_class', '==', 'battery') %}\n  {% if exclude.entity_id
-    is defined %}\n    {% if 0 <= state.state | int(-1) < threshold | int and not
-    state.entity_id in exclude.entity_id %}\n      {% set result.sensors = result.sensors
-    + [state.name ~ ' (' ~ state.state ~ ' %)'] %}\n    {% endif %}\n  {% else %}\n
-    \   {% if 0 <= state.state | int(-1) < threshold | int %}\n      {% set result.sensors
-    = result.sensors + [state.name ~ ' (' ~ state.state ~ ' %)'] %}\n    {% endif
-    %}\n  {% endif %}\n{% endfor %} {% for state in states.binary_sensor | selectattr('attributes.device_class',
-    '==', 'battery') | selectattr('state', '==', 'on') %}\n  {% if exclude.entity_id
-    is defined %}\n    {% if not state.entity_id in exclude.entity_id %}\n      {%
-    set result.sensors = result.sensors + [state.name] %}\n    {% endif %}\n  {% else
+  unformatted_sensors: "{% set result = namespace(sensors=[], excludedEntities=[])
+    %}\n{# === ENTITY EXCLUSION === #} {# Exclude specific entities directly by entity_id
+    #} {% if exclude.entity_id is defined %} \n    {% set result.excludedEntities
+    = result.excludedEntities + ([exclude.entity_id] if exclude.entity_id is string
+    else exclude.entity_id) %}\n{% endif %}\n{# === DEVICE EXCLUSION === #} {# Exclude
+    all entities belonging to specified devices #} {% if exclude.device_id is defined
+    %}\n  {% if exclude.device_id is not list %}\n    {% set device_id_list = [exclude.device_id]
+    %}\n  {% else %}\n    {% set device_id_list = exclude.device_id %}\n  {% endif
+    %}\n  {% for device_id in device_id_list %}\n    {% set result.excludedEntities
+    = result.excludedEntities + device_entities(device_id) %}\n  {% endfor %}\n{%
+    endif %}\n{# === LABEL EXCLUSION === #} {# Exclude entities, areas, and devices
+    associated with specified labels #} {% if exclude.label_id is defined %}\n  {%
+    if exclude.label_id is not list %}\n    {% set label_id_list = [exclude.label_id]
+    %}\n  {% else %}\n    {% set label_id_list = exclude.label_id %}\n  {% endif %}\n
+    \ {% for label_id in label_id_list %}\n    {% set result.excludedEntities = result.excludedEntities
+    + label_entities(label_id) %}\n    {% for area in label_areas(label_id) %}\n      {%
+    set result.excludedEntities = result.excludedEntities + area_entities(area) %}\n
+    \     {% for device in area_devices(area) %}\n          {% set result.excludedEntities
+    = result.excludedEntities + device_entities(device) %}\n      {% endfor %}\n    {%
+    endfor %}\n    {% for device in label_devices(label_id) %}\n        {% set result.excludedEntities
+    = result.excludedEntities + device_entities(device) %}\n    {% endfor %}\n  {%
+    endfor %}\n{% endif %}\n{# === AREA EXCLUSION === #} {# Exclude all entities and
+    devices in specified areas #} {% if exclude.area_id is defined %}\n  {% if exclude.area_id
+    is not list %}\n    {% set area_id_list = [exclude.area_id] %}\n  {% else %}\n
+    \   {% set area_id_list = exclude.area_id %}\n  {% endif %}\n  {% for area_id
+    in area_id_list %}\n    {% set result.excludedEntities = result.excludedEntities
+    + area_entities(area_id) %}\n    {% for device in area_devices(area_id) %}\n        {%
+    set result.excludedEntities = result.excludedEntities + device_entities(device)
+    %}\n    {% endfor %}\n  {% endfor %}\n{% endif %}\n{# === BATTERY SENSOR DETECTION
+    === #} {# Find all battery sensors below threshold, excluding those in exclusion
+    list #} {% for state in states.sensor if state.attributes.device_class is defined
+    and state.attributes.device_class == 'battery' %}\n  {% if 0 <= state.state |
+    int(-1) < threshold | int and not state.entity_id in result.excludedEntities %}\n
+    \   {% set result.sensors = result.sensors + [state.name ~ ' (' ~ state.state
+    ~ ' %)'] %}\n  {% endif %}\n{% endfor %} {# Also check binary battery sensors
+    that are 'on' (indicating low battery) #} {% for state in states.binary_sensor
+    if state.attributes.device_class is defined and state.attributes.device_class
+    == 'battery' and state.state == 'on' %}\n  {% if not state.entity_id in result.excludedEntities
     %}\n    {% set result.sensors = result.sensors + [state.name] %}\n  {% endif %}\n{%
-    endfor %} {{\"⤵ \\n- \"}}{{result.sensors|join('\\n- ')}}"
+    endfor %}\n{# Return the list of sensors for checking #} {{ result.sensors }}"
+  sensors: '{{"- "}}{{unformatted_sensors|join(''\n- '')}}'
 trigger:
 - platform: time
   at: !input time
@@ -113,9 +142,9 @@ condition:
   value_template: "{{ \n  (current_day == 0 and monday_enabled) or \n  (current_day
     == 1 and tuesday_enabled) or \n  (current_day == 2 and wednesday_enabled) or\n
     \ (current_day == 3 and thursday_enabled) or \n  (current_day == 4 and friday_enabled)
-    or\n  (current_day == 5 and saturday_enabled) or\n  (current_day == 6 and sunday_enabled)\n}}"
+    or \n  (current_day == 5 and saturday_enabled) or\n  (current_day == 6 and sunday_enabled)\n}}"
 - condition: template
-  value_template: '{{ sensors != "⤵ \n-"}}'
+  value_template: '{{ unformatted_sensors | length > 0 }}'
 action:
 - choose: []
   default: !input actions
