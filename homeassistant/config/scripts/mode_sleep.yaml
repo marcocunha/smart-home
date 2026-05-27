@@ -29,6 +29,8 @@ mode_sleep:
           - light.suite_lights
           - light.plug_candeeiro_presenca_hall
         lights_to_turn_on:
+        switches_to_turn_off:
+          - switch.plug_bedlight_darlene_suite
     - action: input_text.set_value
       data:
         value: "{{active_mode}}"
@@ -49,3 +51,8 @@ mode_sleep:
       data: {}
       target:
         entity_id: "{{ lights_to_turn_on }}"
+    - action: switch.turn_off
+      alias: Turn OFF switches
+      target:
+        entity_id: "{{ switches_to_turn_off }}"
+      data: {}

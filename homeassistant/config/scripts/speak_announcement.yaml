@@ -18,6 +18,7 @@ speak_announcement:
               entity_id: input_boolean.anyone_home
               state: "on"
           sequence:
-            - service: rest_command.wallpanel_speak
+            - action: dashie.speak
               data:
-                message: "{{ message }}"
+                device_id: media_player.samsung_galaxy_tab_s_10_5_speaker
+                message: "{{ message }}" 

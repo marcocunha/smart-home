@@ -17,10 +17,10 @@ mode_night:
           - cover.curtains_kitchen
         curtains_to_close_partially:          
         desired_position_percentage: 13
+        switches_to_turn_off:
         lights_to_turn_off:
           - light.projectores_piscina
         lights_to_turn_on:
-          - light.plug_bedlight_darlene_suite
           - light.zigbee_smartpowerplug_1
           - light.candeeiro_ambiente_2
           - light.switch_tomada_poltrona
@@ -49,3 +49,9 @@ mode_night:
       alias: Turn ON certain lights
       target:
         entity_id: "{{ lights_to_turn_on }}"
+    - action: switch.turn_off
+      alias: Turn OFF switches
+      target:
+        entity_id: "{{ switches_to_turn_off }}"
+      data: {}
+
