@@ -21,9 +21,9 @@ resources:
     type: module
   - url: /hacsfiles/lovelace-mushroom/mushroom.js
     type: js
-    
+
 background: var(--background-image)
-    
+
 kiosk_mode:
   user_settings:
     - users:

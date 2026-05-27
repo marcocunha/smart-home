@@ -24,7 +24,7 @@ condition:
         alias: "Worked desired time or not enough energy production"
         conditions:
           - condition: template
-            value_template: "{{states('sensor.swimming_pool_pump_on_today')|float > states('input_number.swimming_pool_minimum_duration_h')|float}}"
+            value_template: "{{states('sensor.swimming_pool_pump_on_today')|float(0) > states('input_number.swimming_pool_minimum_duration_h')|float}}"
             alias: Swimming pool pump has been running for the required time
           - condition: numeric_state
             entity_id: sensor.energy_consumption_mean_over_last_10_minutes
@@ -53,7 +53,7 @@ action:
           - conditions:
               - condition: template
                 value_template: >-
-                  {{states('sensor.swimming_pool_pump_on_today')|float >
+                  {{states('sensor.swimming_pool_pump_on_today')|float(0) >
                   states('input_number.swimming_pool_minimum_duration_h')|float}}
                 alias: Swimming Pool pump already worked the desired time
             sequence:
@@ -61,7 +61,7 @@ action:
                 service: notify.ha_mobile_apps
                 data:
                   title: "{{ notification_title }}"
-                  message: "{{ 'Bomba já trabalhou : ' ~ states('sensor.swimming_pool_pump_on_today')|float  ~ 'h. Desligada automaticamente.'}}"
+                  message: "{{ 'Bomba já trabalhou : ' ~ states('sensor.swimming_pool_pump_on_today')|float(0)  ~ 'h. Desligada automaticamente.'}}"
                   data:
                     tag: "{{ notification_title }}"
                     persistent: "{{ persistent_notification }}"

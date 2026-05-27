@@ -21,4 +21,4 @@ speak_announcement:
             - action: dashie.speak
               data:
                 device_id: media_player.samsung_galaxy_tab_s_10_5_speaker
-                message: "{{ message }}" 
+                message: "{{ message }}"

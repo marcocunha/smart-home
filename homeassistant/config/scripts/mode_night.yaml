@@ -15,7 +15,7 @@ mode_night:
           - cover.curtains_wcsuite
           - cover.curtains_hall
           - cover.curtains_kitchen
-        curtains_to_close_partially:          
+        curtains_to_close_partially:
         desired_position_percentage: 13
         switches_to_turn_off:
         lights_to_turn_off:
@@ -54,4 +54,3 @@ mode_night:
       target:
         entity_id: "{{ switches_to_turn_off }}"
       data: {}
-

@@ -21,7 +21,7 @@ condition:
         alias: Energy consumption conditions
         conditions:
           - condition: template
-            value_template: "{{states('sensor.swimming_pool_pump_on_today')|float <= states('input_number.swimming_pool_minimum_duration_h')|float}}"
+            value_template: "{{states('sensor.swimming_pool_pump_on_today')|float(0) <= states('input_number.swimming_pool_minimum_duration_h')|float}}"
             alias: Swimming Pool pump working for less than X time
           - condition: numeric_state
             entity_id: sensor.average_consumption_inc_pool_pump

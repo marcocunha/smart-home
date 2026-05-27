@@ -105,24 +105,6 @@ cards:
             square: false
             cards:
               - type: "custom:button-card"
-                entity: switch.plug_bedlight_darlene_suite
-                icon: mdi:lamp
-                show_state: false
-                name: Darlene
-                state:
-                  - value: "on"
-                    color: rgb(255,191,0)
-                  - value: "off"
-                    color: rgb(100,100,100)
-                styles:
-                  card:
-                    - --mdc-ripple-color: rgb(255,191,0)
-                    - --mdc-ripple-press-opacity: 0.5
-                    - font-size: 15px
-                aspect_ratio: 1/1
-                tap_action:
-                  action: toggle
-              - type: "custom:button-card"
                 entity: switch.0xa4c1384daf115830
                 icon: mdi:lamp
                 show_state: false
@@ -367,6 +349,24 @@ cards:
             columns: 6
             square: false
             cards:
+              - type: "custom:button-card"
+                entity: switch.plug_bedlight_darlene_suite
+                show_state: false
+                name: Berço
+                state:
+                  - value: "on"
+                    color: rgb(255,191,0)
+                  - value: "off"
+                    color: rgb(100,100,100)
+                    icon: mdi:fan-off
+                styles:
+                  card:
+                    - --mdc-ripple-color: rgb(255,191,0)
+                    - --mdc-ripple-press-opacity: 0.5
+                    - font-size: 15px
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
               - type: "custom:button-card"
                 entity: fan.multiswitch_wc_suite_ventax
                 icon: mdi:fan
