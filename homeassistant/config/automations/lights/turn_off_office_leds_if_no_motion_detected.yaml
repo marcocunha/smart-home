@@ -1,7 +1,7 @@
 id: turn_off_office_leds_if_no_motion_detected
 alias: Turn off Office LEDs if no motion is detected
 description: ""
-mode: single
+mode: restart
 trigger:
   - platform: state
     entity_id:

@@ -1,7 +1,7 @@
 id: turn_on_entrance_ambient_lights_when_motion_is_detected
 alias: Turn on entrance ambient lights if motion is detected
 description: ""
-mode: single
+mode: restart
 triggers:
   - trigger: state
     entity_id:
