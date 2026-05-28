@@ -1,7 +1,7 @@
 id: turn_off_entrance_ambient_light_when_no_motion_is_detected
 alias: Turn off Entrance Ambient Lights if no motion is detected
 description: ""
-mode: single
+mode: restart
 actions:
   - alias: Turn off lights
     parallel:
