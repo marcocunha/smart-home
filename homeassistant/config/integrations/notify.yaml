@@ -14,12 +14,12 @@ notify:
   - name: darlene
     platform: group
     services:
-      - service: mobile_app_cph2195
-  - name: "ha_mobile_apps"
+      - service: mobile_app_pocof7
+  - name: ha_mobile_apps
     platform: group
     services:
       - service: "mobile_app_samsung_s22"
-      - service: "mobile_app_cph2195"
+      - service: "mobile_app_pocof7"
   - name: all
     platform: group
     services:
