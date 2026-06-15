@@ -85,9 +85,11 @@ sidebar:
     cardOptions:
       name: Home
       show_current: true
-      show_forecast: true
+      show_forecast: false
       forecast_type: daily
       entity: weather.home
+      forecast_slots: 2
+      secondary_info_attribute: wind_speed
       tap_action:
         action: navigate
         navigation_path: /tablet-office-dashboard/climate

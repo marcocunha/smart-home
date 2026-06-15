@@ -87,28 +87,13 @@ cards:
             cards:
               - type: vertical-stack
                 cards:
-                  - type: custom:mushroom-chips-card
-                    chips:
-                      - type: template
-                        content: >-
-                          Sunrise  {% if states.sun.sun %} {{
-                          (as_timestamp(states.sun.sun.attributes.next_rising)) |
-                          timestamp_custom(('%H:%M') )}} {% endif %}
-                        icon: mdi:weather-sunset-up
-                      - type: template
-                        content: >-
-                          Sunset  {% if states.sun.sun %} {{
-                          (as_timestamp(states.sun.sun.attributes.next_setting)) |
-                          timestamp_custom(('%H:%M') )}} {% endif %}
-                        icon: mdi:weather-sunset-down
-                  - type: custom:hourly-weather
-                    entity: weather.openweathermap
-                    num_segments: 9 # optional, defaults to 12
-                    name: null # optional, defaults to "Hourly Weather"
-                    show_precipitation_amounts: true
-                    show_precipitation_probability: true
-                    colors:
-                      sunny: yellow
+                  - show_current: true
+                    show_forecast: true
+                    type: weather-forecast
+                    entity: weather.home
+                    forecast_type: hourly
+                    forecast_slots: 9
+                    secondary_info_attribute: wind_speed
                   - type: custom:mushroom-vacuum-card
                     entity: vacuum.l40s_pro_ultra
                     icon_animation: false # CRITICAL: Disable for old tablets
