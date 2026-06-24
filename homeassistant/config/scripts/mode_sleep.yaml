@@ -2,10 +2,9 @@ mode_sleep:
   alias: Set the entities according to the sleep mode
   mode: single
   sequence:
-    - alias: "Set variables"
-      variables:
-        active_mode: SLEEP
-        entities_to_close:
+    # Set variables for easy maintenance
+    - variables:
+        covers_to_close:
           - cover.curtains_livingroom_right
           - cover.curtains_livingroom_left
           - cover.estores_escritorio
@@ -14,8 +13,9 @@ mode_sleep:
           - cover.curtains_suite
           - cover.curtains_wcsuite
           - cover.curtains_hall
+        curtains_to_close_partially:
           - cover.curtains_kitchen
-        desired_position_percentage: 13
+        desired_position_percentage: 20
         lights_to_turn_off:
           - light.projectores_piscina
           - light.candeeiro_ambiente_2
@@ -28,31 +28,46 @@ mode_sleep:
           - light.multiswitch_wc_suite_mirror
           - light.suite_lights
           - light.plug_candeeiro_presenca_hall
-        lights_to_turn_on:
+        lights_to_turn_on: []
         switches_to_turn_off:
           - switch.plug_bedlight_darlene_suite
-    - action: input_text.set_value
+
+    # Set active mode
+    - alias: Set active mode
+      action: input_text.set_value
       data:
-        value: "{{active_mode}}"
+        value: "{{ active_mode }}"
       target:
         entity_id: input_text.active_mode
-    - action: cover.close_cover
-      alias: Close covers
-      data: {}
+
+    # Close covers
+    - alias: Close covers
+      action: cover.close_cover
       target:
-        entity_id: "{{ entities_to_close }}"
-    - action: light.turn_off
-      alias: Turn OFF certain lights
-      data: {}
+        entity_id: "{{ covers_to_close | default([]) }}"
+
+    # Set cover position for partial close
+    - alias: Set cover position
+      action: cover.set_cover_position
+      data:
+        position: "{{ desired_position_percentage }}"
       target:
-        entity_id: "{{ lights_to_turn_off }}"
-    - action: light.turn_on
-      alias: Turn ON certain lights
-      data: {}
+        entity_id: "{{ curtains_to_close_partially | default([]) }}"
+
+    # Turn off specified lights
+    - alias: Turn OFF specified lights
+      action: light.turn_off
       target:
-        entity_id: "{{ lights_to_turn_on }}"
-    - action: switch.turn_off
-      alias: Turn OFF switches
+        entity_id: "{{ lights_to_turn_off | default([]) }}"
+
+    # Turn off specified switches
+    - alias: Turn OFF specified switches
+      action: switch.turn_off
       target:
-        entity_id: "{{ switches_to_turn_off }}"
-      data: {}
+        entity_id: "{{ switches_to_turn_off | default([]) }}"
+
+    # Optionally turn on lights
+    - alias: Turn ON specified lights
+      action: light.turn_on
+      target:
+        entity_id: "{{ lights_to_turn_on | default([]) }}"

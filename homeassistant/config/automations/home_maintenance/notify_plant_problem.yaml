@@ -2,7 +2,6 @@ id: notify_plant_problem
 alias: Plant problem notification
 description: Send a message about plant problems
 variables:
-  send_notification: true
   notify_device: notify.ha_mobile_apps
   notification_title: 🌱 Planta precisa de carinho
   persistent_notification: false

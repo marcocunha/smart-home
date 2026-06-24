@@ -1,0 +1,39 @@
+mode_cool_down:
+  alias: Set the entities according to the cool down mode
+  mode: single
+  sequence:
+    - alias: "Set variables"
+      variables:
+        active_mode: COOL_DOWN
+        covers_to_set:
+          - cover.curtains_kitchen
+          - cover.curtains_livingroom_right
+          - cover.curtains_livingroom_left
+          - cover.curtains_suite
+          - cover.curtains_hall
+        desired_position_percentage: 40
+        acs_to_turn_on:
+          - climate.ac_sala_ac_sala
+          - climate.ac_escritorio_ac_escritorio
+          - climate.ac_suite_ac_suite
+
+    - alias: "Set active mode"
+      action: input_text.set_value
+      data:
+        value: "{{ active_mode }}"
+      target:
+        entity_id: input_text.active_mode
+
+    - alias: "Set covers to cooldown position"
+      action: cover.set_cover_position
+      target:
+        entity_id: "{{ covers_to_set | default([]) }}"
+      data:
+        position: "{{ desired_position_percentage }}"
+
+    - alias: "Turn ON ACs in auto mode"
+      action: climate.set_hvac_mode
+      target:
+        entity_id: "{{ acs_to_turn_on | default([]) }}"
+      data:
+        hvac_mode: auto

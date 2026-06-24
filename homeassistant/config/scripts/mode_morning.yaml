@@ -5,29 +5,56 @@ mode_morning:
     - alias: "Set variables"
       variables:
         active_mode: MORNING
-        curtains_to_open_completely:
+        covers_to_open:
           - cover.curtains_livingroom_right
           - cover.curtains_livingroom_left
           - cover.estores_escritorio
-          - cover.estores_lavandaria
-          - cover.curtains_kitchen
-          - cover.curtains_hall
-        curtains_to_open_partially:
           - cover.curtains_guestroom
-          - cover.curtains_wcsuite
+          - cover.estores_lavandaria
           - cover.curtains_suite
-        desired_position_percentage: 25
-    - action: input_text.set_value
+          - cover.curtains_wcsuite
+          - cover.curtains_kitchen
+        curtains_to_open_partially:
+          - cover.curtains_hall
+        desired_position_percentage: 20
+        switches_to_turn_on: []
+        lights_to_turn_on: []
+        lights_to_turn_off:
+          - light.zigbee_smartpowerplug_1 # Luz presença Marco
+          - light.candeeiro_ambiente_2 # Candeeiro ambiente
+          - light.switch_tomada_poltrona # Luz tomada poltrona
+          - light.plug_candeeiro_presenca_hall # Candeeiro presença hall
+
+    - alias: "Set active mode"
+      action: input_text.set_value
       data:
-        value: "{{active_mode}}"
+        value: "{{ active_mode }}"
       target:
         entity_id: input_text.active_mode
-    - action: cover.set_cover_position
+
+    - alias: "Open covers"
+      action: cover.open_cover
       target:
-        entity_id: "{{ curtains_to_open_partially }}"
+        entity_id: "{{ covers_to_open | default([]) }}"
+
+    - alias: "Set cover position for partial open"
+      action: cover.set_cover_position
       data:
         position: "{{ desired_position_percentage }}"
-    - action: cover.open_cover
-      data: {}
       target:
-        entity_id: "{{ curtains_to_open_completely }}"
+        entity_id: "{{ curtains_to_open_partially | default([]) }}"
+
+    - alias: "Turn ON specified switches"
+      action: switch.turn_on
+      target:
+        entity_id: "{{ switches_to_turn_on | default([]) }}"
+
+    - alias: "Turn ON specified lights"
+      action: light.turn_on
+      target:
+        entity_id: "{{ lights_to_turn_on | default([]) }}"
+
+    - alias: "Turn OFF specified lights"
+      action: light.turn_off
+      target:
+        entity_id: "{{ lights_to_turn_off | default([]) }}"
