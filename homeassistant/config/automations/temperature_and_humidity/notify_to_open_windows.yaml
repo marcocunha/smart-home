@@ -1,0 +1,43 @@
+id: notify_to_open_windows
+alias: Notify to open windows when outside is cooler than inside (per area, with tolerance)
+mode: single
+trigger:
+  - platform: time_pattern
+    hours: "/1"
+conditions:
+  - condition: time
+    before: "20:00:00"
+variables:
+  outdoor_sensor: sensor.openweathermap_temperature
+  tolerance: 2
+  areas:
+    - name: Living Room
+      indoor_sensor: sensor.sensor_temperature_humidity_sala_temperature
+      message: "Está mais fresco na rua do que na Sala. Considera abrir a janela"
+    - name: Bedroom
+      indoor_sensor: sensor.sensor_temperature_humidity_suite_temperature
+      message: "Está mais fresco na rua do que no quarto. Considera abrir a janela"
+  notification_title: 🌡️ Sugestão para abrir a janela
+  persistent_notification: false
+action:
+  - variables:
+      outdoor: "{{ states(outdoor_sensor) | float(99) }}"
+  - repeat:
+      for_each: "{{ areas }}"
+      sequence:
+        - variables:
+            indoor: "{{ states(repeat.item.indoor_sensor) | float(99) }}"
+            difference: "{{ indoor - outdoor }}"
+        - if: "{{ difference > tolerance }}"
+          then:
+            - alias: Send notification
+              service: notify.ha_mobile_apps
+              data:
+                title: "{{ notification_title }}"
+                message: >
+                  {{ repeat.item.message }}
+                data:
+                  tag: "{{ notification_title }}"
+                  persistent: "{{ persistent_notification }}"
+                  ttl: 0
+                  priority: high
