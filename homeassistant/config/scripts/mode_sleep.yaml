@@ -4,6 +4,7 @@ mode_sleep:
   sequence:
     # Set variables for easy maintenance
     - variables:
+        active_mode: SLEEP
         covers_to_close:
           - cover.curtains_livingroom_right
           - cover.curtains_livingroom_left

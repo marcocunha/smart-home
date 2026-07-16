@@ -9,14 +9,14 @@ mode_morning:
           - cover.curtains_livingroom_right
           - cover.curtains_livingroom_left
           - cover.estores_escritorio
-          - cover.curtains_guestroom
           - cover.estores_lavandaria
-          - cover.curtains_suite
-          - cover.curtains_wcsuite
           - cover.curtains_kitchen
         curtains_to_open_partially:
           - cover.curtains_hall
-        desired_position_percentage: 20
+          - cover.curtains_guestroom
+          - cover.curtains_wcsuite
+          - cover.curtains_suite
+        desired_position_percentage: 25
         switches_to_turn_on: []
         lights_to_turn_on: []
         lights_to_turn_off:
