@@ -25,6 +25,8 @@ resources:
     type: js
   - url: /hacsfiles/bootstrap-grid-card.js
     type: js
+  - url: /hacsfiles/clock-weather-card.js
+    type: module
 
 kiosk_mode:
   user_settings:
