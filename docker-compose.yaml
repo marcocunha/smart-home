@@ -250,7 +250,7 @@ services:
   # https://github.com/Bilan/connectlife-api-connector
   ha-connectlife-addon:
     container_name: ha-connectlife-addon
-    image: ha-connectlife-addon
+    image: ha-connectlife-addon-2
     command: /bin/ash -c 'php artisan app:mqtt-loop'
     env_file:
       - .env
