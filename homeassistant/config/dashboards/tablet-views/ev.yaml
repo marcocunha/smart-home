@@ -5,9 +5,9 @@ type: sidebar
 cards:
   - type: vertical-stack
     cards:
-      - vehicle_image_type: entity
+      - vehicle_image_type: none
         status_image_type: none
-        layout_type: full_half
+        layout_type: half_full
         formatted_entities: true
         show_location: false
         show_mileage: true
@@ -15,13 +15,12 @@ cards:
         show_info_icons: true
         help_highlight: true
         sections_order:
-          - title
-          - image
           - info
+          - title
           - icon_row_0lp40pe
+          - icon_row_0n8n1lh
           - info_row_hb4i7d0
           - bar_0
-          - break_mdn4r5rwb2mk1wj4iqq
           - info_row_4e638i6
         bars:
           - left_title: Range
@@ -144,6 +143,65 @@ cards:
                 text_size: 12
                 icon_size: 30
             confirmation_mode: false
+          - id: 0n8n1lh
+            width: "100"
+            alignment: flex-start
+            vertical_alignment: center
+            spacing: none
+            columns: 0
+            icons:
+              - entity: button.volvo_c40_start_climatization
+                icon_inactive: mdi:fan
+                icon_active: mdi:fan
+                color_inactive: var(--secondary-text-color)
+                color_active: var(--primary-color)
+                name_color_inactive: var(--primary-text-color)
+                name_color_active: var(--primary-text-color)
+                state_color_inactive: var(--secondary-text-color)
+                state_color_active: var(--primary-text-color)
+                inactive_state: "off"
+                active_state: "on"
+                inactive_template_mode: false
+                active_template_mode: false
+                inactive_template: ""
+                active_template: ""
+                active_state_text: Climatização
+                inactive_state_text: Climatização
+                show_state: true
+                show_name: false
+                show_name_active: true
+                show_name_inactive: true
+                show_state_active: false
+                show_state_inactive: false
+                show_units: false
+                show_icon_active: false
+                show_icon_inactive: true
+                use_entity_color_for_icon: false
+                use_entity_color_for_icon_active: false
+                use_entity_color_for_icon_inactive: false
+                use_entity_color_for_icon_background: false
+                use_entity_color_for_container_background: false
+                name: Climatização
+                single_click_action: trigger
+                on_click_action: more-info
+                vertical_alignment: center
+                text_alignment: center
+                icon_size: 24
+                text_size: 14
+                icon_background: none
+                icon_background_color: var(--secondary-background-color)
+                container_background: none
+                container_background_color: var(--secondary-background-color)
+                draggable: true
+                dynamic_icon_template_mode: false
+                dynamic_icon_template: Climatização
+                dynamic_color_template_mode: false
+                dynamic_color_template: ""
+                single_entity: button.volvo_c40_start_climatization
+                action: ""
+                service_data: {}
+            confirmation_mode: false
+            row_name: Climatização
         title: Volvo C40
         image_url: ""
         charging_image_url: ""
@@ -265,7 +323,7 @@ cards:
         charging_image_entity: image.volvo_volvo_c40_exterior_back_driver
         grid_options:
           columns: full
-          rows: 5
+          rows: 1
         image_entity: image.volvo_volvo_c40_exterior
         vehicle_image_width: 50
         action_image_width: 100
@@ -288,34 +346,9 @@ cards:
                 text_color: ""
                 show_name: false
                 icon_color: "#ffffff"
-              - id: 0vjyyvp
-                entity: sensor.volvo_c40_car_connection
-                name: ""
-                icon: mdi:gauge
-                show_icon: true
-                show_name: false
-                text_size: 14
-                name_size: 14
-                icon_size: 24
-                icon_color: {}
-                text_color: {}
-                on_click_action: more-info
-            alignment: space-between
-            spacing: large
-            vertical_alignment: center
-            allow_wrap: true
-            row_name: ""
-          - id: 4e638i6
-            width: "100"
-            alignment: space-between
-            vertical_alignment: center
-            spacing: medium
-            columns: 0
-            allow_wrap: true
-            info_entities:
-              - id: c03j7ys
+              - id: 1l7hnbn
                 entity: sensor.volvo_c40_charging_limit
-                name: Charging Limit
+                name: ""
                 icon: mdi:current-ac
                 show_icon: true
                 show_name: false
@@ -329,9 +362,22 @@ cards:
                 dynamic_icon_template: ""
                 dynamic_color_template_mode: false
                 dynamic_color_template: ""
+            alignment: space-between
+            spacing: large
+            vertical_alignment: center
+            allow_wrap: true
+            row_name: ""
+          - id: 4e638i6
+            width: "100"
+            alignment: space-between
+            vertical_alignment: center
+            spacing: medium
+            columns: 0
+            allow_wrap: true
+            info_entities:
               - id: blaa07u
                 entity: sensor.vevor_ev_b06_eu003a_work_state
-                name: ""
+                name: Charger state
                 icon: mdi:ev-station
                 show_icon: true
                 show_name: false
@@ -354,22 +400,44 @@ cards:
                 on_click_action: more-info
                 name: Switch
                 template_mode: false
+              - id: tf5g0zf
+                entity: sensor.exterior_vevor_ev_b06_eu003a_phase_a_current
+                name: Current
+                icon: mdi:current-ac
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+                dynamic_icon_template_mode: false
+                dynamic_icon_template: ""
+                dynamic_color_template_mode: false
+                dynamic_color_template: ""
+              - id: 4qze7uq
+                entity: sensor.exterior_vevor_ev_b06_eu003a_phase_a_power
+                name: Power
+                icon: mdi:flash
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+                dynamic_icon_template_mode: false
+                dynamic_icon_template: ""
+                dynamic_color_template_mode: false
+                dynamic_color_template: ""
             row_name: Charger
-        section_styles:
-          break_mdn4r5rwb2mk1wj4iqq:
-            marginTop: 16
-            marginBottom: 16
-        section_breaks:
-          - id: break_mdn4r5rwb2mk1wj4iqq
-            break_style: blank
-            break_thickness: 4
-            break_width_percent: 100
-            break_color: var(--divider-color)
         bar_row_alignment: center
         images:
-          - id: 2s9bzsj
+          - id: ct8dww7
             name: Vehicle Image
-            image_type: none
+            image_type: entity
             image_entity: image.volvo_volvo_c40_exterior_front_driver
             image_width: 50
             priority: 0
