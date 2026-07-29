@@ -15,10 +15,7 @@ cards:
         show_info_icons: true
         help_highlight: true
         sections_order:
-          - info
           - title
-          - icon_row_0lp40pe
-          - icon_row_0n8n1lh
           - info_row_hb4i7d0
           - bar_0
           - info_row_4e638i6
@@ -90,119 +87,7 @@ cards:
               {{ states('sensor.volvo_c40_estimated_charging_time') | float / 60 }}h
 
             limit_entity: sensor.volvo_c40_target_battery_charge_level
-        icon_rows:
-          - id: 0lp40pe
-            width: "100"
-            alignment: center
-            spacing: none
-            columns: 0
-            icons:
-              - entity: sensor.volvo_c40_trip_manual_average_energy_consumption
-                icon_inactive: mdi:gauge
-                icon_active: mdi:gauge
-                color_inactive: var(--secondary-text-color)
-                color_active: var(--primary-color)
-                name_color_inactive: var(--primary-text-color)
-                name_color_active: var(--primary-text-color)
-                state_color_inactive: var(--secondary-text-color)
-                state_color_active: var(--primary-text-color)
-                inactive_state: "off"
-                active_state: "on"
-                inactive_template_mode: false
-                active_template_mode: false
-                inactive_template: ""
-                active_template: ""
-                active_state_text: ""
-                inactive_state_text: ""
-                show_state: true
-                show_name: false
-                show_name_active: false
-                show_name_inactive: false
-                show_state_active: true
-                show_state_inactive: true
-                show_units: true
-                show_icon_active: false
-                show_icon_inactive: true
-                use_entity_color_for_icon: false
-                use_entity_color_for_icon_active: false
-                use_entity_color_for_icon_inactive: false
-                use_entity_color_for_icon_background: false
-                use_entity_color_for_container_background: false
-                name: "Consumption "
-                on_click_action: more-info
-                text_position: bottom
-                vertical_alignment: flex-start
-                text_alignment: right
-                icon_background: none
-                icon_background_color: var(--secondary-background-color)
-                container_background: none
-                container_background_color: var(--secondary-background-color)
-                draggable: true
-                action: ""
-                service_data: {}
-                text_size: 12
-                icon_size: 30
-            confirmation_mode: false
-          - id: 0n8n1lh
-            width: "100"
-            alignment: flex-start
-            vertical_alignment: center
-            spacing: none
-            columns: 0
-            icons:
-              - entity: button.volvo_c40_start_climatization
-                icon_inactive: mdi:fan
-                icon_active: mdi:fan
-                color_inactive: var(--secondary-text-color)
-                color_active: var(--primary-color)
-                name_color_inactive: var(--primary-text-color)
-                name_color_active: var(--primary-text-color)
-                state_color_inactive: var(--secondary-text-color)
-                state_color_active: var(--primary-text-color)
-                inactive_state: "off"
-                active_state: "on"
-                inactive_template_mode: false
-                active_template_mode: false
-                inactive_template: ""
-                active_template: ""
-                active_state_text: Climatização
-                inactive_state_text: Climatização
-                show_state: true
-                show_name: false
-                show_name_active: true
-                show_name_inactive: true
-                show_state_active: false
-                show_state_inactive: false
-                show_units: false
-                show_icon_active: false
-                show_icon_inactive: true
-                use_entity_color_for_icon: false
-                use_entity_color_for_icon_active: false
-                use_entity_color_for_icon_inactive: false
-                use_entity_color_for_icon_background: false
-                use_entity_color_for_container_background: false
-                name: Climatização
-                single_click_action: trigger
-                on_click_action: more-info
-                vertical_alignment: center
-                text_alignment: center
-                icon_size: 24
-                text_size: 14
-                icon_background: none
-                icon_background_color: var(--secondary-background-color)
-                container_background: none
-                container_background_color: var(--secondary-background-color)
-                draggable: true
-                dynamic_icon_template_mode: false
-                dynamic_icon_template: Climatização
-                dynamic_color_template_mode: false
-                dynamic_color_template: ""
-                single_entity: button.volvo_c40_start_climatization
-                action: ""
-                service_data: {}
-            confirmation_mode: false
-            row_name: Climatização
-        title: Volvo C40
+        icon_rows: []
         image_url: ""
         charging_image_url: ""
         image_url_type: entity
@@ -346,6 +231,22 @@ cards:
                 text_color: ""
                 show_name: false
                 icon_color: "#ffffff"
+              - id: p5kk68c
+                entity: sensor.volvo_c40_trip_manual_average_energy_consumption
+                name: ""
+                icon: mdi:gauge
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+                dynamic_icon_template_mode: false
+                dynamic_icon_template: ""
+                dynamic_color_template_mode: false
+                dynamic_color_template: ""
               - id: 1l7hnbn
                 entity: sensor.volvo_c40_charging_limit
                 name: ""
@@ -442,3 +343,63 @@ cards:
             image_width: 50
             priority: 0
         image_priority_mode: order
+      - type: horizontal-stack
+        cards:
+          - type: tile
+            entity: button.volvo_c40_start_climatization
+            name: Climatização
+            show_entity_picture: false
+            hide_state: true
+            vertical: true
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+            features:
+              - type: button
+                action_name: Iniciar
+            features_position: bottom
+          - type: tile
+            entity: button.volvo_c40_stop_climatization
+            name: Climatização
+            show_entity_picture: false
+            hide_state: true
+            vertical: true
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+            features:
+              - type: button
+                action_name: Parar
+            features_position: bottom
+          - type: tile
+            entity: lock.volvo_c40_lock
+            vertical: true
+            features:
+              - type: lock-commands
+            features_position: bottom
+
+      - type: entities
+        entities:
+          - entity: binary_sensor.volvo_c40_brake_fluid
+            name: Brake fluid
+          - entity: binary_sensor.volvo_c40_coolant_level
+            name: Coolant level
+          - entity: sensor.volvo_c40_distance_to_service
+            name: Distance to service
+          - entity: sensor.volvo_c40_time_to_engine_service
+            name: Engine time to service
+            secondary_info: none
+          - entity: sensor.volvo_c40_service
+            name: Service
+            secondary_info: none
+          - entity: sensor.volvo_c40_time_to_service
+            name: Time to service
+            secondary_info: none
+          - entity: binary_sensor.volvo_c40_washer_fluid
+            name: Washer fluid
+        show_header_toggle: false
+        state_color: true
+
+ 
