@@ -6,10 +6,26 @@ variables:
   notification_title: 🌱 Planta precisa de carinho
   persistent_notification: false
 trigger:
+  # Notify immediately when a problem appears
   - platform: state
-    entity_id:
-      - plant.pachira_aquatica
+    entity_id: plant.pachira_aquatica
     to: "problem"
+
+  # Daily reminder
+  - platform: time
+    at: "21:00:00"
+
+condition:
+  # Only continue if the plant is currently in problem state
+  - condition: state
+    entity_id: plant.pachira_aquatica
+    state: "problem"
+
+  - condition: template
+    value_template: >
+      {{ trigger.platform == 'state'
+         or (now() - states.plant.pachira_aquatica.last_changed).days >= 1 }}
+
 action:
   - alias: Send notification
     service: notify.ha_mobile_apps
@@ -17,7 +33,7 @@ action:
       title: "{{ notification_title }}"
       message: >
         {{ trigger.to_state.attributes.friendly_name }} tem um problema.
-        {% for attr in ['moisture_status', 'temperature_status', 'conductivity_status', 'illuminance_status', 'humidity_status', 'dli_status'] %}
+        {% for attr in ['moisture_status', 'temperature_status', 'conductivity_status', 'illuminance_status', 'humidity_status', 'dli_status', 'vpd_status'] %}
           {% if trigger.to_state.attributes.get(attr) in ['Low', 'High'] %}
           - {{ attr | replace('_status', '') | title }}: {{ trigger.to_state.attributes[attr] }}
           {% endif %}
