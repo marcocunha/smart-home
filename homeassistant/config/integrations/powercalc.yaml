@@ -9,3 +9,5 @@
 powercalc:
   #https://homeassistant-powercalc.readthedocs.io/en/latest/utility-meter.html
   create_utility_meters: true
+  create_cost_sensors: true
+  energy_price: !secret CONST_PRICE_PER_KWH

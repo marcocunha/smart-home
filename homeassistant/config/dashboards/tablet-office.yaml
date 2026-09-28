@@ -66,8 +66,8 @@ sidebar:
       navigation_path: "/tablet-office-dashboard/climate"
       name: "Climate"
     - action: navigate
-      navigation_path: "/tablet-office-dashboard/football"
-      name: "Futebol"
+      navigation_path: "/tablet-office-dashboard/ev"
+      name: "EV"
     - action: navigate
       navigation_path: "/tablet-office-dashboard/formulaone"
       name: "Formula1"
@@ -114,5 +114,5 @@ views:
   - !include tablet-views/home-office.yaml
   - !include tablet-views/controls.yaml
   - !include tablet-views/climate.yaml
-  - !include tablet-views/football.yaml
+  - !include tablet-views/ev.yaml
   - !include tablet-views/f1.yaml

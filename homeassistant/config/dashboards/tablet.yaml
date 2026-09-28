@@ -70,9 +70,6 @@ sidebar:
       navigation_path: "/lovelace-tablet-dashboard/vacuum"
       name: "Vaccum"
     - action: navigate
-      navigation_path: "/lovelace-tablet-dashboard/football"
-      name: "Futebol"
-    - action: navigate
       navigation_path: "/lovelace-tablet-dashboard/formulaone"
       name: "Formula1"
   template: |
@@ -120,5 +117,4 @@ views:
   - !include tablet-views/climate.yaml
   - !include tablet-views/ev.yaml
   - !include tablet-views/vacuum.yaml
-  - !include tablet-views/football.yaml
   - !include tablet-views/f1.yaml

@@ -333,6 +333,22 @@ cards:
                 dynamic_icon_template: ""
                 dynamic_color_template_mode: false
                 dynamic_color_template: ""
+              - id: 9cfpxny
+                entity: sensor.vevor_ev_b06_eu003a_temperature
+                name: Internal Temperature
+                icon: mdi:thermometer
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+                dynamic_icon_template_mode: false
+                dynamic_icon_template: ""
+                dynamic_color_template_mode: false
+                dynamic_color_template: ""
             row_name: Charger
         bar_row_alignment: center
         images:
