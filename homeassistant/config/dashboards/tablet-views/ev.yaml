@@ -205,14 +205,11 @@ cards:
         show_fuel: true
         show_fuel_range: true
         custom_labels: {}
-        charging_image_entity: image.volvo_volvo_c40_exterior_back_driver
         grid_options:
           columns: full
           rows: 1
-        image_entity: image.volvo_volvo_c40_exterior
         vehicle_image_width: 50
         action_image_width: 100
-        vehicle_image_entity: image.volvo_volvo_c40_exterior_front_driver
         show_units: true
         action_image_priority: newest
         action_images: []
