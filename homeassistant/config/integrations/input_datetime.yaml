@@ -1,0 +1,6 @@
+input_datetime:
+  toaster_on_since:
+    name: Toaster on since
+    has_date: true
+    has_time: true
+    icon: mdi:toaster

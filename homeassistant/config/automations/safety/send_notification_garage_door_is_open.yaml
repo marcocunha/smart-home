@@ -3,8 +3,6 @@ alias: The garage door is open for a while
 mode: restart
 max_exceeded: silent
 variables:
-  notify_device: notify.ha_mobile_apps
-  trigger_entity: binary_sensor.sensor_garage_door_contact
   notification_title: Garagem Aberta
   persistent_notification: true
 triggers:
@@ -69,18 +67,18 @@ actions:
             title: Fechar
           - action: "{{ action_ignore }}"
             title: Ignorar
-  - alias: Wait for a response
+  - alias: Wait for the answer
     wait_for_trigger:
       - trigger: event
         event_type: mobile_app_notification_action
         event_data:
           action: "{{ action_close }}"
-      - trigger: event
-        event_type: mobile_app_notification_action
-        event_data:
-          action: "{{ action_ignore }}"
-  - alias: Perform the action
-    choose:
-      - conditions: "{{ (wait.trigger.event.data.action == action_close) and (is_state('binary_sensor.sensor_garage_door_contact', 'on')) }}"
-        sequence:
-          - action: script.garage
+    timeout:
+      minutes: 20
+    continue_on_timeout: false
+  - alias: The garage door is still open
+    condition: state
+    entity_id: binary_sensor.sensor_garage_door_contact
+    state: "on"
+  - alias: Close the garage door
+    action: script.garage

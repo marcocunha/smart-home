@@ -3,8 +3,6 @@ alias: Turn off toaster automatically after 10min
 mode: restart
 max_exceeded: silent
 variables:
-  notify_device: notify.ha_mobile_apps
-  trigger_entity: switch.torradeira_plug
   notification_title: Torradeira desligada
   persistent_notification: false
 triggers:
@@ -19,10 +17,7 @@ conditions:
   - condition: state
     entity_id: switch.torradeira_plug
     state: "on"
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
+  - "{{ state_attr('input_datetime.toaster_on_since', 'timestamp') is not none and now().timestamp() - state_attr('input_datetime.toaster_on_since', 'timestamp') >= 600 }}"
 actions:
   - action: switch.turn_off
     target:

@@ -3,8 +3,6 @@ alias: Send notification if toaster is on
 mode: restart
 max_exceeded: silent
 variables:
-  notify_device: notify.ha_mobile_apps
-  trigger_entity: switch.torradeira_plug
   notification_title: Torradeira ligada
   persistent_notification: true
 triggers:
@@ -19,10 +17,7 @@ conditions:
   - condition: state
     entity_id: switch.torradeira_plug
     state: "on"
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
+  - "{{ state_attr('input_datetime.toaster_on_since', 'timestamp') is not none and now().timestamp() - state_attr('input_datetime.toaster_on_since', 'timestamp') >= 300 }}"
 actions:
   - alias: Set up variables for the actions
     variables:
@@ -43,20 +38,16 @@ actions:
             title: Desligar
           - action: "{{ action_ignore }}"
             title: Ignorar
-  - alias: Wait for a response
+  - alias: Wait for the answer
     wait_for_trigger:
       - trigger: event
         event_type: mobile_app_notification_action
         event_data:
           action: "{{ action_turnoff }}"
-      - trigger: event
-        event_type: mobile_app_notification_action
-        event_data:
-          action: "{{ action_ignore }}"
-  - alias: Perform the action
-    choose:
-      - conditions: "{{ wait.trigger.event.data.action == action_turnoff }}"
-        sequence:
-          - action: switch.turn_off
-            target:
-              entity_id: switch.torradeira_plug
+    timeout:
+      minutes: 5
+    continue_on_timeout: false
+  - alias: Turn off the toaster
+    action: switch.turn_off
+    target:
+      entity_id: switch.torradeira_plug
