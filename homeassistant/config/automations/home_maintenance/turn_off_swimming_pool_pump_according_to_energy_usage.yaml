@@ -9,15 +9,15 @@ variables:
   trigger_entity: binary_sensor.sensor_garage_door_contact
   notification_title: Bomba da Piscina
   persistent_notification: false
-trigger:
-  - platform: numeric_state
+triggers:
+  - trigger: numeric_state
     entity_id: sensor.energy_consumption_mean_over_last_10_minutes
     above: -300
     alias: Not enough energy to have the swimming pool pump working
     #every 20 minutes
-  - platform: time_pattern
+  - trigger: time_pattern
     minutes: /20
-condition:
+conditions:
   - condition: and
     conditions:
       - condition: or
@@ -38,14 +38,14 @@ condition:
         entity_id: schedule.swimming_pool_pump_schedule
         state: "off"
         alias: "Swimming pool pump schedule is OFF"
-action:
+actions:
   - alias: Set up variables for the actions
     variables:
       message: "{{ 'Produção demasiado baixa, consumo: ' ~ states('sensor.energy_consumption_mean_over_last_10_minutes')  ~ 'W. Desligada automaticamente.'}}"
   - alias: Perform the action
-    service: switch.turn_off
+    action: switch.turn_off
     target:
-      device_id: 11352414f861aaceba25adee16b975f5
+      entity_id: switch.bomba_piscina_switch_0
   - if: "{{ send_notification == true }}"
     then:
       - alias: Send a message to mobile app
@@ -58,7 +58,7 @@ action:
                 alias: Swimming Pool pump already worked the desired time
             sequence:
               - alias: Inform swimming pool pump was turned off due to time usage
-                service: notify.ha_mobile_apps
+                action: notify.ha_mobile_apps
                 data:
                   title: "{{ notification_title }}"
                   message: "{{ 'Bomba já trabalhou : ' ~ states('sensor.swimming_pool_pump_on_today')|float(0)  ~ 'h. Desligada automaticamente.'}}"
@@ -73,7 +73,7 @@ action:
                 above: -150
             sequence:
               - alias: Inform swimming pool pump was turned off due to energy usage
-                service: notify.ha_mobile_apps
+                action: notify.ha_mobile_apps
                 data:
                   title: "{{ notification_title }}"
                   message: "{{ message }}"

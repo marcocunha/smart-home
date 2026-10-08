@@ -6,14 +6,14 @@ variables:
   notify_device: notify.ha_mobile_apps
   notification_title: Bomba da Piscina
   persistent_notification: false
-trigger:
-  - platform: time_pattern
+triggers:
+  - trigger: time_pattern
     hours: "21"
     minutes: "30"
     seconds: "0"
-action:
+actions:
   - alias: Inform swimming pool pump was turned off due to time usage
-    service: notify.ha_mobile_apps
+    action: notify.ha_mobile_apps
     data:
       title: "{{ notification_title }}"
       message: "{{ 'A bomba hoje trabalhou: ' ~ states('sensor.swimming_pool_pump_on_today')|float  ~ 'h.'}}"

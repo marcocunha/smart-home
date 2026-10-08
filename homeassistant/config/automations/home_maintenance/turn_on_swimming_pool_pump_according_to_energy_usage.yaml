@@ -7,14 +7,14 @@ variables:
   notify_device: notify.ha_mobile_apps
   notification_title: Bomba da Piscina
   persistent_notification: false
-trigger:
+triggers:
   #every 10 minutes
-  - platform: time_pattern
+  - trigger: time_pattern
     minutes: /10
-  - platform: state
+  - trigger: state
     entity_id:
       - schedule.swimming_pool_pump_schedule
-condition:
+conditions:
   - condition: or
     conditions:
       - condition: and
@@ -38,15 +38,15 @@ condition:
         entity_id: schedule.swimming_pool_pump_schedule
         state: "on"
         alias: "Swimming pool pump schedule is ON"
-action:
+actions:
   - alias: Perform the action
-    service: switch.turn_on
+    action: switch.turn_on
     target:
-      device_id: 11352414f861aaceba25adee16b975f5
+      entity_id: switch.bomba_piscina_switch_0
   - if: "{{ send_notification == true }}"
     then:
       - alias: Inform swimming pool pump was turned on
-        service: notify.ha_mobile_apps
+        action: notify.ha_mobile_apps
         data:
           title: "{{ notification_title }}"
           message: Bomba da piscina ligada
