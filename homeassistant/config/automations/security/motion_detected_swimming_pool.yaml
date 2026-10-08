@@ -31,7 +31,7 @@ condition:
   - condition: or
     conditions:
       - condition: state
-        entity_id: input_boolean.anyone_home
+        entity_id: binary_sensor.anyone_home
         state: "off"
       - condition: state
         entity_id: alarm_control_panel.ajax_security_system

@@ -29,7 +29,7 @@ condition:
     state: "on"
     alias: Monitor is On
   - condition: state
-    entity_id: input_boolean.anyone_home
+    entity_id: binary_sensor.anyone_home
     state: "on"
   - condition: numeric_state
     entity_id: cover.estores_escritorio

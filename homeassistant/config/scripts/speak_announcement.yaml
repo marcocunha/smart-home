@@ -15,7 +15,7 @@ speak_announcement:
       choose:
         - conditions:
             - condition: state
-              entity_id: input_boolean.anyone_home
+              entity_id: binary_sensor.anyone_home
               state: "on"
           sequence:
             - action: dashie.speak

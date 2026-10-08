@@ -1,0 +1,16 @@
+template:
+  - binary_sensor:
+      - name: Anyone at home
+        default_entity_id: binary_sensor.anyone_home
+        unique_id: anyone_at_home
+        device_class: presence
+        state: >
+          {{ is_state('person.marco_cunha', 'home')
+             or is_state('person.darlene_parreira', 'home') }}
+      - name: Both at home
+        default_entity_id: binary_sensor.both_home
+        unique_id: both_at_home
+        device_class: presence
+        state: >
+          {{ is_state('person.marco_cunha', 'home')
+             and is_state('person.darlene_parreira', 'home') }}

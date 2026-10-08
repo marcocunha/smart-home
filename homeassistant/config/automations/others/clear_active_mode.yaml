@@ -2,13 +2,11 @@ id: clear_active_mode
 alias: Clear Active Mode
 mode: single
 description: Clears Active Mode Input Helper
-trigger:
-  - platform: time
+triggers:
+  - trigger: time
     at: 07:00:00
-condition: []
-action:
-  - service: input_text.set_value
-    metadata: {}
+actions:
+  - action: input_text.set_value
     data:
       value: ""
     target:
