@@ -1,0 +1,54 @@
+security_camera_alert:
+  alias: Security camera alert
+  icon: mdi:cctv
+  description: Describe what a camera sees with LLM Vision and send it to the phones.
+  mode: parallel
+  max: 4
+  max_exceeded: silent
+  fields:
+    camera_entity:
+      name: Camera
+      description: Camera to analyse
+      required: true
+      selector:
+        entity:
+          domain: camera
+  variables:
+    llm_model: gemini-3.8-flash
+    # Gemini counts its reasoning tokens towards max_tokens, a low value cuts the text short
+    llm_max_tokens: 500
+    llm_prompt: >-
+      Write a short, natural-sounding description of what is happening around the house in Portuguese (Portugal).
+      Analyse the image to describe what is happening suitable for a smart home notification.
+      If a person is seen in any of the images then describe them, where they are located and their actions.
+      Keep the response succinct.
+    notification_title: >-
+      Movimento detectado - {{ state_attr(camera_entity, 'friendly_name') }}
+  sequence:
+    - alias: Describe the camera image
+      action: llmvision.image_analyzer
+      data:
+        provider: 01JFTMMBPD3Y5F42RRWGGZ8W73
+        model: "{{ llm_model }}"
+        message: "{{ llm_prompt }}"
+        image_entity:
+          - "{{ camera_entity }}"
+        include_filename: false
+        target_width: 1280
+        max_tokens: "{{ llm_max_tokens }}"
+        expose_images: true
+      response_variable: llm_response
+    - alias: Send notification
+      action: notify.ha_mobile_apps
+      data:
+        title: "{{ notification_title }}"
+        message: "{{ llm_response.response_text }}"
+        data:
+          tag: "{{ camera_entity }}"
+          image: "{{ llm_response.key_frame | replace('/media/', '/media/local/', 1) }}"
+          ttl: 0
+          priority: high
+          actions:
+            - action: URI
+              title: Open Camera
+              uri: app://com.mm.android.DMSS

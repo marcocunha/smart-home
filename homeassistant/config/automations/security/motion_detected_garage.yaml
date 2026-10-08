@@ -2,27 +2,13 @@ id: motion_detected_garage
 alias: Motion detected - Garage
 mode: single
 max_exceeded: silent
-variables:
-  notify_device: notify.ha_mobile_apps
-  trigger_entity: binary_sensor.dvr_camera_garagem_motion_alarm_2
-  camera_entity: camera.dvr_camera_garagem_main_2
-  persistent_notification: false
-  generate_title: false
-  default_title: Movimento detectado
-  llm_model: gemini-1.5-pro
-  llm_prompt: >-
-    Write a short, natural-sounding description of what is happening around the house in Portuguese (Portugal). 
-    Analyse the image to describe what is happening suitable for a smart home notification. 
-    If a person is seen in any of the images then describe them, where they are located and their actions. 
-    Keep the response succinct and under 100 tokens.
 triggers:
-  - entity_id:
-      - binary_sensor.dvr_camera_garagem_motion_alarm_2
+  - trigger: state
+    entity_id: binary_sensor.dvr_camera_garagem_motion_alarm_2
     from: "off"
     to: "on"
     for: "00:00:02"
-    trigger: state
-condition:
+conditions:
   - condition: or
     conditions:
       - condition: state
@@ -31,37 +17,10 @@ condition:
       - condition: state
         entity_id: alarm_control_panel.ajax_security_system
         state: armed_home
-
 actions:
-  - action: llmvision.image_analyzer
+  - action: script.security_camera_alert
     data:
-      remember: true
-      use_memory: false
-      include_filename: false
-      target_width: 1280
-      max_tokens: 100
-      temperature: 0.2
-      generate_title: "{{generate_title}}"
-      expose_images: true
-      image_entity: 
-        - "{{camera_entity}}"
-      provider: 01JFTMMBPD3Y5F42RRWGGZ8W73
-      message: "{{llm_prompt}}"
-      model: "{{ llm_model }}"
-    response_variable: llm_response
-  - data:
-      title: "{{ llm_response.title if llm_response.title is defined and llm_response.title != none else default_title }}"
-      message: "{{ llm_response.response_text }}"
-      data:
-        title: "{{ llm_response.title if llm_response.title is defined and llm_response.title != none else default_title }}"
-        persistent: "{{ persistent_notification }}"
-        image: "{{ llm_response.key_frame.replace('/config/www', '/local') }}"
-        ttl: 0
-        priority: high
-        actions:
-          - action: URI
-            title: Open Camera
-            uri: app://com.mm.android.DMSS
-    action: notify.ha_mobile_apps
-  - delay:
+      camera_entity: camera.dvr_camera_garagem_main_2
+  - alias: Wait before alerting again
+    delay:
       minutes: 3
