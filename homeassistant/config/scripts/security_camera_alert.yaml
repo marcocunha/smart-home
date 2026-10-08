@@ -16,7 +16,7 @@ security_camera_alert:
         entity:
           domain: camera
   variables:
-    llm_model: gemini-3.8-flash
+    llm_model: gemini-3.5-flash-lite
     # Gemini counts its reasoning tokens towards max_tokens, a low value cuts the text short
     llm_max_tokens: 500
     llm_prompt: >-
