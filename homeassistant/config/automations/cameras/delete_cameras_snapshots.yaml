@@ -15,3 +15,9 @@ actions:
       only_extensions:
         - ".png"
         - ".jpg"
+  - action: delete.files_in_folder
+    data:
+      folder: "/media/llmvision/alerts/"
+      time: 604800 # older than a week
+      only_extensions:
+        - ".jpg"

@@ -1,0 +1,78 @@
+security_camera_alert:
+  alias: Security camera alert
+  icon: mdi:cctv
+  description: >-
+    Sends a snapshot of the camera right away, then updates the same
+    notification with a description made by LLM Vision.
+  mode: parallel
+  max: 4
+  max_exceeded: silent
+  fields:
+    camera_entity:
+      name: Camera
+      description: Camera to snapshot and analyse
+      required: true
+      selector:
+        entity:
+          domain: camera
+  variables:
+    llm_model: gemini-3.5-flash-lite
+    # Gemini counts its reasoning tokens towards max_tokens, a low value cuts the text short
+    llm_max_tokens: 500
+    llm_prompt: >-
+      Write a short, natural-sounding description of what is happening around the house in Portuguese (Portugal).
+      Analyse the image to describe what is happening suitable for a smart home notification.
+      If a person is seen in any of the images then describe them, where they are located and their actions.
+      Keep the response succinct.
+    notification_title: >-
+      Movimento detectado - {{ state_attr(camera_entity, 'friendly_name') }}
+    # Under /media, which is served only to logged-in users, unlike /config/www
+    snapshot_file: >-
+      /media/llmvision/alerts/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg
+    snapshot_url: "{{ snapshot_file | replace('/media/', '/media/local/', 1) }}"
+  sequence:
+    - alias: Take a snapshot
+      action: camera.snapshot
+      target:
+        entity_id: "{{ camera_entity }}"
+      data:
+        filename: "{{ snapshot_file }}"
+    - alias: Send the snapshot right away
+      action: notify.ha_mobile_apps
+      data:
+        title: "{{ notification_title }}"
+        message: A analisar a imagem...
+        data:
+          tag: "{{ camera_entity }}"
+          image: "{{ snapshot_url }}"
+          ttl: 0
+          priority: high
+    - alias: Describe the snapshot
+      action: llmvision.image_analyzer
+      continue_on_error: true
+      data:
+        provider: 01JFTMMBPD3Y5F42RRWGGZ8W73
+        model: "{{ llm_model }}"
+        message: "{{ llm_prompt }}"
+        image_file: "{{ snapshot_file }}"
+        include_filename: false
+        target_width: 1280
+        max_tokens: "{{ llm_max_tokens }}"
+      response_variable: llm_response
+    - alias: Replace the notification with the description
+      if: "{{ llm_response is defined and llm_response.response_text is defined }}"
+      then:
+        - action: notify.ha_mobile_apps
+          data:
+            title: "{{ notification_title }}"
+            message: "{{ llm_response.response_text }}"
+            data:
+              tag: "{{ camera_entity }}"
+              image: "{{ snapshot_url }}"
+              alert_once: true
+              ttl: 0
+              priority: high
+              actions:
+                - action: URI
+                  title: Open Camera
+                  uri: app://com.mm.android.DMSS
