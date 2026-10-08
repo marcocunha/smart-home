@@ -5,28 +5,23 @@ max_exceeded: silent
 variables:
   notify_device: notify.ha_mobile_apps
   trigger_entity: binary_sensor.dvr_camera_frente_motion_alarm
-  doorbell_cam: camera.dvr_camera_frente_main
-  notification_title: Movimento Detectado na Frente
+  camera_entity: camera.dvr_camera_frente_main
   persistent_notification: false
-  image_file: >-
-    /local/doorbell/{{ expand(trigger_entity)[0].last_changed | as_timestamp  |
-    timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
+  generate_title: false
+  default_title: Movimento detectado
   llm_model: gemini-1.5-pro
   llm_prompt: >-
-    Atua como sendo o responsável pelo meu sistema de segurança em casa.
-    Descreve a imagem numa frase curta usando Português de Portugal. Se vires pessoas,
-    descreve-as.
-trigger:
-  platform: state
-  entity_id:
-    - binary_sensor.dvr_camera_frente_motion_alarm
-  # Optional
-  from: "off"
-  # Optional
-  to: "on"
-  # "on" for 2 seconds
-  for: "00:00:02"
-
+    Write a short, natural-sounding description of what is happening around the house in Portuguese (Portugal). 
+    Analyse the image to describe what is happening suitable for a smart home notification. 
+    If a person is seen in any of the images then describe them, where they are located and their actions. 
+    Keep the response succinct and under 100 tokens.
+triggers:
+  - entity_id:
+      - binary_sensor.dvr_camera_frente_motion_alarm
+    from: "off"
+    to: "on"
+    for: "00:00:02"
+    trigger: state
 condition:
   - condition: or
     conditions:
@@ -37,42 +32,36 @@ condition:
         entity_id: alarm_control_panel.ajax_security_system
         state: armed_home
 
-action:
-  - action: camera.snapshot
-    data:
-      filename: >-
-        /config/www/doorbell/{{ expand(trigger_entity)[0].last_changed |
-        as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
-    target:
-      entity_id: "{{doorbell_cam}}"
+actions:
   - action: llmvision.image_analyzer
     data:
-      remember: false
+      remember: true
+      use_memory: false
       include_filename: false
       target_width: 1280
       max_tokens: 100
       temperature: 0.2
-      expose_images: false
-      image_file: >-
-        /config/www/doorbell/{{ expand(trigger_entity)[0].last_changed |
-        as_timestamp  | timestamp_custom("%Y-%m-%d_%H-%M-%S-%f") }}.jpg
+      generate_title: "{{generate_title}}"
+      expose_images: true
+      image_entity: 
+        - "{{camera_entity}}"
       provider: 01JFTMMBPD3Y5F42RRWGGZ8W73
       message: "{{llm_prompt}}"
       model: "{{ llm_model }}"
     response_variable: llm_response
-  - service: notify.ha_mobile_apps
-    data:
-      title: "{{ notification_title }}"
-      message: "{{llm_response.response_text}}"
+  - data:
+      title: "{{ llm_response.title if llm_response.title is defined and llm_response.title != none else default_title }}"
+      message: "{{ llm_response.response_text }}"
       data:
-        tag: "{{ notification_title }}"
+        title: "{{ llm_response.title if llm_response.title is defined and llm_response.title != none else default_title }}"
         persistent: "{{ persistent_notification }}"
-        image: "{{ image_file }}"
+        image: "{{ llm_response.key_frame.replace('/config/www', '/local') }}"
         ttl: 0
         priority: high
         actions:
-          - action: "URI"
-            title: "Open Camera"
-            uri: "app://com.mm.android.DMSS"
+          - action: URI
+            title: Open Camera
+            uri: app://com.mm.android.DMSS
+    action: notify.ha_mobile_apps
   - delay:
       minutes: 3
