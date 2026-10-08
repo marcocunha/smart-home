@@ -2,13 +2,13 @@ id: set_anyone_home_on
 alias: Anyone at home ON
 description: "Set anyone_home to on when anyone is at home"
 mode: single
-trigger:
-  - platform: state
+triggers:
+  - trigger: state
     entity_id:
       - person.darlene_parreira
       - person.marco_cunha
     to: home
-condition:
+conditions:
   - condition: or
     conditions:
       - condition: state
@@ -17,8 +17,7 @@ condition:
       - condition: state
         entity_id: person.darlene_parreira
         state: home
-action:
-  - service: input_boolean.turn_on
-    data: {}
+actions:
+  - action: input_boolean.turn_on
     target:
       entity_id: input_boolean.anyone_home

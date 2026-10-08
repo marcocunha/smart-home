@@ -2,13 +2,13 @@ id: set_anyone_home_off
 alias: Anyone at home OFF
 description: "Set anyone_home to OFF when both are not at home"
 mode: single
-trigger:
-  - platform: state
+triggers:
+  - trigger: state
     entity_id:
       - person.marco_cunha
       - person.darlene_parreira
     to: not_home
-condition:
+conditions:
   - condition: and
     conditions:
       - condition: state
@@ -17,8 +17,7 @@ condition:
       - condition: state
         entity_id: person.darlene_parreira
         state: not_home
-action:
-  - service: input_boolean.turn_off
-    data: {}
+actions:
+  - action: input_boolean.turn_off
     target:
       entity_id: input_boolean.anyone_home

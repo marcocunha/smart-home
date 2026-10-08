@@ -2,19 +2,16 @@ id: clear_force_hot_water_helpers
 alias: Clear Force Hot Water Helpers
 mode: single
 description: Clears Force Hot Water Helpers
-trigger:
-  - platform: time
+triggers:
+  - trigger: time
     at:
       - "00:00:00"
       - "10:00:00"
       - "20:00:00"
-condition: []
-action:
+actions:
   - action: input_boolean.turn_off
-    data: {}
     target:
       entity_id: input_boolean.force_hot_water_off
   - action: input_boolean.turn_off
-    data: {}
     target:
       entity_id: input_boolean.force_hot_water_on
