@@ -2,14 +2,6 @@
 ## Input Boolean  ##
 ##############################################################
 
-both_home:
-  name: Both at home
-  icon: mdi:home
-
-anyone_home:
-  name: Anyone at home
-  icon: mdi:home
-
 guest_mode:
   name: Guest Mode
   icon: mdi:account-group
