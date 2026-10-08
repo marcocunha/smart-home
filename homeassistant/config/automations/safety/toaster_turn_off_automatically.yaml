@@ -6,13 +6,8 @@ variables:
   notification_title: Torradeira desligada
   persistent_notification: false
 triggers:
-  - trigger: state
-    entity_id:
-      - switch.torradeira_plug
-    to: "on"
-    for: "00:10:00"
   - trigger: time_pattern
-    minutes: /10
+    minutes: /1
 conditions:
   - condition: state
     entity_id: switch.torradeira_plug
