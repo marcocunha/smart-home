@@ -4,7 +4,6 @@ mode: restart
 max_exceeded: silent
 variables:
   notification_title: Garagem Aberta
-  persistent_notification: true
 triggers:
   - trigger: state
     entity_id:
@@ -59,7 +58,6 @@ actions:
       message: Garagem aberta. Pretendes fechar?
       data:
         tag: "{{ notification_title }}"
-        persistent: "{{ persistent_notification }}"
         ttl: 0
         priority: high
         actions:
@@ -73,6 +71,9 @@ actions:
         event_type: mobile_app_notification_action
         event_data:
           action: "{{ action_close }}"
+      - trigger: state
+        entity_id: binary_sensor.sensor_garage_door_contact
+        to: "off"
     timeout:
       minutes: 20
     continue_on_timeout: false

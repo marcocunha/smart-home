@@ -1,0 +1,14 @@
+id: clear_notification_garage_door_closed
+alias: Clear garage door notification when closed
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.sensor_garage_door_contact
+    from: "on"
+    to: "off"
+actions:
+  - action: notify.ha_mobile_apps
+    data:
+      message: clear_notification
+      data:
+        tag: Garagem Aberta
