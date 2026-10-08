@@ -6,8 +6,8 @@ variables:
   notification_title: Humidade WC Serviço
   persistent_notification: false
   send_notification: false
-trigger:
-  - platform: template
+triggers:
+  - trigger: template
     value_template: >-
       {{ states('sensor.sensor_temperature_humidity_wc_servico_humidity') | float(0) <
       states('input_number.bathroom_max_humidity_percentage') | float(0) }}
@@ -15,9 +15,9 @@ trigger:
       hours: 0
       minutes: 10
       seconds: 0
-  - platform: time_pattern
+  - trigger: time_pattern
     minutes: /20
-condition:
+conditions:
   - alias: "DND is enabled or the humidity is at a normal level"
     or:
       - condition: state
@@ -32,7 +32,7 @@ condition:
         - condition: state
           entity_id: fan.multiswitch_wc_guests_center
           state: "on"
-action:
+actions:
   - alias: Set up variables for the actions
     variables:
       action_ack: "{{ 'ACK_' ~ context.id }}"
@@ -40,7 +40,7 @@ action:
   - if: "{{ send_notification == true }}"
     then:
       - alias: Send notification
-        service: notify.ha_mobile_apps
+        action: notify.ha_mobile_apps
         data:
           title: "{{ notification_title }}"
           message: "{{ message }}"
@@ -50,6 +50,6 @@ action:
             ttl: 0
             priority: high
   - alias: Perform the action
-    service: fan.turn_off
+    action: fan.turn_off
     target:
       entity_id: fan.multiswitch_wc_guests_center
