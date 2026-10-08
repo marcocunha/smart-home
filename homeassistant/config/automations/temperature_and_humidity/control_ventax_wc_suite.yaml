@@ -1,0 +1,86 @@
+id: control_ventax_wc_suite
+alias: Control ventax based on humidity of WC Suite
+description: >-
+  Turns the ventax on when the humidity stays at or above the maximum and off
+  when it stays below it, or when Do Not Disturb is on.
+mode: restart
+max_exceeded: silent
+variables:
+  notification_title: Humidade WC Suite
+  persistent_notification: false
+  send_notification: false
+triggers:
+  # A template, not numeric_state, because the sensor reports whole numbers
+  # and the maximum is often hit exactly (80 == 80), which "above" would miss.
+  - trigger: template
+    value_template: >-
+      {{ states('sensor.sensor_temperature_humidity_wc_suite_humidity') | float(0) >=
+      states('input_number.bathroom_max_humidity_percentage') | float(0) }}
+    for: "00:05:00"
+  - trigger: numeric_state
+    entity_id: sensor.sensor_temperature_humidity_wc_suite_humidity
+    below: input_number.bathroom_max_humidity_percentage
+    for: "00:10:00"
+  - trigger: time_pattern
+    minutes: /20
+actions:
+  - choose:
+      - alias: Humidity is high and the ventax is off
+        conditions:
+          - condition: template
+            value_template: >-
+              {{ states('sensor.sensor_temperature_humidity_wc_suite_humidity') | float(0) >=
+              states('input_number.bathroom_max_humidity_percentage') | float(0) }}
+          - condition: state
+            entity_id: fan.multiswitch_wc_suite_ventax
+            state: "off"
+          - condition: state
+            entity_id: schedule.dnd_schedule
+            state: "off"
+        sequence:
+          - action: fan.turn_on
+            target:
+              entity_id: fan.multiswitch_wc_suite_ventax
+          - if: "{{ send_notification }}"
+            then:
+              - alias: Send notification
+                action: notify.ha_mobile_apps
+                data:
+                  title: "{{ notification_title }}"
+                  message: "Humidade na WC Suite demasiado alta: {{ states('sensor.sensor_temperature_humidity_wc_suite_humidity') }}%. Ventilação ligada."
+                  data:
+                    tag: "{{ notification_title }}"
+                    persistent: "{{ persistent_notification }}"
+                    ttl: 0
+                    priority: high
+      - alias: Humidity is normal or DND is on, and the ventax is on
+        conditions:
+          - condition: state
+            entity_id: fan.multiswitch_wc_suite_ventax
+            state: "on"
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: schedule.dnd_schedule
+                state: "on"
+                alias: DND is enabled
+              - condition: numeric_state
+                entity_id: sensor.sensor_temperature_humidity_wc_suite_humidity
+                below: input_number.bathroom_max_humidity_percentage
+                alias: Humidity is at a normal level
+        sequence:
+          - action: fan.turn_off
+            target:
+              entity_id: fan.multiswitch_wc_suite_ventax
+          - if: "{{ send_notification }}"
+            then:
+              - alias: Send notification
+                action: notify.ha_mobile_apps
+                data:
+                  title: "{{ notification_title }}"
+                  message: "Humidade na WC Suite normal: {{ states('sensor.sensor_temperature_humidity_wc_suite_humidity') }}%. Ventilação desligada."
+                  data:
+                    tag: "{{ notification_title }}"
+                    persistent: "{{ persistent_notification }}"
+                    ttl: 0
+                    priority: high

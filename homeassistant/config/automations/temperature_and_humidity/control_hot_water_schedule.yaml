@@ -2,20 +2,15 @@ id: control_hot_water_schedule
 alias: Control hot water based on schedule and solar energy production
 description: Control hot water based on schedule and solar energy production
 mode: single
-trigger:
-  - platform: state
+triggers:
+  - trigger: state
     entity_id:
       - schedule.hotwater_schedule
-  - platform: state
-    entity_id:
       - input_boolean.force_hot_water_off
-  - platform: state
-    entity_id:
       - input_boolean.force_hot_water_on
-  - platform: time_pattern
+  - trigger: time_pattern
     minutes: /15
-condition: []
-action:
+actions:
   - choose:
       # Force the hot water to be switched off
       - conditions:
@@ -24,8 +19,7 @@ action:
             entity_id: input_boolean.force_hot_water_off
             state: "on"
         sequence:
-          - service: switch.turn_off
-            data: {}
+          - action: switch.turn_off
             target:
               entity_id: switch.resistencia_termoacumulador_switch_0
       # Force the hot water to be switched on
@@ -35,8 +29,7 @@ action:
             entity_id: input_boolean.force_hot_water_on
             state: "on"
         sequence:
-          - service: switch.turn_on
-            data: {}
+          - action: switch.turn_on
             target:
               entity_id: switch.resistencia_termoacumulador_switch_0
       # Conditions to turn on
@@ -48,18 +41,16 @@ action:
                 entity_id: schedule.hotwater_schedule
                 state: "on"
                 alias: "Hot Water schedule is ON"
-              - condition: template
-                value_template: |-
-                  {{ states('sensor.energy_consumption_mean_over_last_10_minutes')|float < -2000 }}
+              - condition: numeric_state
+                entity_id: sensor.energy_consumption_mean_over_last_10_minutes
+                below: -2000
                 alias: "We have energy excess"
-          - condition: template
-            value_template: |-
-              {{ states('sensor.hot_water_temperature')|float(0) <
-                    states('input_number.desired_hot_water_temperature')|float(0) }}
+          - condition: numeric_state
+            entity_id: sensor.hot_water_temperature
+            below: input_number.desired_hot_water_temperature
             alias: "Current temperature lower than desired temperature"
         sequence:
-          - service: switch.turn_on
-            data: {}
+          - action: switch.turn_on
             target:
               entity_id: switch.resistencia_termoacumulador_switch_0
       # Conditions to turn off
@@ -71,13 +62,13 @@ action:
                 entity_id: schedule.hotwater_schedule
                 state: "off"
                 alias: "Hot Water schedule is OFF"
-              - condition: template
-                value_template: |-
-                  {{ states('sensor.hot_water_temperature')|float(0) >=
-                        states('input_number.desired_hot_water_temperature')|float(0) }}
+              - condition: not
                 alias: "Actual temperature higher than desired temperature"
+                conditions:
+                  - condition: numeric_state
+                    entity_id: sensor.hot_water_temperature
+                    below: input_number.desired_hot_water_temperature
         sequence:
-          - service: switch.turn_off
-            data: {}
+          - action: switch.turn_off
             target:
               entity_id: switch.resistencia_termoacumulador_switch_0

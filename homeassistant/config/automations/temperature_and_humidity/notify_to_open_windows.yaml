@@ -1,21 +1,21 @@
 id: notify_to_open_windows
 alias: Notify to open windows when outside is cooler than inside (per area, with tolerance)
 mode: single
-trigger:
-  - platform: time_pattern
+max_exceeded: silent
+triggers:
+  - trigger: time_pattern
     hours: "/1"
 conditions:
   - condition: state
     entity_id: binary_sensor.anyone_home
-    state:
-      - "on"
+    state: "on"
   - condition: time
     after: "09:00:00"
-  - condition: time
     before: "20:00:00"
 variables:
   outdoor_sensor: sensor.openweathermap_temperature
   tolerance: 2
+  cooldown_hours: 3
   areas:
     - name: Living Room
       indoor_sensor: sensor.sensor_temperature_humidity_sala_temperature
@@ -25,25 +25,33 @@ variables:
       message: "Está mais fresco na rua do que no quarto. Considera abrir a janela"
   notification_title: 🌡️ Sugestão para abrir a janela
   persistent_notification: false
-action:
+actions:
   - variables:
       outdoor: "{{ states(outdoor_sensor) | float(99) }}"
+      # An unavailable indoor sensor must read as "not cooler outside", hence 0
+      areas_to_notify: >-
+        {% set ns = namespace(items=[]) %}
+        {% for area in areas %}
+          {% if (states(area.indoor_sensor) | float(0)) - outdoor > tolerance %}
+            {% set ns.items = ns.items + [area] %}
+          {% endif %}
+        {% endfor %}
+        {{ ns.items }}
   - repeat:
-      for_each: "{{ areas }}"
+      for_each: "{{ areas_to_notify }}"
       sequence:
-        - variables:
-            indoor: "{{ states(repeat.item.indoor_sensor) | float(99) }}"
-            difference: "{{ indoor - outdoor }}"
-        - if: "{{ difference > tolerance }}"
-          then:
-            - alias: Send notification
-              service: notify.ha_mobile_apps
-              data:
-                title: "{{ notification_title }}"
-                message: >
-                  {{ repeat.item.message }}
-                data:
-                  tag: "{{ notification_title }}"
-                  persistent: "{{ persistent_notification }}"
-                  ttl: 0
-                  priority: high
+        - alias: Send notification
+          action: notify.ha_mobile_apps
+          data:
+            title: "{{ notification_title }}"
+            message: "{{ repeat.item.message }}"
+            data:
+              tag: "{{ notification_title }}"
+              persistent: "{{ persistent_notification }}"
+              ttl: 0
+              priority: high
+  - alias: Wait before suggesting again
+    if: "{{ areas_to_notify | length > 0 }}"
+    then:
+      - delay:
+          hours: "{{ cooldown_hours }}"
