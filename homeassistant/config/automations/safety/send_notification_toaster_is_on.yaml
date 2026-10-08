@@ -3,33 +3,28 @@ alias: Send notification if toaster is on
 mode: restart
 max_exceeded: silent
 variables:
-  notify_device: notify.ha_mobile_apps
-  trigger_entity: switch.torradeira_plug
   notification_title: Torradeira ligada
   persistent_notification: true
-trigger:
-  - platform: state
+triggers:
+  - trigger: state
     entity_id:
       - switch.torradeira_plug
     to: "on"
     for: "00:05:00"
-  - platform: time_pattern
+  - trigger: time_pattern
     minutes: /5
-condition:
+conditions:
   - condition: state
     entity_id: switch.torradeira_plug
     state: "on"
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-action:
+  - "{{ state_attr('input_datetime.toaster_on_since', 'timestamp') is not none and now().timestamp() - state_attr('input_datetime.toaster_on_since', 'timestamp') >= 300 }}"
+actions:
   - alias: Set up variables for the actions
     variables:
       action_turnoff: "{{ 'TURN_OFF_' ~ context.id }}"
       action_ignore: "{{ 'IGNORE_' ~ context.id }}"
   - alias: Ask to turn off the toaster
-    service: notify.ha_mobile_apps
+    action: notify.ha_mobile_apps
     data:
       title: "{{ notification_title }}"
       message: Torradeira ligada por mais de 5 minutos. Pretende desligar?
@@ -43,21 +38,16 @@ action:
             title: Desligar
           - action: "{{ action_ignore }}"
             title: Ignorar
-  - alias: Wait for a response
+  - alias: Wait for the answer
     wait_for_trigger:
-      - platform: event
+      - trigger: event
         event_type: mobile_app_notification_action
         event_data:
           action: "{{ action_turnoff }}"
-      - platform: event
-        event_type: mobile_app_notification_action
-        event_data:
-          action: "{{ action_ignore }}"
-  - alias: Perform the action
-    choose:
-      - conditions: "{{ wait.trigger.event.data.action == action_turnoff }}"
-        sequence:
-          - service: switch.turn_off
-            data: {}
-            target:
-              entity_id: switch.torradeira_plug
+    timeout:
+      minutes: 5
+    continue_on_timeout: false
+  - alias: Turn off the toaster
+    action: switch.turn_off
+    target:
+      entity_id: switch.torradeira_plug

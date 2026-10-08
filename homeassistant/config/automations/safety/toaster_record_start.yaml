@@ -1,0 +1,18 @@
+id: toaster_record_start
+alias: Record when the toaster was turned on
+description: >-
+  Stamps the moment the toaster is turned on. The notify and auto-off
+  automations measure elapsed time from it, because "for:" and last_changed
+  restart from zero on every Home Assistant restart.
+mode: single
+triggers:
+  - trigger: state
+    entity_id: switch.torradeira_plug
+    from: "off"
+    to: "on"
+actions:
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.toaster_on_since
+    data:
+      timestamp: "{{ now().timestamp() }}"
