@@ -7,7 +7,6 @@ use_blueprint:
     time: '20:00:00'
     hours: 12
     actions:
-    - service: notify.marco
-      metadata: {}
+    - action: notify.marco
       data:
         message: 'These Zigbee devices might be offline: {{sensors}}'
