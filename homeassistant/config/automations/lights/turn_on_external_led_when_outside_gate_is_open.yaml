@@ -1,19 +1,19 @@
 id: turn_on_external_led_when_outside_gate_is_open
 alias: Turn on external LED when outside gate is open
 mode: single
-trigger:
-  - platform: state
+triggers:
+  - trigger: state
     entity_id:
       - binary_sensor.bthome_sensor_9d55_window
     from: null
     to: "on"
     alias: "Outside gate opened"
-condition:
+conditions:
   - condition: sun
     after: sunset
     before: sunrise
-action:
-  - service: script.turn_on
+actions:
+  - action: script.turn_on
     target:
       entity_id: script.turn_on_exterior_led
     data:

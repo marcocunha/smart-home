@@ -1,14 +1,14 @@
 id: delete_cameras_snapshots
 alias: Delete snapshot cameras
-trigger:
-  - platform: homeassistant
+triggers:
+  - trigger: homeassistant
     event: start
-  - platform: time_pattern
+  - trigger: time_pattern
     hours: "7"
     minutes: "0"
     seconds: "0"
-action:
-  - service: delete.files_in_folder
+actions:
+  - action: delete.files_in_folder
     data:
       folder: "/config/www/doorbell/"
       time: 604800 # older than a week

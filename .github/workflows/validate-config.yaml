@@ -1,0 +1,36 @@
+name: Validate Home Assistant config
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "homeassistant/config/**"
+      - ".yamllint.yaml"
+      - ".github/workflows/validate-config.yaml"
+
+permissions:
+  contents: read
+
+jobs:
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install yamllint
+      - run: yamllint --strict homeassistant/config .github
+
+  check-config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use example secrets
+        run: cp homeassistant/config/secrets.example.yaml homeassistant/config/secrets.yaml
+
+      - name: Run Home Assistant check_config
+        run: |
+          version=$(cat homeassistant/config/.HA_VERSION)
+          docker run --rm \
+            -v "$PWD/homeassistant/config:/config" \
+            "ghcr.io/home-assistant/home-assistant:${version}" \
+            python -m homeassistant --script check_config --config /config

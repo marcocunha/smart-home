@@ -4,14 +4,14 @@ mode: single
 max_exceeded: silent
 variables:
   camera: frente
-trigger:
-  - platform: mqtt
+triggers:
+  - trigger: mqtt
     topic: frigate/events
     payload: frente/new
     value_template: >-
       {{ value_json['after']['camera'] | lower | replace('-','_') }}/{{
       value_json['type']}}
-condition:
+conditions:
   - condition: or
     alias: It must be a person or a car detected
     conditions:
@@ -24,7 +24,7 @@ condition:
   - condition: template
     value_template: "{{ trigger.payload_json['after']['entered_zones']|length > 0 }}"
     alias: Must entered a zone, otherwise ignore it
-action:
-  - service: script.turn_on_exterior_led
+actions:
+  - action: script.turn_on_exterior_led
     data:
       duration: 10

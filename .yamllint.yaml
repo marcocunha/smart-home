@@ -1,0 +1,9 @@
+# Validity only: YAML syntax errors and duplicate keys. Style rules are off so the
+# check does not fail on formatting in files a PR does not touch.
+ignore: |
+  homeassistant/config/ui_lovelace_minimalist/
+  homeassistant/config/custom_components/
+  docs/
+
+rules:
+  key-duplicates: enable
