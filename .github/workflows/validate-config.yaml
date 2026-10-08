@@ -6,7 +6,6 @@ on:
     paths:
       - "homeassistant/config/**"
       - ".yamllint.yaml"
-      - ".github/ci/**"
       - ".github/workflows/validate-config.yaml"
 
 permissions:
@@ -25,8 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use placeholder secrets
-        run: cp .github/ci/secrets.yaml homeassistant/config/secrets.yaml
+      - name: Use example secrets
+        run: cp homeassistant/config/secrets.example.yaml homeassistant/config/secrets.yaml
 
       - name: Run Home Assistant check_config
         run: |
