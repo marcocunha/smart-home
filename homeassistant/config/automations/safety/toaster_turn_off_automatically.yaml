@@ -7,15 +7,15 @@ variables:
   trigger_entity: switch.torradeira_plug
   notification_title: Torradeira desligada
   persistent_notification: false
-trigger:
-  - platform: state
+triggers:
+  - trigger: state
     entity_id:
       - switch.torradeira_plug
     to: "on"
     for: "00:10:00"
-  - platform: time_pattern
+  - trigger: time_pattern
     minutes: /10
-condition:
+conditions:
   - condition: state
     entity_id: switch.torradeira_plug
     state: "on"
@@ -23,13 +23,12 @@ condition:
       hours: 0
       minutes: 10
       seconds: 0
-action:
-  - service: switch.turn_off
-    data: {}
+actions:
+  - action: switch.turn_off
     target:
       entity_id: switch.torradeira_plug
   - alias: Notify toaster is off
-    service: notify.ha_mobile_apps
+    action: notify.ha_mobile_apps
     data:
       title: "{{ notification_title }}"
       message: Torradeira desligada automaticamente.

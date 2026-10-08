@@ -7,8 +7,8 @@ variables:
   trigger_entity: binary_sensor.sensor_garage_door_contact
   notification_title: Garagem Aberta
   persistent_notification: true
-trigger:
-  - platform: state
+triggers:
+  - trigger: state
     entity_id:
       - binary_sensor.sensor_garage_door_contact
     # Optional
@@ -16,15 +16,15 @@ trigger:
     # "on" for 15 minutes
     for: "00:15:00"
     #every 5 minutes
-  - platform: time_pattern
+  - trigger: time_pattern
     minutes: /20
     #whenever the alarm is armed
-  - platform: state
+  - trigger: state
     entity_id:
       - alarm_control_panel.ajax_security_system
     # Optional
     to: "armed_home"
-condition:
+conditions:
   - condition: or
     conditions:
       - condition: state
@@ -49,13 +49,13 @@ condition:
             - condition: state
               entity_id: alarm_control_panel.ajax_security_system
               state: armed_home
-action:
+actions:
   - alias: Set up variables for the actions
     variables:
       action_close: "{{ 'CLOSE_GARAGE_' ~ context.id }}"
       action_ignore: "{{ 'IGNORE_' ~ context.id }}"
   - alias: Ask to close the garage door
-    service: notify.ha_mobile_apps
+    action: notify.ha_mobile_apps
     data:
       title: "{{ notification_title }}"
       message: Garagem aberta. Pretendes fechar?
@@ -71,11 +71,11 @@ action:
             title: Ignorar
   - alias: Wait for a response
     wait_for_trigger:
-      - platform: event
+      - trigger: event
         event_type: mobile_app_notification_action
         event_data:
           action: "{{ action_close }}"
-      - platform: event
+      - trigger: event
         event_type: mobile_app_notification_action
         event_data:
           action: "{{ action_ignore }}"
@@ -83,5 +83,4 @@ action:
     choose:
       - conditions: "{{ (wait.trigger.event.data.action == action_close) and (is_state('binary_sensor.sensor_garage_door_contact', 'on')) }}"
         sequence:
-          - service: script.garage
-            data: {}
+          - action: script.garage
