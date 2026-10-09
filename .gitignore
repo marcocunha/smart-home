@@ -54,3 +54,5 @@ homeassistant/config/custom_components/
 homeassistant/config/www/community/
 homeassistant/config/.cache/
 mariadb_backup/
+homeassistant/config/dahua-pre-merge-backup-20261009-215914/
+homeassistant/media/llmvision/alerts/
