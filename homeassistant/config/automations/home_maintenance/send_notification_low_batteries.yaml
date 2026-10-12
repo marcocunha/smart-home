@@ -11,6 +11,6 @@ use_blueprint:
     friday_enabled: false
     saturday_enabled: false
     actions:
-      - action: notify.mobile_app_samsung_s22
+      - action: notify.mobile_app_xiaomi_17
         data:
           message: Sensor batteries are low {{sensors}}

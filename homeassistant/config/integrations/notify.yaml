@@ -10,7 +10,7 @@ notify:
   - name: marco
     platform: group
     services:
-      - service: mobile_app_samsung_s22
+      - service: mobile_app_xiaomi_17
   - name: darlene
     platform: group
     services:
@@ -18,7 +18,7 @@ notify:
   - name: ha_mobile_apps
     platform: group
     services:
-      - service: "mobile_app_samsung_s22"
+      - service: "mobile_app_xiaomi_17"
       - service: "mobile_app_pocof7"
   - name: all
     platform: group
