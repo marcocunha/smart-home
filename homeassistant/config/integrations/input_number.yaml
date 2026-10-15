@@ -7,7 +7,14 @@
 input_number:
   swimming_pool_minimum_duration_h:
     name: Swimming Pool Pump Minimum Duration in h
-    initial: !secret CONST_SWIMMING_POOL_MINIMUM_DURARTION_HOURS
+    initial: !secret CONST_SWIMMING_POOL_MINIMUM_DURATION_HOURS
+    min: 0
+    max: 99
+    step: 1
+    mode: box
+  swimming_pool_maximum_duration_h:
+    name: Swimming Pool Pump Maximum Duration in h
+    initial: !secret CONST_SWIMMING_POOL_MAXIMUM_DURATION_HOURS
     min: 0
     max: 99
     step: 1
