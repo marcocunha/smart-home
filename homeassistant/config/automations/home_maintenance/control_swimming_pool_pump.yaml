@@ -1,34 +1,69 @@
 id: control_swimming_pool_pump
 alias: Control swimming pool pump
 description: >-
-  The schedule always has priority: while it is ON the pump runs. While it is
-  OFF the pump only runs on surplus energy production (after 08:00) and stops
-  when the production is no longer enough.
+  The pump runs between a minimum and a maximum number of hours per day. If the
+  minimum was not reached by 14:00 the pump is forced on regardless of the
+  energy production. Above the minimum it only runs on surplus energy
+  production (after 08:00) and stops when the production is no longer enough.
+  Once the maximum is reached the pump is always turned off.
 mode: single
 max_exceeded: silent
 variables:
   send_notification: false
   notification_title: Bomba da Piscina
   persistent_notification: false
+  min_h: "{{ states('input_number.swimming_pool_minimum_duration_h') | float(0) }}"
+  max_h: "{{ states('input_number.swimming_pool_maximum_duration_h') | float(0) }}"
+  ran_h: "{{ states('sensor.swimming_pool_pump_on_today') | float(0) }}"
 triggers:
-  - trigger: state
-    entity_id: schedule.swimming_pool_pump_schedule
   - trigger: numeric_state
     entity_id: sensor.energy_consumption_mean_over_last_10_minutes
     above: -300
     alias: Not enough energy to have the swimming pool pump working
+  - trigger: numeric_state
+    entity_id: sensor.swimming_pool_pump_on_today
+    above: input_number.swimming_pool_maximum_duration_h
+    alias: Maximum daily duration reached
+  - trigger: time
+    at: "14:00:00"
+    alias: Minimum daily duration catch-up
   - trigger: time_pattern
     minutes: /10
 actions:
   - choose:
-      - alias: Schedule is ON, pump must run
+      - alias: Maximum daily duration reached
         conditions:
           - condition: state
-            entity_id: schedule.swimming_pool_pump_schedule
+            entity_id: switch.bomba_piscina_switch_0
             state: "on"
+          - condition: template
+            value_template: "{{ ran_h >= max_h }}"
+        sequence:
+          - alias: Turn off pump
+            action: switch.turn_off
+            target:
+              entity_id: switch.bomba_piscina_switch_0
+          - if: "{{ send_notification }}"
+            then:
+              - alias: Inform swimming pool pump was turned off due to the daily maximum
+                action: notify.ha_mobile_apps
+                data:
+                  title: "{{ notification_title }}"
+                  message: Bomba da piscina desligada (máximo diário atingido)
+                  data:
+                    tag: "{{ notification_title }}"
+                    persistent: "{{ persistent_notification }}"
+                    ttl: 0
+                    priority: high
+      - alias: Minimum daily duration not reached after 14:00
+        conditions:
           - condition: state
             entity_id: switch.bomba_piscina_switch_0
             state: "off"
+          - condition: template
+            value_template: "{{ ran_h < min_h }}"
+          - condition: time
+            after: "14:00:00"
         sequence:
           - alias: Turn on pump
             action: switch.turn_on
@@ -36,30 +71,29 @@ actions:
               entity_id: switch.bomba_piscina_switch_0
           - if: "{{ send_notification }}"
             then:
-              - alias: Inform swimming pool pump was turned on by the schedule
+              - alias: Inform swimming pool pump was turned on to reach the daily minimum
                 action: notify.ha_mobile_apps
                 data:
                   title: "{{ notification_title }}"
-                  message: Bomba da piscina ligada (horário)
+                  message: Bomba da piscina ligada (garantir mínimo diário)
                   data:
                     tag: "{{ notification_title }}"
                     persistent: "{{ persistent_notification }}"
                     ttl: 0
                     priority: high
-      - alias: Schedule is OFF and there is surplus energy
+      - alias: Surplus energy and below the daily maximum
         conditions:
-          - condition: state
-            entity_id: schedule.swimming_pool_pump_schedule
-            state: "off"
           - condition: state
             entity_id: switch.bomba_piscina_switch_0
             state: "off"
+          - condition: template
+            value_template: "{{ ran_h < max_h }}"
+          - condition: time
+            after: "08:00:00"
           - condition: numeric_state
             entity_id: sensor.average_consumption_inc_pool_pump
             below: -150
             alias: Enough energy to have the swimming pool pump working
-          - condition: time
-            after: "08:00:00"
         sequence:
           - alias: Turn on pump
             action: switch.turn_on
@@ -77,11 +111,8 @@ actions:
                     persistent: "{{ persistent_notification }}"
                     ttl: 0
                     priority: high
-      - alias: Schedule is OFF and energy is not enough
+      - alias: Energy is not enough and the minimum is not being forced
         conditions:
-          - condition: state
-            entity_id: schedule.swimming_pool_pump_schedule
-            state: "off"
           - condition: state
             entity_id: switch.bomba_piscina_switch_0
             state: "on"
@@ -89,6 +120,8 @@ actions:
             entity_id: sensor.energy_consumption_mean_over_last_10_minutes
             above: -150
             alias: Not enough power for the swimming pool pump
+          - condition: template
+            value_template: "{{ not (ran_h < min_h and now().hour >= 14) }}"
         sequence:
           - alias: Turn off pump
             action: switch.turn_off
