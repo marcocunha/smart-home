@@ -143,12 +143,10 @@ cards:
                   - type: gauge
                     entity: sensor.sun_solar_elevation
                     needle: false
-                    theme: ios-dark-mode-blue-red
                     name: Elevação Sol
                   - type: gauge
                     entity: sensor.sensor_presence_office_illuminance
                     unit: lx
-                    theme: ios-dark-mode-blue-red-alternative
                     needle: false
                     name: Iluminação
                     max: 10
@@ -462,7 +460,6 @@ cards:
     1_name: Cameras
     1_icon: mdi:cctv
     1_link: "#tablet-cameras"
-    1_entity: light.kitchen
     2_name: Rosita
     2_icon: mdi:robot-vacuum
     2_link: "#vacuum-popup"

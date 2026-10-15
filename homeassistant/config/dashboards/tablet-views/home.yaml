@@ -394,7 +394,6 @@ cards:
         1_name: Cameras
         1_icon: mdi:cctv
         1_link: "#tablet-cameras"
-        1_entity: light.kitchen
         2_name: Rosita
         2_icon: mdi:robot-vacuum
         2_link: "#vacuum-popup"

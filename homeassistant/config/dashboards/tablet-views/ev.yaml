@@ -352,7 +352,6 @@ cards:
           - id: ct8dww7
             name: Vehicle Image
             image_type: entity
-            image_entity: image.volvo_volvo_c40_exterior_front_driver
             image_width: 50
             priority: 0
         image_priority_mode: order
