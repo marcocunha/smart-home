@@ -12,6 +12,10 @@ triggers:
     options:
       event_type:
         - ring
+conditions:
+  - condition: state
+    entity_id: binary_sensor.anyone_home
+    state: "on"
 actions:
   - alias: Forget who answered the previous ring
     action: input_text.set_value

@@ -37,7 +37,8 @@ views:
               - type: button
                 name: Abrir portão
                 icon: mdi:gate-open
-                show_state: false
+                entity: cover.portao_exterior
+                show_state: true
                 tap_action:
                   action: perform-action
                   perform_action: cover.toggle

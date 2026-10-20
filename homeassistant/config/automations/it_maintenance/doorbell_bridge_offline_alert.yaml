@@ -14,6 +14,6 @@ actions:
   - action: notify.marco
     data:
       title: Campainha offline
-      message: A ponte da campainha WelcomeEye está desligada há mais de 15 minutos.
+      message: A ligação da campainha WelcomeEye está desligada há mais de 15 minutos.
       data:
         tag: doorbell_bridge_offline
