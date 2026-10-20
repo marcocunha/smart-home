@@ -1,0 +1,11 @@
+#
+# Doorbell
+#
+# Kiosk tablet that answered the current ring. Empty when nobody answered through a tablet
+# (not rung yet, or answered on the Philips wall unit or phone app).
+#
+input_text:
+  doorbell_answered_by:
+    name: Doorbell answered by
+    icon: mdi:tablet
+    max: 50

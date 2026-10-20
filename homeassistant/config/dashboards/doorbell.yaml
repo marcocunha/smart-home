@@ -1,0 +1,54 @@
+title: Doorbell
+views:
+  - title: Campainha
+    path: samsung_tab_s_10_5
+    type: panel
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: switch.welcomeeye_doorbell_camera_stream
+                state: "on"
+            card:
+              type: custom:webrtc-camera
+              url: rtsp://192.168.1.242:8554/doorbell
+              server: http://192.168.1.242:1984/
+              ui: true
+              media: video,audio
+              muted: false
+              background: false
+              mode: webrtc,mse,hls,mjpeg
+              style: >-
+                video {object-fit: fill;} .screenshot {display: none}
+                .pictureinpicture {display: none}
+          - type: horizontal-stack
+            cards:
+              - type: button
+                name: Atender
+                icon: mdi:phone
+                show_state: false
+                tap_action:
+                  action: perform-action
+                  perform_action: script.doorbell_answer
+                  data:
+                    tablet: samsung_tab_s_10_5
+              - type: button
+                name: Abrir portão
+                icon: mdi:gate-open
+                show_state: false
+                tap_action:
+                  action: perform-action
+                  perform_action: cover.toggle
+                  target:
+                    entity_id: cover.portao_exterior
+              - type: button
+                name: Terminar
+                icon: mdi:phone-hangup
+                show_state: false
+                tap_action:
+                  action: perform-action
+                  perform_action: script.doorbell_hangup
+                  data:
+                    tablet: samsung_tab_s_10_5
