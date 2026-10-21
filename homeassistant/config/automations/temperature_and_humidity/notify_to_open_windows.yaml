@@ -35,13 +35,15 @@ variables:
 actions:
   - variables:
       outdoor: "{{ states(outdoor_sensor) | float(99) }}"
-      # An unavailable indoor sensor must read as "not cooler outside", hence 0
+      # An unavailable indoor sensor must read as "not cooler outside", hence 0.
+      # An area whose window sensors are all unavailable has an unknown window state: skip it
       areas_to_notify: >-
         {% set ns = namespace(items=[]) %}
         {% for area in areas %}
           {% set indoor = states(area.indoor_sensor) | float(0) %}
           {% if indoor > comfort_temperature
               and indoor - outdoor > tolerance
+              and (area.windows | reject('is_state', ['unavailable', 'unknown']) | list | length) > 0
               and (area.windows | select('is_state', 'on') | list | length) == 0 %}
             {% set ns.items = ns.items + [area] %}
           {% endif %}
