@@ -18,7 +18,7 @@ cards:
                 use_entity_picture: true
                 content_info: state
               - type: alarm-control-panel
-                entity: alarm_control_panel.ajax_security_system
+                entity: alarm_control_panel.casa
           - type: custom:mushroom-chips-card
             chips:
               - type: entity

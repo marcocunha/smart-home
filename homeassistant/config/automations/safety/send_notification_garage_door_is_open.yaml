@@ -18,9 +18,9 @@ triggers:
     #whenever the alarm is armed
   - trigger: state
     entity_id:
-      - alarm_control_panel.ajax_security_system
+      - alarm_control_panel.casa
     # Optional
-    to: "armed_home"
+    to: "armed_away"
 conditions:
   - condition: or
     conditions:
@@ -44,8 +44,8 @@ conditions:
               entity_id: binary_sensor.anyone_home
               state: "off"
             - condition: state
-              entity_id: alarm_control_panel.ajax_security_system
-              state: armed_home
+              entity_id: alarm_control_panel.casa
+              state: armed_away
 actions:
   - alias: Set up variables for the actions
     variables:
