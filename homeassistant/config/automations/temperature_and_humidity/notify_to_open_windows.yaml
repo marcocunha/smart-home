@@ -15,24 +15,36 @@ conditions:
 variables:
   outdoor_sensor: sensor.openweathermap_temperature
   tolerance: 2
+  comfort_temperature: 24
   cooldown_hours: 3
   areas:
     - name: Living Room
       indoor_sensor: sensor.sensor_temperature_humidity_sala_temperature
+      windows:
+        - binary_sensor.casa_janela_cozinha_door
+        - binary_sensor.casa_janela_cozinha_tilt
       message: "Está mais fresco na rua do que na Sala. Considera abrir a janela"
     - name: Bedroom
       indoor_sensor: sensor.sensor_temperature_humidity_suite_temperature
+      windows:
+        - binary_sensor.casa_suite_door
+        - binary_sensor.casa_suite_tilt
       message: "Está mais fresco na rua do que no quarto. Considera abrir a janela"
   notification_title: 🌡️ Sugestão para abrir a janela
   persistent_notification: false
 actions:
   - variables:
       outdoor: "{{ states(outdoor_sensor) | float(99) }}"
-      # An unavailable indoor sensor must read as "not cooler outside", hence 0
+      # An unavailable indoor sensor must read as "not cooler outside", hence 0.
+      # An area whose window sensors are all unavailable has an unknown window state: skip it
       areas_to_notify: >-
         {% set ns = namespace(items=[]) %}
         {% for area in areas %}
-          {% if (states(area.indoor_sensor) | float(0)) - outdoor > tolerance %}
+          {% set indoor = states(area.indoor_sensor) | float(0) %}
+          {% if indoor > comfort_temperature
+              and indoor - outdoor > tolerance
+              and (area.windows | reject('is_state', ['unavailable', 'unknown']) | list | length) > 0
+              and (area.windows | select('is_state', 'on') | list | length) == 0 %}
             {% set ns.items = ns.items + [area] %}
           {% endif %}
         {% endfor %}
