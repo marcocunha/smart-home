@@ -1,0 +1,19 @@
+id: doorbell_bridge_offline_alert
+alias: Doorbell bridge is offline
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.welcomeeye_doorbell_bridge_connected
+    to: "off"
+    for: "00:15:00"
+conditions:
+  - condition: state
+    entity_id: schedule.dnd_schedule
+    state: "off"
+actions:
+  - action: notify.marco
+    data:
+      title: Campainha offline
+      message: A ligação da campainha WelcomeEye está desligada há mais de 15 minutos.
+      data:
+        tag: doorbell_bridge_offline
