@@ -55,4 +55,6 @@ homeassistant/config/www/community/
 homeassistant/config/.cache/
 mariadb_backup/
 homeassistant/config/dahua-pre-merge-backup-20261009-215914/
+homeassistant/config/dahua-pre-disk-cleanup-backup-20261014-135000/
 homeassistant/media/llmvision/alerts/
+zigbee2mqtt/data/database.db.tmp*

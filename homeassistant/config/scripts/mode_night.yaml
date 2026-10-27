@@ -5,7 +5,7 @@ mode_night:
     - alias: "Set variables"
       variables:
         active_mode: NIGHT
-        entities_to_close:
+        covers_to_close:
           - cover.curtains_livingroom_right
           - cover.curtains_livingroom_left
           - cover.estores_escritorio
@@ -14,6 +14,7 @@ mode_night:
           - cover.curtains_suite
           - cover.curtains_wcsuite
           - cover.curtains_hall
+          - cover.curtains_kitchen
         curtains_to_close_partially: []
         desired_position_percentage: 20
         switches_to_turn_off: []
@@ -32,11 +33,13 @@ mode_night:
         entity_id: input_text.active_mode
 
     - alias: "Close covers"
+      continue_on_error: true
       action: cover.close_cover
       target:
-        entity_id: "{{ entities_to_close | default([]) }}"
+        entity_id: "{{ covers_to_close | default([]) }}"
 
     - alias: "Set cover position for partial close"
+      continue_on_error: true
       action: cover.set_cover_position
       data:
         position: "{{ desired_position_percentage }}"
@@ -44,16 +47,19 @@ mode_night:
         entity_id: "{{ curtains_to_close_partially | default([]) }}"
 
     - alias: "Turn OFF specified switches"
+      continue_on_error: true
       action: switch.turn_off
       target:
         entity_id: "{{ switches_to_turn_off | default([]) }}"
 
     - alias: "Turn OFF specified lights"
+      continue_on_error: true
       action: light.turn_off
       target:
         entity_id: "{{ lights_to_turn_off | default([]) }}"
 
     - alias: "Turn ON specified lights"
+      continue_on_error: true
       action: light.turn_on
       target:
         entity_id: "{{ lights_to_turn_on | default([]) }}"
