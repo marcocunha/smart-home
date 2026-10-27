@@ -14,8 +14,8 @@ mode_sleep:
           - cover.curtains_suite
           - cover.curtains_wcsuite
           - cover.curtains_hall
-        curtains_to_close_partially:
           - cover.curtains_kitchen
+        curtains_to_close_partially: []
         desired_position_percentage: 20
         lights_to_turn_off:
           - light.projectores_piscina
