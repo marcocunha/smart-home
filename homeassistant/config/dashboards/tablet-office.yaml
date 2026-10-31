@@ -3,8 +3,6 @@ resources:
     type: module
   - url: /hacsfiles/kiosk-mode/kiosk-mode.js
     type: module
-  - url: /hacsfiles/weather-radar-card/weather-radar-card.js
-    type: module
   - url: /hacsfiles/lovelace-hourly-weather/hourly-weather.js
     type: module
   - url: /hacsfiles/button-card/button-card.js
