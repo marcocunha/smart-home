@@ -27,14 +27,12 @@ garage:
                   state: home
               alias: Check if no-one at home
           then:
-            - alias: Make an announcement on speakers and send notification
+            - alias: Send notification
               service: script.announcement
               data:
-                speak: true
                 notify: true
                 messages:
                   - "{{ message }}"
                 service: notify.all
-                force_speak: false
   icon: mdi:garage-open-variant
   mode: single
