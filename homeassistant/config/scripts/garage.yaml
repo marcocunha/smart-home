@@ -28,11 +28,10 @@ garage:
               alias: Check if no-one at home
           then:
             - alias: Send notification
-              service: script.announcement
+              action: notify.all
               data:
-                notify: true
-                messages:
-                  - "{{ message }}"
-                service: notify.all
+                message: "{{ message }}"
+                data:
+                  url: /lovelace/home
   icon: mdi:garage-open-variant
   mode: single
