@@ -35,24 +35,10 @@ announcement:
               value: notify.marco
             - label: Darlene
               value: notify.darlene
-    speak:
-      name: Speak or not
-      description: Optionally specify to make the announcement silently (true by default)
-      default: true
-      advanced: true
-      selector:
-        boolean:
     notify:
       name: Send notification or not
       description: Optionally specify to make voice-only announcement (true by default)
       default: true
-      advanced: true
-      selector:
-        boolean:
-    force_speak:
-      name: Force announcement to speak
-      description: Force speaking even in DND (false by default)
-      default: false
       advanced: true
       selector:
         boolean:
@@ -66,9 +52,7 @@ announcement:
         object:
   variables:
     service: notify.all
-    speak: true
     notify: true
-    force_speak: false
     notify_data:
       url: /lovelace/home
     openings: []
@@ -81,30 +65,6 @@ announcement:
         There is no voiceover text.
       {% endif %}
   sequence:
-    - alias: Make an announcement on speakers
-      choose:
-        - conditions:
-            - "{{ speak is true }}"
-            - condition: state
-              entity_id: group.household
-              state: "home"
-            - condition: state
-              entity_id: schedule.dnd_schedule
-              state: "off"
-          sequence:
-            - service: script.speak_announcement
-              data:
-                message: "{{ message }}"
-        - conditions:
-            - "{{ speak is true }}"
-            - "{{ force_speak is true }}"
-            - condition: state
-              entity_id: group.household
-              state: "home"
-          sequence:
-            - service: script.speak_announcement
-              data:
-                message: "{{ message }}"
     - alias: Send a notification
       choose:
         - conditions:
@@ -115,50 +75,3 @@ announcement:
                 title: "{{ title }}"
                 message: "{{ message }}"
                 data: "{{ notify_data }}"
-
-greeting:
-  alias: Greet people upon their arrival
-  icon: mdi:hand-wave
-  variables:
-    greeting:
-      - "Olá!"
-      - "Bem-vindo a casa!"
-      - "Finalmente chegaste!"
-    day_phrases:
-      - "Como está a correr o dia?"
-      - "Tem um bom dia!"
-      - "Como estás?"
-    night_phrases:
-      - "Como foi o teu dia?"
-      - "Boa noite!"
-      - "Que coisa interessante aconteceu hoje??"
-  sequence:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: sun.sun
-              state: "above_horizon"
-          sequence:
-            - service: script.announcement
-              data:
-                notify: false
-                force_speak: true
-                openings: "{{ greeting }}"
-                messages: "{{ day_phrases }}"
-        - conditions:
-            - condition: state
-              entity_id: sun.sun
-              state: "below_horizon"
-          sequence:
-            - service: script.announcement
-              data:
-                notify: false
-                force_speak: true
-                openings: "{{ greeting }}"
-                messages: "{{ night_phrases }}"
-      default:
-        - service: script.announcement
-          data:
-            notify: false
-            force_speak: true
-            messages: "{{ greeting }}"
