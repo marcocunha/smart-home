@@ -32,6 +32,23 @@ mode_morning:
       target:
         entity_id: input_text.active_mode
 
+    - alias: "Disarm alarm if someone is home"
+      if:
+        - condition: state
+          entity_id: binary_sensor.anyone_home
+          state: "on"
+        - condition: not
+          conditions:
+            - condition: state
+              entity_id: alarm_control_panel.casa
+              state: disarmed
+      then:
+        - alias: "Disarm alarm"
+          continue_on_error: true
+          action: alarm_control_panel.alarm_disarm
+          target:
+            entity_id: alarm_control_panel.casa
+
     - alias: "Open covers"
       action: cover.open_cover
       target:
