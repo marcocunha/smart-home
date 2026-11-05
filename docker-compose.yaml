@@ -24,7 +24,7 @@ services:
     devices:
       - /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_6eff811877d9eb119d90178e6fe9f4d9-if00-port0:/dev/ttyUSB0
     healthcheck:
-      test: curl -k https://localhost:8123 || exit 1
+      test: curl http://localhost:8123 || exit 1
       retries: 5
       start_period: 2m
     restart: unless-stopped
