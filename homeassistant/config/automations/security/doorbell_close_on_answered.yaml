@@ -1,0 +1,23 @@
+id: doorbell_close_on_answered
+alias: Doorbell answered - Dismiss on the other tablets
+mode: queued
+variables:
+  tablets:
+    - samsung_tab_s_10_5
+  answered_by: "{{ states('input_text.doorbell_answered_by') }}"
+triggers:
+  - trigger: event.received
+    target:
+      entity_id: event.welcomeeye_doorbell_ring
+    options:
+      event_type:
+        - answered
+actions:
+  - alias: Dismiss everywhere except on the tablet holding the call
+    repeat:
+      for_each: "{{ tablets | reject('eq', answered_by) | list }}"
+      sequence:
+        - action: "esphome.ks_{{ repeat.item }}_notification_dismiss"
+          data:
+            id: 0
+        - action: "esphome.ks_{{ repeat.item }}_close_url"

@@ -1,0 +1,55 @@
+doorbell_answer:
+  alias: Doorbell - Atender
+  icon: mdi:doorbell-video
+  mode: single
+  max_exceeded: silent
+  fields:
+    tablet:
+      name: Tablet
+      description: Kiosk tablet answering, without the "ks_" prefix
+      required: true
+      selector:
+        text:
+  sequence:
+    - alias: Another tablet already holds the call
+      if:
+        - condition: state
+          entity_id: switch.welcomeeye_doorbell_camera_stream
+          state: "on"
+        - condition: template
+          value_template: "{{ states('input_text.doorbell_answered_by') not in ['', tablet] }}"
+      then:
+        - action: "esphome.ks_{{ tablet }}_close_url"
+        - stop: Another tablet answered first
+    - alias: Remember who answered
+      action: input_text.set_value
+      target:
+        entity_id: input_text.doorbell_answered_by
+      data:
+        value: "{{ tablet }}"
+    - alias: Start the stream
+      action: switch.turn_on
+      target:
+        entity_id: switch.welcomeeye_doorbell_camera_stream
+    - alias: Give this answer a full timer
+      action: timer.start
+      target:
+        entity_id: timer.doorbell_stream
+
+doorbell_hangup:
+  alias: Doorbell - Terminar
+  icon: mdi:phone-hangup
+  mode: single
+  max_exceeded: silent
+  fields:
+    tablet:
+      name: Tablet
+      description: Kiosk tablet hanging up, without the "ks_" prefix
+      required: true
+      selector:
+        text:
+  sequence:
+    - action: switch.turn_off
+      target:
+        entity_id: switch.welcomeeye_doorbell_camera_stream
+    - action: "esphome.ks_{{ tablet }}_close_url"

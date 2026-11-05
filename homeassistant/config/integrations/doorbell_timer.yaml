@@ -1,0 +1,12 @@
+#
+# Doorbell
+#
+# Limits how long the WelcomeEye stream stays on after someone answers the ring.
+# Every answer restarts it. The doorbell allows one answering party and a running stream
+# blocks the ring on the other devices.
+#
+timer:
+  doorbell_stream:
+    name: Doorbell stream timer
+    icon: mdi:doorbell-video
+    duration: "00:01:00"

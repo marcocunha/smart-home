@@ -1,0 +1,53 @@
+id: doorbell_stream_timer
+alias: Doorbell stream - Limit how long it stays on
+mode: queued
+variables:
+  tablets:
+    - samsung_tab_s_10_5
+triggers:
+  - trigger: state
+    id: started
+    entity_id: switch.welcomeeye_doorbell_camera_stream
+    to: "on"
+  - trigger: event
+    id: expired
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.doorbell_stream
+  - trigger: state
+    id: stopped
+    entity_id: switch.welcomeeye_doorbell_camera_stream
+    to: "off"
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: started
+        sequence:
+          - action: timer.start
+            target:
+              entity_id: timer.doorbell_stream
+      - conditions:
+          - condition: trigger
+            id: expired
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.welcomeeye_doorbell_camera_stream
+      - conditions:
+          - condition: trigger
+            id: stopped
+        sequence:
+          - action: timer.cancel
+            target:
+              entity_id: timer.doorbell_stream
+          - action: input_text.set_value
+            target:
+              entity_id: input_text.doorbell_answered_by
+            data:
+              value: ""
+          - alias: Close the answer page that is left showing a dead stream
+            repeat:
+              for_each: "{{ tablets }}"
+              sequence:
+                - action: "esphome.ks_{{ repeat.item }}_close_url"
