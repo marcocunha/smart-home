@@ -1,0 +1,2 @@
+# Bubble Card requests this file on every load; an empty mapping avoids the 404 until modules are used
+{}
