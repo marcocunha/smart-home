@@ -31,6 +31,11 @@ lovelace:
       title: Tablet Office
       show_in_sidebar: true
       icon: mdi:tablet
+    doorbell-dashboard: # Needs to contain a hyphen (-)
+      mode: yaml
+      filename: dashboards/doorbell.yaml
+      title: Doorbell
+      show_in_sidebar: false
 # Load Home Assistant integrations as packages
 homeassistant:
   name: !secret ha_name
