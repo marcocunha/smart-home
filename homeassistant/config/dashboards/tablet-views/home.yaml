@@ -178,7 +178,7 @@ cards:
                     secondary: "{{ states('sensor.hot_water_temperature')|float(0)|round(0)}}ºC"
                     icon: mdi:water-thermometer-outline
                     icon_color: "{{ 'amber' if is_state('switch.resistencia_termoacumulador_switch_0', 'on') else 'grey' }}"
-                    badge_icon: "{{ 'mdi:thermometer-low' if (states('sensor.hot_water_temperature')|float(0) < states('input_number.desired_hot_water_temperature')|float) else '' }}"
+                    badge_icon: "{{ 'mdi:thermometer-low' if (states('sensor.hot_water_temperature')|float(0) < states('input_number.desired_hot_water_temperature')|float(0)) else '' }}"
                     badge_color: maroon
                     tap_action:
                       action: toggle
