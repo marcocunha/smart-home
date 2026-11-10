@@ -1,0 +1,53 @@
+template:
+  - binary_sensor:
+      - name: Hot water resistance wanted
+        default_entity_id: binary_sensor.hot_water_resistance_wanted
+        unique_id: hot_water_resistance_wanted
+        availability: >
+          {{ states('input_select.hot_water_override') != 'Auto'
+             or states('sensor.hot_water_temperature') | float(none) is not none }}
+        # Pure function of the current states: the switch state is the memory, so a cycle that started stays on
+        # until it reaches its target. Heating 6 C/h, loss 0.6 C/h, start margin 1.25, keep margin 1.5 + 0.5 h.
+        state: >
+          {% set override = states('input_select.hot_water_override') %}
+          {% if override == 'Desligada' %}
+            false
+          {% elif override == 'Ligada' %}
+            true
+          {% else %}
+            {% set temp = states('sensor.hot_water_temperature') | float %}
+            {% set summer = now().month in [6, 7, 8, 9] %}
+            {% set comfort = (states('input_number.desired_hot_water_temperature_summer') if summer
+                              else states('input_number.desired_hot_water_temperature_winter')) | float %}
+            {% set target = comfort + 5 %}
+            {% set surplus_max = states('input_number.hot_water_surplus_max_temp') | float %}
+            {% set net = states('sensor.energy_consumption_mean_over_last_10_minutes') | float(0) %}
+            {% set running = is_state('switch.resistencia_termoacumulador_switch_0', 'on') %}
+            {% if is_state('schedule.hotwater_schedule', 'on') %}
+              {% set hours = 0 %}
+            {% else %}
+              {% set next_event = state_attr('schedule.hotwater_schedule', 'next_event') %}
+              {% set hours = ((as_timestamp(next_event) - as_timestamp(now())) / 3600) if next_event else 999 %}
+            {% endif %}
+            {% set grid_start = temp - 0.6 * hours < comfort and hours <= 1.25 * (target - temp) / 6 %}
+            {% set grid_keep = running and temp < target and hours <= 1.5 * (target - temp) / 6 + 0.5 %}
+            {% set surplus = temp < surplus_max and ((not running and net < -1800) or (running and net <= 500)) %}
+            {{ grid_start or grid_keep or surplus }}
+          {% endif %}
+
+  - sensor:
+      - name: Hot water predicted temperature
+        default_entity_id: sensor.hot_water_predicted_temperature
+        unique_id: hot_water_predicted_temperature
+        unit_of_measurement: "°C"
+        device_class: temperature
+        state_class: measurement
+        availability: "{{ states('sensor.hot_water_temperature') | float(none) is not none }}"
+        state: >
+          {% set temp = states('sensor.hot_water_temperature') | float %}
+          {% set next_event = state_attr('schedule.hotwater_schedule', 'next_event') %}
+          {% if is_state('schedule.hotwater_schedule', 'on') or not next_event %}
+            {{ temp | round(1) }}
+          {% else %}
+            {{ (temp - 0.6 * (as_timestamp(next_event) - as_timestamp(now())) / 3600) | round(1) }}
+          {% endif %}
