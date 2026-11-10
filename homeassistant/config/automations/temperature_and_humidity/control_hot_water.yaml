@@ -1,0 +1,62 @@
+id: control_hot_water
+alias: Control hot water resistance
+description: >-
+  Applies binary_sensor.hot_water_resistance_wanted to the resistance. Automatic changes are at least 45 minutes
+  apart, timed with input_datetime.hot_water_last_switched because the Shelly unavailable blips reset last_changed.
+  An active override bypasses the minimum cycle.
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.hot_water_resistance_wanted
+    to:
+      - "on"
+      - "off"
+  - trigger: time_pattern
+    minutes: /5
+conditions:
+  - condition: state
+    alias: "The decision is available"
+    entity_id: binary_sensor.hot_water_resistance_wanted
+    state:
+      - "on"
+      - "off"
+  - condition: state
+    alias: "The switch is not unavailable"
+    entity_id: switch.resistencia_termoacumulador_switch_0
+    state:
+      - "on"
+      - "off"
+  - condition: template
+    alias: "The decision differs from the switch"
+    value_template: >-
+      {{ states('binary_sensor.hot_water_resistance_wanted') != states('switch.resistencia_termoacumulador_switch_0') }}
+  - condition: or
+    alias: "An override is active or the minimum cycle has passed"
+    conditions:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: input_select.hot_water_override
+            state: Auto
+      - condition: template
+        value_template: >-
+          {{ now().timestamp() - as_timestamp(states('input_datetime.hot_water_last_switched'), 0) >= 45 * 60 }}
+actions:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.hot_water_resistance_wanted
+            state: "on"
+        sequence:
+          - action: switch.turn_on
+            target:
+              entity_id: switch.resistencia_termoacumulador_switch_0
+    default:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.resistencia_termoacumulador_switch_0
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.hot_water_last_switched
+    data:
+      timestamp: "{{ now().timestamp() }}"
