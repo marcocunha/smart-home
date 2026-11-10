@@ -89,15 +89,15 @@
 - [ ] **Step 3: `reset_hot_water_override.yaml`.** Time triggers `10:00:00` and `23:00:00`; action `input_select.select_option` with `option: Auto`.
 - [ ] **Step 4: Verify.** yamllint and `check_config`; expected clean. Commit: `Add the hot water control, manual override and reset automations`.
 
-### Task 4: Hot water dashboard
+### Task 4: Admin dashboard (generic, all overrides)
 
 **Files:**
-- Create: `homeassistant/config/dashboards/hot-water.yaml`
+- Create: `homeassistant/config/dashboards/admin.yaml`
 - Modify: `homeassistant/config/configuration.yaml` (add under `lovelace: dashboards:`)
 
-- [ ] **Step 1: Register** `hot-water-dashboard` (`mode: yaml`, `filename: dashboards/hot-water.yaml`, title `Água quente`, icon `mdi:water-boiler`, `show_in_sidebar: true`), same shape as the two existing entries.
+- [ ] **Step 1: Register** `admin-dashboard` (`mode: yaml`, `filename: dashboards/admin.yaml`, title `Admin`, icon `mdi:tune`, `show_in_sidebar: true`), same shape as the two existing entries.
 - [ ] **Step 2: Dashboard with core cards only** (no custom card resources): tiles for `sensor.hot_water_temperature`, `sensor.hot_water_predicted_temperature`, the switch and `binary_sensor.hot_water_resistance_wanted`; a tile for `input_select.hot_water_override` showing the current option; three `button` cards (Auto, Ligada, Desligada) calling `input_select.select_option`; tiles for `sensor.energy_consumption_mean_over_last_10_minutes` and `sensor.contador_producao_channel_1_power`; a `history-graph` of temperature and switch for 24 h.
-- [ ] **Step 3: Verify and commit.** yamllint and `check_config` clean. Commit: `Add the hot water dashboard`.
+- [ ] **Step 3: Verify and commit.** yamllint and `check_config` clean. Commit: `Add the admin dashboard with the hot water override`.
 
 ### Task 5: Docs and pull request
 

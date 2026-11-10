@@ -20,7 +20,7 @@ resistência, e com botões de override que a automação nunca reverte.
   19:30-21:30 (sem janela de manhã). A manhã de segunda é preparada a partir de domingo à noite, via `next_event`.
 - Energia da rede só quando o sol não chega. O excedente solar é aproveitado quando a água tem margem para ele.
 - Cada ciclo da resistência dura pelo menos 45 min ligado e 45 min desligado.
-- Override por botões num dashboard novo, com reposição automática 2 vezes por dia (10:00 e 23:00; escolha minha).
+- Override por botões num dashboard de admin genérico (`admin-dashboard`), com reposição automática 2 vezes por dia (10:00 e 23:00; escolha minha).
 
 ## Não-objetivos
 
@@ -104,19 +104,20 @@ Mudança manual no switch (por utilizador, via UI) conta como override: a automa
   `force_hot_water_off` (um seletor evita os dois ligados ao mesmo tempo; escolha minha).
 - Uma automação de reposição define `Auto` às 10:00 e às 23:00 (substitui `clear_force_hot_water_helpers.yaml`, que
   corre às 00h, 10h e 20h).
-- Os botões ficam no dashboard novo e mostram o estado atual do seletor.
+- Os botões ficam no `admin-dashboard` e mostram o estado atual do seletor.
 
-## Dashboard novo
+## Dashboard de admin
 
-YAML no repo (escolha minha), registado em `configuration.yaml` com chave com hífen, no padrão dos outros.
-Conteúdo mínimo: temperatura da água, temperatura prevista no próximo arranque de janela
-(`sensor.hot_water_predicted_temperature`, template em `integrations/sensors/`), estado da resistência, botões
-`Auto/Ligada/Desligada`, produção e exportação atuais. O desenho visual fica para o plano.
+Dashboard genérico para todos os overrides da casa (decisão do utilizador, 10 Nov 2026): `admin-dashboard`,
+`dashboards/admin.yaml`, YAML no repo, registado em `configuration.yaml` com chave com hífen, no padrão dos outros.
+Cada override ganha as suas secções; esta fase só traz as da água quente: temperatura da água, temperatura prevista no
+próximo arranque de janela (`sensor.hot_water_predicted_temperature`, template em `integrations/sensors/`), estado da
+resistência, botões `Auto/Ligada/Desligada`, produção e exportação atuais. O desenho visual fica para o plano.
 
 ## Ficheiros afetados
 
 Novos: `automations/temperature_and_humidity/control_hot_water.yaml` (substitui o atual), reposição do override,
-`integrations/input_select.yaml`, `integrations/sensors/hot_water.yaml`, `dashboards/hot-water.yaml`, entrada em
+`integrations/input_select.yaml`, `integrations/sensors/hot_water.yaml`, `dashboards/admin.yaml`, entrada em
 `configuration.yaml`.
 
 Alterados (precisam de aprovação explícita):

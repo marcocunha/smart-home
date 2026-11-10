@@ -1,15 +1,15 @@
-title: Água quente
+title: Admin
 views:
-  - title: Água quente
-    path: hot-water
-    icon: mdi:water-boiler
+  - title: Overrides
+    path: overrides
+    icon: mdi:tune
     type: sections
     max_columns: 3
     sections:
       - type: grid
         cards:
           - type: heading
-            heading: Estado
+            heading: Água quente - estado
           - type: tile
             entity: sensor.hot_water_temperature
             name: Temperatura da água
@@ -25,7 +25,7 @@ views:
       - type: grid
         cards:
           - type: heading
-            heading: Override
+            heading: Água quente - override
           - type: tile
             entity: input_select.hot_water_override
             name: Override atual
@@ -62,7 +62,7 @@ views:
       - type: grid
         cards:
           - type: heading
-            heading: Energia
+            heading: Água quente - energia
           - type: tile
             entity: sensor.energy_consumption_mean_over_last_10_minutes
             name: Rede (média 10 min)
@@ -73,7 +73,7 @@ views:
         column_span: 3
         cards:
           - type: history-graph
-            title: Últimas 24 horas
+            title: Água quente - últimas 24 horas
             hours_to_show: 24
             entities:
               - entity: sensor.hot_water_temperature

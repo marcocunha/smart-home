@@ -31,12 +31,12 @@ lovelace:
       title: Tablet Office
       show_in_sidebar: true
       icon: mdi:tablet
-    hot-water-dashboard: # Needs to contain a hyphen (-)
+    admin-dashboard: # Needs to contain a hyphen (-)
       mode: yaml
-      filename: dashboards/hot-water.yaml
-      title: Água quente
+      filename: dashboards/admin.yaml
+      title: Admin
       show_in_sidebar: true
-      icon: mdi:water-boiler
+      icon: mdi:tune
 # Load Home Assistant integrations as packages
 homeassistant:
   name: !secret ha_name
