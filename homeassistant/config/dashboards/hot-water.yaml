@@ -1,0 +1,81 @@
+title: Água quente
+views:
+  - title: Água quente
+    path: hot-water
+    icon: mdi:water-boiler
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Estado
+          - type: tile
+            entity: sensor.hot_water_temperature
+            name: Temperatura da água
+          - type: tile
+            entity: sensor.hot_water_predicted_temperature
+            name: Prevista no próximo banho
+          - type: tile
+            entity: switch.resistencia_termoacumulador_switch_0
+            name: Resistência
+          - type: tile
+            entity: binary_sensor.hot_water_resistance_wanted
+            name: Automação quer ligada
+      - type: grid
+        cards:
+          - type: heading
+            heading: Override
+          - type: tile
+            entity: input_select.hot_water_override
+            name: Override atual
+          - type: button
+            name: Auto
+            icon: mdi:autorenew
+            tap_action:
+              action: perform-action
+              perform_action: input_select.select_option
+              target:
+                entity_id: input_select.hot_water_override
+              data:
+                option: Auto
+          - type: button
+            name: Ligada
+            icon: mdi:water-boiler
+            tap_action:
+              action: perform-action
+              perform_action: input_select.select_option
+              target:
+                entity_id: input_select.hot_water_override
+              data:
+                option: Ligada
+          - type: button
+            name: Desligada
+            icon: mdi:water-boiler-off
+            tap_action:
+              action: perform-action
+              perform_action: input_select.select_option
+              target:
+                entity_id: input_select.hot_water_override
+              data:
+                option: Desligada
+      - type: grid
+        cards:
+          - type: heading
+            heading: Energia
+          - type: tile
+            entity: sensor.energy_consumption_mean_over_last_10_minutes
+            name: Rede (média 10 min)
+          - type: tile
+            entity: sensor.contador_producao_channel_1_power
+            name: Produção solar
+      - type: grid
+        column_span: 3
+        cards:
+          - type: history-graph
+            title: Últimas 24 horas
+            hours_to_show: 24
+            entities:
+              - entity: sensor.hot_water_temperature
+              - entity: switch.resistencia_termoacumulador_switch_0
+              - entity: input_select.hot_water_override
