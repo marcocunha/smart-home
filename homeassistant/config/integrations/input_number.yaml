@@ -33,9 +33,23 @@ input_number:
     max: 999
     step: 1
     mode: box
-  desired_hot_water_temperature:
-    name: Desired hot water temperature
+  desired_hot_water_temperature_winter:
+    name: Desired hot water temperature (winter)
     initial: !secret CONST_DESIRED_HOT_WATER_TEMPERATURE
+    min: 0
+    max: 80
+    step: 1
+    mode: box
+  desired_hot_water_temperature_summer:
+    name: Desired hot water temperature (summer)
+    initial: 50
+    min: 0
+    max: 80
+    step: 1
+    mode: box
+  hot_water_surplus_max_temp:
+    name: Max hot water temperature when using solar surplus
+    initial: 60
     min: 0
     max: 80
     step: 1

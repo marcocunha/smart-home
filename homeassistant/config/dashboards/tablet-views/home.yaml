@@ -178,7 +178,7 @@ cards:
                     secondary: "{{ states('sensor.hot_water_temperature')|float(0)|round(0)}}ºC"
                     icon: mdi:water-thermometer-outline
                     icon_color: "{{ 'amber' if is_state('switch.resistencia_termoacumulador_switch_0', 'on') else 'grey' }}"
-                    badge_icon: "{{ 'mdi:thermometer-low' if (states('sensor.hot_water_temperature')|float(0) < states('input_number.desired_hot_water_temperature')|float(0)) else '' }}"
+                    badge_icon: "{{ 'mdi:thermometer-low' if (states('sensor.hot_water_temperature')|float(0) < states('input_number.desired_hot_water_temperature_winter')|float(0)) else '' }}"
                     badge_color: maroon
                     tap_action:
                       action: toggle
@@ -271,8 +271,8 @@ cards:
         cards:
           - type: custom:bubble-card
             card_type: button
-            button_type: switch
-            entity: input_boolean.force_hot_water_off
+            button_type: name
+            entity: input_select.hot_water_override
             name: Disable Hot Water Automation
             icon: mdi:water-boiler-off
             scrolling_effect: true
@@ -283,14 +283,17 @@ cards:
             show_name: true
             card_layout: large
             show_last_changed: false
-            styles: |
-              .bubble-name-container {
-                color: ${state === 'on' ? 'black' : ''} !important;
-              }
+            tap_action:
+              action: perform-action
+              perform_action: input_select.select_option
+              target:
+                entity_id: input_select.hot_water_override
+              data:
+                option: Desligada
           - type: custom:bubble-card
             card_type: button
-            button_type: switch
-            entity: input_boolean.force_hot_water_on
+            button_type: name
+            entity: input_select.hot_water_override
             name: Enable Hot Water Automation
             icon: mdi:water-boiler
             scrolling_effect: true
@@ -301,10 +304,13 @@ cards:
             show_name: true
             card_layout: large
             show_last_changed: false
-            styles: |
-              .bubble-name-container {
-                color: ${state === 'on' ? 'black' : ''} !important;
-              }
+            tap_action:
+              action: perform-action
+              perform_action: input_select.select_option
+              target:
+                entity_id: input_select.hot_water_override
+              data:
+                option: Ligada
 
       - type: custom:bubble-card
         card_type: pop-up

@@ -4,3 +4,8 @@ input_datetime:
     has_date: true
     has_time: true
     icon: mdi:toaster
+  hot_water_last_switched:
+    name: Hot water resistance last switched
+    has_date: true
+    has_time: true
+    icon: mdi:water-boiler

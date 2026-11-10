@@ -1,0 +1,9 @@
+input_select:
+  hot_water_override:
+    name: Hot water override
+    icon: mdi:water-boiler
+    options:
+      - Auto
+      - Ligada
+      - Desligada
+    initial: Auto
