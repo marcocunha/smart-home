@@ -1,0 +1,15 @@
+id: reset_hot_water_override
+alias: Reset hot water override
+description: Puts the hot water override back to Auto after the morning and the evening showers
+mode: single
+triggers:
+  - trigger: time
+    at:
+      - "10:00:00"
+      - "23:00:00"
+actions:
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.hot_water_override
+    data:
+      option: Auto

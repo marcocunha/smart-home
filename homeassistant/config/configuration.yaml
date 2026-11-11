@@ -31,6 +31,12 @@ lovelace:
       title: Tablet Office
       show_in_sidebar: true
       icon: mdi:tablet
+    admin-dashboard: # Needs to contain a hyphen (-)
+      mode: yaml
+      filename: dashboards/admin.yaml
+      title: Admin
+      show_in_sidebar: true
+      icon: mdi:tune
 # Load Home Assistant integrations as packages
 homeassistant:
   name: !secret ha_name

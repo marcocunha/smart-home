@@ -1,0 +1,31 @@
+id: hot_water_manual_switch_override
+alias: Hot water manual switch is an override
+description: >-
+  A user turning the resistance on or off in Home Assistant becomes an override, so the control automation does
+  not revert it. Changes made by automations and Shelly unavailable blips are ignored.
+mode: queued
+triggers:
+  - trigger: state
+    entity_id: switch.resistencia_termoacumulador_switch_0
+    from:
+      - "on"
+      - "off"
+    to:
+      - "on"
+      - "off"
+conditions:
+  - condition: template
+    alias: "Changed by a user, not by an automation"
+    value_template: >-
+      {{ trigger.to_state.context.user_id is not none and trigger.to_state.context.parent_id is none }}
+actions:
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.hot_water_override
+    data:
+      option: "{{ 'Ligada' if trigger.to_state.state == 'on' else 'Desligada' }}"
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.hot_water_last_switched
+    data:
+      timestamp: "{{ now().timestamp() }}"
