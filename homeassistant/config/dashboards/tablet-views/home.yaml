@@ -70,11 +70,6 @@ cards:
                 content: "{{ states('sensor.count_doors_open')|int(0) }}"
                 icon: mdi:door
                 icon_color: "{{ 'red' if states('sensor.count_doors_open')|int(0) > 0 else 'grey' }}"
-              - type: action
-                tap_action:
-                  action: navigate
-                  navigation_path: "#tablet-extra-options"
-                icon: mdi:dots-horizontal
 
       - type: horizontal-stack
         cards:
@@ -182,9 +177,6 @@ cards:
                     badge_color: maroon
                     tap_action:
                       action: toggle
-                    hold_action:
-                      action: navigate
-                      navigation_path: "#tablet-extra-options"
 
               - type: horizontal-stack
                 cards:
@@ -264,53 +256,6 @@ cards:
                       navigation_path: /energy
         view_layout:
           position: main
-
-      - type: custom:bubble-card
-        card_type: pop-up
-        hash: "#tablet-extra-options"
-        cards:
-          - type: custom:bubble-card
-            card_type: button
-            button_type: name
-            entity: input_select.hot_water_override
-            name: Disable Hot Water Automation
-            icon: mdi:water-boiler-off
-            scrolling_effect: true
-            show_icon: true
-            force_icon: true
-            show_state: true
-            show_attribute: false
-            show_name: true
-            card_layout: large
-            show_last_changed: false
-            tap_action:
-              action: perform-action
-              perform_action: input_select.select_option
-              target:
-                entity_id: input_select.hot_water_override
-              data:
-                option: Desligada
-          - type: custom:bubble-card
-            card_type: button
-            button_type: name
-            entity: input_select.hot_water_override
-            name: Enable Hot Water Automation
-            icon: mdi:water-boiler
-            scrolling_effect: true
-            show_icon: true
-            force_icon: true
-            show_state: true
-            show_attribute: false
-            show_name: true
-            card_layout: large
-            show_last_changed: false
-            tap_action:
-              action: perform-action
-              perform_action: input_select.select_option
-              target:
-                entity_id: input_select.hot_water_override
-              data:
-                option: Ligada
 
       - type: custom:bubble-card
         card_type: pop-up
