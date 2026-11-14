@@ -4,7 +4,7 @@ mode: single
 triggers:
   - trigger: state
     entity_id:
-      - binary_sensor.door_entrance_contact
+      - binary_sensor.casa_porta_principal_door
     to: "on"
     from: "off"
     alias: "Entrance door opened"
