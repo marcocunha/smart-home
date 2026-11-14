@@ -7,3 +7,7 @@ binary_sensor:
         # 0.0011 C/s is about 4 C/h: the resistance heats the top probe at 8-13 C/h, the solar loop at most ~2 C/h.
         min_gradient: 0.0011
         sample_duration: 600
+        # The default max_samples is 2, which turns the regression into a two-point difference and makes the probe
+        # jitter (+-0.12 C in seconds) flip the sensor.
+        max_samples: 50
+        min_samples: 5
