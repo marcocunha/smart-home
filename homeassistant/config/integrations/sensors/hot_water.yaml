@@ -35,6 +35,16 @@ template:
             {{ grid_start or grid_keep or surplus }}
           {% endif %}
 
+  - binary_sensor:
+      - name: Hot water resistance heating
+        default_entity_id: binary_sensor.hot_water_resistance_heating
+        unique_id: hot_water_resistance_heating
+        # The tank thermostat can open the circuit while the switch is on, so the switch alone does not mean heating.
+        # Feeds the PowerCalc power of the resistance so the Energy dashboard does not count 2 kW while it is blocked.
+        state: >
+          {{ is_state('switch.resistencia_termoacumulador_switch_0', 'on')
+             and is_state('binary_sensor.hot_water_probe_rising', 'on') }}
+
   - sensor:
       - name: Hot water predicted temperature
         default_entity_id: sensor.hot_water_predicted_temperature

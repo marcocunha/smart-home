@@ -1,0 +1,9 @@
+binary_sensor:
+  - platform: trend
+    sensors:
+      hot_water_probe_rising:
+        friendly_name: Hot water probe rising
+        entity_id: sensor.hot_water_temperature
+        # 0.0011 C/s is about 4 C/h: the resistance heats the top probe at 8-13 C/h, the solar loop at most ~2 C/h.
+        min_gradient: 0.0011
+        sample_duration: 600
