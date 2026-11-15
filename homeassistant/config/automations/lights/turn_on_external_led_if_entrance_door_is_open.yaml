@@ -5,9 +5,6 @@ triggers:
   - trigger: door.opened
     target:
       entity_id: binary_sensor.casa_porta_principal_door
-    options:
-      behavior: each
-      for: "00:00:00"
     alias: "Entrance door opened"
 conditions:
   - condition: sun
