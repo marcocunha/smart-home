@@ -2,11 +2,9 @@ id: turn_on_external_led_if_entrance_door_is_open
 alias: Turn on external led if entrance door is open
 mode: single
 triggers:
-  - trigger: state
-    entity_id:
-      - binary_sensor.casa_porta_principal_door
-    to: "on"
-    from: "off"
+  - trigger: door.opened
+    target:
+      entity_id: binary_sensor.casa_porta_principal_door
     alias: "Entrance door opened"
 conditions:
   - condition: sun
