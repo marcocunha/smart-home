@@ -12,11 +12,10 @@ mode_morning:
           - cover.estores_lavandaria
           - cover.curtains_kitchen
         curtains_to_open_partially:
-          - cover.curtains_hall
           - cover.curtains_guestroom
-          - cover.curtains_wcsuite
           - cover.curtains_suite
         desired_position_percentage: 25
+        hall_position_percentage: 35
         switches_to_turn_on: []
         lights_to_turn_on: []
         lights_to_turn_off:
@@ -60,6 +59,72 @@ mode_morning:
         position: "{{ desired_position_percentage }}"
       target:
         entity_id: "{{ curtains_to_open_partially | default([]) }}"
+
+    # Hall and wcsuite motors sometimes ignore the target and run to fully open, and every time
+    # they were given a target below their current position they did. So they are only commanded
+    # when well below the target, and stopped by the first position report above the threshold
+    # (reports come every ~1 s).
+    - alias: "Set hall and wcsuite partial position and stop them"
+      parallel:
+        - if:
+            - condition: template
+              value_template: "{{ state_attr('cover.curtains_hall', 'current_position') | int(100) < hall_position_percentage - 5 }}"
+          then:
+            - alias: "Set hall position"
+              action: cover.set_cover_position
+              data:
+                position: "{{ hall_position_percentage }}"
+              target:
+                entity_id: cover.curtains_hall
+            # The cover echoes the target right after the command, which would fire the trigger at once
+            - delay:
+                milliseconds: 1500
+            - alias: "Wait for the hall to pass the threshold"
+              wait_for_trigger:
+                - trigger: numeric_state
+                  entity_id: cover.curtains_hall
+                  attribute: current_position
+                  above: 32
+              timeout:
+                seconds: 30
+              continue_on_timeout: true
+            - if:
+                - condition: template
+                  value_template: "{{ wait.trigger is not none }}"
+              then:
+                - alias: "Stop hall"
+                  action: cover.stop_cover
+                  target:
+                    entity_id: cover.curtains_hall
+        - if:
+            - condition: template
+              value_template: "{{ state_attr('cover.curtains_wcsuite', 'current_position') | int(100) < desired_position_percentage - 5 }}"
+          then:
+            - alias: "Set wcsuite position"
+              action: cover.set_cover_position
+              data:
+                position: "{{ desired_position_percentage }}"
+              target:
+                entity_id: cover.curtains_wcsuite
+            - delay:
+                milliseconds: 1500
+            - alias: "Wait for the wcsuite to pass the threshold"
+              wait_for_trigger:
+                - trigger: numeric_state
+                  entity_id: cover.curtains_wcsuite
+                  attribute: current_position
+                  above: 22
+              timeout:
+                seconds: 30
+              continue_on_timeout: true
+            - if:
+                - condition: template
+                  value_template: "{{ wait.trigger is not none }}"
+              then:
+                - alias: "Stop wcsuite"
+                  action: cover.stop_cover
+                  target:
+                    entity_id: cover.curtains_wcsuite
 
     - alias: "Turn ON specified switches"
       action: switch.turn_on
