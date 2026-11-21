@@ -1,0 +1,14 @@
+binary_sensor:
+  - platform: trend
+    sensors:
+      wc_servico_humidity_rising:
+        friendly_name: WC Serviço humidity rising
+        entity_id: sensor.sensor_temperature_humidity_wc_servico_humidity
+        # 0.04 %/s is 4 points in 100 s. Simulated on 21 Nov data: both showers (+16 points in ~1 min) turn it on about a
+        # minute after the steam starts, the +-1.2 point jitter of the idle sensor never does.
+        min_gradient: 0.04
+        sample_duration: 300
+        # The default max_samples is 2, which turns the regression into a two-point difference and makes the jitter flip
+        # the sensor.
+        max_samples: 20
+        min_samples: 3
