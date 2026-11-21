@@ -6,17 +6,18 @@ description: >-
   The 5-minute check turns it on again if the bathroom is still humid and the ventax has been off for 30 minutes.
 mode: restart
 max_exceeded: silent
+# Tuning. Unlike `variables`, these are also readable by the triggers (and by the actions).
+# Humidity differences are in percentage points of RH, WC minus reference.
+trigger_variables:
+  humidity: sensor.sensor_temperature_humidity_wc_servico_humidity
+  # What "normal" humidity is: the ventax can only dry the WC down to the level of the house.
+  reference: sensor.sensor_temperature_humidity_guest_room_humidity
+  # The `humid` trigger and the periodic check start the ventax when the WC is at least this far above the reference.
+  on_margin: 10
 variables:
   notification_title: Humidade WC Serviço
   persistent_notification: false
   send_notification: false
-  # Tuning (humidity differences are in percentage points of RH, WC minus reference):
-  humidity: sensor.sensor_temperature_humidity_wc_servico_humidity
-  # What "normal" humidity is: the ventax can only dry the WC down to the level of the house.
-  reference: sensor.sensor_temperature_humidity_guest_room_humidity
-  # Periodic check starts the ventax when the WC is at least this far above the reference.
-  # Triggers cannot read variables: keep it in sync with the 10 in the `humid` trigger.
-  on_margin: 10
   # Stops the ventax when the WC is less than this far above the reference.
   off_margin: 5
   # Absolute % RH. In DND the ventax only starts at or above it, and stops below it.
@@ -39,10 +40,8 @@ triggers:
   - trigger: template
     id: humid
     value_template: >-
-      {{ is_number(states('sensor.sensor_temperature_humidity_wc_servico_humidity'))
-      and is_number(states('sensor.sensor_temperature_humidity_guest_room_humidity'))
-      and states('sensor.sensor_temperature_humidity_wc_servico_humidity') | float
-      - states('sensor.sensor_temperature_humidity_guest_room_humidity') | float >= 10 }}
+      {{ is_number(states(humidity)) and is_number(states(reference))
+      and states(humidity) | float - states(reference) | float >= on_margin }}
     for: "00:02:00"
   - trigger: state
     id: max_run
