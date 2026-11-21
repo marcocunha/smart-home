@@ -10,14 +10,22 @@ variables:
   notification_title: Humidade WC Serviço
   persistent_notification: false
   send_notification: false
+  # Tuning (humidity differences are in percentage points of RH, WC minus reference):
   humidity: sensor.sensor_temperature_humidity_wc_servico_humidity
+  # What "normal" humidity is: the ventax can only dry the WC down to the level of the house.
   reference: sensor.sensor_temperature_humidity_guest_room_humidity
-  # Triggers cannot read variables: keep on_margin in sync with the 10 in the `humid` trigger.
+  # Periodic check starts the ventax when the WC is at least this far above the reference.
+  # Triggers cannot read variables: keep it in sync with the 10 in the `humid` trigger.
   on_margin: 10
+  # Stops the ventax when the WC is less than this far above the reference.
   off_margin: 5
+  # Absolute % RH. In DND the ventax only starts at or above it, and stops below it.
   dnd_limit: 90
+  # The ventax must have been on this long before the humidity can stop it.
   min_run: "00:10:00"
+  # After a stop, the periodic check waits this long before starting it again.
   restart_cooldown: "00:30:00"
+  # Also in the triggers below: `for` of `humid` (2 min before starting) and of `max_run` (45 min, forced stop).
 triggers:
   - trigger: state
     id: shower
