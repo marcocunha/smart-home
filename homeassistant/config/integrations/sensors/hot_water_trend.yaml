@@ -4,8 +4,9 @@ binary_sensor:
       hot_water_probe_rising:
         friendly_name: Hot water probe rising
         entity_id: sensor.hot_water_temperature
-        # 0.0011 C/s is about 4 C/h: the resistance heats the top probe at 8-13 C/h, the solar loop at most ~2 C/h.
-        min_gradient: 0.0011
+        # 0.0019 C/s is about 7 C/h: the resistance heats the top probe at 10-13 C/h, the solar loop reached 4.9 C/h on
+        # 19 Nov (summer sun may go higher: raise this if `heating` turns on without a ~2 kW step in the net consumption).
+        min_gradient: 0.0019
         sample_duration: 600
         # The default max_samples is 2, which turns the regression into a two-point difference and makes the probe
         # jitter (+-0.12 C in seconds) flip the sensor.
