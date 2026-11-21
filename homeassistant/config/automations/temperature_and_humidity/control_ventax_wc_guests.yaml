@@ -1,9 +1,11 @@
 id: control_ventax_wc_guests
 alias: Control ventax based on humidity of WC Guests
 description: >-
-  Turns the ventax on when the humidity rises fast (shower) or stays 10 points above the guest room, and off when it
-  is back within 5 points of it. In Do Not Disturb it only runs at shower-level humidity. Stops after 45 minutes.
-  The 5-minute check turns it on again if the bathroom is still humid and the ventax has been off for 30 minutes.
+  Turns the ventax on when the humidity rises fast (shower) or stays well above the guest room, and off when it is
+  back near it. In Do Not Disturb it only runs at shower-level humidity. It stops after a maximum run time. The
+  periodic check turns it on again if the bathroom is still humid and the ventax has been off for a while.
+  The thresholds and times are in `trigger_variables` and `variables`, and in the `for` of the `humid` and `max_run`
+  triggers.
 mode: restart
 max_exceeded: silent
 # Tuning. Unlike `variables`, these are also readable by the triggers (and by the actions).
@@ -26,7 +28,7 @@ variables:
   min_run: "00:10:00"
   # After a stop, the periodic check waits this long before starting it again.
   restart_cooldown: "00:30:00"
-  # Also in the triggers below: `for` of `humid` (2 min before starting) and of `max_run` (45 min, forced stop).
+  # Also in the triggers below: `for` of `humid` (delay before starting) and of `max_run` (forced stop).
 triggers:
   - trigger: state
     id: shower
