@@ -96,6 +96,21 @@ mode_morning:
                   action: cover.stop_cover
                   target:
                     entity_id: cover.curtains_hall
+                # A stop can be lost or ignored by the motor (wcsuite, 19 Nov); a stopped cover leaves `opening` within ~0.3 s
+                - repeat:
+                    count: 2
+                    sequence:
+                      - delay:
+                          milliseconds: 1500
+                      - if:
+                          - condition: state
+                            entity_id: cover.curtains_hall
+                            state: opening
+                        then:
+                          - alias: "Stop hall again"
+                            action: cover.stop_cover
+                            target:
+                              entity_id: cover.curtains_hall
         - if:
             - condition: template
               value_template: "{{ state_attr('cover.curtains_wcsuite', 'current_position') | int(100) < desired_position_percentage - 5 }}"
@@ -125,6 +140,20 @@ mode_morning:
                   action: cover.stop_cover
                   target:
                     entity_id: cover.curtains_wcsuite
+                - repeat:
+                    count: 2
+                    sequence:
+                      - delay:
+                          milliseconds: 1500
+                      - if:
+                          - condition: state
+                            entity_id: cover.curtains_wcsuite
+                            state: opening
+                        then:
+                          - alias: "Stop wcsuite again"
+                            action: cover.stop_cover
+                            target:
+                              entity_id: cover.curtains_wcsuite
 
     - alias: "Turn ON specified switches"
       action: switch.turn_on
