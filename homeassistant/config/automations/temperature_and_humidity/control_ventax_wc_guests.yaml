@@ -1,42 +1,92 @@
 id: control_ventax_wc_guests
 alias: Control ventax based on humidity of WC Guests
 description: >-
-  Turns the ventax on when the humidity stays at or above the maximum and off
-  when it stays below it, or when Do Not Disturb is on.
+  Turns the ventax on when the humidity rises fast (shower) or stays well above the guest room, and off when it is
+  back near it. In Do Not Disturb it only runs at shower-level humidity. It stops after a maximum run time. The
+  periodic check turns it on again if the bathroom is still humid and the ventax has been off for a while.
+  The thresholds and times are in `trigger_variables` and `variables`, and in the `for` of the `humid` and `max_run`
+  triggers.
 mode: restart
 max_exceeded: silent
+# Tuning. Unlike `variables`, these are also readable by the triggers (and by the actions).
+# Humidity differences are in percentage points of RH, WC minus reference.
+trigger_variables:
+  humidity: sensor.sensor_temperature_humidity_wc_servico_humidity
+  # What "normal" humidity is: the ventax can only dry the WC down to the level of the house.
+  reference: sensor.sensor_temperature_humidity_guest_room_humidity
+  # The `humid` trigger and the periodic check start the ventax when the WC is at least this far above the reference.
+  on_margin: 10
 variables:
   notification_title: Humidade WC Serviço
   persistent_notification: false
   send_notification: false
+  # Stops the ventax when the WC is less than this far above the reference.
+  off_margin: 5
+  # Absolute % RH. In DND the ventax only starts at or above it, and stops below it.
+  dnd_limit: 90
+  # The ventax must have been on this long before the humidity can stop it.
+  min_run: "00:10:00"
+  # After a stop, the periodic check waits this long before starting it again.
+  restart_cooldown: "00:30:00"
+  # Also in the triggers below: `for` of `humid` (delay before starting) and of `max_run` (forced stop).
 triggers:
-  # A template, not numeric_state, because the sensor reports whole numbers
-  # and the maximum is often hit exactly (80 == 80), which "above" would miss.
+  - trigger: state
+    id: shower
+    entity_id: binary_sensor.wc_servico_humidity_rising
+    to: "on"
+    not_from:
+      - unavailable
+      - unknown
+  # The reference is the guest room, not a fixed percentage: in winter the whole house sits at 75-86 %, and the ventax
+  # can only dry the bathroom down to the level of the air it pulls in from the house.
   - trigger: template
+    id: humid
     value_template: >-
-      {{ states('sensor.sensor_temperature_humidity_wc_servico_humidity') | float(0) >=
-      states('input_number.bathroom_max_humidity_percentage') | float(0) }}
-    for: "00:05:00"
-  - trigger: numeric_state
-    entity_id: sensor.sensor_temperature_humidity_wc_servico_humidity
-    below: input_number.bathroom_max_humidity_percentage
-    for: "00:10:00"
+      {{ is_number(states(humidity)) and is_number(states(reference))
+      and states(humidity) | float - states(reference) | float >= on_margin }}
+    for: "00:02:00"
+  - trigger: state
+    id: max_run
+    entity_id: fan.multiswitch_wc_guests_center
+    to: "on"
+    for: "00:45:00"
   - trigger: time_pattern
-    minutes: /20
+    id: tick
+    minutes: /5
 actions:
   - choose:
-      - alias: Humidity is high and the ventax is off
+      - alias: Shower or humid, and the ventax is off
         conditions:
-          - condition: template
-            value_template: >-
-              {{ states('sensor.sensor_temperature_humidity_wc_servico_humidity') | float(0) >=
-              states('input_number.bathroom_max_humidity_percentage') | float(0) }}
           - condition: state
             entity_id: fan.multiswitch_wc_guests_center
             state: "off"
-          - condition: state
-            entity_id: schedule.dnd_schedule
-            state: "off"
+          # The triggers above only fire on a change, so the periodic check also starts it when the bathroom is still
+          # humid (after DND, the maximum run time or a restart). The cooldown stops it cycling right after a stop.
+          - condition: or
+            conditions:
+              - condition: template
+                alias: Shower or humid trigger
+                value_template: "{{ trigger.id in ['shower', 'humid'] }}"
+              - condition: and
+                alias: Periodic check, still humid and off for a while
+                conditions:
+                  - condition: template
+                    value_template: >-
+                      {{ trigger.id == 'tick' and is_number(states(humidity)) and is_number(states(reference))
+                      and states(humidity) | float - states(reference) | float >= on_margin }}
+                  - condition: state
+                    entity_id: fan.multiswitch_wc_guests_center
+                    state: "off"
+                    for: "{{ restart_cooldown }}"
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: schedule.dnd_schedule
+                state: "off"
+                alias: DND is disabled
+              - condition: template
+                alias: Humidity is at shower level
+                value_template: "{{ states(humidity) | float(0) >= dnd_limit }}"
         sequence:
           - action: fan.turn_on
             target:
@@ -47,27 +97,41 @@ actions:
                 action: notify.ha_mobile_apps
                 data:
                   title: "{{ notification_title }}"
-                  message: "Humidade na WC Serviço demasiado alta: {{ states('sensor.sensor_temperature_humidity_wc_servico_humidity') }}%. Ventilação ligada."
+                  message: "Humidade na WC Serviço demasiado alta: {{ states(humidity) }}%. Ventilação ligada."
                   data:
                     tag: "{{ notification_title }}"
                     persistent: "{{ persistent_notification }}"
                     ttl: 0
                     priority: high
-      - alias: Humidity is normal or DND is on, and the ventax is on
+      - alias: Ran too long, humidity is back near the guest room, or DND is on without shower-level humidity
         conditions:
           - condition: state
             entity_id: fan.multiswitch_wc_guests_center
             state: "on"
           - condition: or
             conditions:
-              - condition: state
-                entity_id: schedule.dnd_schedule
-                state: "on"
-                alias: DND is enabled
-              - condition: numeric_state
-                entity_id: sensor.sensor_temperature_humidity_wc_servico_humidity
-                below: input_number.bathroom_max_humidity_percentage
-                alias: Humidity is at a normal level
+              - condition: template
+                alias: Maximum run time reached
+                value_template: "{{ trigger.id == 'max_run' }}"
+              - condition: and
+                alias: DND is enabled and humidity is below shower level
+                conditions:
+                  - condition: state
+                    entity_id: schedule.dnd_schedule
+                    state: "on"
+                  - condition: template
+                    value_template: "{{ states(humidity) | float(0) < dnd_limit }}"
+              - condition: and
+                alias: Humidity is back near the guest room after the minimum run time
+                conditions:
+                  - condition: state
+                    entity_id: fan.multiswitch_wc_guests_center
+                    state: "on"
+                    for: "{{ min_run }}"
+                  - condition: template
+                    value_template: >-
+                      {{ is_number(states(humidity)) and is_number(states(reference))
+                      and states(humidity) | float - states(reference) | float < off_margin }}
         sequence:
           - action: fan.turn_off
             target:
@@ -78,7 +142,7 @@ actions:
                 action: notify.ha_mobile_apps
                 data:
                   title: "{{ notification_title }}"
-                  message: "Humidade na WC Serviço normal: {{ states('sensor.sensor_temperature_humidity_wc_servico_humidity') }}%. Ventilação desligada."
+                  message: "Humidade na WC Serviço normal: {{ states(humidity) }}%. Ventilação desligada."
                   data:
                     tag: "{{ notification_title }}"
                     persistent: "{{ persistent_notification }}"
