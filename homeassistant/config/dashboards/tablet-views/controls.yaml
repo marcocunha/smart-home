@@ -67,7 +67,7 @@ cards:
                   action: none
               - type: custom:mushroom-cover-card
                 entity: cover.curtains_guestroom
-                name: Quarto Visitas
+                name: Quarto do Xavier
                 show_buttons_control: true
                 tap_action:
                   action: more-info

@@ -92,7 +92,7 @@ cards:
               - entity: sensor.sensor_temperature_humidity_guest_room_humidity
             columns: 2
             theme: minimalist-desktop
-            title: Q. Visitas
+            title: Q. Xavier
           - features:
               - type: target-temperature
               - type: climate-hvac-modes
@@ -106,7 +106,7 @@ cards:
             state_content:
               - state
               - current_temperature
-            name: AC Quarto Visitas
+            name: AC Quarto do Xavier
             icon: mdi:air-conditioner  
       - type: horizontal-stack
         cards:    
