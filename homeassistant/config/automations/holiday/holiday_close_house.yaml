@@ -1,0 +1,15 @@
+id: holiday_close_house
+alias: "Holiday: close the house"
+description: Runs the sleep mode. The alarm is only armed if nobody is home.
+mode: single
+triggers:
+  - trigger: time
+    at: input_datetime.holiday_close_time
+conditions:
+  - condition: state
+    entity_id: input_boolean.holiday_mode
+    state: "on"
+actions:
+  - action: script.mode_sleep
+    data:
+      arm_alarm: "{{ is_state('binary_sensor.anyone_home', 'off') }}"

@@ -1,0 +1,59 @@
+mode_holiday_morning:
+  alias: Set the entities according to the holiday morning mode
+  mode: single
+  sequence:
+    - alias: "Set variables"
+      variables:
+        # Escritorio and lavandaria are Shelly relays, which position themselves: for them the stop is only a backstop,
+        # and the lavandaria one (Shelly 2.5) reports no position while moving, so it relies on the Shelly alone.
+        covers_to_open_and_stop:
+          - { cover: cover.curtains_livingroom_right, position: 60 }
+          - { cover: cover.curtains_livingroom_left, position: 60 }
+          - { cover: cover.estores_escritorio, position: 60 }
+          - { cover: cover.estores_lavandaria, position: 60 }
+          - { cover: cover.curtains_kitchen, position: 60 }
+          - { cover: cover.curtains_hall, position: 35 }
+          - { cover: cover.curtains_wcsuite, position: 25 }
+        # These two stop at the requested position by themselves
+        covers_that_stop_alone:
+          - cover.curtains_guestroom
+          - cover.curtains_suite
+        lights_to_turn_off:
+          - light.zigbee_smartpowerplug_1 # Luz presença Marco
+          - light.candeeiro_ambiente_2 # Candeeiro ambiente
+          - light.switch_tomada_poltrona # Luz tomada poltrona
+          - light.plug_candeeiro_presenca_hall # Candeeiro presença hall
+
+    - alias: "Set active mode"
+      action: input_text.set_value
+      target:
+        entity_id: input_text.active_mode
+      data:
+        value: MORNING
+
+    - alias: "Open the covers that stop alone"
+      continue_on_error: true
+      action: cover.set_cover_position
+      target:
+        entity_id: "{{ covers_that_stop_alone }}"
+      data:
+        position: 25
+
+    # script.turn_on does not wait, so all covers move at the same time
+    - alias: "Open the other covers and stop them"
+      repeat:
+        for_each: "{{ covers_to_open_and_stop }}"
+        sequence:
+          - action: script.turn_on
+            target:
+              entity_id: script.open_cover_to_position
+            data:
+              variables:
+                cover: "{{ repeat.item.cover }}"
+                position: "{{ repeat.item.position }}"
+
+    - alias: "Turn OFF specified lights"
+      continue_on_error: true
+      action: light.turn_off
+      target:
+        entity_id: "{{ lights_to_turn_off }}"

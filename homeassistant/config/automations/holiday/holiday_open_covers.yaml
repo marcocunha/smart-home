@@ -1,0 +1,12 @@
+id: holiday_open_covers
+alias: "Holiday: open covers"
+mode: single
+triggers:
+  - trigger: time
+    at: input_datetime.holiday_open_time
+conditions:
+  - condition: state
+    entity_id: input_boolean.holiday_mode
+    state: "on"
+actions:
+  - action: script.mode_holiday_morning

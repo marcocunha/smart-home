@@ -1,6 +1,12 @@
 mode_sleep:
   alias: Set the entities according to the sleep mode
   mode: single
+  fields:
+    arm_alarm:
+      description: Arm the alarm at the end. Defaults to true.
+      default: true
+      selector:
+        boolean:
   sequence:
     - alias: "Set variables"
       variables:
@@ -72,29 +78,34 @@ mode_sleep:
       target:
         entity_id: "{{ lights_to_turn_on | default([]) }}"
 
-    - alias: "Arm alarm"
-      continue_on_error: true
-      action: alarm_control_panel.alarm_arm_away
-      target:
-        entity_id: alarm_control_panel.casa
-
-    - alias: "Wait for the alarm to leave disarmed"
-      wait_template: "{{ not is_state('alarm_control_panel.casa', 'disarmed') }}"
-      timeout:
-        seconds: 10
-      continue_on_timeout: true
-
-    - alias: "Notify if the alarm could not be armed"
+    - alias: "Arm the alarm unless asked not to"
       if:
-        - condition: state
-          entity_id: alarm_control_panel.casa
-          state: disarmed
+        - condition: template
+          value_template: "{{ arm_alarm | default(true) }}"
       then:
-        - action: notify.ha_mobile_apps
-          data:
-            title: Alarme
-            message: Não foi possível armar o alarme. Verifica se há janelas ou portas abertas.
-            data:
-              tag: alarm_arm_failed
-              ttl: 0
-              priority: high
+        - alias: "Arm alarm"
+          continue_on_error: true
+          action: alarm_control_panel.alarm_arm_away
+          target:
+            entity_id: alarm_control_panel.casa
+
+        - alias: "Wait for the alarm to leave disarmed"
+          wait_template: "{{ not is_state('alarm_control_panel.casa', 'disarmed') }}"
+          timeout:
+            seconds: 10
+          continue_on_timeout: true
+
+        - alias: "Notify if the alarm could not be armed"
+          if:
+            - condition: state
+              entity_id: alarm_control_panel.casa
+              state: disarmed
+          then:
+            - action: notify.ha_mobile_apps
+              data:
+                title: Alarme
+                message: Não foi possível armar o alarme. Verifica se há janelas ou portas abertas.
+                data:
+                  tag: alarm_arm_failed
+                  ttl: 0
+                  priority: high

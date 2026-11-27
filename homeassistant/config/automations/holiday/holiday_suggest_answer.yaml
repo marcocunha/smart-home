@@ -1,0 +1,30 @@
+id: holiday_suggest_answer
+alias: "Holiday: answer to the suggestion"
+description: >-
+  Separate from the question so an answer still works after a restart. Either answer removes the question from
+  both phones.
+mode: single
+triggers:
+  - trigger: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: HOLIDAY_MODE_ON
+    id: activate
+  - trigger: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: HOLIDAY_MODE_IGNORE
+    id: ignore
+actions:
+  - if:
+      - condition: trigger
+        id: activate
+    then:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.holiday_mode
+  - action: notify.ha_mobile_apps
+    data:
+      message: clear_notification
+      data:
+        tag: holiday_mode_suggest

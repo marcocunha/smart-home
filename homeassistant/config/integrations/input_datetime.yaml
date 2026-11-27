@@ -9,3 +9,18 @@ input_datetime:
     has_date: true
     has_time: true
     icon: mdi:water-boiler
+  holiday_open_time:
+    name: Holiday - hora de abrir
+    has_date: false
+    has_time: true
+    icon: mdi:weather-sunset-up
+  holiday_close_time:
+    name: Holiday - hora de fechar
+    has_date: false
+    has_time: true
+    icon: mdi:weather-sunset-down
+  nobody_home_since:
+    name: Nobody home since
+    has_date: true
+    has_time: true
+    icon: mdi:home-export-outline
