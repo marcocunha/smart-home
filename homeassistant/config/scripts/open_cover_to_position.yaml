@@ -1,0 +1,70 @@
+open_cover_to_position:
+  alias: Open a cover to a position and stop it there
+  description: >-
+    Some motors run past the requested position, so the cover is told to open and then stopped as soon as it
+    reaches the position. Does nothing if the cover is already open enough.
+  mode: parallel
+  fields:
+    cover:
+      required: true
+      selector:
+        entity:
+          domain: cover
+    position:
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 100
+  sequence:
+    - alias: "Only open a cover that is well below the position"
+      condition: template
+      value_template: "{{ state_attr(cover, 'current_position') | int(100) < position - 5 }}"
+
+    - alias: "Set the position"
+      action: cover.set_cover_position
+      target:
+        entity_id: "{{ cover }}"
+      data:
+        position: "{{ position }}"
+
+    # The cover first reports the requested position as if it were already there, and only then starts moving.
+    - alias: "Wait for it to start moving"
+      wait_template: "{{ is_state(cover, 'opening') }}"
+      timeout:
+        seconds: 10
+      continue_on_timeout: true
+
+    # A template trigger only fires when the condition goes from false to true, so that early report is ignored.
+    # (state and numeric_state triggers do not accept the cover as a variable.)
+    - alias: "Wait for it to reach the position"
+      wait_for_trigger:
+        - trigger: template
+          value_template: "{{ state_attr(cover, 'current_position') | int(0) >= position - 3 }}"
+      timeout:
+        seconds: 60
+      continue_on_timeout: true
+
+    - alias: "Stop only if it reached the position"
+      condition: template
+      value_template: "{{ wait.trigger is not none }}"
+
+    - alias: "Stop"
+      action: cover.stop_cover
+      target:
+        entity_id: "{{ cover }}"
+
+    # A stop can be lost or ignored by the motor; a stopped cover leaves `opening` almost at once.
+    - alias: "Stop again while it keeps opening"
+      repeat:
+        count: 2
+        sequence:
+          - delay:
+              milliseconds: 1500
+          - if:
+              - condition: template
+                value_template: "{{ is_state(cover, 'opening') }}"
+            then:
+              - action: cover.stop_cover
+                target:
+                  entity_id: "{{ cover }}"

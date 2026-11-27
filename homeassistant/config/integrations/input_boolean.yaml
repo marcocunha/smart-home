@@ -1,0 +1,4 @@
+input_boolean:
+  holiday_mode:
+    name: Modo Holiday
+    icon: mdi:beach

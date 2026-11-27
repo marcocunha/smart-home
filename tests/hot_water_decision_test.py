@@ -29,9 +29,10 @@ def _binary_sensor():
 
 
 def wanted(*, now, override="Auto", temp=55.0, switch="off", schedule="off", next_event=None, net=200.0,
-           winter=55.0, summer=50.0, surplus_max=60.0):
+           winter=55.0, summer=50.0, surplus_max=60.0, holiday="off"):
     states = {
         "input_select.hot_water_override": override,
+        "input_boolean.holiday_mode": holiday,
         "sensor.hot_water_temperature": "unavailable" if temp is None else str(temp),
         "switch.resistencia_termoacumulador_switch_0": switch,
         "schedule.hotwater_schedule": schedule,
@@ -89,6 +90,16 @@ def test_surplus():
     assert wanted(temp=61, net=-2000, **base) is False
     assert wanted(temp=50, net=600, switch="on", **base) is False
     assert wanted(temp=55, net=400, switch="on", **base) is True
+
+
+def test_holiday_only_uses_solar_surplus():
+    needs_grid = dict(now=at(11, 9, 7, 30), temp=40, schedule="on", next_event=at(11, 9, 9), net=200)
+    assert wanted(**needs_grid) is True
+    assert wanted(holiday="on", **needs_grid) is False
+    assert wanted(holiday="on", switch="on", **needs_grid) is True
+    assert wanted(holiday="on", **{**needs_grid, "net": -2000}) is True
+    assert wanted(holiday="on", override="Ligada", **needs_grid) is True
+    assert wanted(holiday="on", override="Desligada", **{**needs_grid, "net": -2000}) is False
 
 
 def test_season_boundaries():

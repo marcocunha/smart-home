@@ -1,0 +1,30 @@
+id: holiday_pick_times
+alias: "Holiday: pick the times of the day"
+description: >-
+  Draws today's opening time (08:00 to 08:59) and closing time (18:00 to 20:00, following the sunset).
+  Runs every day, so the times are ready whenever holiday mode is turned on.
+mode: single
+triggers:
+  - trigger: time
+    at: "00:05:00"
+actions:
+  - variables:
+      open_time: "{{ '08:%02d:00' | format(range(0, 60) | random) }}"
+      # Minutes since midnight: today's sunset, kept between 18:15 and 19:45, then moved by up to 15 minutes
+      close_time: >-
+        {% set sunset = as_local(as_datetime(state_attr('sun.sun', 'next_setting'))) %}
+        {% set earliest = 18 * 60 + 15 %}
+        {% set latest = 19 * 60 + 45 %}
+        {% set around = min(max(sunset.hour * 60 + sunset.minute, earliest), latest) %}
+        {% set minutes = around + (range(-15, 16) | random) %}
+        {{ '%02d:%02d:00' | format(minutes // 60, minutes % 60) }}
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.holiday_open_time
+    data:
+      time: "{{ open_time }}"
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.holiday_close_time
+    data:
+      time: "{{ close_time }}"

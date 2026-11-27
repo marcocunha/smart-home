@@ -1,0 +1,15 @@
+id: holiday_stamp_nobody_home
+alias: "Holiday: remember when the house became empty"
+description: Kept in a helper because the sensor's last_changed is reset by every Home Assistant restart.
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.anyone_home
+    from: "on"
+    to: "off"
+actions:
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.nobody_home_since
+    data:
+      timestamp: "{{ now().timestamp() }}"

@@ -1,0 +1,24 @@
+id: holiday_exit_on_arrival
+alias: "Holiday: turn off when someone arrives"
+description: The 5 minutes avoid leaving holiday mode because of a GPS jump.
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.anyone_home
+    from: "off"
+    to: "on"
+    for: "00:05:00"
+conditions:
+  - condition: state
+    entity_id: input_boolean.holiday_mode
+    state: "on"
+actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.holiday_mode
+  - action: notify.ha_mobile_apps
+    data:
+      title: Modo Holiday
+      message: Modo holiday desligado porque chegou alguém a casa.
+      data:
+        tag: holiday_mode_off

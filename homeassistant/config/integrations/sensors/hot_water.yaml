@@ -32,7 +32,12 @@ template:
             {% set grid_start = temp - 0.6 * hours < comfort and hours <= 1.25 * (target - temp) / 6 %}
             {% set grid_keep = running and temp < target and hours <= 1.5 * (target - temp) / 6 + 0.5 %}
             {% set surplus = temp < surplus_max and ((not running and net < -1800) or (running and net <= 500)) %}
-            {{ grid_start or grid_keep or surplus }}
+            {# In holiday mode the grid is not used, only the solar surplus #}
+            {% if is_state('input_boolean.holiday_mode', 'on') %}
+              {{ surplus }}
+            {% else %}
+              {{ grid_start or grid_keep or surplus }}
+            {% endif %}
           {% endif %}
 
   - binary_sensor:

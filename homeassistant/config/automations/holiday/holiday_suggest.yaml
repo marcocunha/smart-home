@@ -1,0 +1,34 @@
+id: holiday_suggest
+alias: "Holiday: suggest holiday mode"
+description: >-
+  Every day at 10:00, asks both phones whether to turn on holiday mode if the house has been empty for more than
+  a day. The answer is handled by holiday_suggest_answer.
+mode: single
+triggers:
+  - trigger: time
+    at: "10:00:00"
+conditions:
+  - condition: state
+    entity_id: input_boolean.holiday_mode
+    state: "off"
+  - condition: state
+    entity_id: binary_sensor.anyone_home
+    state: "off"
+  - condition: template
+    alias: "Nobody home for 24 hours"
+    value_template: >-
+      {{ now().timestamp() - state_attr('input_datetime.nobody_home_since', 'timestamp') >= 24 * 3600 }}
+actions:
+  - action: notify.ha_mobile_apps
+    data:
+      title: Modo Holiday
+      message: Não está ninguém em casa há mais de um dia. Ativar o modo holiday?
+      data:
+        tag: holiday_mode_suggest
+        ttl: 0
+        priority: high
+        actions:
+          - action: HOLIDAY_MODE_ON
+            title: Ativar
+          - action: HOLIDAY_MODE_IGNORE
+            title: Não
